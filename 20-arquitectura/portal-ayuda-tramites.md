@@ -170,3 +170,7 @@ Verificación de cierre: 256 pruebas pasan, dos omitidas por dependencias opcion
 y ocho evals excluidas; verificador de 500 perfiles TODO OK. Chromium validó ambos
 chats a 390/1440 px. Pendientes de alcance mayor en [[board-jonmor]]: integrar UI
 con la API desplegada y configurar Phoenix remoto si se habilita.
+
+Cierre tras integrar trazabilidad del equipo (`9603cae`): 259 pruebas pasan,
+dos omitidas y ocho evals excluidas; verificador TODO OK. Servidor reiniciado
+con acceso Wi-Fi y comprobación HTTP de salud OK.

@@ -13,7 +13,7 @@ Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hiz
 Trabajo funcional e interfaz integrados en `main`. Instrucciones para reiniciar
 con Bedrock y acceso por Wi-Fi desde teléfono en [[portal-ayuda-tramites]], sección
 «Cómo retomar». IP local al cierre 10.42.64.244, variable según red. Board actualizado
-para retirar bloqueo histórico de pruebas UI; verificación vigente: 256 pruebas OK.
+para retirar bloqueo histórico de pruebas UI. Tras integrar trazabilidad del equipo (`9603cae`): 259 pruebas OK y verificador TODO OK; servidor reiniciado.
 
 ### 2026-10-15 · Desplazamiento y espera del chatbot · df392ec
 
