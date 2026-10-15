@@ -13,8 +13,11 @@ STATUS = {
 }
 
 
+DEMO_DB = Path(__file__).resolve().parents[1] / "funnel-demo-ejecutivos.db"
+
+
 def demo_snapshot(profiles, path=None):
-    path = Path(path or Path(__file__).resolve().parents[1] / "funnel-demo-ejecutivos.db")
+    path = Path(path or DEMO_DB)
     engine = Funnel(path)
     if not engine.snapshot()["clock"]:
         engine.initialize(
