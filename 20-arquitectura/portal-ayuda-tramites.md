@@ -170,3 +170,32 @@ puntos escalonados, retirada del indicador y scroll de envío/respuesta en ambos
 a 390 y 1440 px, además de permitir desplazamiento manual posterior.
 
 - 15-10: Asistente de Mi Gobierno con micrófono compacto junto al envío y campo «Describe lo que necesitas», igual al chat público. Retiradas preguntas rápidas y panel de voz separado; se mantienen revisión del dictado, consentimiento e historial.
+## Cómo retomar · cierre 15-10
+
+Cambios del chatbot guardados en `main`: conversación, consentimiento, referencias
+naturales, cortafuegos estándar, dictado revisable, voz opcional, desplazamiento y
+espera animada. Último cambio funcional: `df392ec`; registro: `bb0dd37`.
+Streamlit usa Bedrock real mediante el adaptador local; estas mejoras de interfaz
+no suponen un nuevo despliegue de la API.
+
+Desde la raíz del repo, si la app ya no está corriendo:
+
+```sh
+AWS_PROFILE=hackaton AWS_REGION=us-east-1 BEDROCK_MODEL_ID=us.anthropic.claude-sonnet-5 uv run --group app streamlit run src/app/app.py --server.address 0.0.0.0 --server.port 8501 --server.headless true
+```
+
+Mac: http://localhost:8501. Teléfono en la misma Wi-Fi: http://10.42.64.244:8501
+al cierre de esta sesión. La IP puede cambiar: consultar `ipconfig getifaddr en0`.
+El servidor debe estar ejecutándose en el Mac. El micrófono en el teléfono puede
+requerir HTTPS; la verificación del reconocimiento con micrófono físico queda manual.
+Si vencen las credenciales AWS, renovar la sesión del perfil `hackaton` antes de
+probar el agente. No hay credenciales guardadas en estas notas.
+
+Verificación de cierre: 256 pruebas pasan, dos omitidas por dependencias opcionales
+y ocho evals excluidas; verificador de 500 perfiles TODO OK. Chromium validó ambos
+chats a 390/1440 px. Pendientes de alcance mayor en [[board-jonmor]]: integrar UI
+con la API desplegada y configurar Phoenix remoto si se habilita.
+
+Cierre tras integrar trazabilidad del equipo (`9603cae`): 259 pruebas pasan,
+dos omitidas y ocho evals excluidas; verificador TODO OK. Servidor reiniciado
+con acceso Wi-Fi y comprobación HTTP de salud OK.

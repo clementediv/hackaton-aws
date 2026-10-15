@@ -68,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Trazabilidad visual posalerta, sesiones, condiciones, avance declarado, continuidad 7/30 días y tiempos entre accesos. Registro de uso en Mi Gobierno; demo aislada e identificada. 260 pruebas y Chrome escritorio/móvil OK · `96abb06`, integración `fb6eea5` · [[trazabilidad-casos]].
 - [x] Retirado botón «Cobrar beneficio» de Mi Gobierno para acotar el MVP; 24 pruebas de UI/integración y verificador de 500 perfiles OK · commit «Retirar botón de cobro del MVP de Mi Gobierno» · [[mi-gobierno]].
 - [x] Inicio/cierre de sesión del ejecutivo con dos cuentas ficticias, diseño del portal y sesión separada de Mi Gobierno; acceso requerido también en herramientas laterales. Pruebas y Chrome escritorio/móvil OK · commit «Agregar acceso ficticio para ejecutivos y asistentes sociales» · [[portal-ejecutivos]].
 - [x] Portal para ejecutivos con estética ChileAtiende, seguimiento, filtros y mapa RM con propuesta automática según personal. Pruebas funcionales y revisión Chrome escritorio/móvil. Implementación `81755d7`, integración `710df25` · [[portal-ejecutivos]].

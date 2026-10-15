@@ -24,6 +24,7 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 - 
 
 ## Hecho
+- `a084758`: asistente personal con micrófono integrado, saludo centrado, respuestas progresivas y placeholder animado; sin preguntas rápidas. Integración con main verificada: 280 pruebas y 500 perfiles OK.
 - `269d4aa`: estilo minimalista de beneficios, banners animados, presentación breve y ajustes del chat. Integrado con `origin/main`; 277 pruebas y verificador de 500 perfiles OK.
 - Preguntas de ejemplo con escritura y borrado en el campo del chat, sin botones de sugerencias; micrófono discreto con ayuda desplegable. Ver [[portal-ayuda-tramites]].
 - Animaciones compartidas en portada, beneficios y portal ejecutivo; microinteracciones y movimiento reducido. 15 pruebas pasan. Ver [[portal-ayuda-tramites]].

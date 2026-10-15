@@ -8,6 +8,13 @@ Una entrada por avance o commit relevante, la más reciente arriba.
 
 Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Cierre y continuidad para mañana
+
+Trabajo funcional e interfaz integrados en `main`. Instrucciones para reiniciar
+con Bedrock y acceso por Wi-Fi desde teléfono en [[portal-ayuda-tramites]], sección
+«Cómo retomar». IP local al cierre 10.42.64.244, variable según red. Board actualizado
+para retirar bloqueo histórico de pruebas UI. Tras integrar trazabilidad del equipo (`9603cae`): 259 pruebas OK y verificador TODO OK; servidor reiniciado.
+
 ### 2026-10-15 · Desplazamiento y espera del chatbot · df392ec
 
 Pregunta visible antes de la consulta al agente, tres puntos animados en ola y

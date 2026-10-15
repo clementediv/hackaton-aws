@@ -22,7 +22,7 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 - Configurar endpoint/key Phoenix remoto si se habilita; Lambda queda cableada e inerte.
 
 ## Bloqueos
-- Cinco pruebas UI heredadas fallan también en origin/main; evidencia en [[chatbot-desplegado]]. No bloquean la API desplegada.
+- Sin bloqueos locales actuales: suite de cierre con 256 pruebas pasando. Los cinco fallos UI registrados anteriormente son históricos.
 
 ## Hecho
 - Desplazamiento automático al enviar/recibir y espera con puntos en ola en ambos chats. `df392ec`; Chromium 390/1440 px y 256 pruebas pasan. [[portal-ayuda-tramites]].

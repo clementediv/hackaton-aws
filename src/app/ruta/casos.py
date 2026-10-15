@@ -143,7 +143,7 @@ def todos_los_casos() -> list[dict]:
 
 def reiniciar() -> None:
     with _conn() as con:
-        for table in ("government_documents", "government_profiles"):
+        for table in ("government_documents", "government_profiles", "platform_event_keys"):
             if con.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",
                            (table,)).fetchone():
                 con.execute(f"DELETE FROM {table}")

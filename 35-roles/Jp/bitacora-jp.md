@@ -48,3 +48,5 @@ Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hiz
 - 15-10: Asistente de Mi Gobierno con micrófono compacto junto al envío y campo «Describe lo que necesitas», igual al chat público. Retiradas preguntas rápidas y panel de voz separado; se mantienen revisión del dictado, consentimiento e historial.
 
 - 15-10: Unificado asistente personal con el chat público: micrófono junto al envío, sin preguntas rápidas ni subtítulo, saludo centrado, respuestas palabra a palabra y preguntas animadas en gris dentro del campo. Se conserva consentimiento y revisión del dictado.
+
+- 15-10: Integrado `a084758` con `origin/main` (2678b4f), preservando navegación al chat y la nueva trazabilidad de visitas. Validación final: 280 pruebas pasan, 2 omitidas, 8 evals excluidas; verificador 500 perfiles TODO OK.

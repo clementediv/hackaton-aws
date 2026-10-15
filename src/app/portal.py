@@ -192,6 +192,7 @@ def _queue_home_question(question: str) -> None:
 
 
 def render_chat_page() -> None:
+    st.session_state.pop("government_last_observed_view", None)
     from chat_feedback import TYPING_HTML, scroll_chat
     from ruta.asistente import responder_publico, _template_stream
     from ruta import casos
