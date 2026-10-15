@@ -76,7 +76,8 @@ def test_unknown_question_asks_for_clarification_instead_of_repeating_summary(mo
     monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "")
     context = {"autorizado": True, "hitos": {}, "pgu": {}, "ruta": []}
     reply, _ = asistente.responder("No entiendo la explicación", context, [])
-    assert "Cuéntame un poco más" in reply
+    assert reply.count("¿") == 1
+    assert "antecedentes" not in reply
 
 
 @pytest.mark.parametrize("authorized", [False, True])
