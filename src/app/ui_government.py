@@ -158,10 +158,15 @@ def render(diags) -> None:
 
 
 def _benefits_page(d, authorized: bool) -> None:
-    if authorized:
-        _benefits(d)
-    else:
-        _consent(d)
+    with st.container(key="gov_benefits_layout"):
+        benefits, chat = st.columns([2.15, 1], gap="large")
+        with benefits:
+            if authorized:
+                _benefits(d)
+            else:
+                _consent(d)
+        with chat:
+            _chatbot_page(d, authorized)
 
 
 def _chatbot_page(d, authorized: bool) -> None:

@@ -95,6 +95,11 @@
 
 @media(max-width:700px){.gov-identity .gov-id-card{max-width:460px;padding:14px 12px 0}.gov-id-card-top{grid-template-columns:78px 1fr auto;gap:8px}.gov-id-country>span{font-size:11px}.gov-id-document-type{font-size:10px}.gov-id-card-body{grid-template-columns:78px minmax(0,1fr);gap:8px}.gov-id-portrait svg{height:106px}.gov-id-fields>b{font-size:12px}.gov-id-card-run strong{font-size:9px}.gov-id-card-run>span{font-size:7px}.gov-id-watermark{margin:0 -12px}}
 /* Navigation and requirement states for Mi Gobierno. */
+.block-container:has(.st-key-gov_subnav){max-width:none;padding-left:32px;padding-right:32px}
+.st-key-gov_benefits_layout .st-key-gov_assistant{background:#edf5fb;border:1px solid #bdd5e8;border-top:5px solid #125b94;border-radius:16px;padding:20px;box-shadow:0 8px 28px #143e5c12}
+.st-key-gov_benefits_layout .st-key-gov_assistant [data-testid="stVerticalBlockBorderWrapper"]{border:0!important}
+.st-key-gov_benefits_layout .st-key-gov_assistant [data-testid="stChatInput"]{background:white;border:1px solid #94b9d4}
+@media(max-width:700px){.block-container:has(.st-key-gov_subnav){padding-left:16px;padding-right:16px}.st-key-gov_benefits_layout .st-key-gov_assistant{padding:14px}}
 .st-key-gov_subnav [role="radiogroup"]{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;background:#edf2f6;border:1px solid #dce5ed;border-radius:14px;padding:6px;margin:8px 0 24px}
 .st-key-gov_subnav label[data-baseweb="radio"]{margin:0!important;min-width:0;min-height:48px;justify-content:center;border-radius:9px;padding:10px 12px;transition:background .15s;color:#476175}
 .st-key-gov_subnav label[data-baseweb="radio"]>div:first-child{display:none}

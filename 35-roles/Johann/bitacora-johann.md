@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Beneficios amplios y asistente lateral
+- A pedido del usuario se conserva la barra segmentada y vuelve el chat a la derecha de Beneficios. Contenido a todo el ancho con márgenes reducidos, mayor proporción para beneficios y panel azul claro destacado. Móvil apila las columnas. Ocho pruebas de flujo pasan. [[mi-gobierno]].
+
 ### 2026-10-15 · Subpestañas y requisitos de Mi Gobierno
 - Barra segmentada Beneficios / Datos personales / Chatbot; el asistente se mueve a su pestaña y se retira del listado y de la guía. Requisitos individuales verdes al cumplir y amarillos cuando faltan o están pendientes, con texto que distingue cada estado. Adjuntos compartidos conservan su revisión pendiente. Pruebas de navegación, consentimiento, documentos y Chrome escritorio/móvil OK. [[mi-gobierno]].
 
