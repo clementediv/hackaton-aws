@@ -68,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Textos del resultado y requisitos centrados horizontalmente respecto de todo el recuadro, con padding simetrico e icono independiente a la izquierda. Chromium en pantalla real verifica 16 recuadros centrados y contenidos a 1440, 900 y 390 px. [[mi-gobierno]]. Commit ?Centrar textos dentro de los recuadros de requisitos?.
 - [x] Recuadros de requisitos: icono y bloque de texto centrados verticalmente, ancho con padding incluido y texto contenido. Chromium en Mi Gobierno completo confirma 16 recuadros alineados a 1440 y 390 px. [[mi-gobierno]]. Commit ?Alinear contenido de tarjetas de requisitos?.
 - [x] Ancho del bloque HTML de etapas corregido y verificado en pantalla completa; commit ?Contener el HTML de etapas dentro de la tarjeta? ? [[mi-gobierno]].
 - [x] Compactar l?nea de tiempo y contener tarjeta; verificaci?n Chromium en tres anchos OK ? commit ?Compactar etapas del beneficio y contener su ancho? ? [[mi-gobierno]].
