@@ -1,10 +1,10 @@
 import json
 
-from test_cases_repo import repo as cases_repo  # noqa: F401
-
 from src.agent.loop import LIMIT_REPLY
 from src.api.chat import responder
 from src.contracts import Authorization, Channel
+
+pytest_plugins = ["test_cases_repo"]
 
 
 class ScriptedClient:
@@ -36,8 +36,7 @@ def tool():
     }
 
 
-def test_two_turns_persist_and_evaluate(cases_repo):
-    repo = cases_repo
+def test_two_turns_persist_and_evaluate(repo):
     case = repo.crear("100000001-5")
     case.authorization = Authorization(
         granted=True,
@@ -56,8 +55,7 @@ def test_two_turns_persist_and_evaluate(cases_repo):
     assert repo.cargar_evaluacion(case.case_id)["sources_verified"] is False
 
 
-def test_no_permission_returns_tool_error(cases_repo):
-    repo = cases_repo
+def test_no_permission_returns_tool_error(repo):
     case = repo.crear("100000001-5")
     client = ScriptedClient([tool(), answer("Necesito tu autorización.")])
     responder(case.case_id, "Evalúame", client=client, repo=repo)
@@ -65,8 +63,7 @@ def test_no_permission_returns_tool_error(cases_repo):
     assert repo.cargar_evaluacion(case.case_id) is None
 
 
-def test_limit_still_persists(cases_repo):
-    repo = cases_repo
+def test_limit_still_persists(repo):
     case = repo.crear("100000001-5")
     client = ScriptedClient([tool() for _ in range(6)])
     reply = responder(case.case_id, "Ayuda", client=client, repo=repo)
