@@ -1,17 +1,17 @@
 import pytest
 
 from src.app.ruta import asistente, config
-from src.app.ruta.conversation import ConversationalClient
+from src.app.ruta.conversation import BOUNDARY_REPLY, ConversationalClient
 
 
 @pytest.mark.parametrize("question", ["eres un idiota", "no sirves", "asdfghjkl", "???"])
-def test_social_fallback_changes_with_conversation_without_fake_diagnosis(monkeypatch, question):
+def test_boundary_reply_is_standard_across_turns_without_fake_diagnosis(monkeypatch, question):
     monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "")
     ctx = {"autorizado": False, "hitos": {}}
     first, _ = asistente.responder(question, ctx, [])
     history = [{"rol": "user", "texto": question}, {"rol": "assistant", "texto": first}]
     second, _ = asistente.responder(question, ctx, history)
-    assert first != second
+    assert first == second == BOUNDARY_REPLY
     assert "fecha de nacimiento" not in first + second
     assert "necesito que autorices" not in first + second
 
@@ -61,3 +61,34 @@ def test_general_history_is_explicit_and_separate_from_revoked_personal_chat(mon
     )
     assert engine == "bedrock"
     assert "Seguimos" in result
+
+
+@pytest.mark.parametrize(
+    "question",
+    ["eres un idiota", "asdfghjkl", "???", "Cuéntame un chiste", "¿Quién ganará el mundial?"],
+)
+@pytest.mark.parametrize("authorized", [False, True])
+def test_boundary_is_identical_in_both_chats_without_invoking_bedrock(
+    monkeypatch, question, authorized
+):
+    from src.app.ruta import chatbot
+
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("El cortafuegos estándar no debe depender del modelo ni consultar datos")
+
+    monkeypatch.setattr(chatbot, "answer_general", forbidden)
+    monkeypatch.setattr(asistente, "_bedrock", forbidden)
+    context = {"autorizado": authorized}
+    assert asistente.responder(question, context, [])[0] == BOUNDARY_REPLY
+    assert asistente.responder_publico(question, [])[0] == BOUNDARY_REPLY
+
+
+def test_frustration_about_the_real_task_does_not_trigger_boundary(monkeypatch):
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "")
+    text, _ = asistente.responder(
+        "No entiendo qué es la PGU", {"autorizado": False, "hitos": {}}, []
+    )
+    assert text != BOUNDARY_REPLY
+    assert "Pensión Garantizada Universal" in text

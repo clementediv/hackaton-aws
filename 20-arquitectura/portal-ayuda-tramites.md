@@ -108,3 +108,18 @@ Tras la última integración de acceso ejecutivo: 235 pruebas pasan, dos omitida
 ocho evals excluidas y verificador TODO OK. Chromium vuelve a confirmar el flujo
 de dictado simulado → envío único → respuesta real de Bedrock, junto con los controles
 de lectura.
+
+## Respuesta estándar de orientación · 15-10
+
+Por instrucción del usuario, el cortafuegos usa BOUNDARY_REPLY, un texto único,
+educado y orientativo que explica beneficios/trámites, requisitos, documentos,
+próximos pasos y consentimiento para revisar antecedentes. Se aplica antes de
+Bedrock a insultos sin consulta, ruido reconocible y solicitudes ajenas al propósito,
+en ambos chats y con o sin autorización. Se conserva la ayuda para consultas reales
+aunque incluyan una grosería. El prompt solicita el mismo texto para otros casos
+fuera de alcance reconocidos por el modelo.
+
+Esta instrucción reemplaza la variación de respuestas del cortafuegos de
+[[0017-conversacion-y-voz-del-navegador]]; la conversación legítima conserva su estilo
+natural. 49 pruebas enfocadas verifican texto idéntico entre turnos y chats, ausencia
+de llamadas al modelo para el cortafuegos y consultas legítimas sin bloqueo.
