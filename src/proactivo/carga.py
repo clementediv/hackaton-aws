@@ -102,11 +102,20 @@ def demo_people(email: str, today: date) -> list[dict]:
     rows = [
         # (number, name, age, sex, extra) — event in the comment
         (90000001, "Camila Demo", 17, "F", {"trabaja": True, "tramo_rsh": 40}),  # cumple 18
-        (90000002, "Jorge Demo", 64, "M", {"trabaja": False, "tramo_rsh": 40, "percentil_pfp": 50}),
+        # PGU: 64 → preparación, 64 + 8 meses → recordatorio, 65 → elegible
+        (90000002, "Jorge Demo", 63, "M", {"trabaja": False, "tramo_rsh": 40, "percentil_pfp": 50}),
         (90000003, "Paula Demo", 30, "F", {"trabaja": True, "tramo_rsh": 50}),  # tiene un hijo
         (90000004, "Marcelo Demo", 35, "M", {"trabaja": True, "tramo_rsh": 60}),  # se casa
         (90000005, "Pedro Demo", 40, "M", {"trabaja": True, "tramo_rsh": 90}),  # accidente
         (90000006, "Ana Demo", 45, "F", {"trabaja": True, "tramo_rsh": 90}),  # baja su tramo RSH
+        # Ya recibe la PGU; sale de Chile → aviso de posible pérdida
+        (
+            90000007,
+            "Rosa Demo",
+            70,
+            "F",
+            {"trabaja": False, "tramo_rsh": 90, "percentil_pfp": 60, "dias_fuera_ultimo_anio": 20},
+        ),
     ]
     people = []
     for number, name, age, sex, extra in rows:
@@ -125,5 +134,7 @@ def demo_people(email: str, today: date) -> list[dict]:
             }
         )
         person["beneficios_vigentes"] = ["subsidio_electrico"] if person["tramo_rsh"] <= 80 else []
+        if age >= 65:
+            person["beneficios_vigentes"].append("pgu")
         people.append(person)
     return people

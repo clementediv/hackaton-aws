@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT))
 
 from src.proactivo import carga  # noqa: E402
 from src.proactivo.catalogo import BENEFICIOS  # noqa: E402
-from src.proactivo.reglas import add_years  # noqa: E402
+from src.proactivo.reglas import add_months  # noqa: E402
 from src.proactivo.servicio import Service, Settings  # noqa: E402
 
 FUNCTIONS = {"escalar": "ca-escalador", "revisar": "ca-revision-diaria"}
@@ -80,7 +80,10 @@ def cmd_reiniciar(args, s):
 def cmd_evento(args, s):
     values = {}
     if args.edad is not None:
-        values["fecha_nacimiento"] = add_years(today(), -args.edad).isoformat()
+        birth = add_months(today(), -(args.edad * 12 + args.meses))
+        values["fecha_nacimiento"] = birth.isoformat()
+    if args.dias_fuera is not None:
+        values["dias_fuera_ultimo_anio"] = args.dias_fuera
     if args.nacimiento:
         values["fecha_nacimiento"] = args.nacimiento
     if args.hijos is not None:
@@ -196,14 +199,14 @@ def main(argv=None):
     p.add_argument(
         "--solo-demo", action="store_true", help="No cargar los 500 perfiles del dataset"
     )
-    p.add_argument(
-        "--solo-catalogo", action="store_true", help="Actualizar solo los beneficios"
-    )
+    p.add_argument("--solo-catalogo", action="store_true", help="Actualizar solo los beneficios")
     p = sub.add_parser("reiniciar", help="Borrar contactos e historial de una persona demo")
     p.add_argument("run")
     p = sub.add_parser("evento", help="Simular un cambio de vida en la base de datos")
     p.add_argument("run")
     p.add_argument("--edad", type=int)
+    p.add_argument("--meses", type=int, default=0, help="Meses además de --edad (64 --meses 8)")
+    p.add_argument("--dias-fuera", type=int, help="Días fuera de Chile en los últimos 12 meses")
     p.add_argument("--nacimiento", help="AAAA-MM-DD")
     p.add_argument("--hijos", type=int)
     p.add_argument("--estado-civil", choices=["soltero", "casado", "AUC", "divorciado", "viudo"])

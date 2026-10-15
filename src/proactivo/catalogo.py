@@ -28,11 +28,74 @@ BENEFICIOS = [
             "tu pensión, si la tienes."
         ),
         "por_que_te_conviene": (
-            "Es un ingreso fijo todos los meses: hoy el monto máximo es de $231.732 entre los 65 "
-            "y 74 años, y de $250.275 desde los 75. Mientras antes la solicites, antes empiezas a"
-            " recibirla."
+            "Sería un ingreso todos los meses que complementa tu pensión, o que te da un ingreso "
+            "si no tienes pensión. Mientras antes la solicites, antes empezarías a recibirla."
         ),
+        # Maximums from the ficha (src/app/ruta/config.py); the IPS computes the real amount.
+        "monto_referencial": (
+            "Hasta $231.732 al mes entre los 65 y 74 años, y hasta $250.275 desde los 75 años. "
+            "Son montos máximos referenciales: el monto que podrías recibir depende de tu "
+            "pensión y de tu situación, y puede ser menor."
+        ),
+        "titulo_elegible": "¡Felicidades, {nombre}! Aparentemente eres elegible para la PGU",
         "boton": "Quiero solicitar la PGU",
+        # Age in months: 64 → prepare; 64 + 8 → one month before the opening.
+        "apertura_meses": 64 * 12 + 9,
+        "avisos_previos": [
+            {
+                "id": "preparacion",
+                "meses": 64 * 12,
+                "titulo": "{nombre}, prepárate: desde el {apertura} podrías solicitar la PGU",
+                "motivo": (
+                    "Cumpliste 64 años. Desde los 64 años y 9 meses ({apertura}) puedes iniciar "
+                    "la solicitud de la PGU, para que, si se aprueba, empieces a recibirla al "
+                    "cumplir 65 ({acceso}). Te escribimos ahora para que tengas tiempo de "
+                    "reunir tus documentos y revisar si te falta algo."
+                ),
+                "boton": "Quiero prepararme con ChileAtiende",
+            },
+            {
+                "id": "recordatorio",
+                "meses": 64 * 12 + 8,
+                "titulo": "{nombre}, falta un mes: el {apertura} se abre tu solicitud de PGU",
+                "motivo": (
+                    "Tienes 64 años y 8 meses. El {apertura} se abre tu solicitud de la PGU. "
+                    "Si la inicias apenas se abra, podrías empezar a recibirla desde que cumplas "
+                    "65 ({acceso}). No es un plazo que vence: puedes solicitarla después, pero "
+                    "mientras antes la pidas, antes la recibirías."
+                ),
+                "boton": "Quiero iniciar mi trámite a tiempo",
+            },
+        ],
+        "documentos": [
+            "Cédula de identidad vigente",
+            "Registro Social de Hogares al día (si no lo tienes, pídelo en tu municipalidad)",
+            "Si viviste fuera de Chile, antecedentes de tus años de residencia en el país",
+        ],
+        # Loss-risk notices for people who already receive the PGU. Threshold from the
+        # team's demo brief, NOT verified with the IPS.
+        "riesgos": [
+            {
+                "id": "fuera_de_chile",
+                "campo": "dias_fuera_ultimo_anio",
+                "op": ">=",
+                "valor": 150,
+                "titulo": "{nombre}, atención: tu PGU podría verse afectada",
+                "motivo": (
+                    "Registramos {valor} días fuera de Chile en los últimos 12 meses. "
+                    "Permanecer más de 6 meses fuera del país podría hacerte perder la PGU."
+                ),
+                "explicacion": (
+                    "Para mantener la PGU se revisa tu residencia en Chile. Si planeas seguir "
+                    "fuera o ya volviste, consulta tu caso antes de que tu pago se vea afectado."
+                ),
+                "boton": "Quiero revisar mi situación",
+                "paso_siguiente": (
+                    "Consulta tu caso en ChileAtiende (web, 101 o sucursal) e informa tus fechas "
+                    "de viaje. El IPS revisa y decide si tu PGU se mantiene."
+                ),
+            }
+        ],
         "requisitos": [
             {"campo": "edad", "op": ">=", "valor": 65, "texto": "Tener 65 años o más"},
             {
@@ -54,8 +117,6 @@ BENEFICIOS = [
                 "texto": "Pensión base bajo el límite de la PGU",
             },
         ],
-        # The application opens at 64 years and 9 months.
-        "anticipar_dias": 90,
         "paso_siguiente": "Solicita la PGU en ChileAtiende (web, 101 o sucursal) con tu cédula.",
         "fuente": {
             "titulo": "Ficha PGU · ChileAtiende",

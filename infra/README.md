@@ -24,7 +24,10 @@ La carga del dataset abre unos 620 contactos simulados (`@example.com`, nunca se
 ## Guion de la demo
 | Evento | Comando | Beneficio detectado |
 |---|---|---|
-| Cumple 65 | `evento 90000002-2 --edad 65` | PGU |
+| Cumple 64 | `evento 90000002-2 --edad 64` | PGU: aviso para preparar documentos (se abre a los 64 y 9 meses) |
+| 64 y 8 meses | `evento 90000002-2 --edad 64 --meses 8` | PGU: falta un mes para la apertura |
+| Cumple 65 | `evento 90000002-2 --edad 65` | PGU: «¡Felicidades! Aparentemente eres elegible» |
+| Recibe PGU y sale de Chile | `evento 90000007-3 --dias-fuera 160` | PGU: aviso de posible pérdida (umbral por verificar) |
 | Cumple 18 | `evento 90000001-4 --edad 18` | Subsidio al Empleo Joven |
 | Tiene un hijo | `evento 90000003-0 --hijos 1` | Subsidio Único Familiar |
 | Se casa | `evento 90000004-9 --estado-civil casado` | Asignación familiar por cónyuge |

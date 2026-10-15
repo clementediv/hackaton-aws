@@ -17,7 +17,16 @@ from boto3.dynamodb.conditions import Attr, Key
 
 from . import mensajes
 from .esquema import QUEUE_INDEX, QUEUE_PENDING, STATE_INDEX
-from .reglas import changed_fields, eligible_from, evaluate, excluded, personal_reason
+from .reglas import (
+    RECEIVES,
+    changed_fields,
+    eligible_from,
+    evaluate,
+    excluded,
+    personal_reason,
+    risks_triggered,
+    upcoming_notice,
+)
 
 ANSWERS = {"acepto", "rechazo", "sin_respuesta"}
 CLOSED = {"aceptado", "rechazado"}
@@ -92,6 +101,8 @@ class Service:
         return self._benefits
 
     def benefit(self, benefit_id: str) -> dict:
+        """Catalog entry; risk contacts use `<benefit>:riesgo:<risk>` as their id."""
+        benefit_id = benefit_id.split(":")[0]
         found = next((b for b in self.benefits() if b["beneficio_id"] == benefit_id), None)
         if found is None:
             raise KeyError(f"Beneficio desconocido: {benefit_id}")
@@ -140,14 +151,18 @@ class Service:
 
     # -- detection ------------------------------------------------------------
     def on_person_change(self, old: dict | None, new: dict | None, origin: str) -> list[dict]:
-        """Open (or upgrade) one contact per benefit the person could now get."""
+        """Open (or advance) the contacts for every benefit the person could get,
+        plus loss-risk notices for the ones they already receive."""
         if not new:
             return []
-        return [c for b in self.benefits() if (c := self._detect(old, new, b, origin))]
+        return [c for b in self.benefits() for c in self._detect(old, new, b, origin)]
 
-    def _detect(self, old, person, benefit, origin) -> dict | None:
-        if excluded(person, benefit):
-            return None
+    def _detect(self, old, person, benefit, origin) -> list[dict]:
+        reason_out = excluded(person, benefit)
+        if reason_out == RECEIVES:
+            return self._risk_notices(person, benefit)
+        if reason_out:
+            return []
         ref = self.today()
         existing = self.contact(person["run"], benefit["beneficio_id"])
         changes = changed_fields(old, person, benefit, ref)
@@ -155,24 +170,86 @@ class Service:
         if evaluate(person, benefit, ref).cumple:
             if existing is None:
                 reason = _reason(changes, origin)
-                return self._open(person, benefit, "disponible", reason, personal=personal)
-            if existing["tipo"] == "anticipado" and existing["respuesta"] != "rechazo":
-                return self._available_now(existing, person, benefit)
-            return None
+                return _some(self._open(person, benefit, "disponible", reason, personal=personal))
+            if existing["tipo"] in ("anticipado", "aviso") and existing["respuesta"] != "rechazo":
+                return _some(self._available_now(existing, person, benefit, personal))
+            return []
+        if notice := upcoming_notice(person, benefit, ref):
+            return _some(self._stage_notice(existing, person, benefit, notice))
         when = eligible_from(person, benefit, ref)
         if when and existing is None:
             reason = f"Se acerca la fecha en que cumplirías los requisitos ({when:%d-%m-%Y})."
             if changes:
                 reason = _reason(changes, origin) + " " + reason
-            return self._open(person, benefit, "anticipado", reason, when, personal=personal)
-        return None
+            return _some(self._open(person, benefit, "anticipado", reason, when, personal=personal))
+        return []
+
+    def _stage_notice(self, existing, person, benefit, notice):
+        """Informational notice before the opening (64, 64 + 8 months): one email
+        per stage, never escalated. Stages only move forward."""
+        stages = [n["id"] for n in benefit["avisos_previos"]]
+        stage = notice.etapa["id"]
+        values = {
+            "etapa": stage,
+            "disponible_desde": notice.apertura.strftime("%d-%m-%Y"),
+            "acceso_desde": notice.acceso.strftime("%d-%m-%Y"),
+            "faltantes": notice.faltantes,
+        }
+        if existing is None:
+            return self._open(
+                person,
+                benefit,
+                "aviso",
+                f"Aviso previo: {stage}",
+                notice.apertura,
+                extra=values,
+                follow_up=False,
+            )
+        if existing["tipo"] != "aviso" or existing["respuesta"] == "rechazo":
+            return None
+        if stages.index(existing.get("etapa", stages[0])) >= stages.index(stage):
+            return None
+        contact = self._update(existing, values | {"motivo": f"Aviso previo: {stage}"})
+        self.log(contact["run"], contact["beneficio_id"], "nueva_etapa", "sistema", etapa=stage)
+        return self._send_email(contact, person, benefit, follow_up=False)
+
+    def _risk_notices(self, person, benefit) -> list[dict]:
+        opened = []
+        for risk in risks_triggered(person, benefit):
+            contact_id = f"{benefit['beneficio_id']}:riesgo:{risk['id']}"
+            if self.contact(person["run"], contact_id):
+                continue
+            value = int(person[risk["campo"]])
+            contact = self._open(
+                person,
+                benefit,
+                "riesgo",
+                f"Riesgo de pérdida: {risk['id']}",
+                extra={"riesgo_id": risk["id"], "riesgo_valor": value},
+                follow_up=False,
+                contact_id=contact_id,
+            )
+            opened += _some(contact)
+        return opened
 
     def reconcile_all(self, origin: str = "diario") -> int:
         """Daily: time changes ages without anyone editing the table."""
         return sum(len(self.on_person_change(None, p, origin)) for p in _scan(self.people))
 
-    def _open(self, person, benefit, kind, reason, available_from=None, *, personal=None):
-        run, benefit_id = person["run"], benefit["beneficio_id"]
+    def _open(
+        self,
+        person,
+        benefit,
+        kind,
+        reason,
+        available_from=None,
+        *,
+        personal=None,
+        extra=None,
+        follow_up=True,
+        contact_id=None,
+    ):
+        run, benefit_id = person["run"], contact_id or benefit["beneficio_id"]
         item = {
             "run": run,
             "beneficio_id": benefit_id,
@@ -195,6 +272,9 @@ class Service:
             item["disponible_desde"] = available_from.strftime("%d-%m-%Y")
         if personal:
             item["motivo_persona"] = personal
+        item |= extra or {}
+        if not follow_up:
+            item["estado"] = "aviso_enviado"
         try:
             self.contacts.put_item(Item=item, ConditionExpression=Attr("run").not_exists())
         except Exception as exc:  # stream retries / concurrent daily run
@@ -202,16 +282,20 @@ class Service:
                 return None
             raise
         self.log(run, benefit_id, "detectado", "sistema", tipo=kind, motivo=reason)
-        return self._send_email(item, person, benefit)
+        return self._send_email(item, person, benefit, follow_up=follow_up)
 
-    def _available_now(self, contact, person, benefit):
+    def _available_now(self, contact, person, benefit, personal=None):
         """An anticipated benefit opened: notify again. Whoever already accepted
         is told, but not chased through the other channels."""
         accepted = contact["estado"] == "aceptado"
-        values = {"tipo": "disponible", "motivo": "Ya cumples los requisitos."}
+        values = {
+            "tipo": "disponible",
+            "motivo": "Ya cumples los requisitos.",
+            "motivo_persona": personal or "Según tus datos, hoy cumples los requisitos.",
+        }
         if not accepted:
             values["respuesta"] = "pendiente"
-        contact = self._update(contact, values, remove=("disponible_desde",))
+        contact = self._update(contact, values, remove=("disponible_desde", "etapa", "faltantes"))
         self.log(contact["run"], contact["beneficio_id"], "ya_disponible", "sistema")
         return self._send_email(contact, person, benefit, follow_up=not accepted)
 
@@ -390,7 +474,7 @@ class Service:
             "respuesta_en": self.now(),
         }
         if answer == "acepto":
-            values["paso_siguiente"] = self.benefit(benefit_id)["paso_siguiente"]
+            values["paso_siguiente"] = next_step(self.benefit(benefit_id), contact)
         contact = self._update(contact, values, remove=("cola", "siguiente_accion_en"))
         self.log(run, benefit_id, f"respuesta_{answer}", channel)
         return contact
@@ -406,6 +490,24 @@ class Service:
 
     def contacts_of(self, run: str) -> list[dict]:
         return _query_all(self.contacts, KeyConditionExpression=Key("run").eq(run))
+
+
+def next_step(benefit: dict, contact: dict) -> str:
+    """What to do after accepting: depends on the kind of notice."""
+    if contact.get("tipo") == "riesgo":
+        risk = next(r for r in benefit["riesgos"] if r["id"] == contact["riesgo_id"])
+        return risk["paso_siguiente"]
+    if contact.get("tipo") == "aviso":
+        documents = "; ".join(benefit.get("documentos") or [])
+        return (
+            f"Reúne estos documentos: {documents}. Desde el {contact.get('disponible_desde')} "
+            "podrás iniciar la solicitud; te avisaremos."
+        )
+    return benefit["paso_siguiente"]
+
+
+def _some(contact: dict | None) -> list[dict]:
+    return [contact] if contact else []
 
 
 def _reason(changes: list[str], origin: str) -> str:

@@ -76,12 +76,16 @@ def evaluate(person: dict, benefit: dict, ref: date) -> Evaluacion:
     return result
 
 
+DECEASED = "Persona fallecida"
+RECEIVES = "Ya recibe el beneficio"
+
+
 def excluded(person: dict, benefit: dict) -> str | None:
-    """Reason not to contact the person about this benefit at all."""
+    """Reason not to invite the person to this benefit (risk notices aside)."""
     if person.get("fallecido"):
-        return "Persona fallecida"
+        return DECEASED
     if benefit["beneficio_id"] in (person.get("beneficios_vigentes") or []):
-        return "Ya recibe el beneficio"
+        return RECEIVES
     return None
 
 
@@ -104,6 +108,73 @@ def eligible_from(person: dict, benefit: dict, ref: date) -> date | None:
         if ref < when <= limit and evaluate(person, benefit, when).cumple:
             return when
     return None
+
+
+def add_months(d: date, months: int) -> date:
+    total = d.month - 1 + months
+    year, month = d.year + total // 12, total % 12 + 1
+    return date(year, month, min(d.day, calendar.monthrange(year, month)[1]))
+
+
+def months_old(birth: date, ref: date) -> int:
+    months = (ref.year - birth.year) * 12 + ref.month - birth.month
+    return months - (1 if ref.day < birth.day else 0)
+
+
+@dataclass
+class Aviso:
+    """A dated notice before an age-driven benefit opens."""
+
+    etapa: dict  # catalog notice: {"id", "meses", "titulo", "motivo"}
+    apertura: date  # the application opens (a milestone, not a deadline)
+    acceso: date  # the age requirement is met
+    faltantes: list[str]
+
+
+def upcoming_notice(person: dict, benefit: dict, ref: date) -> Aviso | None:
+    """Latest catalog notice the person has reached before the access age.
+
+    Sent to whoever meets, or still lacks records for, the other requirements:
+    the notice helps them gather what is missing. A requirement that is not
+    met (e.g. top 10% income) means no notice.
+    """
+    notices = benefit.get("avisos_previos") or []
+    if not notices or not person.get("fecha_nacimiento"):
+        return None
+    ages = [
+        int(_plain(r["valor"]))
+        for r in benefit["requisitos"]
+        if r["campo"] == "edad" and r["op"] == ">="
+    ]
+    if not ages:
+        return None
+    birth = date.fromisoformat(person["fecha_nacimiento"])
+    access = add_years(birth, max(ages))
+    if ref >= access:
+        return None
+    months = months_old(birth, ref)
+    due = [n for n in notices if months >= int(_plain(n["meses"]))]
+    if not due:
+        return None
+    result = evaluate(person, benefit, access)
+    if result.cumple is False:
+        return None
+    missing = [
+        m.removeprefix("Falta antecedente: ") for m in result.motivos if m.startswith("Falta")
+    ]
+    opening = add_months(birth, int(_plain(benefit.get("apertura_meses") or max(ages) * 12)))
+    return Aviso(due[-1], opening, access, missing)
+
+
+def risks_triggered(person: dict, benefit: dict) -> list[dict]:
+    """Loss-risk notices for someone who already receives the benefit."""
+    values = {k: _plain(v) for k, v in person.items()}
+    out = []
+    for risk in benefit.get("riesgos") or []:
+        current = values.get(risk["campo"])
+        if current is not None and OPERADORES[risk["op"]](current, _plain(risk["valor"])):
+            out.append(risk)
+    return out
 
 
 def changed_fields(old: dict | None, new: dict, benefit: dict, ref: date) -> list[str]:
