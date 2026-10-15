@@ -7,15 +7,15 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
-from ruta import config
+from ruta import config, staff_auth
 from ruta.campanas import metropolitan_locations, metropolitan_ranking
 from ruta.colador import Funnel
 from ruta.despliegue import automatic_campaign_area
-from ruta.ejecutivos import STATUS, case_rows, demo_snapshot, next_action
+from ruta.ejecutivos import DEMO_DB, STATUS, case_rows, demo_snapshot, next_action
 from ui_campanas import campaign_map
 
 ASSETS = Path(__file__).parent / "assets"
-VIEWS = ["Seguimiento de casos", "Campañas en terreno"]
+VIEWS = ["Seguimiento de casos", "Campañas en terreno", "Trazabilidad"]
 EVENTS = {
     "attempt": "Se intentó contactar",
     "contacted": "Contacto confirmado",
@@ -29,6 +29,73 @@ EVENTS = {
     "signal": "Nueva alerta en el caso",
 }
 CHANNELS = {1: "Correo electrónico", 2: "Llamada", 3: "Contacto laboral", 4: "Terreno"}
+
+
+def _sign_out():
+    for key in list(st.session_state):
+        if key.startswith("staff_") and key != "staff_deeplink_loaded":
+            del st.session_state[key]
+
+
+def _sign_in():
+    password = st.session_state.pop("staff_login_password", "")
+    try:
+        email = staff_auth.authenticate(st.session_state.get("staff_login_email", ""), password)
+    except ValueError as error:
+        st.session_state["staff_login_error"] = str(error)
+        return
+    _sign_out()
+    st.session_state["staff_authenticated_user"] = email
+
+
+def require_login():
+    """Gate both officer entry points before reading a campaign snapshot."""
+    st.html("<style>" + (ASSETS / "executive.css").read_text(encoding="utf-8") + "</style>")
+    email = st.session_state.get("staff_authenticated_user")
+    account = staff_auth.DEMO_ACCOUNTS.get(email)
+    if account:
+        identity, actions = st.columns([3, 1], vertical_alignment="center")
+        identity.caption(f"{account['name']} · {account['role']} · Sesión de demostración")
+        actions.button("Cerrar sesión de ejecutivo", key="staff_logout", on_click=_sign_out)
+        return True
+    with st.container(key="staff_login"):
+        intro, form = st.columns([1.15, 1], gap="large", vertical_alignment="top")
+        intro.html(
+            '<div class="staff-login-intro"><div class="staff-eyebrow">PARA EJECUTIVOS</div>'
+            "<h1>Acompañar comienza<br>con saber quién espera.</h1>"
+            "<p>Revisa los casos alertados, orienta el próximo paso y organiza "
+            "la atención en terreno desde un solo lugar.</p></div>"
+        )
+        with form, st.container(key="staff_login_card"):
+            st.markdown("### Ingresa al portal de ejecutivos")
+            with st.form("staff_login_form", clear_on_submit=True):
+                st.text_input(
+                    "Correo",
+                    key="staff_login_email",
+                    placeholder="ejecutivo.rm@example.com",
+                    max_chars=120,
+                )
+                st.text_input("Clave", type="password", key="staff_login_password", max_chars=120)
+                st.form_submit_button(
+                    "Ingresar como ejecutivo",
+                    type="primary",
+                    use_container_width=True,
+                    on_click=_sign_in,
+                )
+            if error := st.session_state.get("staff_login_error"):
+                st.error(error)
+            with st.expander("Datos de acceso de demostración", expanded=True):
+                selected = st.selectbox(
+                    "Cuenta ficticia",
+                    list(staff_auth.DEMO_ACCOUNTS),
+                    key="staff_demo_account",
+                    format_func=lambda value: staff_auth.DEMO_ACCOUNTS[value]["name"],
+                )
+                st.code(f"Correo: {selected}\nClave: {staff_auth.DEMO_PASSWORD}", language=None)
+                st.caption(
+                    "Cuentas ficticias para probar el portal. Usa solo estos datos de ejemplo."
+                )
+    return False
 
 
 def _cards(state):
@@ -137,6 +204,129 @@ def _tracking(state):
         st.dataframe(pd.DataFrame(history), hide_index=True, use_container_width=True)
 
 
+def _campaign_db(db_path=None):
+    """Database of the campaign on screen; its `eventos` log is the audit trail."""
+    if db_path is not None:
+        return db_path
+    if st.session_state.get("staff_source", "Demostración").startswith("Demostración"):
+        return os.getenv("STAFF_DEMO_DB") or DEMO_DB
+    return config.DB_PATH
+
+
+@st.cache_data(ttl=30, show_spinner=False)
+def _aws_history(run):
+    from ruta import aws_contactos
+
+    return aws_contactos.load_history(run)
+
+
+def _traceability(state, db_file):
+    # Local imports keep this view independent from the module header.
+    import ui_aws
+    from ruta import trazabilidad
+
+    events = trazabilidad.load_events(db_file)
+    quality = trazabilidad.quality(events)
+    clock = (state.get("clock") or {}).get("now")
+    st.html(
+        '<div class="staff-callout"><strong>Cada caso deja un rastro que se puede auditar.'
+        "</strong><br>Con datos sintéticos no es posible demostrar que la meta de 75% se "
+        "cumpla: eso requiere personas reales en un piloto. Lo que sí se demuestra es que cada "
+        "contacto, respuesta y paso queda registrado con fecha, canal y origen, para medir el "
+        "indicador apenas existan casos reales y para que ningún caso pierda su seguimiento."
+        "</div>"
+    )
+    st.markdown("### Cómo se medirá cada indicador")
+    st.dataframe(
+        pd.DataFrame(trazabilidad.kpi_evidence(state["people"], events)),
+        hide_index=True,
+        use_container_width=True,
+    )
+    st.caption(
+        "Los conteos usan datos sintéticos: comprueban que la evidencia se registra, no que la "
+        "meta se cumpla. «Parcial» indica qué falta definir antes del piloto."
+    )
+
+    st.markdown("### Calidad del registro")
+    days = st.slider(
+        "Días sin movimiento para pedir seguimiento", 3, 30, 7, key="staff_trace_days"
+    )
+    stale = trazabilidad.follow_up(state["people"], events, clock, stale_days=days)
+    cards = [
+        ("Eventos registrados", quality["eventos"], "Contactos, respuestas y pasos", ""),
+        ("Registros completos", f"{quality['porcentaje']}%", "Con fecha, canal y tipo", "green"),
+        ("Casos con historial", quality["casos"], "Cada uno con su línea de tiempo", ""),
+        ("Requieren seguimiento", len(stale), f"Sin movimiento hace {days}+ días", "amber"),
+    ]
+    st.html(
+        '<div class="staff-stats">'
+        + "".join(
+            f'<div class="staff-stat {tone}"><div class="label">{label}</div>'
+            f'<div class="number">{value}</div><div class="note">{note}</div></div>'
+            for label, value, note, tone in cards
+        )
+        + "</div>"
+    )
+    if stale:
+        st.dataframe(
+            pd.DataFrame(stale).rename(
+                columns={
+                    "run": "RUN",
+                    "name": "Persona",
+                    "last": "Último movimiento",
+                    "days": "Días",
+                    "last_event": "Qué ocurrió",
+                    "reason": "Por qué revisar",
+                }
+            ),
+            hide_index=True,
+            use_container_width=True,
+            height=240,
+        )
+    else:
+        st.success("Todos los casos abiertos tienen movimiento reciente.")
+
+    st.markdown("### Línea de tiempo de un caso")
+    options = {p["run"]: f"{p['name']} · {p['run']}" for p in state["people"]}
+    run = st.selectbox(
+        "Persona", list(options), format_func=options.get, key="staff_trace_person"
+    )
+    aws_ok, aws_message = ui_aws.status()
+    extra = trazabilidad.aws_events(_aws_history(run)) if aws_ok else []
+    rows = trazabilidad.timeline(run, events, extra)
+    if rows:
+        st.dataframe(
+            pd.DataFrame(
+                [
+                    {
+                        "Fecha": e["fecha"].replace("T", " ")[:16],
+                        "Canal": e["canal"],
+                        "Qué ocurrió": e["evento"],
+                        "Detalle": e["detalle"],
+                        "Origen": e["origen"],
+                    }
+                    for e in rows
+                ]
+            ),
+            hide_index=True,
+            use_container_width=True,
+        )
+    else:
+        st.info("Este caso aún no tiene eventos registrados.")
+    st.caption(
+        "Incluye la detección automática en AWS cuando hay credenciales."
+        if aws_ok
+        else f"Solo registro local. {aws_message}"
+    )
+    st.download_button(
+        "Descargar registro de auditoría (CSV)",
+        data=trazabilidad.audit_csv(events),
+        file_name="trazabilidad-casos.csv",
+        mime="text/csv",
+        key="staff_trace_csv",
+    )
+
+
 def _campaigns(state, profiles):
     st.markdown("### Acercar la atención a quienes todavía esperan")
     st.write(
@@ -197,7 +387,8 @@ def _campaigns(state, profiles):
 
 
 def render(profiles, db_path=None):
-    st.html("<style>" + (ASSETS / "executive.css").read_text(encoding="utf-8") + "</style>")
+    if not require_login():
+        return
     with st.container(key="staff_workspace"):
         st.html(
             '<div class="staff-hero"><div><div class="staff-eyebrow">PORTAL DE EJECUTIVOS</div>'
@@ -231,9 +422,15 @@ def render(profiles, db_path=None):
         _cards(state)
         with st.container(key="staff_navigation"):
             view = st.radio(
-                "Secciones de gestión", VIEWS, horizontal=True, label_visibility="collapsed"
+                "Secciones de gestión",
+                VIEWS,
+                horizontal=True,
+                label_visibility="collapsed",
+                key="staff_view",
             )
         if view == VIEWS[0]:
             _tracking(state)
-        else:
+        elif view == VIEWS[1]:
             _campaigns(state, profiles)
+        else:
+            _traceability(state, _campaign_db(db_path))

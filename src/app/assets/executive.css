@@ -37,3 +37,15 @@ background:#f3f7fb;color:#0d4d82}.st-key-staff_navigation label[data-baseweb="ra
 .staff-badge{margin-top:15px}.staff-stats,.staff-process{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.staff-stats{gap:9px}.staff-stat{padding:14px}.staff-stat .number{font-size:29px}
 .staff-process{grid-template-columns:1fr}.staff-hero h1{font-size:25px}}
+.st-key-staff_login{padding:32px 0 48px}
+.staff-login-intro{padding:12px 24px 0 0}
+.staff-login-intro h1{font-size:44px;font-weight:500;line-height:1.2;letter-spacing:-1px;color:#143e5c;margin:18px 0 22px}
+.staff-login-intro p{font-size:17px;color:#5d7485;line-height:1.8;max-width:500px}
+.st-key-staff_login_card{box-sizing:border-box;max-width:100%;padding:30px;background:white;border:1px solid #dbe6ee;border-radius:16px;box-shadow:0 12px 40px #143e5c08}
+.st-key-staff_login_card h3{font-size:24px;color:#143e5c;padding-top:0}
+.st-key-staff_login_card [data-testid="stForm"]{padding:0;border:0}
+.st-key-staff_login_card input{height:48px;background:#f7f9fb}
+.st-key-staff_login_card [data-testid="stFormSubmitButton"] button{min-height:48px;background:#0f69b4;border:0;border-radius:8px;color:white}
+.st-key-staff_login_card [data-testid="stFormSubmitButton"] button p{color:white}
+.st-key-staff_login_card pre,.st-key-staff_login_card code{white-space:pre-wrap!important;overflow-wrap:anywhere}
+@media(max-width:700px){.st-key-staff_login{padding:24px 0}.staff-login-intro{padding-right:0}.staff-login-intro h1{font-size:32px}.st-key-staff_login_card{padding:20px}}

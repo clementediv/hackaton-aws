@@ -8,6 +8,7 @@ from src.agent.tools import ToolRegistry
 from src.contracts import Authorization, Case, Channel, Message, MessageRole
 
 from . import config
+from .conversation import CHAT_STYLE, ConversationalClient
 
 
 def answer(question: str, context: dict, history: list[dict], *, client=None) -> str:
@@ -47,7 +48,7 @@ def answer(question: str, context: dict, history: list[dict], *, client=None) ->
         },
     )
     agent = Agent(
-        client=client or BedrockClient.from_env(),
+        client=ConversationalClient(client or BedrockClient.from_env()),
         tools=registry,
         reference_date=config.FECHA_REFERENCIA,
     )
@@ -111,7 +112,7 @@ def answer_general(
         public_context += " Orientación pública adicional con fuentes: " + public_guidance
     active_client = client if client is not None else BedrockClient.from_env()
     options = {
-        "system": [{"text": SYSTEM_PROMPT}, {"text": public_context}],
+        "system": [{"text": SYSTEM_PROMPT}, {"text": public_context}, {"text": CHAT_STYLE}],
         "inferenceConfig": {"maxTokens": 600},
     }
     if stream:

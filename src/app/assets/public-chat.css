@@ -50,3 +50,6 @@
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{padding:12px 48px 12px 12px!important}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea:placeholder-shown{text-align:left}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea:not(:placeholder-shown){text-align:left}
+
+.st-key-public_chat_voice{max-width:760px;width:100%;align-self:center;margin-inline:auto}
+.st-key-public_chat_voice [data-testid="stElementContainer"]{width:100%!important;max-width:100%}

@@ -123,6 +123,9 @@ def _app(monkeypatch, tmp_path, *, available):
     monkeypatch.setattr(module, "load_history", lambda run, dynamodb=None: [])
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
     app.button(key="open_executive").click().run()
+    app.text_input(key="staff_login_email").set_value("ejecutivo.rm@example.com")
+    app.text_input(key="staff_login_password").set_value("Ejecutivo2026!")
+    next(button for button in app.button if button.label == "Ingresar como ejecutivo").click().run()
     app.radio(key="executive_section").set_value("Contactos AWS").run()
     assert not app.exception
     return app

@@ -137,7 +137,8 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     app.button(key="gov_check_fuas").click().run()
     assert not app.exception
     assert any("comprobante de inscripción" in element.value for element in app.markdown)
-    assert len([button for button in app.button if button.label == "Cobrar beneficio"]) == 1
+    assert not any(button.label == "Cobrar beneficio" for button in app.button)
+    assert not any(button.key == "gov_pgu_action" for button in app.button)
     assert not any(element.value == "**Sistema de salud**" for element in app.markdown)
     app.radio(key=f"government_view_{run}").set_value("Datos personales").run()
     assert len(app.chat_input) == 0
@@ -167,16 +168,8 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     assert ui_gov.load_profile(run)["monthly_income"] == 350000
     assert ui_gov.load_profile(run)["profession"] == "Administración"
     app.radio(key=f"government_view_{run}").set_value("Beneficios").run()
-    app.button(key="gov_pgu_action").click().run()
-    assert not app.exception
-    assert any("paso a paso" in heading.value for heading in app.subheader)
-    assert len(app.chat_input) == 1
-    assert any(button.label == "Ya completé este paso" for button in app.button)
-    next(button for button in app.button if button.label == "Ya completé este paso").click().run()
-    assert not app.exception
     ui_cases = importlib.import_module("ruta.casos")
-    assert "G0" in ui_cases.obtener_caso(run)["completados"]
-    next(button for button in app.button if button.label == "← Volver a Mi Gobierno").click().run()
+    assert not ui_cases.obtener_caso(run)["completados"]
     ui_gov.save_document(run, "Registro Social de Hogares", "demo.pdf", b"%PDF-1.4 demo")
     app.run()
     # Shared evidence appears in FUAS, gratuidad and becas without uploading again.

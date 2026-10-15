@@ -268,6 +268,14 @@ def render_chat_page() -> None:
             st.session_state["public_chat_engine"] = engine
     if history:
         _render_public_chat_input()
+    from voice import voice_input
+
+    with st.container(key="public_chat_voice"):
+        latest_reply = next((m["texto"] for m in reversed(history) if m["rol"] == "assistant"), "")
+        spoken = voice_input(key="voice_public_chat", reply=latest_reply, message_id=str(len(history)))
+    if spoken:
+        st.session_state["public_chat_pending"] = spoken
+        st.rerun()
 
 
 def _render_public_chat_input() -> None:

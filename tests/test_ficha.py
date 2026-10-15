@@ -87,6 +87,10 @@ def test_record_view_renders(tmp_path, monkeypatch):
     monkeypatch.setenv("FUNNEL_DEMO_DB", str(tmp_path / "lab.db"))
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
     app.button(key="open_executive").click().run()
+    app.text_input(key="staff_login_email").set_value("ejecutivo.rm@example.com")
+    app.text_input(key="staff_login_password").set_value("Ejecutivo2026!")
+    next(button for button in app.button if button.label == "Ingresar como ejecutivo").click().run()
+    assert not app.exception
     app.radio(key="executive_section").set_value("Ficha del beneficiario").run()
     assert not app.exception
     assert any("Ficha del beneficiario" in h.value for h in app.header)
@@ -106,11 +110,15 @@ def test_every_portal_tab_renders(tmp_path, monkeypatch):
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=60).run()
     tabs = app.radio(key="portal_section")
     assert list(tabs.options) == portal.CITIZEN_SECTIONS
-    assert list(tabs.options) == ["Inicio", "Mi Gobierno"]
-    for section in portal.CITIZEN_SECTIONS:
+    assert list(tabs.options) == ["Inicio", "Mi Gobierno", "Asistente de IA"]
+    for section in ("Inicio", "Mi Gobierno"):
         app.radio(key="portal_section").set_value(section).run()
         assert not app.exception, section
     app.button(key="open_executive").click().run()
+    app.text_input(key="staff_login_email").set_value("ejecutivo.rm@example.com")
+    app.text_input(key="staff_login_password").set_value("Ejecutivo2026!")
+    next(button for button in app.button if button.label == "Ingresar como ejecutivo").click().run()
+    assert not app.exception
     for tool in portal.EXECUTIVE_SECTIONS:
         app.radio(key="executive_section").set_value(tool).run()
         assert not app.exception, tool

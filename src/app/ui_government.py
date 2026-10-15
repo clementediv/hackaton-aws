@@ -422,16 +422,17 @@ def _benefits(d) -> None:
                 st.caption(
                     f"{_money(d.pgu.monto_estimado)} al mes estimados · El IPS confirma el pago"
                 )
-        with control:
-            st.button(
-                action,
-                type="primary",
-                key="gov_pgu_action",
-                disabled=not enabled,
-                use_container_width=True,
-                on_click=_set_route,
-                args=(d.run, "PGU"),
-            )
+        if d.pgu.resultado != rules.ELEGIBLE:
+            with control:
+                st.button(
+                    action,
+                    type="primary",
+                    key="gov_pgu_action",
+                    disabled=not enabled,
+                    use_container_width=True,
+                    on_click=_set_route,
+                    args=(d.run, "PGU"),
+                )
         _benefit_timeline("pgu", d)
         with st.expander("Ver requisitos y detalles"):
             ready = d.pgu.resultado == rules.ELEGIBLE

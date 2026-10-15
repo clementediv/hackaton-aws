@@ -86,3 +86,41 @@ Verificación: 31 pruebas enfocadas pasan y script 500 perfiles TODO OK.
 - 15-10: Chat público con salida progresiva mediante `st.write_stream`: Bedrock ConverseStream entrega deltas reales; modo plantilla muestra palabras progresivamente. Se guardan respuestas completas en historial, se conserva respuesta parcial si se corta el stream y se informa la interrupción. Falla previa al primer fragmento usa plantilla. 21 pruebas enfocadas pasan; Chromium observa longitudes crecientes 8 → 64 → 100 → 142 → 176 → 222 → 224 y reinicio correcto. API consultada: https://docs.aws.amazon.com/boto3/latest/reference/services/bedrock-runtime/client/converse_stream.html. Sin llamada real a AWS en validación.
 
 - 15-10: Ampliadas animaciones compartidas en `assets/motion.css`: entradas breves en portada, identidad, beneficios y portal ejecutivo; etapas y estadísticas escalonadas; feedback de botones, campos y documentos; apertura de paneles y diálogos. Movimiento reducido desactiva animaciones y transiciones dentro de la app. Verificación: 15 pruebas de portal, chat, app, Mi Gobierno y ejecutivos pasan. Sin verificación visual en navegador en esta revisión.
+
+## Conversación y voz · 15-10
+
+[[0017-conversacion-y-voz-del-navegador]] agrega estilo conversacional en ambos
+adaptadores. No se repite un menú ante frustración o mensajes ambiguos; se pide
+una aclaración breve y se responde la pregunta real aunque incluya una grosería.
+Mi Gobierno conserva solo turnos públicos en un historial separado cuando no hay
+permiso; al cambiar el consentimiento se reinicia ese historial y la lectura en voz alta.
+
+- **Hablar por micrófono**: solicita permiso del navegador, permite dictar, editar,
+  descartar y pulsar Enviar mensaje. No envía automáticamente lo reconocido.
+- **Leer respuestas en voz alta**: desactivado inicialmente; lee respuestas nuevas
+  con voz española. Escuchar respuesta reproduce a pedido y Detener voz cancela.
+  Dictar detiene la lectura para evitar que el asistente se escuche a sí mismo.
+- Si el navegador no admite dictado o niega el permiso, se indica cómo continuar
+  escribiendo. Las voces y el servicio de reconocimiento dependen del navegador.
+
+Verificación: 43 pruebas enfocadas pasan. Tres turnos reales con Sonnet 5 ante
+insulto, texto sin sentido y frustración produjeron respuestas distintas y pertinentes.
+El script `uv run --with playwright python scripts/verificar_dictado.py` verifica
+revisión, edición, envío único, errores de permiso, descarte, compatibilidad,
+lectura optativa en español, no reproducción repetida y pausa al dictar con motores
+simulados en Chromium. El micrófono físico y el sonido audible requieren prueba
+manual en el dispositivo. Capturas locales en /tmp/chat-voice-review.png y
+/tmp/chat-voice-app.png. App disponible en http://localhost:8501.
+
+Prueba de interfaz completa: una transcripción simulada se envió una sola vez
+mediante el componente Streamlit y recibió respuesta real de Bedrock. Prueba
+adicional de Mi Gobierno verifica reinicio de memoria general y lectura al revocar.
+
+Integración final con portal ejecutivo: 235 pruebas correctas, dos omitidas por
+dependencias opcionales y ocho evals excluidas. Verificador 500 perfiles TODO OK.
+Los cinco fallos históricos de UI quedaron resueltos por el aporte remoto.
+
+Tras la última integración de acceso ejecutivo: 235 pruebas pasan, dos omitidas,
+ocho evals excluidas y verificador TODO OK. Chromium vuelve a confirmar el flujo
+de dictado simulado → envío único → respuesta real de Bedrock, junto con los controles
+de lectura.
