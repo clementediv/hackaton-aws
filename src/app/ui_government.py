@@ -2,10 +2,11 @@
 
 from html import escape
 from pathlib import Path
+from uuid import uuid4
 
 import streamlit as st
 import ui_persona
-from ruta import asistente, casos, config, demo_auth, government
+from ruta import asistente, casos, config, demo_auth, engagement, government
 from ruta import reglas as rules
 from ruta.datos import cargar_perfiles
 from ruta.fechas import fmt
@@ -55,6 +56,11 @@ def _choose_person(diags):
 
 
 def _logout() -> None:
+    run = st.session_state.get("government_login_run")
+    session = st.session_state.get("government_session_id")
+    if run and session:
+        engagement.record(config.DB_PATH, run, "platform_logout", key=f"logout:{session}",
+                          session_id=session)
     for key in list(st.session_state):
         if key.startswith(("government_", "gov_", "chat-", "assistant_consent_")):
             del st.session_state[key]
@@ -69,6 +75,10 @@ def _submit_login(diags) -> None:
         st.session_state["gov_login_error"] = str(error)
         return
     st.session_state["government_login_run"] = run
+    session = uuid4().hex
+    st.session_state["government_session_id"] = session
+    engagement.record(config.DB_PATH, run, "platform_login", key=f"login:{session}",
+                      session_id=session)
     st.session_state[f"government_view_{run}"] = "Beneficios"
     st.session_state.pop("gov_login_error", None)
 
@@ -144,6 +154,16 @@ def render(diags) -> None:
             label_visibility="collapsed",
             key=f"government_view_{d.run}",
         )
+    session = st.session_state.get("government_session_id")
+    process = st.session_state.get(f"government_route_{d.run}") or "Listado de beneficios"
+    view = f"{page}:{process}:{bool(case['autorizacion'])}"
+    if session and st.session_state.get("government_last_observed_view") != view:
+        st.session_state["government_last_observed_view"] = view
+        if page == "Beneficios" and case["autorizacion"]:
+            engagement.record(
+                config.DB_PATH, d.run, "process_viewed", key=f"view:{uuid4().hex}",
+                session_id=session, benefit=process,
+            )
     if not case["autorizacion"]:
         if page == "Datos personales":
             _identity(d, profile)
@@ -832,4 +852,11 @@ def _journey_steps(d, case, benefit) -> None:
             elif state == "disponible":
                 if st.button("Ya completé este paso", key=f"gov_step_{d.run}_{step.id}"):
                     casos.completar_paso(d.run, step.id, CANAL, step.titulo)
+                    if step.id != "G0" and d.pgu.resultado == rules.ELEGIBLE:
+                        engagement.record(
+                            config.DB_PATH, d.run, "eligible_step_completed",
+                            key=f"step:{d.run}:{step.id}", step_id=step.id,
+                            benefit=benefit, possible=True, message=step.titulo,
+                            evidence="Declarado por la persona; no confirmado por el organismo",
+                        )
                     st.rerun()

@@ -184,6 +184,7 @@ def _queue_home_question(question: str) -> None:
 
 
 def render_chat_page() -> None:
+    st.session_state.pop("government_last_observed_view", None)
     from ruta.asistente import responder_publico
 
     st.markdown(_portal_styles(), unsafe_allow_html=True)

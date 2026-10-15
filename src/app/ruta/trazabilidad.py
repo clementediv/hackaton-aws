@@ -17,6 +17,10 @@ LOCAL_SOURCE = "Caso (registro local)"
 AWS_SOURCE = "Detección automática (AWS)"
 
 EVENT_LABELS = {
+    "platform_login": "Ingresó a Mi Gobierno",
+    "platform_logout": "Cerró su sesión",
+    "process_viewed": "Consultó su proceso",
+    "eligible_step_completed": "Registró un avance en un trámite posible",
     "colador_entered": "Inicio de seguimiento por este canal",
     "colador_attempt": "Intento de contacto",
     "colador_skipped": "Canal sin datos de contacto",
@@ -81,6 +85,7 @@ def load_events(db_path: str | Path) -> list[dict]:
                 "tipo": row["tipo"],
                 "evento": EVENT_LABELS.get(row["tipo"], row["tipo"].replace("_", " ")),
                 "detalle": _detail_text(detail),
+                "datos": detail if isinstance(detail, dict) else {},
                 "origen": LOCAL_SOURCE,
             }
         )

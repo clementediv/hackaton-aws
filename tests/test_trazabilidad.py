@@ -128,8 +128,14 @@ def test_staff_portal_shows_traceability(tmp_path, monkeypatch):
     sections = next(r for r in app.radio if r.label == "Secciones de gestión")
     sections.set_value("Trazabilidad").run()
     assert not app.exception
-    indicators = app.dataframe[0].value["Indicador"].tolist()
-    assert "Próximo paso válido dentro del plazo" in indicators
-    assert any("Sin AWS en la prueba." in c.value for c in app.caption)
     html = " ".join(h.proto.body for h in app.get("html"))
-    assert "no es posible demostrar que la meta de 75%" in html
+    assert "trace-journey" in html
+    assert all(label in html for label in ("Ingresó al sistema", "Aceptó condiciones", "Avanzó"))
+    assert "trace-milestone" in html
+    assert any("Escenario de uso simulado" in c.value for c in app.caption)
+    assert any("≥75%" in c.value for c in app.caption)
+    assert any(metric.label == "Sesiones" for metric in app.metric)
+    assert app.get("arrow_vega_lite_chart")
+    app.checkbox(key="staff_trace_aws").check().run()
+    assert not app.exception
+    assert any("Sin AWS en la prueba." in c.value for c in app.caption)
