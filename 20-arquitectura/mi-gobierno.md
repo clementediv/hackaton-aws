@@ -1,5 +1,13 @@
 # Mi Gobierno
 
+## Acceso de demostración
+
+Al entrar desde Descubrir mis beneficios, el encabezado o la navegación, se solicita RUN y **ClaveÚnica de demostración**. El usuario confirmó expresamente que el acceso es ficticio. La clave de prueba es `demo2026`; la pantalla muestra un RUN de ejemplo y permite consultar otros perfiles sintéticos.
+
+`ruta/demo_auth.py` normaliza RUN con/sin puntos, valida el dígito y exige que exista entre los perfiles vivos de la demo. La sesión guarda el identificador del perfil, no la clave; el valor del campo contraseña se retira del estado al enviar el formulario, también si hay error. Cerrar sesión limpia el estado personal y el chat, sin borrar documentos persistidos. No se permite cambiar de persona desde el selector lateral: para otro perfil se vuelve a ingresar.
+
+Este acceso no se conecta a ClaveÚnica ni consulta datos reales. No equivale al consentimiento para usar antecedentes: la autorización sigue siendo explícita y revocable. La autenticación real futura debe usar el flujo de redirección oficial y una integración registrada, no pedir la contraseña real dentro de la app. Referencia: [integración institucional de ClaveÚnica](https://www.claveunica.gob.cl/instituciones).
+
 Beneficios incorpora el Asistente de ayuda compartido al lado del listado. Usa el perfil seleccionado y el mismo motor/consentimiento que la ruta; antes de autorizar solo recibe el contexto permitido. Datos personales no renderiza otro chatbot. La guía de un beneficio conserva su asistente.
 
 **Navegación vigente:** Mi Gobierno abre en Beneficios. Datos personales es una vista separada con las cinco secciones y todos los tipos de adjuntos. Cada beneficio despliega sus requisitos y permite adjuntar los documentos de apoyo faltantes allí mismo.

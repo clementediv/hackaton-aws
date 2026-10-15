@@ -4,6 +4,10 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Acceso personalizado de demostración
+- Descubrir mis beneficios y Mi Gobierno muestran un acceso RUN/clave ficticia. Se verifica el dígito y que el RUN exista en el dataset; la sesión queda vinculada a ese perfil y puede cerrarse. No se registra la clave ni se envía a servicios externos.
+- Modo demostración confirmado por el usuario. No hay autenticación real de ClaveÚnica ni consulta de registros reales; entrar no otorga consentimiento para los antecedentes. [[mi-gobierno]].
+
 ### 2026-10-15 · Integración para main · ff8c1d8
 - Aporte completo guardado en `ff8c1d8`. Integrada la documentación remota de seguimiento de contacto (`65e46bb`); la bitácora diaria conserva ambos aportes. No hay cambios remotos de código que alteren la validación: 139 pruebas y 500 perfiles OK.
 

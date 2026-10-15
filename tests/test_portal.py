@@ -94,7 +94,7 @@ def test_portal_navigation_search_and_official_links(tmp_path, monkeypatch):
     app.button(key="home_government_access").click().run()
     assert not app.exception
     assert app.session_state["portal_section"] == "Mi Gobierno"
-    assert any(button.label == "Activar Mi Gobierno" for button in app.button)
+    assert any(button.label == "Ingresar a Mi Gobierno" for button in app.button)
     app.radio(key="portal_section").set_value("Ayuda para tus trámites").run()
     assert not app.exception
     assert any(button.label == "Sí, quiero que me acompañen" for button in app.button)

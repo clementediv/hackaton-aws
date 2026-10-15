@@ -65,6 +65,14 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
     app.button(key="header_government").click().run()
     assert not app.exception
+    assert len(app.chat_input) == 0
+    demo_run = app.selectbox(key="gov_demo_example").value
+    app.text_input(key="gov_login_rut").set_value(demo_run)
+    app.text_input(key="gov_login_password").set_value("demo2026")
+    next(button for button in app.button if button.label == "Ingresar a Mi Gobierno").click().run()
+    assert not app.exception
+    assert app.session_state["government_login_run"] == demo_run
+    assert not app.session_state.filtered_state.get("gov_login_password", "")
     assert not any(button.label == "Cobrar beneficio" for button in app.button)
     app.chat_input[0].set_value("¿Qué es la PGU?").run()
     assert not app.exception
@@ -150,3 +158,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     ui_cases.autorizar(run, True, "Web")
     assert ui_gov.list_documents(run) == []
     assert ui_gov.load_profile(run) == {}
+    app.button(key="government_logout").click().run()
+    assert not app.exception
+    assert "government_login_run" not in app.session_state
+    assert any(item.label == "RUN" for item in app.text_input)
