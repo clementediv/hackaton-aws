@@ -155,9 +155,38 @@ def render_discovery() -> None:
 
 
 def _queue_home_question(question: str) -> None:
-    st.session_state["portal_pending_question"] = question
-    st.session_state["portal_next_section"] = "Mi Gobierno"
-    st.rerun(scope="app")
+    st.session_state["public_chat_pending"] = question
+    st.switch_page(st.Page(render_chat_page, title="Asistente ChileAtiende", url_path="chat"))
+
+
+def render_chat_page() -> None:
+    from ruta.asistente import responder_publico
+
+    st.markdown(_portal_styles(), unsafe_allow_html=True)
+    st.page_link(st.session_state["portal_home_page"], label="← Volver a Inicio")
+    with st.container(key="public_chat"):
+        st.markdown('<span class="agent-label">CHILEATIENDE</span>', unsafe_allow_html=True)
+        st.title("Conversemos sobre tus trámites")
+        st.caption("Orientación general con fuentes oficiales. No ingreses claves ni datos personales.")
+        history = st.session_state.setdefault("public_chat_history", [])
+        pending = st.session_state.pop("public_chat_pending", None)
+        if pending:
+            with st.spinner("Preparando tu respuesta…"):
+                answer, engine = responder_publico(pending, history)
+            st.session_state["public_chat_engine"] = engine
+            history.extend([{"rol": "user", "texto": pending}, {"rol": "assistant", "texto": answer}])
+        if not history:
+            st.chat_message("assistant").write("Hola. ¿En qué te ayudo hoy? Puedes preguntarme por PGU, documentos o cómo comenzar tu ruta.")
+        for message in history:
+            st.chat_message(message["rol"]).write(message["texto"])
+        if st.session_state.get("public_chat_engine") == "plantillas" and history:
+            st.caption("Orientación con respuestas predefinidas y fuentes oficiales.")
+        if question := st.chat_input("Pregunta lo que necesites", max_chars=2000):
+            st.session_state["public_chat_pending"] = question
+            st.rerun()
+        if history and st.button("Nueva conversación", key="public_chat_reset"):
+            st.session_state["public_chat_history"] = []
+            st.rerun()
 
 
 def _render_home_banner() -> None:

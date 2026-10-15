@@ -286,19 +286,30 @@ def vista_oficina(diags):
 
 
 # --------------------------------------------------------------------------
-diags = diagnosticos()
-if next_section := st.session_state.pop("portal_next_section", None):
-    st.session_state["portal_section"] = next_section
-section = portal.render_header()
-portal.hero(section)
-with st.sidebar:
-    st.title("Controles de demostración")
-    st.caption("Perfiles sintéticos · El organismo valida y resuelve.")
-    st.divider()
-if section == "Vista ejecutivo":
-    vista_oficina(diags)
-elif section == "Inicio":
-    portal.render_discovery()
-elif section == "Mi Gobierno":
-    ui_government.render(diags)
-portal.render_footer()
+def render_portal() -> None:
+    diags = diagnosticos()
+    if next_section := st.session_state.pop("portal_next_section", None):
+        st.session_state["portal_section"] = next_section
+    section = portal.render_header()
+    portal.hero(section)
+    with st.sidebar:
+        st.title("Controles de demostración")
+        st.caption("Perfiles sintéticos · El organismo valida y resuelve.")
+        st.divider()
+    if section == "Vista ejecutivo":
+        vista_oficina(diags)
+    elif section == "Inicio":
+        portal.render_discovery()
+    elif section == "Mi Gobierno":
+        ui_government.render(diags)
+    portal.render_footer()
+
+
+st.session_state["portal_home_page"] = st.Page(render_portal, title="ChileAtiende", default=True)
+st.navigation(
+    [
+        st.session_state["portal_home_page"],
+        st.Page(portal.render_chat_page, title="Asistente ChileAtiende", url_path="chat"),
+    ],
+    position="hidden",
+).run()
