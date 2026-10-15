@@ -12,7 +12,54 @@ revision: 2026-10-15 (estado real del código y detección proactiva en AWS)
 2. **Agente** (`src/agent/`, `src/contracts/`, `src/tools/`): Bedrock Converse con herramientas; el chatbot de la app lo usa.
 3. **Detección proactiva en AWS** (`src/proactivo/`, `infra/`): **desplegada** en la cuenta del evento. Un cambio en los datos de una persona dispara la detección y un email real (SES). Diseño en [[deteccion-proactiva-aws]].
 
-Los bloques 1 y 3 **todavía no comparten datos**: la app usa su SQLite y su motor (`src/app/ruta/reglas.py`); AWS usa DynamoDB y el catálogo de `src/proactivo/`. Unificarlos es el siguiente paso (ver al final).
+Los bloques 1 y 3 se conectan **solo para lectura**: la pestaña **Contactos AWS** y la ficha del beneficiario de la app muestran lo que AWS detectó, envió y registró (`src/app/ruta/aws_contactos.py`). La app sigue usando su SQLite y su motor (`src/app/ruta/reglas.py`) para lo demás; unificar el motor es el siguiente paso (ver al final).
+
+## Explicado sin tecnicismos
+Para quien no viene de ingeniería de software: así funciona la parte automática, como si fuera una oficina con personas y muebles. Cada caja dice entre paréntesis cómo se llama la pieza real.
+
+```mermaid
+flowchart TD
+  A["📒 <b>La libreta de personas</b><br/>Una hoja por persona: edad, hijos,<br/>estado civil, tramo RSH…<br/><i>(tabla ca-personas)</i>"]
+  A -->|"alguien cambia un dato<br/>(p. ej. Jorge cumple 65)"| B["🔔 <b>El timbre</b><br/>Suena solo cada vez<br/>que se escribe en la libreta<br/><i>(DynamoDB Stream)</i>"]
+  CAL["📅 <b>El calendario</b><br/>Cada mañana revisa cumpleaños:<br/>64 · 64 y 8 meses · 65<br/><i>(revisión diaria)</i>"] --> C
+  B --> C["🕵️ <b>El revisor</b><br/>Lee la hoja y la compara<br/>con la lista de requisitos<br/><i>(Lambda detector)</i>"]
+  L["📋 <b>La lista de beneficios</b><br/>Requisitos de cada uno:<br/>PGU, SUF, Subsidio Eléctrico…<br/><i>(tabla ca-beneficios)</i>"] --> C
+  C -->|"¿podría recibirlo<br/>y aún no lo recibe?"| D{"¿Sí?"}
+  D -->|no| N["😴 No hace nada"]
+  D -->|sí| E["✉️ <b>El cartero</b><br/>Envía un email con<br/>un solo botón<br/><i>(Amazon SES)</i>"]
+  E --> F["🗂️ <b>El archivador</b><br/>Anota todo: se envió, lo abrió,<br/>entró, respondió<br/><i>(tablas ca-contactos y ca-historial)</i>"]
+  E --> P["👤 <b>La persona</b><br/>recibe el email"]
+  P -->|"aprieta el botón"| G["🚪 <b>La ventanilla de respuestas</b><br/>Anota «aceptó» y muestra<br/>el próximo paso<br/><i>(Function URL)</i>"]
+  G --> F
+  R["⏰ <b>El despertador</b><br/>Cada minuto pregunta:<br/>¿quién no ha respondido?<br/><i>(escalador)</i>"] --> F
+  R -->|"sin respuesta"| S["📱 Mensaje de texto<br/>(simulado)"]
+  S -->|"sigue sin respuesta"| T["🚶 <b>Equipo en terreno</b><br/>visita a la persona"]
+  F --> V["🖥️ <b>La pantalla del ejecutivo</b><br/>Ve todo lo anotado<br/><i>(app · pestaña Contactos AWS)</i>"]
+```
+
+**Un ejemplo con Jorge, paso a paso**
+1. **Jorge cumple 64.** El calendario lo nota y el revisor ve que en 9 meses podrá pedir la PGU. El cartero le envía «Prepare su trámite» con la lista de documentos. Es solo un aviso: nadie lo persigue si no responde.
+2. **Jorge cumple 64 años y 8 meses.** Llega «Falta un mes: el … se abre su solicitud».
+3. **Jorge cumple 65.** Llega «Felicitaciones: aparentemente usted es elegible para la PGU», con un botón.
+4. **Si aprieta el botón,** la ventanilla anota «aceptó» y le muestra su próximo paso. Se acaba el contacto.
+5. **Si no responde,** a los 5 minutos de demo (en la vida real serían días) el despertador manda un SMS, y si sigue sin responder, lo asigna al equipo en terreno.
+6. **Todo el tiempo,** el ejecutivo puede ver en la app en qué paso va Jorge y qué se le envió.
+
+**Tres reglas que nunca cambian**
+- **Decide el código, no la IA:** los requisitos están escritos en la lista y se comparan siempre igual.
+- **Todo es «aparente»:** el correo orienta; el IPS revisa y resuelve. Los montos son referenciales.
+- **Abrir no es responder:** solo apretar el botón (o una respuesta por teléfono o en terreno) detiene el contacto.
+
+| Palabra técnica | En simple | En nuestro proyecto |
+|---|---|---|
+| Base de datos / tabla | Un cuaderno ordenado | `ca-personas`, `ca-beneficios`, `ca-contactos`, `ca-historial` (DynamoDB) |
+| Stream | Un timbre que suena al escribir en el cuaderno | Avisa al revisor cada vez que cambia una persona |
+| Lambda | Un trabajador que solo aparece cuando lo llaman | Revisor, despertador, calendario y ventanilla |
+| EventBridge | Un despertador o calendario | Cada minuto (escalar) y cada mañana (cumpleaños) |
+| SES | Un servicio de correo | Envía los emails reales (por ahora solo a casillas verificadas) |
+| Function URL | Una dirección web pública | Donde llegan los clics del botón del email |
+| CDK / desplegar | La receta para armar todo en AWS de una vez | Carpeta `infra/`; `cdk deploy` arma o actualiza la oficina |
+| Streamlit | La pantalla de la demo | La app con el portal ciudadano y las herramientas del ejecutivo |
 
 Reglas vigentes: [[0012-detener-contacto-confirmado]] (responder o aceptar detiene los canales siguientes; abrir no), elegibilidad y plazos en código con fuente, todo resultado es **aparente** y los montos son **referenciales**. Decisiones previas: [[0002-seleccion-reto]], [[0003-orquestacion-agente]], [[0004-mvp-jubilacion-pgu]], [[0005-asistente-contacto-escalonado]].
 
@@ -66,12 +113,14 @@ flowchart TB
   subgraph APP["App de demostración · Streamlit (src/app) · local"]
     direction LR
     CIU["Ciudadano<br/>Inicio · Mi Gobierno ·<br/>Ayuda para tus trámites"]
-    EJE["Ejecutivo<br/>Mapa y campañas · Detectar e invitar ·<br/>Ficha · Atención del caso · Medición"]
+    EJE["Ejecutivo<br/>Mapa y campañas · Detectar e invitar ·<br/>Ficha · Contactos AWS · Atención · Medición"]
     CIU & EJE --> MOT["Motor ruta/<br/>reglas · rutas · casos ·<br/>colador · campañas"]
     MOT --> SQL[("SQLite<br/>casos.db · funnel-*.db")]
     CIU --> BOT["chatbot.py"]
   end
   BOT --> AG["Agente<br/>Bedrock Converse + tools<br/>Claude Sonnet 5"]
+  EJE -->|"solo lectura"| CO
+  EJE -->|"solo lectura"| HI
   DS[("Dataset A<br/>500 perfiles sintéticos")] --> MOT
   DS -->|carga| P
   CX[("Capa de contacto sintética<br/>data/synthetic/contacto.csv")] --> MOT
@@ -82,7 +131,7 @@ flowchart TB
 | # | Componente | Dónde | Estado |
 |---|---|---|---|
 | 1 | **Portal ciudadano** | `src/app/app.py`, `portal.py`, `ui_persona.py`, `ui_government.py` | Hecho (Streamlit local): Inicio, Mi Gobierno, Ayuda para tus trámites |
-| 2 | **Herramientas del ejecutivo** | `ui_campanas.py`, `ui_embudo.py`, `ui_ficha.py`, `app.py` | Hecho: mapa de calor y campañas, detectar e invitar, ficha, atención del caso, medición |
+| 2 | **Herramientas del ejecutivo** | `ui_campanas.py`, `ui_embudo.py`, `ui_ficha.py`, `ui_aws.py`, `app.py` | Hecho: mapa de calor y campañas, detectar e invitar, ficha, **contactos AWS**, atención del caso, medición |
 | 3 | **Motor de reglas PGU y rutas (app)** | `src/app/ruta/reglas.py`, `rutas.py` | Hecho; verificado con `verificar.py` sobre los 500 perfiles |
 | 4 | **Colador de contacto (app)** | `src/app/ruta/colador.py` | Hecho en simulación con reloj; contacto confirmado detiene los canales |
 | 5 | **Heatmap y área de campaña** | `campanas.py`, `despliegue.py`, `geografia.py` | Hecho con direcciones ficticias en la RM |
@@ -93,6 +142,7 @@ flowchart TB
 | 10 | **Contacto multicanal en AWS** | λ `ca-escalador`, `ca-respuesta`, SES | **Desplegado**: email real a casillas verificadas, SMS simulado, terreno; registra envío, apertura, clic y respuesta |
 | 11 | **Correos** | `src/proactivo/mensajes.py` | Hecho: marca ChileAtiende · Instituto de Previsión Social, registro formal, 1 botón, aviso de resultado aparente y montos referenciales |
 | 12 | **Infraestructura** | `infra/` (CDK, stack `ChileAtiendeProactivo`) | Desplegado; guía en `infra/README.md` |
+| 12b | **Lectura de AWS en la app** | `src/app/ruta/aws_contactos.py`, `ui_aws.py` | Hecho: métricas, filtros, tabla de contactos e historial por persona; también en la ficha. Si las credenciales vencen, avisa en vez de fallar |
 | 13 | **Alerta CESFAM** | — | Por hacer (base legal pendiente) |
 | 14 | **Simulador y medición del KPI ≥75%** | — | Por hacer |
 
@@ -114,7 +164,7 @@ flowchart TB
 La detección proactiva y los correos **no usan LLM**: son reglas y plantillas deterministas.
 
 ## Próximos pasos
-1. **Unificar datos:** que la app lea `ca-contactos` y `ca-historial` (ficha del beneficiario y embudo) en vez de su SQLite, o que el colador escriba en DynamoDB.
+1. **Unificar datos:** la app ya **lee** `ca-contactos` y `ca-historial`; falta que el colador y los casos de la app escriban en DynamoDB en vez de SQLite.
 2. **Unificar motores:** un solo motor PGU (app y AWS hoy tienen reglas equivalentes por separado) y exponerlo al agente como `evaluar_pgu` / `calcular_hitos`.
 3. **Verificar el catálogo** con las fichas oficiales: hoy solo la PGU está verificada; el umbral de «6 meses fuera de Chile» no está confirmado con el IPS.
 4. Alerta CESFAM, medición del KPI de próximo paso y simulador.
@@ -126,4 +176,4 @@ La detección proactiva y los correos **no usan LLM**: son reglas y plantillas d
 - [x] Frontend de la demo: Streamlit
 - [x] Envío de emails: **real con SES** solo a casillas verificadas (sandbox); SMS y llamadas **simulados** → [[deteccion-proactiva-aws]]
 - [ ] Base legal del contacto laboral, de la alerta CESFAM y uso de la marca ChileAtiende: confirmar con los mentores
-- [ ] Datos únicos entre la app y AWS
+- [ ] Datos únicos entre la app y AWS (hoy: la app lee AWS, pero escribe en SQLite)

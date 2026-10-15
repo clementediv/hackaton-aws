@@ -6,6 +6,7 @@ For officers and social workers. Reads the same sources as every other view
 
 import pandas as pd
 import streamlit as st
+import ui_aws
 from ruta import reglas as rules
 from ruta.datos import cargar_perfiles
 from ruta.fechas import fmt
@@ -159,6 +160,14 @@ def render(diags) -> None:
                     hide_index=True,
                     use_container_width=True,
                 )
+
+    with st.container(border=True):
+        st.markdown("**Contactos proactivos (AWS)**")
+        ok, message = ui_aws.status()
+        if ok:
+            ui_aws.render_person(run)
+        else:
+            st.caption(message)
 
     with st.expander(f"Historial por canal ({len(f.events)} eventos)"):
         if f.events:
