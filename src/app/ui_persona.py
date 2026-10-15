@@ -353,7 +353,10 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
                     preguntar(q)
                     st.rerun()
 
-        if not sidebar:
+        if sidebar:
+            with st.expander("Preguntas frecuentes"):
+                preguntas_rapidas()
+        else:
             preguntas_rapidas()
         mensajes = st.container(height=240 if sidebar else 360, border=not sidebar)
         for i, m in enumerate(hist):

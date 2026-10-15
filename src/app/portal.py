@@ -37,8 +37,7 @@ SERVICES = (
 
 
 CITIZEN_SECTIONS = ["Inicio", "Mi Gobierno", "Ayuda para tus trámites"]
-# All back-office tools live under a single portal entry.
-OFFICE_SECTIONS = ["Vista ejecutivo"]
+# Back-office tools are reached from the demonstration sidebar.
 EXECUTIVE_SECTIONS = [
     "Mapa de calor y campañas",
     "Detectar e invitar",
@@ -55,11 +54,13 @@ def render_header() -> str:
     if previous in EXECUTIVE_SECTIONS and previous != "Atención del caso":
         st.session_state["executive_section"] = previous
         st.session_state["portal_section"] = "Vista ejecutivo"
+    if st.session_state.get("portal_section") == "Vista ejecutivo":
+        _open_executive()
     if st.session_state.get("portal_section") in ("Trámites", "Mi ruta"):
         st.session_state["portal_section"] = "Inicio"
     logo = base64.b64encode(LOGO.read_bytes()).decode("ascii")
     with st.container(key="portal_header"):
-        brand, search, utilities = st.columns([1.2, 2.2, 1.8], vertical_alignment="center")
+        brand, search, utilities = st.columns([1.2, 2.8, 1.2], vertical_alignment="center")
         brand.markdown(
             f'<a href="{BASE_URL}" target="_blank" rel="noopener noreferrer">'
             f'<img class="portal-logo" alt="ChileAtiende" '
@@ -69,23 +70,27 @@ def render_header() -> str:
         with search:
             render_search()
         with utilities:
-            network, account = st.columns([1, 1.1], vertical_alignment="center")
-            network.link_button("Red de atención", BASE_URL + "/ayuda", use_container_width=True)
-            account.button(
-                "Mi Gobierno",
-                key="header_government",
-                on_click=open_section,
-                args=("Mi Gobierno",),
-                use_container_width=True,
-            )
-    return st.radio(
+            st.link_button("Red de atención", BASE_URL + "/ayuda", use_container_width=True)
+    selected = st.radio(
         "Secciones del portal",
-        CITIZEN_SECTIONS + OFFICE_SECTIONS,
+        CITIZEN_SECTIONS,
         index=0,
         horizontal=True,
         label_visibility="collapsed",
         key="portal_section",
+        on_change=_leave_executive,
     )
+    st.sidebar.button("Vista ejecutivo", key="open_executive", on_click=_open_executive)
+    return "Vista ejecutivo" if st.session_state.get("portal_executive") else selected or "Inicio"
+
+
+def _open_executive() -> None:
+    st.session_state["portal_executive"] = True
+    st.session_state["portal_section"] = None
+
+
+def _leave_executive() -> None:
+    st.session_state.pop("portal_executive", None)
 
 
 def hero(section: str) -> None:
@@ -160,11 +165,13 @@ def render_discovery() -> None:
     styles = (assets / "official-home.css").read_text(encoding="utf-8")
     content = (assets / "official-home.html").read_text(encoding="utf-8")
     content = content.split("</section>", 1)[1]
+    ips_logo = base64.b64encode((assets / "IPS.png").read_bytes()).decode("ascii")
     with st.container(border=True, key="home_government"):
-        invitation, branding = st.columns([2.6, 1], gap="large", vertical_alignment="top")
-        with invitation, st.container(key="home_government_invitation"):
+        with st.container(key="home_government_invitation"):
             st.markdown(
                 '<div class="home-government">'
+                '<img class="home-ips-logo" alt="IPS, Instituto de Previsión Social" '
+                f'src="data:image/png;base64,{ips_logo}">'
                 "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
                 "<p>Descubre cuáles podrían corresponderte según tu situación. "
                 "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
@@ -179,17 +186,11 @@ def render_discovery() -> None:
                 args=("Mi Gobierno",),
                 key="home_government_access",
             )
-        with branding:
-            ips_logo = base64.b64encode((assets / "IPS.png").read_bytes()).decode("ascii")
-            st.markdown(
-                '<img class="home-ips-logo" alt="IPS, Instituto de Previsión Social" '
-                f'src="data:image/png;base64,{ips_logo}">',
-                unsafe_allow_html=True,
-            )
     st.html(f'<style>{styles}</style><div class="official-home">{content}</div>')
 
 
 def open_section(section: str) -> None:
+    _leave_executive()
     st.session_state["portal_section"] = section
 
 

@@ -88,7 +88,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     monkeypatch.setattr(ui_config, "DB_PATH", tmp_path / "gov-ui.db")
     monkeypatch.setattr(ui_config, "BEDROCK_MODEL_ID", "")
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
-    app.button(key="header_government").click().run()
+    app.radio(key="portal_section").set_value("Mi Gobierno").run()
     assert not app.exception
     assert len(app.chat_input) == 0
     demo_run = app.selectbox(key="gov_demo_example").value
@@ -119,6 +119,13 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     run = app.session_state["government_person"]
     assert app.session_state[f"government_view_{run}"] == "Beneficios"
     assert len(app.chat_input) == 1
+    assert any(section.label == "Preguntas frecuentes" for section in app.expander)
+    app.button(key=f"q-{run}-2").click().run()
+    assert not app.exception
+    assert any(
+        message["texto"] == "¿Qué documentos necesito?"
+        for message in app.session_state[f"chat-{run}"]
+    )
     assert any(item.placeholder == "Pregúntale al asistente de trámites" for item in app.chat_input)
     app.radio(key=f"government_view_{run}").set_value("Beneficios").run()
     cards = [element.value for element in app.markdown if "gov-requirement-card" in element.value]
