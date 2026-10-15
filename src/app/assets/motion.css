@@ -1,0 +1,63 @@
+/* Shared motion: short entrances and feedback, with no layout resizing. */
+@keyframes portal-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  :is(.st-key-government_login_card, .st-key-gov_pgu,
+      [class*="st-key-gov_benefit_"], .st-key-gov_chat_page) {
+    animation: portal-enter 320ms cubic-bezier(.2,.7,.3,1) both;
+  }
+  [class*="st-key-gov_benefit_"] { animation-duration: 400ms; }
+  .gov-timeline-step { animation: portal-enter 280ms ease-out both; }
+  .gov-timeline-step:nth-child(2) { animation-delay: 60ms; }
+  .gov-timeline-step:nth-child(3) { animation-delay: 120ms; }
+  [data-testid="stExpander"] details[open] > [data-testid="stExpanderDetails"] {
+    animation: portal-enter 200ms ease-out both;
+  }
+  :is(.st-key-gov_assistant, .st-key-agent_chat) [data-testid="stChatMessage"] {
+    animation: portal-enter 220ms ease-out both;
+  }
+  :is(.st-key-home_government, .st-key-government_login_card,
+      .st-key-gov_benefits_layout, .st-key-gov_subnav, .st-key-portal_header)
+      :is(button, [data-testid="stLinkButton"] a) {
+    transition: background-color 160ms ease, border-color 160ms ease,
+                box-shadow 160ms ease, transform 160ms ease;
+  }
+  .st-key-home_chat_preview {
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+  .st-key-home_chat_preview:focus-within {
+    border-color: #0f69b4;
+    box-shadow: 0 0 0 3px #0f69b414, 0 6px 20px #0d4d820a;
+  }
+  .official-home .card-link {
+    transition: box-shadow 180ms ease, transform 180ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .official-home .card-link:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 22px #143e5c12;
+    }
+    :is(.st-key-home_government, .st-key-government_login_card,
+        .st-key-gov_benefits_layout) button:not(:disabled):hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 9px #143e5c16;
+    }
+    :is(.st-key-home_government, .st-key-government_login_card,
+        .st-key-gov_benefits_layout) button:not(:disabled):active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .official-home .card-link,
+  :is(.st-key-home_government, .st-key-government_login,
+      .st-key-gov_benefits_layout, .st-key-gov_subnav, .st-key-portal_header),
+  :is(.st-key-home_government, .st-key-government_login,
+      .st-key-gov_benefits_layout, .st-key-gov_subnav, .st-key-portal_header) * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

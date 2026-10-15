@@ -17,6 +17,7 @@ def _portal_styles() -> str:
         "<style>"
         + (LOGO.parent / "fonts.css").read_text(encoding="utf-8")
         + (LOGO.parent / "portal.css").read_text(encoding="utf-8")
+    + (LOGO.parent / "motion.css").read_text(encoding="utf-8")
         + "</style>"
     )
 
@@ -230,13 +231,6 @@ def _render_home_assistant() -> None:
                     _queue_home_question(question.strip())
                 else:
                     st.warning("Escribe una pregunta para continuar.")
-    with st.container(key="home_chat_suggestions"):
-        examples = st.columns(2)
-        for index, question in enumerate(("¿Qué es la PGU?", "¿Qué documentos necesito?")):
-            if examples[index].button(
-                question, key=f"home_example_{index}", use_container_width=True
-            ):
-                _queue_home_question(question)
 
 
 def open_section(section: str) -> None:
