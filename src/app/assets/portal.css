@@ -1,4 +1,5 @@
 :root {--portal-blue:#0f69b4;--portal-navy:#0d4d82;--portal-red:#eb3c46}
+[data-testid="InputInstructions"]{display:none!important}
 .stApp {background:#fff;color:#272727;font-family:Roboto,Arial,sans-serif}
 .block-container {max-width:1280px;padding-top:2rem;padding-bottom:2rem}
 [data-testid="stSidebar"] {background:#f7f7f7}
@@ -56,10 +57,8 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .portal-private {background:#fff;color:#0f69b4!important}
 .st-key-home_government{padding:48px 40px;border-radius:18px!important;background:linear-gradient(120deg,#edf5fa,#f8fafb);border:1px solid #deebf3!important;margin-top:16px}
 .home-government h1{font-family:"Roboto Slab",Georgia,serif;font-size:44px;line-height:1.25;letter-spacing:-.7px;color:#163e59;margin:0 0 24px}
-.home-government{position:relative;text-align:left}.home-government h1{padding-right:110px}.home-government p{font-size:19px;line-height:1.75;color:#536e81;max-width:720px;margin:0 0 28px}
+.home-government{position:relative;text-align:left}.home-government p{font-size:19px;line-height:1.75;color:#536e81;max-width:720px;margin:0 0 28px}
 .st-key-home_government_invitation [data-testid="stButton"]{display:flex;justify-content:flex-start}
-.st-key-home_government .home-ips-logo{position:absolute;top:-28px;right:-20px;display:block;width:100px;max-width:100%;height:auto;margin:0}
-@media(max-width:700px){.home-government{padding-top:78px}.home-government h1{padding-right:0}.st-key-home_government .home-ips-logo{width:72px;top:-14px;right:-6px}}
 .home-directory{padding-top:10px}.home-directory h3{font-family:"Roboto Slab",Georgia,serif;font-size:26px;color:#244e6c;margin:20px 0}.home-directory p{font-size:17px;line-height:1.75;color:#6c8292}
 .st-key-home_government [data-testid="stLinkButton"] a{min-height:52px;border-radius:10px}.st-key-home_government [data-testid="stLinkButton"] a p{font-size:16px}
 .st-key-home_government [data-testid="stBaseButton-primary"]{background:#0f69b4;color:#fff;border:1px solid #0f69b4;border-radius:4px;padding:12px 24px;min-height:52px;max-width:100%;box-shadow:none;transition:background .15s}
@@ -109,3 +108,16 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 [data-testid="stForm"]:has(input[aria-label="Describe lo que necesitas"]) button:hover {background:#0f69b4}
 .directory-symbol {display:flex;width:48px;height:48px;align-items:center;justify-content:center;border-radius:50%;background:#edf3f7;color:#0f69b4;font-size:25px;margin-bottom:28px}
 @media(max-width:700px){.portal-header{height:auto;padding:18px 0;gap:12px;flex-wrap:wrap}.portal-logo{width:190px;height:60px}.portal-utilities{gap:8px;font-size:12px}.portal-utilities a{padding:8px}.portal-hero h1{font-size:22px}.block-container{padding-left:18px;padding-right:18px}}
+/* Two clear entry points in the same rotating banner. */
+.st-key-home_banner_controls{margin-top:28px;padding-top:20px;border-top:1px solid #d7e4ee}
+.st-key-home_banner_controls [role="radiogroup"]{gap:8px;border:0!important;padding:0!important}
+.st-key-home_banner_controls label[data-baseweb="radio"]{padding:8px 14px;margin:0;border:1px solid transparent;border-radius:5px;gap:0;min-height:40px}
+.st-key-home_banner_controls label[data-baseweb="radio"]>div:first-child{display:none}
+.st-key-home_banner_controls label[data-baseweb="radio"]>div:last-child{padding:0;margin:0}
+.st-key-home_banner_controls label:has(input:checked){background:#fff;border-color:#bfd0df;color:#0d4d82}
+.st-key-home_banner_controls label p{font-size:14px!important}
+.st-key-home_banner_controls label:focus-within{outline:2px solid #0f69b4;outline-offset:2px}
+.st-key-home_chat_preview{max-width:720px;padding:20px;border:1px solid #d4e2ed;border-radius:10px;background:#fff}
+.st-key-home_chat_preview [data-testid="stForm"]{padding:0;border:0}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{background:#0f69b4;border-color:#0f69b4;color:white;min-height:46px;border-radius:4px}
+@media(max-width:700px){.st-key-home_chat_preview{padding:14px}.st-key-home_banner_controls{margin-top:24px}}

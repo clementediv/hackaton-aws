@@ -4,6 +4,10 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Banner con acceso al asistente
+- Banner alterna beneficios y asistente cada 10 segundos, con selección manual y pausa. Probar detiene la rotación, conserva la pregunta y la lleva una sola vez al asistente existente, sin consentir antecedentes automáticamente.
+- Retirado el logo superior derecho de las dos vistas y ocultas las instrucciones inglesas de envío en todos los campos. Diez pruebas verifican giro, pausa, borrador, envío y flujos de acceso/datos. [[portada-chileatiende]].
+
 ### 2026-10-15 · Limpiar textos del formulario
 - Retirados subtítulo, recuadro Prueba el portal y nota inferior. Texto/placeholder centrados verticalmente en los campos, manteniendo la autenticación de demostración existente. [[mi-gobierno]].
 

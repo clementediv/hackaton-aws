@@ -4,6 +4,7 @@ import base64
 import unicodedata
 from html import escape
 from pathlib import Path
+from time import monotonic
 from urllib.parse import quote
 
 import streamlit as st
@@ -165,28 +166,114 @@ def render_discovery() -> None:
     styles = (assets / "official-home.css").read_text(encoding="utf-8")
     content = (assets / "official-home.html").read_text(encoding="utf-8")
     content = content.split("</section>", 1)[1]
-    ips_logo = base64.b64encode((assets / "IPS.png").read_bytes()).decode("ascii")
-    with st.container(border=True, key="home_government"):
-        with st.container(key="home_government_invitation"):
-            st.markdown(
-                '<div class="home-government">'
-                '<img class="home-ips-logo" alt="IPS, Instituto de Previsión Social" '
-                f'src="data:image/png;base64,{ips_logo}">'
-                "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
-                "<p>Descubre cuáles podrían corresponderte según tu situación. "
-                "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
-                "en un solo lugar.</p>"
-                "</div>",
-                unsafe_allow_html=True,
-            )
-            st.button(
-                "Ver mis beneficios",
-                type="primary",
-                on_click=open_section,
-                args=("Mi Gobierno",),
-                key="home_government_access",
-            )
+    _render_home_banner()
     st.html(f'<style>{styles}</style><div class="official-home">{content}</div>')
+
+
+def _pause_home_banner() -> None:
+    st.session_state["home_banner_auto"] = False
+
+
+def _open_home_chat() -> None:
+    _pause_home_banner()
+    st.session_state["home_banner_chat_open"] = True
+
+
+def _queue_home_question(question: str) -> None:
+    st.session_state["portal_pending_question"] = question
+    st.session_state["portal_next_section"] = "Ayuda para tus trámites"
+    st.rerun(scope="app")
+
+
+@st.fragment(run_every="10s")
+def _render_home_banner() -> None:
+    now = monotonic()
+    previous = st.session_state.setdefault("home_banner_last_rotation", now)
+    slide = st.session_state.setdefault("home_banner_slide", "Beneficios")
+    if st.session_state.get("home_banner_auto", True) and now - previous >= 10:
+        st.session_state["home_banner_slide"] = (
+            "Asistente IA" if slide == "Beneficios" else "Beneficios"
+        )
+        st.session_state["home_banner_last_rotation"] = now
+    with st.container(border=True, key="home_government"):
+        if st.session_state["home_banner_slide"] == "Asistente IA":
+            _render_home_assistant()
+        else:
+            _render_home_benefits()
+        with st.container(key="home_banner_controls"):
+            navigation, playback = st.columns([3, 1], vertical_alignment="center")
+            with navigation:
+                st.radio(
+                    "Explora nuestros servicios",
+                    ["Beneficios", "Asistente IA"],
+                    horizontal=True,
+                    label_visibility="collapsed",
+                    key="home_banner_slide",
+                    on_change=_pause_home_banner,
+                )
+            with playback:
+                st.toggle("Rotación automática", value=True, key="home_banner_auto")
+
+
+def _render_home_benefits() -> None:
+    with st.container(key="home_government_invitation"):
+        st.markdown(
+            '<div class="home-government">'
+            "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
+            "<p>Descubre cuáles podrían corresponderte según tu situación. "
+            "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
+            "en un solo lugar.</p>"
+            "</div>",
+            unsafe_allow_html=True,
+        )
+        st.button(
+            "Ver mis beneficios",
+            type="primary",
+            on_click=open_section,
+            args=("Mi Gobierno",),
+            key="home_government_access",
+        )
+
+
+def _render_home_assistant() -> None:
+    st.markdown(
+        '<div class="home-government home-assistant-intro">'
+        "<h1>¿Necesitas ayuda<br>con un trámite?</h1>"
+        "<p>Prueba el asistente de inteligencia artificial. Cuéntale tu duda "
+        "y encuentra por dónde empezar.</p></div>",
+        unsafe_allow_html=True,
+    )
+    if not st.session_state.get("home_banner_chat_open"):
+        st.button(
+            "Probar el asistente",
+            type="primary",
+            key="home_try_assistant",
+            on_click=_open_home_chat,
+        )
+        return
+    with st.container(key="home_chat_preview"):
+        st.markdown("**Asistente de ayuda**")
+        st.write("Hola. ¿Qué necesitas saber sobre tu trámite?")
+        with st.form("home_agent_question"):
+            question = st.text_input(
+                "Escribe tu pregunta",
+                key="home_agent_question_text",
+                placeholder="Por ejemplo: ¿Qué es la PGU?",
+                max_chars=2000,
+            )
+            if st.form_submit_button("Preguntar al asistente", type="primary"):
+                if question.strip():
+                    _queue_home_question(question.strip())
+                else:
+                    st.warning("Escribe una pregunta para continuar.")
+        st.caption("Tu pregunta continuará en el asistente de ayuda.")
+        st.write("También puedes probar con:")
+        examples = st.columns(2)
+        for index, question in enumerate(("¿Qué es la PGU?", "¿Qué documentos necesito?")):
+            if examples[index].button(
+                question, key=f"home_example_{index}", use_container_width=True
+            ):
+                _queue_home_question(question)
 
 
 def open_section(section: str) -> None:

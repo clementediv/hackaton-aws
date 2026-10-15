@@ -98,3 +98,47 @@ def test_portal_navigation_search_and_official_links(tmp_path, monkeypatch):
     app.radio(key="portal_section").set_value("Ayuda para tus trámites").run()
     assert not app.exception
     assert any(button.label == "Sí, quiero que me acompañen" for button in app.button)
+
+
+def test_home_banner_rotates_pauses_and_passes_question_to_assistant(tmp_path, monkeypatch):
+    from streamlit.testing.v1 import AppTest
+
+    app_dir = Path(__file__).resolve().parents[1] / "src/app"
+    monkeypatch.syspath_prepend(str(app_dir))
+    config = importlib.import_module("ruta.config")
+    monkeypatch.setattr(config, "DB_PATH", tmp_path / "carousel.db")
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "")
+    portal = importlib.import_module("portal")
+    clock = [100.0]
+    monkeypatch.setattr(portal, "monotonic", lambda: clock[0])
+    app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
+    assert app.button(key="home_government_access")
+    clock[0] = 111.0
+    app.run()
+    assert not app.exception
+    assert app.radio(key="home_banner_slide").value == "Asistente IA"
+    clock[0] = 122.0
+    app.run()
+    assert app.radio(key="home_banner_slide").value == "Beneficios"
+    app.radio(key="home_banner_slide").set_value("Asistente IA").run()
+    app.button(key="home_try_assistant").click().run()
+    assert not app.session_state["home_banner_auto"]
+    app.text_input(key="home_agent_question_text").set_value("¿Qué es la PGU?")
+    clock[0] = 200.0
+    app.run()
+    assert app.text_input(key="home_agent_question_text").value == "¿Qué es la PGU?"
+    next(button for button in app.button if button.label == "Preguntar al asistente").click().run()
+    assert not app.exception
+    assert app.session_state["portal_section"] == "Ayuda para tus trámites"
+    assert "portal_pending_question" not in app.session_state
+    history = [
+        value for key, value in app.session_state.filtered_state.items() if key.startswith("chat-")
+    ]
+    assert (
+        sum(
+            message["texto"] == "¿Qué es la PGU?"
+            for conversation in history
+            for message in conversation
+        )
+        == 1
+    )
