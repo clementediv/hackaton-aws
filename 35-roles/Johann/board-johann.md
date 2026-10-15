@@ -35,6 +35,7 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Introducción del acceso subida 18 px y campo simplificado a ClaveÚnica; selector de perfil ficticio conservado. [[mi-gobierno]].
 - Banner rotativo Beneficios/Asistente IA con pausa y prueba de consulta al chat existente; sin logo de esquina ni instrucciones inglesas en campos. Diez pruebas de flujo/modelo OK. [[portada-chileatiende]].
 - Acceso simplificado sin subtítulo ni recuadro de credenciales; texto y placeholder centrados verticalmente. [[mi-gobierno]].
 - Acceso sin rótulo MI GOBIERNO; títulos alineados arriba sin márgenes adicionales. [[mi-gobierno]].

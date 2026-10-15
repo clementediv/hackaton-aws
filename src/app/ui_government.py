@@ -100,9 +100,9 @@ def _login(diags) -> None:
                     "RUN", placeholder="Ej.: " + sample_run, key="gov_login_rut", max_chars=16
                 )
                 st.text_input(
-                    "ClaveÚnica de demostración",
+                    "ClaveÚnica",
                     type="password",
-                    placeholder="Ingresa la clave ficticia",
+                    placeholder="Ingresa tu clave",
                     key="gov_login_password",
                     max_chars=128,
                 )
@@ -122,7 +122,7 @@ def _login(diags) -> None:
             format_func=lambda run: f"{diags[run].nombre} · {run}",
             key="gov_demo_example",
         )
-        st.code(f"RUN: {selected}\nClave de demostración: {demo_auth.DEMO_PASSWORD}", language=None)
+        st.code(f"RUN: {selected}\nClave: {demo_auth.DEMO_PASSWORD}", language=None)
 
 
 def render(diags) -> None:
