@@ -69,6 +69,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 
 ## Hecho
 - [x] Merge de detección proactiva local y aportes remotos de Mi Gobierno, acceso demo y beneficios — `9626cac`; sin conflictos de texto, 174 pruebas y verificador de 500 perfiles OK; cambios locales sin commit conservados
+- [x] Integrado también el último aporte de ayuda audiovisual/documentos por requisito — `1932574`; conflicto de bitácora resuelto conservando ambos registros, 174 pruebas completas y verificador OK
 - [x] Chat con bienvenida breve, burbujas de persona diferenciadas y saludos sin repetir diagnóstico; preguntas no reconocidas piden aclaración. 153 pruebas, verificador y Chrome OK · commit «Mejorar la conversación y presentación del asistente» · [[mi-gobierno]].
 - [x] Campo para preguntar debajo del chat de Mi Gobierno, con historial reducido a 240 px y sin aviso del 101/sucursal · commit «Acercar la entrada al chat y retirar aviso de atención» · [[mi-gobierno]].
 - [x] Campo para preguntar justo debajo del encabezado del asistente de Mi Gobierno, antes del historial · commit «Subir el campo de consulta del asistente» · [[mi-gobierno]].

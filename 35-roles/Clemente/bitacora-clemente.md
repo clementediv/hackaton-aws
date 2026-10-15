@@ -9,6 +9,7 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
 ### 2026-10-15 · Merge de aportes locales y remotos · `9626cac`
+- Actualización `1932574`: el remoto avanzó con ayuda audiovisual y documentos por requisito (`947bacc`). Integrado también; único conflicto en la bitácora resuelto conservando ambas entradas. Repetición completa: 174 tests y verificador TODO OK. El laboratorio versionado también inicia y avanza correctamente, independientemente del cambio local sin commit.
 - Integrados los tres commits locales de despliegue/email proactivo con once commits remotos (Mi Gobierno, acceso demo, beneficios e investigación). Merge sin conflictos de texto; cambios locales previos sin commit preservados, incluido `demo_embudo.py`.
 - 174 pruebas completas, incluida la suite proactiva con Moto, y verificador de 500 perfiles TODO OK. Revisados consentimiento separado del acceso demo, catálogo educativo sin elegibilidad inventada y detención de contactos proactivos al responder.
 - Integración pendiente registrada: aceptación SQLite de Mi Gobierno y contactos DynamoDB proactivos aún no se sincronizan. No se ejecutó deploy ni envío real como parte de esta revisión.
