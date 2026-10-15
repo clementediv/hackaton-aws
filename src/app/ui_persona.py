@@ -346,19 +346,19 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
             preguntar(pending_question)
 
         def preguntas_rapidas():
-            cols = st.columns(1 if sidebar else 2)
             questions = [PREGUNTAS[2], PREGUNTAS[3]] if ctx["autorizado"] else [PREGUNTAS[0], PREGUNTAS[3]]
-            for i, q in enumerate(questions):
-                if cols[i % len(cols)].button(q, key=f"q-{run}-{i}", use_container_width=True):
-                    preguntar(q)
-                    st.rerun()
+            with st.container(key="assistant_quick_questions"):
+                cols = st.columns(2, gap="small")
+                for i, q in enumerate(questions):
+                    if cols[i].button(q, key=f"q-{run}-{i}", use_container_width=True):
+                        preguntar(q)
+                        st.rerun()
 
         mensajes = st.container(height=240 if sidebar else 360, border=not sidebar)
         for i, m in enumerate(hist):
             target = mensajes.container(key=f"gov_chat_{m['rol']}_{i}") if sidebar else mensajes
             avatar = None if sidebar else ("🧭" if m["rol"] == "assistant" else "🙂")
             target.chat_message(m["rol"], avatar=avatar).write(m["texto"])
-        st.caption("Preguntas frecuentes")
         preguntas_rapidas()
         if q := st.chat_input("Pregúntale al asistente de trámites"):
             preguntar(q)
