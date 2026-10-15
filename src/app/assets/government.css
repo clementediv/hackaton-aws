@@ -123,7 +123,9 @@
 .st-key-gov_subnav label[data-baseweb="radio"]:focus-within{outline:2px solid #0f69b4;outline-offset:2px}
 .st-key-gov_subnav label p{color:inherit!important;font-weight:600;font-size:15px}
 .st-key-gov_subnav label:has(input:checked) p{color:#fff!important}
-.gov-requirement-card{display:flex;gap:12px;padding:16px;margin:10px 0;border:1px solid;border-radius:12px;align-items:flex-start}
+.gov-requirement-card{box-sizing:border-box;display:flex;width:100%;max-width:100%;min-width:0;gap:12px;padding:16px;margin:10px 0;border:1px solid;border-radius:12px;align-items:center}
+.gov-requirement-card>div{flex:1;min-width:0}
+.gov-requirement-card strong{overflow-wrap:anywhere}
 .gov-requirement-card.ready{background:#edf8f1;border-color:#b8dfc7;color:#166145}
 .gov-requirement-card.pending{background:#fff8e8;border-color:#ead49a;color:#805b13}
 [class*="st-key-gov_requirement_"]:has(.gov-requirement-card){border:1px solid #b8dfc7;border-radius:12px;background:#edf8f1;margin:10px 0;overflow:hidden}
