@@ -212,14 +212,15 @@ def _render_home_assistant() -> None:
     )
     with st.container(key="home_chat_preview"):
         with st.form("home_agent_question", border=False):
-            question = st.text_input(
+            text_column, send_column = st.columns([5, 1], gap="small", vertical_alignment="center")
+            question = text_column.text_input(
                 "Escribe tu pregunta",
                 key="home_agent_question_text",
                 placeholder="Pregunta lo que necesites",
                 label_visibility="collapsed",
                 max_chars=2000,
             )
-            if st.form_submit_button("Enviar", type="primary", icon=":material/arrow_upward:"):
+            if send_column.form_submit_button("Enviar", type="primary", use_container_width=True):
                 if question.strip():
                     _queue_home_question(question.strip())
                 else:

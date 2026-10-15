@@ -169,3 +169,8 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .st-key-home_chat_preview [data-testid="stFormSubmitButton"] button:hover{background:#0d4d82;border-color:#0d4d82}
 .st-key-home_chat_suggestions button{border-color:#bfd6ec;color:#0d4d82;background:#fff}
 .st-key-home_chat_suggestions button:hover{border-color:#0f69c4;background:#e5f0fc;color:#0d4d82}
+.st-key-home_chat_preview [data-testid="stHorizontalBlock"]{flex-wrap:nowrap!important;gap:10px!important;align-items:center}
+.st-key-home_chat_preview [data-testid="stColumn"]{min-width:0!important}
+.st-key-home_chat_preview [data-testid="stColumn"]:first-child{flex:1 1 0!important;width:auto!important}
+.st-key-home_chat_preview [data-testid="stColumn"]:last-child{flex:0 0 82px!important;width:82px!important}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{width:100%;white-space:nowrap}
