@@ -174,3 +174,5 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .st-key-home_chat_preview [data-testid="stColumn"]:first-child{flex:1 1 0!important;width:auto!important}
 .st-key-home_chat_preview [data-testid="stColumn"]:last-child{flex:0 0 82px!important;width:82px!important}
 .st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{width:100%;white-space:nowrap}
+.home-benefit-examples{display:flex;flex-wrap:wrap;gap:10px;list-style:none!important;padding:0!important;margin:0 0 26px!important}
+.home-benefit-examples li{margin:0!important;padding:10px 14px;border:1px solid #bfd6ec;border-radius:12px;background:#fff;color:#0d4d82;font-size:14px;line-height:1.5}

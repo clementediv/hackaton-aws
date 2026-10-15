@@ -171,10 +171,15 @@ def _render_home_benefits() -> None:
     with st.container(key="home_government_invitation"):
         st.markdown(
             '<div class="home-government">'
-            "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
+            "<h1>Cobra beneficios gratis del Estado</h1>"
             "<p>Descubre cuáles podrían corresponderte según tu situación. "
             "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
             "en un solo lugar.</p>"
+            '<ul class="home-benefit-examples" aria-label="Ejemplos de beneficios">'
+            '<li>Pensión Garantizada Universal (PGU)</li>'
+            '<li>Gratuidad en educación superior</li>'
+            '<li>Becas de educación superior</li>'
+            '</ul>'
             "</div>",
             unsafe_allow_html=True,
         )
