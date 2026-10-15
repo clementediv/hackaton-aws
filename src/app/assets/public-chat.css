@@ -27,3 +27,7 @@
 .st-key-public_chat_header button p{font-size:13px;white-space:nowrap}
 @media(prefers-reduced-motion:no-preference){.public-chat-welcome,[class*="st-key-public_message_"]{animation:portal-enter 240ms ease-out both}.st-key-public_chat_header button{transition:background-color 160ms,border-color 160ms}}
 @media(max-width:600px){.stMainBlockContainer:has(.st-key-public_chat){padding:16px 16px 28px}.st-key-public_chat_header [data-testid="stHorizontalBlock"]{flex-wrap:nowrap;gap:8px}.st-key-public_chat_header [data-testid="stColumn"]{min-width:0!important}.st-key-public_chat_header [data-testid="stColumn"]:last-child{flex:0 0 150px;width:150px}.st-key-public_chat{margin-top:20px}.stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{padding:8px 16px 16px}.st-key-public_chat [data-testid="stChatMessage"] p{font-size:15px}[class*="st-key-public_message_user_"]{max-width:94%}}
+
+/* Keep voice controls beside the fixed message composer. */
+.st-key-public_chat_voice{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);width:min(760px,calc(100vw - 32px));z-index:90;background:#fff;border-radius:14px;padding:8px 0}
+.stMainBlockContainer:has(.st-key-public_chat){padding-bottom:250px}

@@ -70,3 +70,32 @@ Las consultas generales con Bedrock ya no dependen de una lista cerrada de frase
 solo se envía la pregunta actual, sin perfil ni historial personal revocado.
 Verificación: 31 pruebas enfocadas pasan y script 500 perfiles TODO OK.
 - 15-10: Pulido del chat publico: textarea contenido dentro del borde y sin padding que recorta lineas; burbuja de persona con altura suficiente para todo el texto. Chromium verifica banner, dos turnos, enlaces de fuentes y nueva conversacion a 390/900/1440 px. Cinco pruebas enfocadas OK. [[portal-ayuda-tramites]].
+
+## Conversación y voz · 15-10
+
+[[0016-conversacion-y-voz-del-navegador]] agrega estilo conversacional en ambos
+adaptadores. No se repite un menú ante frustración o mensajes ambiguos; se pide
+una aclaración breve y se responde la pregunta real aunque incluya una grosería.
+Mi Gobierno conserva solo turnos públicos en un historial separado cuando no hay
+permiso; al cambiar el consentimiento se reinicia ese historial y la lectura en voz alta.
+
+- **Hablar por micrófono**: solicita permiso del navegador, permite dictar, editar,
+  descartar y pulsar Enviar mensaje. No envía automáticamente lo reconocido.
+- **Leer respuestas en voz alta**: desactivado inicialmente; lee respuestas nuevas
+  con voz española. Escuchar respuesta reproduce a pedido y Detener voz cancela.
+  Dictar detiene la lectura para evitar que el asistente se escuche a sí mismo.
+- Si el navegador no admite dictado o niega el permiso, se indica cómo continuar
+  escribiendo. Las voces y el servicio de reconocimiento dependen del navegador.
+
+Verificación: 43 pruebas enfocadas pasan. Tres turnos reales con Sonnet 5 ante
+insulto, texto sin sentido y frustración produjeron respuestas distintas y pertinentes.
+El script `uv run --with playwright python scripts/verificar_dictado.py` verifica
+revisión, edición, envío único, errores de permiso, descarte, compatibilidad,
+lectura optativa en español, no reproducción repetida y pausa al dictar con motores
+simulados en Chromium. El micrófono físico y el sonido audible requieren prueba
+manual en el dispositivo. Capturas locales en /tmp/chat-voice-review.png y
+/tmp/chat-voice-app.png. App disponible en http://localhost:8501.
+
+Prueba de interfaz completa: una transcripción simulada se envió una sola vez
+mediante el componente Streamlit y recibió respuesta real de Bedrock. Prueba
+adicional de Mi Gobierno verifica reinicio de memoria general y lectura al revocar.

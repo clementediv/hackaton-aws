@@ -8,6 +8,10 @@ Una entrada por avance o commit relevante, la más reciente arriba.
 
 Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Conversación y voz del asistente · ver commit
+
+Estilo natural ante insultos, ruido y frustración, con memoria pública separada en Mi Gobierno y reinicio al cambiar permisos. Dictado editable con envío explícito y voz sintética opcional en español, escuchar/detener, pausa al dictar y prevención de duplicados. 43 pruebas enfocadas, tres turnos reales Sonnet 5 y controles Chromium simulados OK. [[0016-conversacion-y-voz-del-navegador]].
+
 ### 2026-10-15 · Elegibilidad personal del chat · 78bfcf6
 
 Corregida la frase exacta «puedo tener yo la pgu?» y variantes; sin permiso indica casilla y Activar Mi Gobierno, con permiso usa el agente y datos calculados. Consultas generales sin lista cerrada de palabras. 31 pruebas enfocadas y verificador TODO OK. [[portal-ayuda-tramites]].

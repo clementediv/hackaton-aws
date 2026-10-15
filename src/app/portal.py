@@ -200,6 +200,14 @@ def render_chat_page() -> None:
     if question := st.chat_input("Escribe tu pregunta sobre trámites o beneficios", max_chars=2000):
         st.session_state["public_chat_pending"] = question
         st.rerun()
+    from voice import voice_input
+
+    with st.container(key="public_chat_voice"):
+        latest_reply = next((m["texto"] for m in reversed(history) if m["rol"] == "assistant"), "")
+        spoken = voice_input(key="voice_public_chat", reply=latest_reply, message_id=str(len(history)))
+    if spoken:
+        st.session_state["public_chat_pending"] = spoken
+        st.rerun()
     with st.container(key="public_chat_notice"):
         st.caption("Orientación general con fuentes oficiales. No compartas claves ni datos personales.")
 
