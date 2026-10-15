@@ -87,12 +87,6 @@ def render_header(*, chat_page: bool = False) -> str:
                 "Para ejecutivos", on_click=_open_staff, key="open_staff_header",
                 use_container_width=True,
             )
-    if chat_page:
-        st.markdown(
-            '<div class="public-chat-title"><h1>Asistente de inteligencia artificial '
-            'de ChileAtiende</h1></div>',
-            unsafe_allow_html=True,
-        )
     selected = st.radio(
         "Secciones del portal",
         CITIZEN_SECTIONS,
@@ -202,6 +196,11 @@ def render_chat_page() -> None:
         st.switch_page(st.session_state["portal_home_page"])
     st.session_state["chat_portal_section"] = "Asistente de IA"
     render_header(chat_page=True)
+    st.markdown(
+        '<div class="public-chat-title"><h1>Asistente de inteligencia artificial '
+        'de ChileAtiende</h1></div>',
+        unsafe_allow_html=True,
+    )
     with st.container(key="public_chat_header"):
         brand, actions = st.columns([3, 1], vertical_alignment="center")
         with brand:
@@ -222,20 +221,35 @@ def render_chat_page() -> None:
             history.extend([{"rol": "user", "texto": pending}, {"rol": "assistant", "texto": answer}])
         if not history:
             st.markdown(
-                '<div class="public-chat-welcome"><span>ASISTENTE CHILEATIENDE</span>'
-                '<p>Una conversación para encontrar tu próximo paso.</p></div>',
+                '<div class="public-chat-welcome"><span>CHILEATIENDE · ASISTENTE IA</span>'
+                '<h2>Hola, ¿en qué te ayudamos?</h2>'
+                '<p>Encuentra tu próximo paso en trámites y beneficios del Estado.</p></div>',
                 unsafe_allow_html=True,
             )
+            _render_public_chat_input()
+            with st.container(key="public_chat_suggestions"):
+                suggestions = st.columns(3)
+                for column, question in zip(suggestions, (
+                    "¿Qué es la PGU?", "¿Cómo actualizo mi RSH?", "¿Cómo preparo mi jubilación?"
+                ), strict=True):
+                    if column.button(question, use_container_width=True):
+                        st.session_state["public_chat_pending"] = question
+                        st.rerun()
         for index, message in enumerate(history):
             with st.container(key=f"public_message_{message['rol']}_{index}"):
                 st.chat_message(message["rol"]).write(message["texto"])
         if st.session_state.get("public_chat_engine") == "plantillas" and history:
             st.caption("Orientación con respuestas predefinidas y fuentes oficiales.")
-    if question := st.chat_input("Escribe tu pregunta sobre trámites o beneficios", max_chars=2000):
-        st.session_state["public_chat_pending"] = question
-        st.rerun()
+    if history:
+        _render_public_chat_input()
     with st.container(key="public_chat_notice"):
         st.caption("Orientación general con fuentes oficiales. No compartas claves ni datos personales.")
+
+
+def _render_public_chat_input() -> None:
+    if question := st.chat_input("Describe lo que necesitas", max_chars=2000, key="public_chat_input"):
+        st.session_state["public_chat_pending"] = question
+        st.rerun()
 
 
 def _render_home_banner() -> None:
