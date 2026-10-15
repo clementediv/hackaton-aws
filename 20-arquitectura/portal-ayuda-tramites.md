@@ -59,3 +59,5 @@ fechas personales. Fuente pública consultada: https://www.chileatiende.gob.cl/f
 Integración: el chat público separado en /chat usa también el cliente compartido,
 sin temperature. Conserva solo su propio historial público. 23 pruebas enfocadas
 pasan tras integrar el aporte; el historial personal revocado nunca se reenvía.
+
+- 15-10: Pulido del chat publico: textarea contenido dentro del borde y sin padding que recorta lineas; burbuja de persona con altura suficiente para todo el texto. Chromium verifica banner, dos turnos, enlaces de fuentes y nueva conversacion a 390/900/1440 px. Cinco pruebas enfocadas OK. [[portal-ayuda-tramites]].

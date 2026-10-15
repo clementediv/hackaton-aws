@@ -14,14 +14,15 @@
 [class*="st-key-public_message_user_"] [data-testid="stChatMessage"]{background:#eef3f8;border-radius:22px;padding:12px 20px}
 [class*="st-key-public_message_user_"] [data-testid="stChatMessageAvatarUser"]{display:none}
 [class*="st-key-public_message_user_"] p{margin:0}
+[class*="st-key-public_message_user_"] [data-testid="stElementContainer"]{height:auto!important;min-height:1.8em}
 .st-key-public_chat_notice{max-width:760px;margin:0 auto;text-align:center}
 .st-key-public_chat_notice p{font-size:12px;color:#788895}
 .stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{max-width:840px;padding:12px 40px 20px}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"]{border-radius:28px;background:#f7f9fb;border:1px solid #dce4eb;box-shadow:0 4px 24px #173d5908;padding:8px 12px}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"]:focus-within{border-color:#7fa8c8;box-shadow:0 0 0 3px #0f69b40c}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{font-size:16px;line-height:1.6}
-.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] [data-baseweb="textarea"]{border:0!important;box-shadow:none!important;background:transparent}
-.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{min-height:48px;line-height:24px;padding-top:8px;padding-bottom:8px}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] [data-baseweb="textarea"]{border:0!important;box-shadow:none!important;background:transparent;width:100%!important;max-width:100%;min-width:0}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{box-sizing:border-box;width:100%!important;max-width:100%;min-width:0;min-height:48px;line-height:24px;padding:0!important}
 .st-key-public_chat [data-testid="stChatMessageAvatarAssistant"]{background:#0f69b4;color:white}
 .st-key-public_chat_header button p{font-size:13px;white-space:nowrap}
 @media(prefers-reduced-motion:no-preference){.public-chat-welcome,[class*="st-key-public_message_"]{animation:portal-enter 240ms ease-out both}.st-key-public_chat_header button{transition:background-color 160ms,border-color 160ms}}
