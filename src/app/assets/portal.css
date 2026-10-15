@@ -186,8 +186,8 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 
 /* Home preview follows the public assistant's white, centered conversation. */
 .st-key-home_government:has(.home-assistant-intro){background:#fff;border-color:#d5e4f2!important;padding:36px 40px}
-.home-assistant-intro h1{font:400 clamp(30px,3.2vw,44px)/1.12 Roboto,Arial,sans-serif;letter-spacing:-1.8px;color:#0d4d82;text-wrap:balance}
-.home-assistant-intro p{font:400 16px/1.65 Roboto,Arial,sans-serif;color:#60798e;margin:12px auto 18px;max-width:540px;text-wrap:balance}
+:is(.home-assistant-intro,.home-benefits-intro) h1{font:400 clamp(30px,3.2vw,44px)/1.12 Roboto,Arial,sans-serif;letter-spacing:-1.8px;color:#0d4d82;text-wrap:balance}
+:is(.home-assistant-intro,.home-benefits-intro)>p{font:400 16px/1.65 Roboto,Arial,sans-serif;color:#60798e;margin:12px auto 18px;max-width:540px;text-wrap:balance}
 .home-answer-examples{margin:4px auto 16px;min-height:144px}
 .home-example-question{border:1px solid #d5e4f2;border-radius:24px 24px 6px 24px;background:#e5f0fc;color:#0d4d82}
 .home-example-answer{background:transparent;border:0;border-radius:0;padding:8px 0 8px 42px;position:relative;color:#34536e;font-size:15px;line-height:1.7}
@@ -201,5 +201,37 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{border-radius:50%;width:40px;height:40px;min-height:40px;padding:0;background:#0f69b4;border-color:#0f69b4}
 .st-key-home_chat_preview [data-testid="stFormSubmitButton"] button p{font-size:0;line-height:1}
 .st-key-home_chat_preview [data-testid="stFormSubmitButton"] button p:after{content:"➤";font-size:18px}
-@media(max-width:700px){.st-key-home_government:has(.home-assistant-intro){padding:28px 18px}.home-answer-examples{min-height:178px}.home-assistant-intro p{font-size:15px}.home-example-answer{font-size:14px}}
+@media(max-width:700px){.st-key-home_government:has(.home-assistant-intro){padding:28px 18px}.home-answer-examples{min-height:178px}:is(.home-assistant-intro,.home-benefits-intro)>p{font-size:15px}.home-example-answer{font-size:14px}}
 @media(prefers-reduced-motion:reduce){.home-example-answer-text span{animation:none;opacity:1}}
+
+/* Rotating benefit previews share a stable surface, without layout jumps. */
+.home-benefit-showcase{display:grid;list-style:none!important;padding:0!important;margin:20px 0 12px!important;min-width:0}
+.home-benefit-showcase li{grid-area:1/1;display:flex;align-items:center;gap:20px;padding:24px;margin:0!important;border-radius:18px;background:linear-gradient(120deg,#e5f0fc,#f0f6fc);min-width:0}
+.home-benefit-showcase li>div{min-width:0}
+.home-benefit-symbol{display:grid;place-items:center;flex:0 0 56px;height:56px;border-radius:16px;background:#fff;color:#0f69b4;font-size:32px}
+.home-benefit-category{font:600 11px/1.5 Roboto,Arial,sans-serif;letter-spacing:1.3px;color:#0f69b4}
+.home-benefit-showcase h2{font:500 clamp(20px,2.4vw,28px)/1.25 Roboto,Arial,sans-serif;color:#0d4d82;margin:8px 0!important;padding:0;text-wrap:balance}
+.home-government .home-benefit-showcase p{font:400 15px/1.6 Roboto,Arial,sans-serif;color:#476175;margin:0;max-width:520px}
+.home-government .home-benefit-note{font-size:12px;color:#60798e;margin:0 0 20px}
+@media(prefers-reduced-motion:no-preference){
+ .home-benefit-showcase li{opacity:0;animation:home-benefit-cycle 12s infinite;animation-delay:calc(var(--benefit-index)*4s)}
+}
+@keyframes home-benefit-cycle{
+ 0%{opacity:0;transform:translateY(8px)}
+ 4%,28%{opacity:1;transform:translateY(0)}
+ 33%,100%{opacity:0;transform:translateY(-6px)}
+}
+@media(prefers-reduced-motion:reduce){.home-benefit-showcase{gap:12px}.home-benefit-showcase li{grid-area:auto;opacity:1;transform:none}}
+@media(max-width:700px){.home-benefit-showcase li{padding:18px 14px;gap:12px}.home-benefit-symbol{flex-basis:40px;height:40px;font-size:25px;border-radius:12px}.home-benefit-category{font-size:10px;letter-spacing:.7px}}
+
+.home-benefits-intro{font-family:Roboto,Arial,sans-serif}
+.home-benefit-showcase h2{font-weight:400;letter-spacing:-.5px}
+
+/* Match the benefit invitation to the assistant banner's minimal composition. */
+.home-benefits-intro{text-align:center;max-width:680px;margin:0 auto}
+.home-benefits-intro h1{margin:0 auto 12px;max-width:680px}
+.home-benefit-showcase li{background:#fff;border:1px solid #d5e4f2;border-radius:20px;text-align:left}
+.home-benefit-symbol{background:#f4f8fc;border-radius:50%;font-family:Roboto,Arial,sans-serif}
+.home-benefit-category{font-weight:500;letter-spacing:1px}
+.st-key-home_government_invitation [data-testid="stButton"]{display:flex;justify-content:center}
+.st-key-home_government_invitation [data-testid="stBaseButton-primary"]{border-radius:24px;min-height:44px;font-family:Roboto,Arial,sans-serif;font-weight:400}

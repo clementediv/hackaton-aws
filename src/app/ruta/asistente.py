@@ -43,14 +43,8 @@ def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
         ),
     }
     introduction = (
-        "Soy el asistente de inteligencia artificial de ChileAtiende. "
-        "Puedo guiarte paso a paso para hacer trámites, explicarte los requisitos "
-        "de los beneficios y ayudarte a identificar qué documentos o antecedentes te faltan. "
-        "Para revisar si podrías optar a un beneficio según tu situación, ingresa a Mi Gobierno "
-        "y autoriza la consulta de tus antecedentes. Por ahora, la evaluación personalizada "
-        "disponible es la de PGU: muestra si cumples los requisitos evaluados o qué falta "
-        "para continuar; la aprobación final corresponde al organismo responsable. "
-        "¿Qué trámite o beneficio quieres revisar?"
+        "Soy el asistente de IA de ChileAtiende. "
+        "Te ayudo con trámites, beneficios y los documentos que necesitas."
     )
     question = _norm(pregunta)
     identity_question = any(phrase in question for phrase in (
@@ -62,8 +56,10 @@ def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
     ))
     if identity_question:
         fallback = introduction
+        return (_template_stream(fallback) if stream else fallback), "plantillas"
     elif question.strip(" ¡!¿?.") in {"hola", "buenas", "buenos dias"}:
-        fallback = "Hola. " + introduction
+        fallback = "¡Hola! Te ayudo con trámites y beneficios. ¿Qué necesitas?"
+        return (_template_stream(fallback) if stream else fallback), "plantillas"
     elif "gracias" in question:
         fallback = "¡De nada! Puedes seguir preguntándome aquí cuando lo necesites."
     else:

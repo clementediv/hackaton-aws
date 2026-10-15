@@ -11,8 +11,8 @@
 .st-key-public_chat [data-testid="stElementContainer"],.st-key-public_chat [data-testid="stMarkdown"],.st-key-public_chat [data-testid="stMarkdownContainer"]{width:100%!important;max-width:100%;min-width:0;box-sizing:border-box}
 .public-chat-welcome{width:100%;box-sizing:border-box;text-align:center;padding:0 0 38px}
 .public-chat-welcome>span{font:600 11px/1.5 Roboto,Arial,sans-serif;letter-spacing:1.8px;color:#0f69b4}
-.public-chat-welcome:before{content:"";display:block;width:48px;height:4px;margin:0 auto 24px;background:linear-gradient(to right,#0f69c4 50%,#eb3c46 50%);border-radius:2px}
-.st-key-public_chat .public-chat-welcome h2{font:400 clamp(36px,4.6vw,58px)/1.12 Roboto,Arial,sans-serif;letter-spacing:-1.8px;color:#0d4d82;padding:0;margin:18px auto;max-width:760px;text-wrap:balance}
+.public-chat-welcome:before{content:"";display:block;width:48px;height:4px;margin:0 auto 12px;background:linear-gradient(to right,#0f69c4 50%,#eb3c46 50%);border-radius:2px}
+.st-key-public_chat .public-chat-welcome h2{font:400 clamp(36px,4.6vw,58px)/1.12 Roboto,Arial,sans-serif;letter-spacing:-1.8px;color:#0d4d82;padding:0;margin:8px auto 18px;max-width:760px;text-wrap:balance}
 .public-chat-welcome p{font:400 17px/1.65 Roboto,Arial,sans-serif;color:#60798e;margin:0 auto;max-width:540px;text-wrap:balance}
 .st-key-public_chat_suggestions{margin-top:10px}
 .st-key-public_chat_suggestions button{border:1px solid #d5e4f2;background:transparent;border-radius:20px;color:#34536e;padding:10px 12px;min-height:44px}
@@ -72,3 +72,8 @@
 .chat-composer-mic:disabled{opacity:.45;cursor:default}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"] div:has(>.chat-composer-mic){z-index:2}
 .chat-composer-mic{pointer-events:auto;position:relative;z-index:3}
+
+/* Keep the personal-review action centered on the conversation axis. */
+.st-key-public_chat_pgu_action{width:100%;max-width:760px;align-self:center;margin-inline:auto!important}
+.st-key-public_chat_pgu_action [data-testid="stButton"]{display:flex;justify-content:center;width:100%}
+.st-key-public_chat_pgu_action button{max-width:100%;text-align:center}

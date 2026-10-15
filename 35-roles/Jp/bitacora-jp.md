@@ -40,3 +40,5 @@ Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hiz
 - 15-10: Banner del asistente adaptado al chat actual: fondo blanco, Roboto, texto introductorio, respuesta con avatar, consulta redondeada y envío con icono. Conserva ejemplos animados con aparición progresiva de palabras y alternativa sin movimiento. Cinco pruebas del portal pasan; Chromium verifica 1440/390 sin desborde y centrado del campo.
 
 - 15-10: Asistente de Mi Gobierno alineado visualmente con el chat IA: encabezado Roboto centrado y franja institucional, mensajes personales azules, campo redondeado con envío centrado, preguntas debajo y voz en panel desplegable. Mantiene consentimiento, contexto personal e historial. Diez pruebas de Mi Gobierno/voz/UI pasan. Chromium verifica 1440/390 sin desborde y coincidencia vertical del campo y envío.
+
+- 15-10: Beneficios alineados visualmente con el asistente público: Roboto, títulos livianos, tarjetas blancas, bordes discretos y botones azules redondeados; línea de tiempo con menos recuadros. Banner de beneficios centrado y simplificado.

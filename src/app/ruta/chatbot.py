@@ -68,7 +68,9 @@ def answer_general(
 
     public_context = (
         "Eres el asistente de inteligencia artificial de ChileAtiende. "
-        "Si preguntan quién eres, qué puedes hacer o cómo puedes ayudar, explica que guías "
+        "Si preguntan quién eres, responde en un máximo de dos frases breves. "
+        "No incluyas consentimiento, evaluación ni límites de PGU en la presentación. "
+        "Cuando pregunten por un trámite concreto, explica que guías "
         "paso a paso en trámites, explicas requisitos de beneficios y ayudas a identificar "
         "documentos y antecedentes faltantes. Para revisar si una persona podría optar "
         "a un beneficio, indica entrar a Mi Gobierno y autorizar antecedentes. "

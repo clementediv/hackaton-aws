@@ -137,13 +137,13 @@ def test_public_assistant_explains_identity_and_actual_capabilities(monkeypatch,
     monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "")
     reply, engine = asistente.responder_publico(question, [])
     assert engine == "plantillas"
-    assert "asistente de inteligencia artificial de ChileAtiende" in reply
-    assert "paso a paso" in reply
-    assert "documentos o antecedentes te faltan" in reply
-    assert "Mi Gobierno" in reply
-    assert "autoriza" in reply
-    assert "evaluación personalizada disponible es la de PGU" in reply
-    assert "aprobación final corresponde al organismo" in reply
+    if question == "Hola":
+        assert reply == "¡Hola! Te ayudo con trámites y beneficios. ¿Qué necesitas?"
+        return
+    assert reply == (
+        "Soy el asistente de IA de ChileAtiende. "
+        "Te ayudo con trámites, beneficios y los documentos que necesitas."
+    )
 
 
 def test_bedrock_receives_assistant_identity_and_benefit_limits():

@@ -201,11 +201,6 @@ def render_chat_page() -> None:
         st.switch_page(st.session_state["portal_home_page"])
     st.session_state["chat_portal_section"] = "Asistente de IA"
     render_header(chat_page=True)
-    st.markdown(
-        '<div class="public-chat-title"><h1>Asistente de inteligencia artificial '
-        'de ChileAtiende</h1></div>',
-        unsafe_allow_html=True,
-    )
     with st.container(key="public_chat_header"):
         brand, actions = st.columns([3, 1], vertical_alignment="center")
         with brand:
@@ -230,7 +225,7 @@ def render_chat_page() -> None:
         pending = st.session_state.pop("public_chat_pending", None)
         if not history and not pending:
             st.markdown(
-                '<div class="public-chat-welcome"><span>CHILEATIENDE · ASISTENTE IA</span>'
+                '<div class="public-chat-welcome">'
                 '<h2>Hola, ¿en qué te ayudamos?</h2>'
                 '<p>Encuentra tu próximo paso en trámites y beneficios del Estado.</p></div>',
                 unsafe_allow_html=True,
@@ -281,12 +276,13 @@ def render_chat_page() -> None:
             st.session_state["public_chat_engine"] = engine
     if history:
         if history[-1].get("scope") == "personal":
-            if st.button("Revisar o completar antecedentes en Mi Gobierno", key="chat_pgu_review"):
-                st.session_state["portal_next_section"] = "Mi Gobierno"
-                if run and case and case.get("autorizacion"):
-                    st.session_state[f"government_view_{run}"] = "Beneficios"
-                    st.session_state[f"government_route_{run}"] = "pgu"
-                st.switch_page(st.session_state["portal_home_page"])
+            with st.container(key="public_chat_pgu_action"):
+                if st.button("Revisar o completar antecedentes en Mi Gobierno", key="chat_pgu_review"):
+                    st.session_state["portal_next_section"] = "Mi Gobierno"
+                    if run and case and case.get("autorizacion"):
+                        st.session_state[f"government_view_{run}"] = "Beneficios"
+                        st.session_state[f"government_route_{run}"] = "pgu"
+                    st.switch_page(st.session_state["portal_home_page"])
         _render_public_chat_input()
     from voice import voice_input
 
@@ -314,7 +310,7 @@ def _render_public_chat_input() -> None:
 
 
 def _render_home_banner() -> None:
-    with st.container(border=True, key="home_government"):
+    with st.container(border=False, key="home_government"):
         with st.container(key="home_slide_assistant"):
             _render_home_assistant()
         with st.container(key="home_slide_benefits"):
@@ -324,16 +320,26 @@ def _render_home_banner() -> None:
 def _render_home_benefits() -> None:
     with st.container(key="home_government_invitation"):
         st.markdown(
-            '<div class="home-government">'
+            '<div class="home-government home-benefits-intro">'
             "<h1>Cobra beneficios gratis del Estado</h1>"
             "<p>Descubre cuáles podrían corresponderte según tu situación. "
             "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
             "en un solo lugar.</p>"
-            '<ul class="home-benefit-examples" aria-label="Ejemplos de beneficios">'
-            '<li>Pensión Garantizada Universal (PGU)</li>'
-            '<li>Gratuidad en educación superior</li>'
-            '<li>Becas de educación superior</li>'
+            '<ul class="home-benefit-showcase" aria-label="Beneficios que podrías solicitar">'
+            '<li style="--benefit-index:0"><span class="home-benefit-symbol" aria-hidden="true">'
+            '◎</span><div><span class="home-benefit-category">APOYO PARA TU JUBILACIÓN</span>'
+            '<h2>Pensión Garantizada Universal (PGU)</h2>'
+            '<p>Un aporte mensual para personas mayores que cumplen los requisitos.</p></div></li>'
+            '<li style="--benefit-index:1"><span class="home-benefit-symbol" aria-hidden="true">'
+            '◇</span><div><span class="home-benefit-category">APOYO PARA TUS ESTUDIOS</span>'
+            '<h2>Gratuidad en educación superior</h2>'
+            '<p>Financiamiento de matrícula y arancel durante la duración formal de tu carrera.</p></div></li>'
+            '<li style="--benefit-index:2"><span class="home-benefit-symbol" aria-hidden="true">'
+            '✦</span><div><span class="home-benefit-category">MÁS OPORTUNIDADES</span>'
+            '<h2>Becas de educación superior</h2>'
+            '<p>Apoyo para financiar tus estudios, según los requisitos de cada beca.</p></div></li>'
             '</ul>'
+            '<p class="home-benefit-note">Cada beneficio tiene requisitos. Revisa qué antecedentes necesitas.</p>'
             "</div>",
             unsafe_allow_html=True,
         )

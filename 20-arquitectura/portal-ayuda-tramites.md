@@ -130,3 +130,5 @@ de lectura.
 - 15-10: Chat público sin botones de preguntas frecuentes. El placeholder alterna ejemplos con escritura y borrado letra a letra; se pausa al enfocar o escribir y usa texto fijo con movimiento reducido. Controlador local `assets/chat-placeholder.html`, sin cambiar el valor del campo.
 
 - 15-10: Control de dictado más discreto: botón de ícono con tooltip, etiqueta accesible y ayuda desplegable «Cómo usar el micrófono». Durante el dictado se muestra «Detener dictado». Se conserva revisión antes del envío.
+
+- 15-10: Beneficios alineados visualmente con el asistente público: Roboto, títulos livianos, tarjetas blancas, bordes discretos y botones azules redondeados; línea de tiempo con menos recuadros. Banner de beneficios centrado y simplificado.

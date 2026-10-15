@@ -194,6 +194,22 @@
 .st-key-gov_assistant [data-testid="stExpander"]{border-color:#e2eaf1;border-radius:16px}
 @media(min-width:1051px){.st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page)>[data-testid="stVerticalBlockBorderWrapper"]{top:16px}}
 
+/* Benefits use the public assistant's quiet typography and white surfaces. */
+.st-key-gov_benefits_layout{font-family:Roboto,Arial,sans-serif;color:#34536e}
+.st-key-gov_benefits_layout .gov-simple-heading{font:400 clamp(26px,3.2vw,36px)/1.2 Roboto,Arial,sans-serif!important;letter-spacing:-1px;color:#0d4d82;margin-bottom:28px!important;text-wrap:balance}
+.st-key-gov_benefits_layout .gov-benefit-title{font:400 24px/1.3 Roboto,Arial,sans-serif!important;letter-spacing:-.5px;color:#0d4d82;margin:0 0 12px}
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]){background:#fff;border:1px solid #d5e4f2!important;border-radius:20px!important;padding:24px;box-shadow:none}
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) [data-testid="stCaptionContainer"]{color:#60798e;line-height:1.65}
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) button{border-radius:24px;min-height:44px;background:#fff;border-color:#c6d9ea;color:#0d4d82;box-shadow:none}
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) button:hover{background:#edf4fb;border-color:#0f69b4}
+.st-key-gov_benefits_layout .st-key-gov_pgu [data-testid="stBaseButton-primary"]{background:#0f69b4;color:#fff}
+.st-key-gov_benefits_layout .st-key-gov_pgu [data-testid="stBaseButton-primary"]:hover{background:#0d4d82}
+.st-key-gov_benefits_layout .gov-status{font:400 12px/1.5 Roboto,Arial,sans-serif;padding:5px 10px}
+.st-key-gov_benefits_layout .gov-timeline{background:#fff;border:0;border-top:1px solid #e5edf4;border-radius:0;padding:20px 0 0;margin-top:22px}
+.st-key-gov_benefits_layout .gov-timeline-heading{font:400 16px/1.5 Roboto,Arial,sans-serif!important;color:#34536e}
+.st-key-gov_benefits_layout .gov-timeline-content h4{font-weight:500!important}
+.st-key-gov_benefits_layout [data-testid="stExpander"]{border-color:#e5edf4;border-radius:12px;background:#fff}
+@media(max-width:700px){.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]){padding:18px}.st-key-gov_benefits_layout .gov-benefit-title{font-size:21px!important}}
 
 /* Bring the login introduction closer to the sign-in form on desktop. */
 @media(min-width:701px){.gov-login-intro{margin-left:clamp(24px,4vw,56px);width:calc(100% - clamp(24px,4vw,56px));box-sizing:border-box}}
