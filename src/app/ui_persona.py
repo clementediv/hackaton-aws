@@ -359,7 +359,6 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
             target = mensajes.container(key=f"gov_chat_{m['rol']}_{i}") if sidebar else mensajes
             avatar = None if sidebar else ("🧭" if m["rol"] == "assistant" else "🙂")
             target.chat_message(m["rol"], avatar=avatar).write(m["texto"])
-        st.caption("Preguntas frecuentes")
         preguntas_rapidas()
         if q := st.chat_input("Pregúntale al asistente de trámites"):
             preguntar(q)
