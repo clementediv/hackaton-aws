@@ -36,6 +36,9 @@ def responder(case_id, texto, canal=Channel.WEB, *, client=None, repo=None):
         if current is not None:
             current.set_attribute("tools", [call.name for call in reply.tool_calls])
             current.set_attribute("hit_iteration_limit", reply.hit_iteration_limit)
+    if "https://www.chileatiende.gob.cl" not in reply.text:
+        reply.text += "\n\nFuente de orientación del MVP (no verificada): " + config.FUENTE_PGU
+        case.messages[-1].text = reply.text
     repo.agregar_mensajes(case_id, case.messages[count:])
     repo.guardar_estado(case)
     return asdict(reply)

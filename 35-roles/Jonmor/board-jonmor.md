@@ -15,7 +15,8 @@ entorno: Kiro IDE Pro
 Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, revisa el estado del pipeline en [[_equipo]] y los boards de los demás en [[_avance]] para no duplicar trabajo.
 
 ## En curso
-- T16: Repositorio de casos DynamoDB. [[plan-chatbot-desplegado]]
+- T20: DeepEval con juez Bedrock; scorecard real en ejecución. [[plan-chatbot-desplegado]]
+- T16–T19 implementadas y verificadas en rama; integración a main pendiente. Commits `65224cf`, `c7599d7`, `25140a2`, `03d99f0`.
 
 
 ## Por hacer

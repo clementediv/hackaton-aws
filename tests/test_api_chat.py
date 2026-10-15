@@ -68,5 +68,6 @@ def test_limit_still_persists(repo):
     client = ScriptedClient([tool() for _ in range(6)])
     reply = responder(case.case_id, "Ayuda", client=client, repo=repo)
     assert reply["hit_iteration_limit"]
-    assert repo.cargar(case.case_id).messages[-1].text == LIMIT_REPLY
+    assert repo.cargar(case.case_id).messages[-1].text.startswith(LIMIT_REPLY)
+    assert "https://www.chileatiende.gob.cl" in reply["text"]
     assert len(repo.cargar(case.case_id).messages) == 2

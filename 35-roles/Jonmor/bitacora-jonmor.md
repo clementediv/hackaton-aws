@@ -28,3 +28,7 @@ Rutas HTTP v2 con validación, ámbito por RUN y consentimiento explícito. Prue
 ### 2026-10-15 · T19 · ver commit T19
 
 Phoenix 12.35 local verificado en Chrome: proyecto ca-chat, una traza chat.turn y dos bedrock.converse hijos confirmados por API del colector. Trace ID 07ede8f4a30670148475cb21d5bf3d22, leer_caso OK, latencia 17,8 s. Sin endpoint queda inerte; exportador caído no rompe respuesta. Tres pruebas offline pasan. Instalación aislada con restricciones de dependencias documentada en [[chatbot-desplegado]].
+
+### 2026-10-15 · T20 · ver commit T20
+
+Ocho escenarios con DeepEval y juez Sonnet 5 real verificados: herramientas 1,00 en todos; fuente/no aprobación ≥0,90. Seis pasan en ronda completa y dos expectativas de herramienta corregidas pasan en repetición seleccionada. Fuente de respaldo incorporada a la respuesta persistida. Scorecard en [[chatbot-desplegado]]. Marker eval excluido por defecto; telemetría desactivada.
