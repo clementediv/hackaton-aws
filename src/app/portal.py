@@ -186,6 +186,7 @@ def _queue_home_question(question: str) -> None:
 def render_chat_page() -> None:
     st.session_state.pop("government_last_observed_view", None)
     from ruta.asistente import responder_publico
+    from chat_feedback import TYPING_HTML, scroll_chat
 
     st.markdown(_portal_styles(), unsafe_allow_html=True)
     with st.container(key="public_chat_header"):
@@ -201,12 +202,7 @@ def render_chat_page() -> None:
     with st.container(key="public_chat"):
         history = st.session_state.setdefault("public_chat_history", [])
         pending = st.session_state.pop("public_chat_pending", None)
-        if pending:
-            with st.spinner("Preparando tu respuesta…"):
-                answer, engine = responder_publico(pending, history)
-            st.session_state["public_chat_engine"] = engine
-            history.extend([{"rol": "user", "texto": pending}, {"rol": "assistant", "texto": answer}])
-        if not history:
+        if not history and not pending:
             st.markdown(
                 '<div class="public-chat-welcome"><span>ASISTENTE CHILEATIENDE</span>'
                 '<h1>¿En qué te podemos ayudar?</h1>'
@@ -216,6 +212,22 @@ def render_chat_page() -> None:
         for index, message in enumerate(history):
             with st.container(key=f"public_message_{message['rol']}_{index}"):
                 st.chat_message(message["rol"]).write(message["texto"])
+        if pending:
+            with st.container(key=f"public_message_user_{len(history)}"):
+                st.chat_message("user").write(pending)
+            with st.chat_message("assistant"):
+                response = st.empty()
+                response.markdown(TYPING_HTML, unsafe_allow_html=True)
+                scroll_chat(".st-key-public_chat", f"sent:{len(history)}:{pending}")
+                try:
+                    answer, engine = responder_publico(pending, history)
+                except Exception:
+                    response.empty()
+                    raise
+                response.write(answer)
+            st.session_state["public_chat_engine"] = engine
+            history.extend([{"rol": "user", "texto": pending}, {"rol": "assistant", "texto": answer}])
+        scroll_chat(".st-key-public_chat", f"received:{history!r}")
         if st.session_state.get("public_chat_engine") == "plantillas" and history:
             st.caption("Orientación con respuestas predefinidas y fuentes oficiales.")
     if question := st.chat_input("Escribe tu pregunta sobre trámites o beneficios", max_chars=2000):

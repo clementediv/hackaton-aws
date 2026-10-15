@@ -1,0 +1,41 @@
+<script>
+(() => {
+  const scope = __SCOPE__, token = __TOKEN__, host = window.parent;
+  const doc = host.document;
+  host.__chatScrollEvents ??= {};
+  if (host.__chatScrollEvents[scope] === token) return;
+  host.__chatScrollControllers ??= {};
+  host.__chatScrollControllers[scope]?.stop();
+  let timer, deadline, active = true;
+  const observer = new MutationObserver(schedule);
+  function stop() {
+    active = false;
+    observer.disconnect();
+    host.clearTimeout(timer);
+    host.clearTimeout(deadline);
+  }
+  host.__chatScrollControllers[scope] = {stop};
+  function scroll() {
+    if (!active) return;
+    const chat = doc.querySelector(scope);
+    if (!chat || !chat.querySelector('[data-testid="stChatMessage"]')) return;
+    host.__chatScrollEvents[scope] = token;
+    let node = chat;
+    while (node) {
+      const style = host.getComputedStyle(node);
+      if (/(auto|scroll)/.test(style.overflowY) && node.scrollHeight > node.clientHeight) {
+        node.scrollTo({top: node.scrollHeight, behavior: 'instant'});
+      }
+      node = node.parentElement;
+    }
+  }
+  function schedule() {
+    host.clearTimeout(timer);
+    timer = host.setTimeout(scroll, 80);
+  }
+  observer.observe(doc.body, {childList: true, subtree: true});
+  schedule();
+  // Only settle this message's layout; subsequent manual scrolling stays free.
+  deadline = host.setTimeout(() => { scroll(); stop(); }, 1200);
+})();
+</script>

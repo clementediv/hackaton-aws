@@ -3,20 +3,83 @@
 import re
 import unicodedata
 
-CHAT_STYLE = """Estilo de conversación:
+BOUNDARY_REPLY = (
+    "Estoy aquí para orientarte sobre beneficios y trámites, como la Pensión Garantizada "
+    "Universal (PGU), sus requisitos, "
+    "documentos y próximos pasos. La revisión de antecedentes personales se realiza "
+    "únicamente con tu autorización en Mi Gobierno. Por favor, cuéntame qué beneficio o trámite deseas "
+    "consultar para poder ayudarte."
+    "\n\nSi quieres saber más, puedes revisar [ChileAtiende](https://www.chileatiende.gob.cl/)."
+)
+
+
+def friendly_sources(text):
+    """Keep citations and verification notes, phrased as an invitation to read more."""
+    pattern = (
+        r"(?im)(?P<start>^|(?<=[.!?])\s+)(?:\*\*)?"
+        r"Fuentes?(?: de orientación(?: del MVP)?)?"
+        r"(?P<note>\s*\([^\n)]*\))?\s*:\s*(?:\*\*)?(?P<reference>[^\n]+)"
+    )
+
+    def replace(match):
+        reference = match["reference"].strip()
+        result = match["start"] + "Si quieres saber más, puedes revisar " + reference
+        if not result.endswith("."):
+            result += "."
+        if note := match["note"]:
+            result += " Esta referencia se indica como " + note.strip(" ()") + "."
+        return result
+
+    return re.sub(pattern, replace, text)
+
+
+def boundary_reply(question):
+    """A stable purpose statement for abuse, keyboard noise and clear off-topic requests."""
+    q = "".join(
+        c for c in unicodedata.normalize("NFD", question.lower()) if unicodedata.category(c) != "Mn"
+    )
+    if re.search(
+        r"\b(pgu|pension\w*|beneficio\w*|document\w*|requisito\w*|tramite\w*|"
+        r"afp|rsh|scomp|jubilacion|beca\w*|gratuidad|autoriza\w*)\b",
+        q,
+    ):
+        return None
+    abuse = re.search(r"\b(weon|huevon|weona|mierda|puta|idiota|imbecil|inutil)\b", q)
+    off_topic = re.search(r"\b(futbol|mundial|messi|horoscopo|receta|chiste)\b", q)
+    letters = re.sub(r"[^a-z]", "", q)
+    noise = (
+        not letters
+        or re.fullmatch(r"(?:asdf[a-z]*|qwerty[a-z]*|(?:bla|blah){2,})", letters)
+        or len(letters) >= 5
+        and not re.search(r"[aeiou]", letters)
+    )
+    if abuse or "no sirves" in q or off_topic or noise:
+        return BOUNDARY_REPLY
+    return None
+
+
+CHAT_STYLE = (
+    """Estilo de conversación:
 Responde al sentido del último mensaje, teniendo en cuenta la conversación disponible.
 Habla con calidez, en español natural, sin fingir ser una persona o un funcionario.
 No repitas la misma bienvenida, menú de temas, petición de permiso ni frase de cierre.
-Si hay frustración o una grosería, responde con calma y reconoce lo que sí comprendes;
+Si una consulta legítima expresa frustración o incluye una grosería, responde con calma;
 no sermonees, no devuelvas el insulto ni conviertas todo en una explicación sobre PGU.
 Distingue una queja que contiene una pregunta real de un insulto sin consulta: contesta
-la pregunta real si la hay. Si el mensaje es ambiguo o ininteligible, no inventes una
-interpretación: haz una sola pregunta breve para aclararlo. Si se repite, pide un
+la pregunta real si la hay. Si una consulta dentro del propósito es ambigua, no inventes
+una interpretación: haz una sola pregunta breve para aclararla. Si se repite, pide un
 ejemplo concreto o sugiere reformular, en lugar de repetir textualmente tu respuesta.
 Las intervenciones sociales suelen necesitar una o dos frases, no un diagnóstico ni
 una lista de requisitos. No uses frases corporativas ni 'como inteligencia artificial'.
+Presenta las referencias de forma natural: «Si quieres saber más, puedes revisar
+[título](URL)». Evita encabezados como «Fuente de orientación» o listas de fuentes
+sin explicación. Conserva los enlaces y las advertencias de información no verificada.
 Mantén intactas las reglas de consentimiento, fuentes y decisiones institucionales.
+Para insultos sin consulta, texto ininteligible o solicitudes claramente fuera del
+propósito del chat, usa exactamente la siguiente respuesta estándar, sin variaciones:
 """
+    + BOUNDARY_REPLY
+)
 
 
 class ConversationalClient:
