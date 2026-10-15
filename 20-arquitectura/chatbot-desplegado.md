@@ -29,3 +29,7 @@ código ajeno como parte de T15.
 
 T15 remoto confirmado: health sin key 401, key inválida 403 y key válida 200
 con texto de Bedrock. CloudFormation CREATE_COMPLETE.
+
+T16: repositorio CaseRepository con paginación, lecturas consistentes de caso e
+historial, escritura append-only y consulta por RUN normalizado. Dos pruebas moto
+pasan con Case completo y consentimiento/revocación serializados.

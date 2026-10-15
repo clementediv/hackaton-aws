@@ -15,7 +15,7 @@ entorno: Kiro IDE Pro
 Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, revisa el estado del pipeline en [[_equipo]] y los boards de los demás en [[_avance]] para no duplicar trabajo.
 
 ## En curso
-- T15: API mínima autenticada, bundle Linux y despliegue Bedrock. [[plan-chatbot-desplegado]]
+- T16: Repositorio de casos DynamoDB. [[plan-chatbot-desplegado]]
 
 
 ## Por hacer
@@ -25,4 +25,5 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 - 
 
 ## Hecho
-- 
+- [x] T15: API desplegada, health Bedrock/auth verificados. `f9e7f6d` (integración `c1960b2`). [[chatbot-desplegado]]
+
