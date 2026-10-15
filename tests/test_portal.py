@@ -126,7 +126,7 @@ def test_home_banner_rotates_pauses_and_passes_question_to_assistant(tmp_path, m
     clock[0] = 200.0
     app.run()
     assert app.text_input(key="home_agent_question_text").value == "¿Qué es la PGU?"
-    next(button for button in app.button if button.label == "Preguntar al asistente").click().run()
+    next(button for button in app.button if button.label == "Enviar").click().run()
     assert not app.exception
     assert app.session_state["portal_section"] == "Ayuda para tus trámites"
     assert "portal_pending_question" not in app.session_state

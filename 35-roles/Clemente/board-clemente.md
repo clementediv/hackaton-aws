@@ -68,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Banner del asistente con t?tulo principal ?Prueba el asistente de inteligencia artificial?, dise?o neutro centrado, campo de texto redondeado, env?o con flecha y preguntas frecuentes como sugerencias. Cuatro pruebas del portal OK. [[portal-ayuda-tramites]]. Commit ?Dar estilo conversacional al banner del asistente?.
 - [x] Chat de texto directo y t?tulo ?Prueba nuestro asistente de inteligencia artificial?, con preguntas frecuentes; cuatro pruebas del portal OK ? commit ?Mostrar chat directo en el banner del asistente? ? [[portal-ayuda-tramites]].
 - [x] Merge de detección proactiva local y aportes remotos de Mi Gobierno, acceso demo y beneficios — `9626cac`; sin conflictos de texto, 174 pruebas y verificador de 500 perfiles OK; cambios locales sin commit conservados
 - [x] Integrado también el último aporte de ayuda audiovisual/documentos por requisito — `1932574`; conflicto de bitácora resuelto conservando ambos registros, 174 pruebas completas y verificador OK

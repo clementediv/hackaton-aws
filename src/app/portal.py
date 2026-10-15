@@ -219,31 +219,28 @@ def _render_home_benefits() -> None:
 def _render_home_assistant() -> None:
     st.markdown(
         '<div class="home-government home-assistant-intro">'
-        "<h1>¿Necesitas ayuda<br>con un trámite?</h1>"
-        "<p>Prueba el asistente de inteligencia artificial. Cuéntale tu duda "
-        "y encuentra por dónde empezar.</p></div>",
+        "<h1>Prueba el asistente de inteligencia artificial</h1>"
+        "<p>Resuelve preguntas frecuentes sobre tr?mites y beneficios.</p></div>",
         unsafe_allow_html=True,
     )
     st.session_state["home_banner_chat_open"] = True
     with st.container(key="home_chat_preview"):
-        st.markdown("**Asistente de ayuda**")
-        st.write("Hola. ¿Qué necesitas saber sobre tu trámite?")
-        with st.form("home_agent_question"):
+        with st.form("home_agent_question", border=False):
             question = st.text_input(
                 "Escribe tu pregunta",
                 key="home_agent_question_text",
-                placeholder="Por ejemplo: ¿Qué es la PGU?",
+                placeholder="Pregunta lo que necesites?",
+                label_visibility="collapsed",
                 max_chars=2000,
             )
-            if st.form_submit_button("Preguntar al asistente", type="primary"):
+            if st.form_submit_button("Enviar", type="primary", icon=":material/arrow_upward:"):
                 if question.strip():
                     _queue_home_question(question.strip())
                 else:
                     st.warning("Escribe una pregunta para continuar.")
-        st.caption("Tu pregunta continuará en el asistente de ayuda.")
-        st.write("También puedes probar con:")
+    with st.container(key="home_chat_suggestions"):
         examples = st.columns(2)
-        for index, question in enumerate(("¿Qué es la PGU?", "¿Qué documentos necesito?")):
+        for index, question in enumerate(("?Qu? es la PGU?", "?Qu? documentos necesito?")):
             if examples[index].button(
                 question, key=f"home_example_{index}", use_container_width=True
             ):
