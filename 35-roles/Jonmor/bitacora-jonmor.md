@@ -8,7 +8,7 @@ Una entrada por avance o commit relevante, la más reciente arriba.
 
 Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
-### 2026-10-15 · Elegibilidad personal del chat · ver commit
+### 2026-10-15 · Elegibilidad personal del chat · 78bfcf6
 
 Corregida la frase exacta «puedo tener yo la pgu?» y variantes; sin permiso indica casilla y Activar Mi Gobierno, con permiso usa el agente y datos calculados. Consultas generales sin lista cerrada de palabras. 31 pruebas enfocadas y verificador TODO OK. [[portal-ayuda-tramites]].
 
