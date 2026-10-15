@@ -5,7 +5,7 @@ estado: demo-local
 ---
 # Portal para ejecutivos y asistentes sociales
 
-Página de gestión accesible desde **Para ejecutivos** en el encabezado, o `/?vista=ejecutivos`. Reutiliza logo, fuentes, navegación, azules y tarjetas del frontend. El laboratorio técnico sigue en el acceso lateral «Vista ejecutivo». Diseño: [[0015-portal-ejecutivos]], [[contacto-y-campanas]], [[arquitectura-chileatiende]].
+Página de gestión accesible desde **Para ejecutivos** en el encabezado, o `/?vista=ejecutivos`. Reutiliza logo, fuentes, navegación, azules y tarjetas del frontend. El laboratorio técnico sigue en el acceso lateral «Vista ejecutivo». Diseño: [[0016-portal-ejecutivos]], [[contacto-y-campanas]], [[arquitectura-chileatiende]].
 
 ## Seguimiento
 

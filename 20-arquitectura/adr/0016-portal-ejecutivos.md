@@ -3,7 +3,7 @@ tipo: adr
 estado: aceptada
 fecha: 2026-10-15
 ---
-# 0015 — Portal de ejecutivos y propuesta automática de operativo
+# 0016 — Portal de ejecutivos y propuesta automática de operativo
 
 Clemente pide trasladar el backend visual a una página nueva con la estética del frontend, comprensible para asistentes sociales, con menos texto y una propuesta territorial automática que permita ajustar el personal.
 

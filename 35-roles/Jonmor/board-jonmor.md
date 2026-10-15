@@ -15,14 +15,22 @@ entorno: Kiro IDE Pro
 Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, revisa el estado del pipeline en [[_equipo]] y los boards de los demás en [[_avance]] para no duplicar trabajo.
 
 ## En curso
-- T15: API mínima autenticada, bundle Linux y despliegue Bedrock. [[plan-chatbot-desplegado]]
-
+- Sin tareas abiertas.
 
 ## Por hacer
-- 
+- Integrar Streamlit con la API cuando se amplíe el alcance; hoy conserva su adaptador local.
+- Configurar endpoint/key Phoenix remoto si se habilita; Lambda queda cableada e inerte.
 
 ## Bloqueos
-- 
+- Cinco pruebas UI heredadas fallan también en origin/main; evidencia en [[chatbot-desplegado]]. No bloquean la API desplegada.
 
 ## Hecho
-- 
+- Elegibilidad personal en Mi Gobierno: «puedo tener yo la PGU?» reconocida, consentimiento con paso concreto y agente autorizado preservado. `78bfcf6`. [[portal-ayuda-tramites]].
+- Consultas generales del chat corregidas; Bedrock público sin perfil y respaldo pertinente. Cliente unificado con /chat remoto. `33eed79`, integración `d8bde76`. [[0015-orientacion-general-sin-perfil]].
+- [x] T15: API mínima autenticada y Bedrock real. `f9e7f6d`, integrado a main en `df99c3b`. [[chatbot-desplegado]]
+- [x] T16: Repositorio de casos DynamoDB. `65224cf`, integrado a main en `df99c3b`. [[chatbot-desplegado]]
+- [x] T17: Turnos persistentes y evaluación determinista. `c7599d7`, integrado a main en `df99c3b`. [[chatbot-desplegado]]
+- [x] T18: Rutas HTTP y consentimiento. `25140a2`, integrado a main en `df99c3b`. [[chatbot-desplegado]]
+- [x] T19: Phoenix local con Converse instrumentado. `03d99f0`, integrado a main en `df99c3b`. [[chatbot-desplegado]]
+- [x] T20: Ocho evals DeepEval con juez Bedrock. `64b09ca`, integrado a main en `df99c3b`. [[chatbot-desplegado]]
+- [x] T21: Stack completo y continuidad de tres turnos verificada con AWS CLI. `a54d5df`, integrado a main en `df99c3b`. [[chatbot-desplegado]]

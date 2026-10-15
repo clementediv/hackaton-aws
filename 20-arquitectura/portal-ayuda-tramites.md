@@ -14,13 +14,13 @@ Estructura observada: logo/encabezado, Red de atención, Mi ChileAtiende, buscad
 
 ## Comportamiento
 - **Inicio**: destacados de la demo, acceso a Mi ChileAtiende, servicios/momentos de vida y enlaces oficiales.
-- **Ayuda para tus trámites** (pestaña inicial): explicación del acompañamiento, invitación/autorización, ruta existente y chatbot al lado. El chat aparece desde la invitación; sin permiso solo ofrece orientación inicial y no llama AWS.
+- **Ayuda para tus trámites** (pestaña inicial): explicación del acompañamiento, invitación/autorización, ruta existente y chatbot al lado. El chat aparece desde la invitación; sin permiso permite orientación general sin consultar perfil ni reenviar historial personal.
 - **Mi ruta**: retoma el mismo caso SQLite, con antecedentes, checklist, permisos e historial. Cambiar pestaña no crea otro caso.
 - Buscador: selección local de accesos verificados y botón que continúa en el buscador oficial. No afirmar que el catálogo reducido contiene todos los trámites.
 - Vistas ejecutivo/campañas/medición y selección de persona/canal siguen en controles de demostración, en la barra lateral colapsada.
 
 ## Chatbot y límite del MVP
-`src/app/ruta/asistente.py` conserva las plantillas y delega Bedrock a `chatbot.answer`. Este usa `BedrockClient.from_env()` (modelo/credenciales configurables y allowlist), `Agent` y un handler `leer_caso` con el contexto calculado por el motor de la app. El modelo recibe estado, ruta y fuente; no aporta RUN, permiso ni resultados inventados. El permiso viene del flujo real de la app antes de crear el cliente. Las fuentes del prototipo mantienen su marca de no verificadas.
+`src/app/ruta/asistente.py` conserva las plantillas y delega Bedrock a `chatbot.answer`. Este usa `BedrockClient.from_env()` (modelo/credenciales configurables y allowlist), `Agent` y un handler `leer_caso` con el contexto calculado por el motor de la app. El modelo recibe estado, ruta y fuente; no aporta RUN, permiso ni resultados inventados. El permiso viene del flujo real de la app antes de crear el cliente para la ruta personal. Las fuentes del prototipo mantienen su marca de no verificadas.
 
 El modo Bedrock se activa con `BEDROCK_MODEL_ID` del proceso, como en el aporte de Johann; una vez activo, el cliente común también lee `.env`. Sin configuración o ante error sigue funcionando por plantillas. No se verificó una inferencia real en este cambio: el tool use se probó con un cliente falso.
 
@@ -36,3 +36,37 @@ Ejecutar: `uv run --group app streamlit run src/app/app.py --server.address loca
 - 15-10: banner con chat de texto visible sin bot?n previo; t?tulo ?Prueba nuestro asistente de inteligencia artificial? e invitaci?n a preguntas frecuentes. Rotaci?n detenida al mostrar el chat; consulta contin?a en Ayuda. Cuatro pruebas del portal y verificador de 500 perfiles OK. [[portal-ayuda-tramites]].
 
 - 15-10: Banner del asistente con t?tulo principal ?Prueba el asistente de inteligencia artificial?, dise?o neutro centrado, campo de texto redondeado, env?o con flecha y preguntas frecuentes como sugerencias. Cuatro pruebas del portal OK. [[portal-ayuda-tramites]].
+
+
+## Consultas generales sin repetir el diagnóstico · 15-10
+
+Según [[0015-orientacion-general-sin-perfil]], la definición de PGU/AFP/RSH/SCOMP
+se atiende antes de pedir autorización de antecedentes. Con Bedrock configurado,
+answer_general envía solo la pregunta actual y hechos públicos con fuentes; no
+recibe perfil ni historial. El respaldo explica el tema solicitado. Consultas
+personales piden consentimiento; las desconocidas piden aclaración sin repetir fechas.
+
+Verificación: 22 pruebas enfocadas pasan. Llamada real a Sonnet 5 a «¿Qué es la PGU?»
+sin autorización devolvió una definición con fuente ChileAtiende y sin nombre ni
+fechas personales. Fuente pública consultada: https://www.chileatiende.gob.cl/fichas/102077.
+- 15-10: Animaciones suaves de entrada para tarjetas, etapas y chat; transiciones de botones, foco del campo y tarjetas de portada. Movimiento reducido desactiva efectos. Chromium verifica escritorio/movil, limites de tarjetas y prefers-reduced-motion. Retiradas las sugerencias bajo el chat del banner; campo y envio conservados. [[portal-ayuda-tramites]].
+
+- 15-10: Slides del banner cada 2,5 segundos: ciclo CSS completo de 5 segundos para dos paneles. Duracion comprobada en Chromium. [[portal-ayuda-tramites]].
+
+- 15-10: Banner inicia con asistente IA y cambia de slide cada 8 segundos (ciclo de 16 segundos). Orden HTML actualizado tambien para movimiento reducido. Chromium confirma estado inicial y duracion. [[portal-ayuda-tramites]].
+
+- 15-10: Chat publico con bienvenida centrada, encabezado compacto, mensajes de persona a la derecha y entrada fija redondeada; CSS separado y responsive. Reinicio local elimina importacion obsoleta de responder_publico. Prueba de UI de respuesta y nueva conversacion OK; Chromium verifica envio y anchos 1440/390 sin desborde. Referencia america.gov/chat no accesible desde navegador de consulta. [[portal-ayuda-tramites]].
+Integración: el chat público separado en /chat usa también el cliente compartido,
+sin temperature. Conserva solo su propio historial público. 23 pruebas enfocadas
+pasan tras integrar el aporte; el historial personal revocado nunca se reenvía.
+
+### Elegibilidad personal en Mi Gobierno
+
+«puedo tener yo la pgu?» ahora se reconoce como consulta personal, al igual que
+«tengo derecho», «podría solicitarla» y «me corresponde». Sin consentimiento se
+indica marcar la casilla y pulsar Activar Mi Gobierno, sin afirmar elegibilidad.
+Con permiso la pregunta se envía al agente con la evaluación determinista existente.
+Las consultas generales con Bedrock ya no dependen de una lista cerrada de frases;
+solo se envía la pregunta actual, sin perfil ni historial personal revocado.
+Verificación: 31 pruebas enfocadas pasan y script 500 perfiles TODO OK.
+- 15-10: Pulido del chat publico: textarea contenido dentro del borde y sin padding que recorta lineas; burbuja de persona con altura suficiente para todo el texto. Chromium verifica banner, dos turnos, enlaces de fuentes y nueva conversacion a 390/900/1440 px. Cinco pruebas enfocadas OK. [[portal-ayuda-tramites]].

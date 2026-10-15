@@ -11,7 +11,7 @@ Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo
 ### 2026-10-15 · Portal para ejecutivos · commit «Crear portal de seguimiento y campañas para ejecutivos»
 - Página nueva con estética del frontend: estados claros, búsqueda/filtros e historial con próximo paso; lectura del mismo snapshot sin cruzar antecedentes privados de otra base.
 - Campañas RM con paleta existente y propuesta automática según cantidad de personal. Radios discretos, capacidad de demo explícita, mínimo cinco casos y GeoJSON sin identificadores. Laboratorio técnico conservado.
-- Demo aislada persistente y selector para el embudo de la aplicación, sin llamadas ni envíos AWS. KPI ≥75% permanece pendiente de instrumentación; no se equipara contacto/inicio con avance válido en plazo. [[portal-ejecutivos]], [[0015-portal-ejecutivos]].
+- Demo aislada persistente y selector para el embudo de la aplicación, sin llamadas ni envíos AWS. KPI ≥75% permanece pendiente de instrumentación; no se equipara contacto/inicio con avance válido en plazo. [[portal-ejecutivos]], [[0016-portal-ejecutivos]].
 - Pruebas nuevas de planificación, privacidad, persistencia, filtros, navegación y mapa; verificador de 500 perfiles y recorrido Chromium de escritorio/móvil. Pruebas antiguas adaptadas a las pestañas y chat vigentes.
 
 ### 2026-10-15 · Merge de aportes locales y remotos · `9626cac`
@@ -123,3 +123,21 @@ Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo
 - 15-10: Banner del asistente con t?tulo principal ?Prueba el asistente de inteligencia artificial?, dise?o neutro centrado, campo de texto redondeado, env?o con flecha y preguntas frecuentes como sugerencias. Cuatro pruebas del portal OK. [[portal-ayuda-tramites]].
 
 - 15-10: L?nea de tiempo compacta: menos padding, marcadores de 30 px y texto reducido; tarjetas con box-sizing border-box para contener su ancho. Chromium verific? el componente a 390/900/1440 px sin desborde. Test actualizado a st.html; tres pruebas pasan, prueba integral falla despu?s en expectativa de chat tras revocar (fuera del CSS). [[mi-gobierno]].
+
+- 15-10: Corregido desborde real de etapas: stHtml recibia 875 px dentro de 833 px disponibles por el padding de la tarjeta. Se limita el bloque HTML al 100% del ancho interior. Chromium sobre Mi Gobierno completo confirma cuatro tarjetas contenidas a 1440, 900 y 390 px. [[mi-gobierno]].
+
+- 15-10: Recuadros de requisitos: icono y bloque de texto centrados verticalmente, ancho con padding incluido y texto contenido. Chromium en Mi Gobierno completo confirma 16 recuadros alineados a 1440 y 390 px. [[mi-gobierno]].
+
+- 15-10: Textos del resultado y requisitos centrados horizontalmente respecto de todo el recuadro, con padding simetrico e icono independiente a la izquierda. Chromium en pantalla real verifica 16 recuadros centrados y contenidos a 1440, 900 y 390 px. [[mi-gobierno]].
+
+- 15-10: Animaciones suaves de entrada para tarjetas, etapas y chat; transiciones de botones, foco del campo y tarjetas de portada. Movimiento reducido desactiva efectos. Chromium verifica escritorio/movil, limites de tarjetas y prefers-reduced-motion. Retiradas las sugerencias bajo el chat del banner; campo y envio conservados. [[portal-ayuda-tramites]].
+
+- 15-10: Slides del banner cada 2,5 segundos: ciclo CSS completo de 5 segundos para dos paneles. Duracion comprobada en Chromium. [[portal-ayuda-tramites]].
+
+- 15-10: Banner inicia con asistente IA y cambia de slide cada 8 segundos (ciclo de 16 segundos). Orden HTML actualizado tambien para movimiento reducido. Chromium confirma estado inicial y duracion. [[portal-ayuda-tramites]].
+
+- 15-10: Retirados encabezado introductorio y descripcion de acompanamiento encima del listado de beneficios, a solicitud del usuario. [[mi-gobierno]].
+
+- 15-10: Chat publico con bienvenida centrada, encabezado compacto, mensajes de persona a la derecha y entrada fija redondeada; CSS separado y responsive. Reinicio local elimina importacion obsoleta de responder_publico. Prueba de UI de respuesta y nueva conversacion OK; Chromium verifica envio y anchos 1440/390 sin desborde. Referencia america.gov/chat no accesible desde navegador de consulta. [[portal-ayuda-tramites]].
+
+- 15-10: Pulido del chat publico: textarea contenido dentro del borde y sin padding que recorta lineas; burbuja de persona con altura suficiente para todo el texto. Chromium verifica banner, dos turnos, enlaces de fuentes y nueva conversacion a 390/900/1440 px. Cinco pruebas enfocadas OK. [[portal-ayuda-tramites]].

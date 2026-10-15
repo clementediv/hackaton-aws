@@ -168,8 +168,6 @@ def _benefits_page(d, authorized: bool) -> None:
     with st.container(key="gov_benefits_layout"):
         benefits, chat = st.columns([2.15, 1], gap="large")
         with benefits:
-            st.markdown("### Te acompañamos paso a paso")
-            st.caption("Revisa tu situación, prepara tus antecedentes y continúa con el próximo paso. El asistente te acompaña durante todo el recorrido.")
             if authorized:
                 _benefits(d)
             else:

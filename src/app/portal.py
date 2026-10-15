@@ -4,7 +4,6 @@ import base64
 import unicodedata
 from html import escape
 from pathlib import Path
-from time import monotonic
 from urllib.parse import quote
 
 import streamlit as st
@@ -15,12 +14,15 @@ LOGO = Path(__file__).resolve().parent / "assets/logo-chileatiende.svg"
 INSTITUTION = "Instituto de Previsión Social"
 
 
-CSS = (
-    "<style>"
-    + (LOGO.parent / "fonts.css").read_text(encoding="utf-8")
-    + (LOGO.parent / "portal.css").read_text(encoding="utf-8")
-    + "</style>"
-)
+def _portal_styles() -> str:
+    return (
+        "<style>"
+        + (LOGO.parent / "fonts.css").read_text(encoding="utf-8")
+        + (LOGO.parent / "portal.css").read_text(encoding="utf-8")
+        + (LOGO.parent / "motion.css").read_text(encoding="utf-8")
+        + (LOGO.parent / "public-chat.css").read_text(encoding="utf-8")
+        + "</style>"
+    )
 
 # Labels/URLs verified in the HTML of the official portal on 2026-10-14.
 SERVICES = (
@@ -52,7 +54,7 @@ EXECUTIVE_SECTIONS = [
 
 
 def render_header() -> str:
-    st.markdown(CSS, unsafe_allow_html=True)
+    st.markdown(_portal_styles(), unsafe_allow_html=True)
     if st.query_params.get("vista") == "ejecutivos" and not st.session_state.get(
         "staff_deeplink_loaded"
     ):
@@ -177,39 +179,72 @@ def render_discovery() -> None:
 
 
 def _queue_home_question(question: str) -> None:
-    st.session_state["portal_pending_question"] = question
-    st.session_state["portal_next_section"] = "Mi Gobierno"
-    st.rerun(scope="app")
+    st.session_state["public_chat_pending"] = question
+    st.switch_page(st.Page(render_chat_page, title="Asistente ChileAtiende", url_path="chat"))
 
 
-@st.fragment(run_every="5s")
+def render_chat_page() -> None:
+    from ruta.asistente import responder_publico
+
+    st.markdown(_portal_styles(), unsafe_allow_html=True)
+    with st.container(key="public_chat_header"):
+        brand, actions = st.columns([3, 1], vertical_alignment="center")
+        with brand:
+            st.page_link(st.session_state["portal_home_page"], label="← ChileAtiende")
+        with actions:
+            if st.button("Nueva conversación", key="public_chat_reset", use_container_width=True):
+                st.session_state["public_chat_history"] = []
+                st.session_state.pop("public_chat_pending", None)
+                st.session_state.pop("public_chat_engine", None)
+                st.rerun()
+    with st.container(key="public_chat"):
+        history = st.session_state.setdefault("public_chat_history", [])
+        pending = st.session_state.pop("public_chat_pending", None)
+        if pending:
+            with st.spinner("Preparando tu respuesta…"):
+                answer, engine = responder_publico(pending, history)
+            st.session_state["public_chat_engine"] = engine
+            history.extend([{"rol": "user", "texto": pending}, {"rol": "assistant", "texto": answer}])
+        if not history:
+            st.markdown(
+                '<div class="public-chat-welcome"><span>ASISTENTE CHILEATIENDE</span>'
+                '<h1>¿En qué te podemos ayudar?</h1>'
+                '<p>Una conversación para encontrar tu próximo paso.</p></div>',
+                unsafe_allow_html=True,
+            )
+        for index, message in enumerate(history):
+            with st.container(key=f"public_message_{message['rol']}_{index}"):
+                st.chat_message(message["rol"]).write(message["texto"])
+        if st.session_state.get("public_chat_engine") == "plantillas" and history:
+            st.caption("Orientación con respuestas predefinidas y fuentes oficiales.")
+    if question := st.chat_input("Escribe tu pregunta sobre trámites o beneficios", max_chars=2000):
+        st.session_state["public_chat_pending"] = question
+        st.rerun()
+    with st.container(key="public_chat_notice"):
+        st.caption("Orientación general con fuentes oficiales. No compartas claves ni datos personales.")
+
+
 def _render_home_banner() -> None:
-    now = monotonic()
-    previous = st.session_state.setdefault("home_banner_last_rotation", now)
-    slide = st.session_state.setdefault("home_banner_slide", "Beneficios")
-    if not st.session_state.get("home_banner_chat_open") and now - previous >= 5:
-        st.session_state["home_banner_slide"] = (
-            "Asistente IA" if slide == "Beneficios" else "Beneficios"
-        )
-        st.session_state["home_banner_last_rotation"] = now
     with st.container(border=True, key="home_government"):
-        active = st.session_state["home_banner_slide"]
-        slide_key = "assistant" if active == "Asistente IA" else "benefits"
-        with st.container(key=f"home_slide_{slide_key}"):
-            if active == "Asistente IA":
-                _render_home_assistant()
-            else:
-                _render_home_benefits()
+        with st.container(key="home_slide_assistant"):
+            _render_home_assistant()
+        with st.container(key="home_slide_benefits"):
+            _render_home_benefits()
 
 
 def _render_home_benefits() -> None:
     with st.container(key="home_government_invitation"):
         st.markdown(
             '<div class="home-government">'
-            "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
+            "<h1>Cobra beneficios gratis del Estado</h1>"
             "<p>Descubre cuáles podrían corresponderte según tu situación. "
             "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
             "en un solo lugar.</p>"
+            '<ul class="home-benefit-examples" aria-label="Ejemplos de beneficios">'
+            '<li>Pensión Garantizada Universal (PGU)</li>'
+            '<li>Gratuidad en educación superior</li>'
+            '<li>Becas de educación superior</li>'
+            '</ul>'
             "</div>",
             unsafe_allow_html=True,
         )
@@ -225,32 +260,41 @@ def _render_home_benefits() -> None:
 def _render_home_assistant() -> None:
     st.markdown(
         '<div class="home-government home-assistant-intro">'
-        "<h1>Prueba el asistente de inteligencia artificial</h1>"
-        "<p>Resuelve preguntas frecuentes sobre tr?mites y beneficios.</p></div>",
+        "<h1>Prueba el asistente de inteligencia artificial de ChileAtiende</h1>"
+        "</div>",
         unsafe_allow_html=True,
     )
-    st.session_state["home_banner_chat_open"] = True
+    examples = (
+        ("¿Qué documentos necesito?", "En Mi Gobierno, abre tu beneficio y revisa los antecedentes de cada paso."),
+        ("¿Por dónde empiezo?", "Ingresa a Mi Gobierno y autoriza la consulta de tus antecedentes para preparar tu ruta."),
+        ("¿Puedo continuar después?", "Sí. Tu avance queda guardado para retomar desde el próximo paso pendiente."),
+    )
+    cards = "".join(
+        f'<div class="home-answer-example" style="--example-index:{index}">'
+        f'<div class="home-example-question">{escape(question)}</div>'
+        '<div class="home-example-answer"><span>Asistente ChileAtiende</span>'
+        f'{escape(answer)}</div></div>'
+        for index, (question, answer) in enumerate(examples)
+    )
+    st.html(
+        '<div class="home-answer-examples" aria-label="Ejemplos de preguntas y respuestas">'
+        + cards + '</div>'
+    )
     with st.container(key="home_chat_preview"):
         with st.form("home_agent_question", border=False):
-            question = st.text_input(
+            text_column, send_column = st.columns([5, 1], gap="small", vertical_alignment="center")
+            question = text_column.text_input(
                 "Escribe tu pregunta",
                 key="home_agent_question_text",
-                placeholder="Pregunta lo que necesites?",
+                placeholder="Pregunta lo que necesites",
                 label_visibility="collapsed",
                 max_chars=2000,
             )
-            if st.form_submit_button("Enviar", type="primary", icon=":material/arrow_upward:"):
+            if send_column.form_submit_button("Enviar", type="primary", use_container_width=True):
                 if question.strip():
                     _queue_home_question(question.strip())
                 else:
                     st.warning("Escribe una pregunta para continuar.")
-    with st.container(key="home_chat_suggestions"):
-        examples = st.columns(2)
-        for index, question in enumerate(("?Qu? es la PGU?", "?Qu? documentos necesito?")):
-            if examples[index].button(
-                question, key=f"home_example_{index}", use_container_width=True
-            ):
-                _queue_home_question(question)
 
 
 def open_section(section: str) -> None:

@@ -110,9 +110,6 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 @media(max-width:700px){.portal-header{height:auto;padding:18px 0;gap:12px;flex-wrap:wrap}.portal-logo{width:190px;height:60px}.portal-utilities{gap:8px;font-size:12px}.portal-utilities a{padding:8px}.portal-hero h1{font-size:22px}.block-container{padding-left:18px;padding-right:18px}}
 /* Homepage carousel with a rightward slide entrance. */
 .st-key-home_government{overflow:hidden}
-.st-key-home_slide_benefits,.st-key-home_slide_assistant{animation:home-slide-right .55s ease-out both}
-@keyframes home-slide-right{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
-@media(prefers-reduced-motion:reduce){.st-key-home_slide_benefits,.st-key-home_slide_assistant{animation:none}}
 .home-slide-indicator{text-align:center;color:#0d4d82;font-size:14px;padding:8px 0}
 .st-key-home_banner_controls{margin-top:28px;padding-top:20px;border-top:1px solid #d7e4ee}
 .st-key-home_chat_preview{max-width:720px;padding:20px;border:1px solid #d4e2ed;border-radius:10px;background:#fff}
@@ -122,10 +119,12 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 
 /* Chat de texto en el banner de inicio. */
 .st-key-home_government:has(.home-assistant-intro){background:#fafafa;border-color:#e8e8e8!important;padding:52px 40px}
-.home-assistant-intro{text-align:center;max-width:820px;margin:0 auto}
-.home-assistant-intro h1{font-family:"Roboto",Arial,sans-serif;font-size:40px;font-weight:500;letter-spacing:-1.2px;line-height:1.2;color:#202123;margin:0 auto 16px;max-width:760px}
+.home-assistant-intro{text-align:center;max-width:680px;margin:0 auto}
+.home-assistant-intro h1{font-family:"Roboto",Arial,sans-serif;font-size:36px;font-weight:500;letter-spacing:-.8px;line-height:1.25;color:#202123;margin:0 auto 12px;max-width:680px}
 .home-assistant-intro p{font-size:17px;color:#6b6b6b;line-height:1.5;margin:0 auto 28px}
-.st-key-home_chat_preview{max-width:760px;margin:0 auto;padding:16px 18px 12px;border:1px solid #dedede;border-radius:28px;background:#fff;box-shadow:0 4px 18px #00000008}
+.st-key-home_chat_preview{box-sizing:border-box;width:100%;max-width:680px;margin:0 auto;padding:14px 18px 12px;border:1px solid #dedede;border-radius:22px;background:#fff;box-shadow:0 4px 18px #00000008}
+.st-key-home_chat_preview [data-baseweb="input"],.st-key-home_chat_preview [data-baseweb="base-input"]{background:transparent!important;border:0!important;box-shadow:none!important}
+.st-key-home_chat_preview:focus-within{border-color:#0f69b4;box-shadow:0 0 0 2px #0f69b414}
 .st-key-home_chat_preview [data-testid="stTextInputRootElement"]{border:0!important;background:transparent;box-shadow:none!important}
 .st-key-home_chat_preview input{font-size:17px;background:transparent;color:#202123}
 .st-key-home_chat_preview [data-testid="stFormSubmitButton"]{display:flex;justify-content:flex-end}
@@ -136,6 +135,50 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .st-key-home_chat_suggestions button{border:1px solid #dedede;background:transparent;border-radius:24px;color:#555;min-height:40px}
 .st-key-home_chat_suggestions button:hover{border-color:#bdbdbd;background:#f0f0f0;color:#202123}
 @media(max-width:700px){.st-key-home_government:has(.home-assistant-intro){padding:32px 18px}.home-assistant-intro h1{font-size:30px;letter-spacing:-.7px}.home-assistant-intro p{font-size:16px}.st-key-home_chat_preview{padding:12px;border-radius:22px}.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{width:auto}}
+
+/* Overlay complete panels at their natural width; animate only their wrappers. */
+.st-key-home_government{display:grid!important;grid-template-columns:minmax(0,1fr);isolation:isolate}
+.st-key-home_government>[data-testid="stVerticalBlockBorderWrapper"]{grid-area:1/1;min-width:0;width:100%;will-change:transform}
+.st-key-home_government>[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_slide_benefits){animation:banner-benefits 16s infinite}
+.st-key-home_government>[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_slide_assistant){animation:banner-assistant 16s infinite}
+.st-key-home_government:hover>[data-testid="stVerticalBlockBorderWrapper"],.st-key-home_government:focus-within>[data-testid="stVerticalBlockBorderWrapper"]{animation-play-state:paused}
+@keyframes banner-assistant{0%,44%{transform:translateX(0);visibility:visible}50%,94%{transform:translateX(110%);visibility:hidden}100%{transform:translateX(0);visibility:visible}}
+@keyframes banner-benefits{0%,44%{transform:translateX(-110%);visibility:hidden}50%,94%{transform:translateX(0);visibility:visible}100%{transform:translateX(-110%);visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.st-key-home_government>[data-testid="stVerticalBlockBorderWrapper"]{animation:none!important;grid-area:auto;transform:none;visibility:visible}}
+
+/* Example conversations: fixed layout, then question and answer appear in turn. */
+.home-answer-examples{display:grid;width:100%;max-width:680px;margin:8px auto 8px;min-height:150px}
+.home-answer-example{grid-area:1/1;min-width:0;opacity:0;visibility:hidden;animation:example-conversation 15s infinite;animation-delay:calc(var(--example-index)*5s)}
+.home-example-question{margin:0 0 10px auto;width:fit-content;max-width:90%;padding:9px 14px;background:#e9eef5;border-radius:16px 16px 4px 16px;color:#253e52;font-size:14px}
+.home-example-answer{max-width:95%;padding:12px 16px;border:1px solid #e0e7ee;background:white;border-radius:16px 16px 16px 4px;font-size:14px;line-height:1.55;color:#43576a;animation:example-answer 15s infinite;animation-delay:calc(var(--example-index)*5s)}
+.home-example-answer>span{display:block;font-size:11px;font-weight:600;color:#0f69b4;margin-bottom:5px}
+@keyframes example-conversation{0%,30%{opacity:1;visibility:visible}32%,100%{opacity:0;visibility:hidden}}
+@keyframes example-answer{0%,5%{opacity:0;transform:translateY(6px)}9%,30%{opacity:1;transform:translateY(0)}32%,100%{opacity:0;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.home-answer-example,.home-example-answer{animation:none;opacity:1;visibility:visible;transform:none}.home-answer-example{grid-area:auto;margin-bottom:12px}}
+@media(max-width:700px){.home-answer-examples{min-height:210px}.home-example-question,.home-example-answer{font-size:13px}}
+/* ChileAtiende palette for the assistant introduction and conversation. */
+.st-key-home_government:has(.home-assistant-intro){background:#f4f8fc;border-color:#d5e4f2!important}
+.home-assistant-intro h1{color:#0d4d82}
+.home-assistant-intro:before{content:"";display:block;width:64px;height:5px;margin:0 auto 20px;background:linear-gradient(to right,#0f69c4 50%,#eb3c46 50%);border-radius:2px}
+.home-example-question{background:#e5f0fc;color:#0d4d82}
+.home-example-answer{border-color:#d5e4f2;border-left:3px solid #0f69c4;color:#34536e}
+.home-example-answer>span{color:#0f69c4}
+.st-key-home_chat_preview{border-color:#c6d9ea;box-shadow:0 4px 18px #0d4d8208}
+.st-key-home_chat_preview input{color:#143e5c}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{background:#0f69c4;border-color:#0f69c4;color:#fff}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button:hover{background:#0d4d82;border-color:#0d4d82}
+.st-key-home_chat_suggestions button{border-color:#bfd6ec;color:#0d4d82;background:#fff}
+.st-key-home_chat_suggestions button:hover{border-color:#0f69c4;background:#e5f0fc;color:#0d4d82}
+.st-key-home_chat_preview [data-testid="stHorizontalBlock"]{flex-wrap:nowrap!important;gap:10px!important;align-items:center}
+.st-key-home_chat_preview [data-testid="stColumn"]{min-width:0!important}
+.st-key-home_chat_preview [data-testid="stColumn"]:first-child{flex:1 1 0!important;width:auto!important}
+.st-key-home_chat_preview [data-testid="stColumn"]:last-child{flex:0 0 82px!important;width:82px!important}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{width:100%;white-space:nowrap}
+.home-benefit-examples{display:flex;flex-wrap:wrap;gap:10px;list-style:none!important;padding:0!important;margin:0 0 26px!important}
+.home-benefit-examples li{margin:0!important;padding:10px 14px;border:1px solid #bfd6ec;border-radius:12px;background:#fff;color:#0d4d82;font-size:14px;line-height:1.5}
+.st-key-public_chat{max-width:820px;margin:32px auto 0}
+.st-key-public_chat h1{color:#0d4d82;font-size:32px}
+.st-key-public_chat [data-testid="stChatMessage"]{border-radius:16px;margin:10px 0}
 /* Institution under the ChileAtiende logo (same style as the emails) */
 .portal-brand {display:flex;flex-direction:column;align-items:flex-start;gap:2px}
 .portal-institution {font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;color:#0d4d82;letter-spacing:.2px;line-height:1.2;white-space:nowrap}

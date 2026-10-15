@@ -7,10 +7,11 @@ revision: 2026-10-15 (estado real del código y detección proactiva en AWS)
 ---
 # Arquitectura — ChileAtiende a tiempo
 
-**Revisión 15-10 (tarde):** esta nota describe lo que **existe hoy**, no solo lo planificado. Hay tres bloques:
+**Revisión 15-10 (tarde):** esta nota describe lo que **existe hoy**, no solo lo planificado. Hay cuatro bloques:
 1. **App de demostración** (Streamlit, `src/app/`): portal ciudadano, Mi Gobierno y herramientas del ejecutivo, con reglas, casos y colador en SQLite local.
 2. **Agente** (`src/agent/`, `src/contracts/`, `src/tools/`): Bedrock Converse con herramientas; el chatbot de la app lo usa.
 3. **Detección proactiva en AWS** (`src/proactivo/`, `infra/`): **desplegada** en la cuenta del evento. Un cambio en los datos de una persona dispara la detección y un email real (SES). Diseño en [[deteccion-proactiva-aws]].
+4. **API del chatbot en AWS** (`src/api/`, `src/cases/`, `infra/chat_stack.py`): **desplegada**, con consentimiento, evaluación determinista, casos e historial DynamoDB y continuidad de tres turnos verificada. Cliente en `scripts/chat.py`; Streamlit sigue usando su adaptador local. Phoenix opcional y evals DeepEval en [[chatbot-desplegado]].
 
 Los bloques 1 y 3 se conectan **solo para lectura**: la pestaña **Contactos AWS** y la ficha del beneficiario de la app muestran lo que AWS detectó, envió y registró (`src/app/ruta/aws_contactos.py`). La app sigue usando su SQLite y su motor (`src/app/ruta/reglas.py`) para lo demás; unificar el motor es el siguiente paso (ver al final).
 
