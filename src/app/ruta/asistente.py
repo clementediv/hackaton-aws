@@ -134,6 +134,34 @@ def _norm(t: str) -> str:
     )
 
 
+def _consulta_personal(question: str) -> bool:
+    """Identify a request about the person's case, never determine eligibility."""
+    q = _norm(question)
+    return any(
+        term in q
+        for term in (
+            "puedo",
+            "podria",
+            "podre",
+            "cumplo",
+            "mi caso",
+            "corresponde",
+            "mis datos",
+            "cuanto",
+            "monto",
+            "tengo derecho",
+            "tendre derecho",
+            "soy elegible",
+            "califico",
+            "puedo acceder",
+            "puedo recibir",
+            "puedo tener",
+            "optar a",
+            "para mi",
+        )
+    )
+
+
 def _plantilla(pregunta: str, ctx: dict) -> str:
     q = _norm(pregunta)
     greeting = re.sub(r"[^\w\s]", "", q).strip()
@@ -196,13 +224,13 @@ def _plantilla(pregunta: str, ctx: dict) -> str:
         )
     h = ctx["hitos"]
     if not ctx["autorizado"] and q.strip():
-        if any(
-            term in q
-            for term in ("cumplo", "mi caso", "corresponde", "mis datos", "cuanto", "monto")
-        ):
+        if _consulta_personal(pregunta):
             return (
                 "Para revisar si te corresponde la PGU o estimar tu monto necesito que "
-                "autorices la consulta de antecedentes en Mi Gobierno. "
+                "autorices la consulta de antecedentes aquí, en Mi Gobierno: marca la casilla "
+                "«Acepto el acompañamiento y autorizo consultar mis antecedentes» y pulsa "
+                "«Activar Mi Gobierno». "
+                "Aún no puedo confirmar si cumples los requisitos; la decisión final es del IPS. "
                 "Mientras tanto puedo explicarte qué es la PGU y cómo funciona." + source
             )
         return (
@@ -310,27 +338,24 @@ def responder(pregunta: str, ctx: dict, historial: list[dict]) -> tuple[str, str
     """Devuelve (respuesta, motor) donde motor es 'bedrock' o 'plantillas'."""
     # A revoked consent must not forward previously authorized chat to the LLM.
     if not ctx["autorizado"]:
-        # Public education may use Bedrock, but never the profile or old chat.
-        q = _norm(pregunta)
-        public_question = (
-            q.strip(" ¿?¡!.") == "pgu"
-            or any(
-                term in q
-                for term in (
-                    "que es",
-                    "que significa",
-                    "explica",
-                    "explicame",
-                    "para que sirve",
-                    "como funciona",
-                )
-            )
-            and any(
-                term in q
-                for term in ("pgu", "pension garantizada", "afp", "rsh", "registro social", "scomp")
-            )
-        )
-        if config.BEDROCK_MODEL_ID and public_question:
+        # A personal question must get the consent step, never an invented evaluation.
+        if _consulta_personal(pregunta):
+            return _plantilla(pregunta, ctx), "plantillas"
+        q = re.sub(r"[^\w\s]", "", _norm(pregunta)).strip()
+        social = q in {
+            "hola",
+            "hola que tal",
+            "hola como estas",
+            "buenas",
+            "buenos dias",
+            "buenas tardes",
+            "buenas noches",
+            "gracias",
+            "muchas gracias",
+            "ok gracias",
+        }
+        # General conversation is not limited to a fixed list of keywords.
+        if config.BEDROCK_MODEL_ID and q and not social:
             try:
                 from .chatbot import answer_general
 

@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from src.app.ruta import asistente, chatbot, config
 
 
@@ -71,3 +73,57 @@ def test_separate_public_chat_preserves_public_history_and_uses_shared_client(mo
     text, engine = asistente.responder_publico("¿Quién lo revisa?", history)
     assert engine == "bedrock"
     assert "IPS" in text
+
+
+@pytest.mark.parametrize(
+    "question",
+    [
+        "puedo tener yo la pgu?",
+        "¿Puedo recibir la PGU?",
+        "¿Tengo derecho a la PGU?",
+        "¿Podría solicitarla?",
+        "¿Me corresponde?",
+        "¿Califico para este beneficio?",
+    ],
+)
+def test_personal_eligibility_requires_consent_with_concrete_next_step(monkeypatch, question):
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("No evaluar ni enviar datos personales sin permiso")
+
+    monkeypatch.setattr(chatbot, "answer_general", forbidden)
+    context = {"autorizado": False, "nombre": "Raúl", "hitos": {}}
+    text, engine = asistente.responder(question, context, [])
+    assert "autorices" in text
+    assert "Activar Mi Gobierno" in text
+    assert "Aún no puedo confirmar" in text
+    assert "¿Qué parte te gustaría entender?" not in text
+    assert engine == "plantillas"
+
+
+def test_authorized_personal_question_reaches_agent_with_calculated_context(monkeypatch):
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
+    context = {"autorizado": True, "pgu": {"resultado_orientativo": "elegible"}}
+
+    def agent(question, ctx, history):
+        assert question == "puedo tener yo la pgu?"
+        assert ctx is context
+        return (
+            "Según tu evaluación preliminar, podrías solicitarla. La decisión corresponde al IPS."
+        )
+
+    monkeypatch.setattr(asistente, "_bedrock", agent)
+    text, engine = asistente.responder("puedo tener yo la pgu?", context, [])
+    assert "podrías solicitarla" in text
+    assert engine == "bedrock"
+
+
+def test_general_followup_is_not_limited_to_fixed_keywords(monkeypatch):
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
+    monkeypatch.setattr(chatbot, "answer_general", lambda q: "Explicación pertinente")
+    text, engine = asistente.responder(
+        "No entiendo la diferencia con una pensión", {"autorizado": False, "hitos": {}}, []
+    )
+    assert engine == "bedrock"
+    assert text == "Explicación pertinente"

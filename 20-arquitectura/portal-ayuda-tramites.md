@@ -58,3 +58,13 @@ fechas personales. Fuente pública consultada: https://www.chileatiende.gob.cl/f
 Integración: el chat público separado en /chat usa también el cliente compartido,
 sin temperature. Conserva solo su propio historial público. 23 pruebas enfocadas
 pasan tras integrar el aporte; el historial personal revocado nunca se reenvía.
+
+### Elegibilidad personal en Mi Gobierno
+
+«puedo tener yo la pgu?» ahora se reconoce como consulta personal, al igual que
+«tengo derecho», «podría solicitarla» y «me corresponde». Sin consentimiento se
+indica marcar la casilla y pulsar Activar Mi Gobierno, sin afirmar elegibilidad.
+Con permiso la pregunta se envía al agente con la evaluación determinista existente.
+Las consultas generales con Bedrock ya no dependen de una lista cerrada de frases;
+solo se envía la pregunta actual, sin perfil ni historial personal revocado.
+Verificación: 31 pruebas enfocadas pasan y script 500 perfiles TODO OK.

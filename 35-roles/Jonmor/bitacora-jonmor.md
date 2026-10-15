@@ -8,6 +8,10 @@ Una entrada por avance o commit relevante, la más reciente arriba.
 
 Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Elegibilidad personal del chat · ver commit
+
+Corregida la frase exacta «puedo tener yo la pgu?» y variantes; sin permiso indica casilla y Activar Mi Gobierno, con permiso usa el agente y datos calculados. Consultas generales sin lista cerrada de palabras. 31 pruebas enfocadas y verificador TODO OK. [[portal-ayuda-tramites]].
+
 ### 2026-10-15 · Consultas generales del chatbot · 33eed79
 
 Corregido resumen repetido sin permiso: información general por Bedrock con solo pregunta y fuentes públicas; consultas personales requieren autorización. Respaldo pertinente y sin historial revocado. 23 pruebas enfocadas y llamada real Sonnet 5 OK. Integración d8bde76 conserva /chat y su historial público, usando cliente compartido sin temperature. [[0015-orientacion-general-sin-perfil]].
