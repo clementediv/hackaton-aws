@@ -8,6 +8,12 @@ Una entrada por avance o commit relevante, la más reciente arriba.
 
 Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Desplazamiento y espera del chatbot
+
+Pregunta visible antes de la consulta al agente, tres puntos animados en ola y
+desplazamiento automático al enviar/recibir en ambos chats. Script Chromium aislado
+con respuestas demoradas, sin AWS, a 390/1440 px: cuatro recorridos OK; 256 pruebas pasan, dos omitidas por dependencias opcionales y ocho evals excluidas. Verificador de 500 perfiles TODO OK. [[portal-ayuda-tramites]].
+
 ### 2026-10-15 · Respuesta estándar del cortafuegos · 7d90e9e
 
 Por solicitud del usuario, límite educado y orientativo idéntico en ambos chats, sin depender de reformulación del modelo para los casos reconocidos. Explica propósito y cómo retomar; preserva consultas reales con frustración. Referencias presentadas como invitación a ampliar información, conservando enlaces y advertencias; 57 pruebas enfocadas OK. [[portal-ayuda-tramites]].

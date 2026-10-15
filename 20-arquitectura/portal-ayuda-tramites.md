@@ -129,3 +129,18 @@ con enlaces clicables, en respuestas del modelo y respaldos locales. Se conserva
 las aclaraciones de información no verificada. El formato también se normaliza
 si el modelo devuelve «Fuente» o «Fuente de orientación del MVP». 57 pruebas
 enfocadas pasan, incluyendo preservación de enlaces y normalización idempotente.
+
+## Desplazamiento y espera del chat · 15-10
+
+Ambos chats muestran la pregunta antes de invocar al agente. Durante la espera,
+la burbuja del asistente muestra tres puntos azules con desfase de animación en ola,
+etiquetados para lectores de pantalla. Movimiento reducido deja los puntos estáticos.
+Al enviar y recibir se desplazan los contenedores de conversación hasta el final;
+la observación del layout se desconecta tras asentarse para permitir leer mensajes
+anteriores. Dictado, preguntas rápidas y preguntas que vienen de portada comparten
+el mismo recorrido. Se conservan el historial y las reglas de consentimiento.
+
+Verificación reproducible sin AWS: `uv run --with playwright python scripts/verificar_chat_scroll.py`.
+El script levanta una app aislada con respuesta demorada y comprueba envío inmediato,
+puntos escalonados, retirada del indicador y scroll de envío/respuesta en ambos chats
+a 390 y 1440 px, además de permitir desplazamiento manual posterior.

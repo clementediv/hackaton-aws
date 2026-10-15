@@ -341,7 +341,25 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
         st.session_state[permiso_clave] = ctx["autorizado"]
         hist = st.session_state[clave]
 
+        from chat_feedback import TYPING_HTML, scroll_chat
+
         def preguntar(q: str):
+            mensajes.chat_message("user").write(q)
+            with mensajes.chat_message("assistant"):
+                response = st.empty()
+                response.markdown(TYPING_HTML, unsafe_allow_html=True)
+                scroll_chat(".st-key-assistant_messages", f"sent:{len(hist)}:{q}")
+                try:
+                    resp, motor = obtener_respuesta(q)
+                except Exception:
+                    response.empty()
+                    raise
+                response.write(resp)
+            hist.extend([{"rol": "user", "texto": q}, {"rol": "assistant", "texto": resp}])
+            scroll_chat(".st-key-assistant_messages", f"received:{hist!r}")
+            casos.registrar_evento(run, canal, "consulta_asistente", {"pregunta": q, "motor": motor})
+
+        def obtener_respuesta(q: str):
             public_history = st.session_state.setdefault(public_key, [])
             if ctx["autorizado"]:
                 resp, motor = asistente.responder(q, ctx, hist)
@@ -352,11 +370,7 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
                         {"rol": "user", "texto": q}, {"rol": "assistant", "texto": resp}
                     ])
                     del public_history[:-6]
-            hist.extend([{"rol": "user", "texto": q}, {"rol": "assistant", "texto": resp}])
-            casos.registrar_evento(run, canal, "consulta_asistente", {"pregunta": q, "motor": motor})
-
-        if pending_question := st.session_state.pop("portal_pending_question", None):
-            preguntar(pending_question)
+            return resp, motor
 
         def preguntas_rapidas():
             questions = [PREGUNTAS[2], PREGUNTAS[3]] if ctx["autorizado"] else [PREGUNTAS[0], PREGUNTAS[3]]
@@ -367,11 +381,15 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
                         preguntar(q)
                         st.rerun()
 
-        mensajes = st.container(height=240 if sidebar else 360, border=not sidebar)
+        mensajes = st.container(height=240 if sidebar else 360, border=not sidebar,
+                                key="assistant_messages")
         for i, m in enumerate(hist):
             target = mensajes.container(key=f"gov_chat_{m['rol']}_{i}") if sidebar else mensajes
             avatar = None if sidebar else ("🧭" if m["rol"] == "assistant" else "🙂")
             target.chat_message(m["rol"], avatar=avatar).write(m["texto"])
+        scroll_chat(".st-key-assistant_messages", f"received:{hist!r}")
+        if pending_question := st.session_state.pop("portal_pending_question", None):
+            preguntar(pending_question)
         preguntas_rapidas()
         if q := st.chat_input("Pregúntale al asistente de trámites"):
             preguntar(q)
