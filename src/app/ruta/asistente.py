@@ -14,6 +14,62 @@ from .fechas import fmt
 from .rutas import Paso
 
 
+def responder_publico(pregunta: str, historial: list[dict]) -> tuple[str, str]:
+    """General orientation without reading profiles or authorized personal routes."""
+    source = f"[ChileAtiende]({config.FUENTES['chileatiende']})"
+    topics = {
+        "pgu": (
+            "La PGU es la Pensión Garantizada Universal. Puedes revisar sus requisitos y cómo solicitarla en la ficha oficial. Para revisar tu situación, entra a Mi Gobierno y autoriza la consulta de tus antecedentes.",
+            f"[Ficha PGU]({config.FUENTE_PGU})",
+        ),
+        "document": (
+            "Los documentos dependen del beneficio. En Mi Gobierno, abre tu beneficio y revisa los antecedentes indicados en cada paso. ¿Qué beneficio quieres consultar?",
+            source,
+        ),
+        "beca": (
+            "Puedes consultar becas y beneficios estudiantiles en el portal oficial. En Mi Gobierno encontrarás qué antecedentes falta reunir; esta demo todavía no evalúa esos beneficios.",
+            "[Beneficios Estudiantiles](https://portal.beneficiosestudiantiles.cl/)",
+        ),
+        "gratuidad": (
+            "Revisa la información de gratuidad en el portal oficial de Beneficios Estudiantiles. Esta demo todavía no determina si te corresponde.",
+            "[Beneficios Estudiantiles](https://portal.beneficiosestudiantiles.cl/)",
+        ),
+        "empez": (
+            "Puedes comenzar en Mi Gobierno: ingresa, autoriza consultar tus antecedentes y revisa tu próximo paso. ¿Buscas orientación sobre pensiones o estudios?",
+            source,
+        ),
+    }
+    question = _norm(pregunta)
+    if question.strip(" ¡!¿?.") in {"hola", "buenas", "buenos dias"}:
+        fallback = "Hola. ¿En qué te ayudo? Puedes preguntarme por PGU, documentos, becas o cómo comenzar tu ruta."
+    elif "gracias" in question:
+        fallback = "¡De nada! Puedes seguir preguntándome aquí cuando lo necesites."
+    else:
+        topic = next((key for key in topics if key in question), None)
+        if topic is None and len(question.split()) <= 8:
+            previous = " ".join(_norm(m["texto"]) for m in historial[-4:] if m["rol"] == "user")
+            topic = next((key for key in topics if key in previous), None)
+        text, citation = (
+            topics[topic]
+            if topic
+            else (
+                "Puedo orientarte sobre PGU, documentos y beneficios estudiantiles. Cuéntame qué trámite necesitas. Para revisar beneficios personalizados, continúa en Mi Gobierno.",
+                source,
+            )
+        )
+        fallback = f"{text}\n\nFuente: {citation}."
+    if config.BEDROCK_MODEL_ID:
+        try:
+            from .chatbot import answer_general
+
+            return answer_general(
+                pregunta, public_history=historial, public_guidance=fallback
+            ), "bedrock"
+        except Exception:
+            pass
+    return fallback, "plantillas"
+
+
 def _peso(n: int | float | None) -> str:
     return "—" if n is None else f"${n:,.0f}".replace(",", ".")
 

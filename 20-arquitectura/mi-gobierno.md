@@ -97,3 +97,7 @@ Referencias consultadas el 15-10-2026:
 - 15-10: Corregido desborde real de etapas: stHtml recibia 875 px dentro de 833 px disponibles por el padding de la tarjeta. Se limita el bloque HTML al 100% del ancho interior. Chromium sobre Mi Gobierno completo confirma cuatro tarjetas contenidas a 1440, 900 y 390 px. [[mi-gobierno]].
 
 - 15-10: Recuadros de requisitos: icono y bloque de texto centrados verticalmente, ancho con padding incluido y texto contenido. Chromium en Mi Gobierno completo confirma 16 recuadros alineados a 1440 y 390 px. [[mi-gobierno]].
+
+- 15-10: Textos del resultado y requisitos centrados horizontalmente respecto de todo el recuadro, con padding simetrico e icono independiente a la izquierda. Chromium en pantalla real verifica 16 recuadros centrados y contenidos a 1440, 900 y 390 px. [[mi-gobierno]].
+
+- 15-10: Retirados encabezado introductorio y descripcion de acompanamiento encima del listado de beneficios, a solicitud del usuario. [[mi-gobierno]].

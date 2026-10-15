@@ -17,6 +17,7 @@ def _portal_styles() -> str:
         "<style>"
         + (LOGO.parent / "fonts.css").read_text(encoding="utf-8")
         + (LOGO.parent / "portal.css").read_text(encoding="utf-8")
+    + (LOGO.parent / "motion.css").read_text(encoding="utf-8")
         + "</style>"
     )
 
@@ -154,27 +155,61 @@ def render_discovery() -> None:
 
 
 def _queue_home_question(question: str) -> None:
-    st.session_state["portal_pending_question"] = question
-    st.session_state["portal_next_section"] = "Mi Gobierno"
-    st.rerun(scope="app")
+    st.session_state["public_chat_pending"] = question
+    st.switch_page(st.Page(render_chat_page, title="Asistente ChileAtiende", url_path="chat"))
+
+
+def render_chat_page() -> None:
+    from ruta.asistente import responder_publico
+
+    st.markdown(_portal_styles(), unsafe_allow_html=True)
+    st.page_link(st.session_state["portal_home_page"], label="← Volver a Inicio")
+    with st.container(key="public_chat"):
+        st.markdown('<span class="agent-label">CHILEATIENDE</span>', unsafe_allow_html=True)
+        st.title("Conversemos sobre tus trámites")
+        st.caption("Orientación general con fuentes oficiales. No ingreses claves ni datos personales.")
+        history = st.session_state.setdefault("public_chat_history", [])
+        pending = st.session_state.pop("public_chat_pending", None)
+        if pending:
+            with st.spinner("Preparando tu respuesta…"):
+                answer, engine = responder_publico(pending, history)
+            st.session_state["public_chat_engine"] = engine
+            history.extend([{"rol": "user", "texto": pending}, {"rol": "assistant", "texto": answer}])
+        if not history:
+            st.chat_message("assistant").write("Hola. ¿En qué te ayudo hoy? Puedes preguntarme por PGU, documentos o cómo comenzar tu ruta.")
+        for message in history:
+            st.chat_message(message["rol"]).write(message["texto"])
+        if st.session_state.get("public_chat_engine") == "plantillas" and history:
+            st.caption("Orientación con respuestas predefinidas y fuentes oficiales.")
+        if question := st.chat_input("Pregunta lo que necesites", max_chars=2000):
+            st.session_state["public_chat_pending"] = question
+            st.rerun()
+        if history and st.button("Nueva conversación", key="public_chat_reset"):
+            st.session_state["public_chat_history"] = []
+            st.rerun()
 
 
 def _render_home_banner() -> None:
     with st.container(border=True, key="home_government"):
-        with st.container(key="home_slide_benefits"):
-            _render_home_benefits()
         with st.container(key="home_slide_assistant"):
             _render_home_assistant()
+        with st.container(key="home_slide_benefits"):
+            _render_home_benefits()
 
 
 def _render_home_benefits() -> None:
     with st.container(key="home_government_invitation"):
         st.markdown(
             '<div class="home-government">'
-            "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
+            "<h1>Cobra beneficios gratis del Estado</h1>"
             "<p>Descubre cuáles podrían corresponderte según tu situación. "
             "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
             "en un solo lugar.</p>"
+            '<ul class="home-benefit-examples" aria-label="Ejemplos de beneficios">'
+            '<li>Pensión Garantizada Universal (PGU)</li>'
+            '<li>Gratuidad en educación superior</li>'
+            '<li>Becas de educación superior</li>'
+            '</ul>'
             "</div>",
             unsafe_allow_html=True,
         )
@@ -212,25 +247,19 @@ def _render_home_assistant() -> None:
     )
     with st.container(key="home_chat_preview"):
         with st.form("home_agent_question", border=False):
-            question = st.text_input(
+            text_column, send_column = st.columns([5, 1], gap="small", vertical_alignment="center")
+            question = text_column.text_input(
                 "Escribe tu pregunta",
                 key="home_agent_question_text",
                 placeholder="Pregunta lo que necesites",
                 label_visibility="collapsed",
                 max_chars=2000,
             )
-            if st.form_submit_button("Enviar", type="primary", icon=":material/arrow_upward:"):
+            if send_column.form_submit_button("Enviar", type="primary", use_container_width=True):
                 if question.strip():
                     _queue_home_question(question.strip())
                 else:
                     st.warning("Escribe una pregunta para continuar.")
-    with st.container(key="home_chat_suggestions"):
-        examples = st.columns(2)
-        for index, question in enumerate(("¿Qué es la PGU?", "¿Qué documentos necesito?")):
-            if examples[index].button(
-                question, key=f"home_example_{index}", use_container_width=True
-            ):
-                _queue_home_question(question)
 
 
 def open_section(section: str) -> None:

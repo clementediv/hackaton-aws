@@ -49,3 +49,8 @@ personales piden consentimiento; las desconocidas piden aclaración sin repetir 
 Verificación: 22 pruebas enfocadas pasan. Llamada real a Sonnet 5 a «¿Qué es la PGU?»
 sin autorización devolvió una definición con fuente ChileAtiende y sin nombre ni
 fechas personales. Fuente pública consultada: https://www.chileatiende.gob.cl/fichas/102077.
+- 15-10: Animaciones suaves de entrada para tarjetas, etapas y chat; transiciones de botones, foco del campo y tarjetas de portada. Movimiento reducido desactiva efectos. Chromium verifica escritorio/movil, limites de tarjetas y prefers-reduced-motion. Retiradas las sugerencias bajo el chat del banner; campo y envio conservados. [[portal-ayuda-tramites]].
+
+- 15-10: Slides del banner cada 2,5 segundos: ciclo CSS completo de 5 segundos para dos paneles. Duracion comprobada en Chromium. [[portal-ayuda-tramites]].
+
+- 15-10: Banner inicia con asistente IA y cambia de slide cada 8 segundos (ciclo de 16 segundos). Orden HTML actualizado tambien para movimiento reducido. Chromium confirma estado inicial y duracion. [[portal-ayuda-tramites]].

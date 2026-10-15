@@ -54,10 +54,11 @@ def answer(question: str, context: dict, history: list[dict], *, client=None) ->
     return agent.run_turn(case, question).text
 
 
-def answer_general(question: str, *, client=None) -> str:
+def answer_general(question: str, *, client=None, public_history=None, public_guidance="") -> str:
     """Public guidance: only current question and public facts go to Bedrock.
 
     No Case, RUN, profile tools, context or previous conversation is supplied.
+    Only the separate public chat may supply its own public_history.
     Personalized requests still go through answer() and its consent guard.
     """
     from src.agent.prompts import SYSTEM_PROMPT
@@ -77,8 +78,28 @@ def answer_general(question: str, *, client=None) -> str:
         f"pensiones {config.FUENTES['spensiones']}; RSH {config.FUENTES['rsh']}. "
         "No inventes requisitos, montos, trámites iniciados ni decisiones institucionales."
     )
+    messages = []
+    for message in (public_history or [])[-6:]:
+        role = message["rol"]
+        if role not in {"user", "assistant"}:
+            continue
+        content = {"text": message["texto"]}
+        if messages and messages[-1]["role"] == role:
+            messages[-1]["content"].append(content)
+        else:
+            messages.append({"role": role, "content": [content]})
+    if messages and messages[0]["role"] == "assistant":
+        messages.insert(
+            0, {"role": "user", "content": [{"text": "Inicio de conversación pública."}]}
+        )
+    if messages and messages[-1]["role"] == "user":
+        messages[-1]["content"].append({"text": question})
+    else:
+        messages.append({"role": "user", "content": [{"text": question}]})
+    if public_guidance:
+        public_context += " Orientación pública adicional con fuentes: " + public_guidance
     result = (client if client is not None else BedrockClient.from_env()).converse(
-        [{"role": "user", "content": [{"text": question}]}],
+        messages,
         system=[{"text": SYSTEM_PROMPT}, {"text": public_context}],
         inferenceConfig={"maxTokens": 600},
     )
