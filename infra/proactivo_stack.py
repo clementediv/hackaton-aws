@@ -43,7 +43,7 @@ def lambda_asset() -> lambda_.Code:
 class ProactivoStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
-        email = self.node.try_get_context("email") or "curibeo@utem.cl"
+        email = self.node.try_get_context("email") or "clemente.uribe.ortiz@gmail.com"
         sender = self.node.try_get_context("remitente") or email
         role_arn = self.node.try_get_context("lambda_role_arn")
         wait_email = str(self.node.try_get_context("espera_email_min") or 5)

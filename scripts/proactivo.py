@@ -172,7 +172,9 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("cargar")
     p.add_argument(
-        "--email", default="curibeo@utem.cl", help="Casilla verificada de las personas demo"
+        "--email",
+        default="clemente.uribe.ortiz@gmail.com",
+        help="Casilla verificada de las personas demo",
     )
     p.add_argument(
         "--solo-demo", action="store_true", help="No cargar los 500 perfiles del dataset"

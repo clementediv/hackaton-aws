@@ -9,7 +9,7 @@ uv sync --group infra
 npx cdk bootstrap --profile hackaton      # una vez por cuenta/región
 npx cdk deploy --profile hackaton
 ```
-- Al desplegar, SES envía un correo de verificación a `curibeo@utem.cl`: **hay que hacer clic en el enlace** antes de que lleguen los emails.
+- Al desplegar, SES envía un correo de verificación a `clemente.uribe.ortiz@gmail.com`: **hay que hacer clic en el enlace** antes de que lleguen los emails.
 - Otro correo: `npx cdk deploy -c email=otra@casilla.cl`. Esperas de demo: `-c espera_email_min=2 -c espera_sms_min=2`.
 - Si la cuenta no permite crear roles IAM: `-c lambda_role_arn=arn:aws:iam::<cuenta>:role/<rol>` (el rol necesita DynamoDB y `ses:SendEmail`).
 
