@@ -38,3 +38,8 @@ T17: evaluación determinista persistida en un ítem separado `evaluacion`, evit
 forzar estados divergentes en PguResult. La herramienta vuelve a verificar permiso
 antes de consultar datos. Tres pruebas offline demuestran dos turnos con memoria,
 error de herramienta sin permiso y persistencia al agotar seis iteraciones.
+
+T18: rutas de creación, invitación, consentimiento, consulta y chat implementadas.
+La key autentica al integrador; x-run acota el caso solicitado para la demo, pero
+no prueba identidad ciudadana. Producción requiere integrar una identidad
+verificada antes de exponer datos reales. Declinar revoca autorización.

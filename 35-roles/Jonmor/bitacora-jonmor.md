@@ -20,3 +20,7 @@ Repositorio DynamoDB con mensajes append-only, GSI por RUN y paginación. Dos pr
 ### 2026-10-15 · T17 · ver commit T17
 
 Turnos guardados en DynamoDB con leer_caso como única herramienta y evaluación determinista separada del contrato compartido. Tres pruebas offline demuestran continuidad de dos turnos, denegación de evaluación sin permiso y persistencia al agotar iteraciones. [[chatbot-desplegado]].
+
+### 2026-10-15 · T18 · ver commit T18
+
+Rutas HTTP v2 con validación, ámbito por RUN y consentimiento explícito. Pruebas sintéticas: 400/403/404, aceptación antes de permiso, revocación al declinar y ocultación de errores internos. x-run es ámbito de integración demo, no identidad ciudadana verificada. [[chatbot-desplegado]].
