@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Limpiar textos del formulario
+- Retirados subtítulo, recuadro Prueba el portal y nota inferior. Texto/placeholder centrados verticalmente en los campos, manteniendo la autenticación de demostración existente. [[mi-gobierno]].
+
 ### 2026-10-15 · Alinear títulos del acceso
 - Se retira el rótulo MI GOBIERNO y el margen superior del título de introducción para alinearlo directamente con el encabezado del formulario. [[mi-gobierno]].
 

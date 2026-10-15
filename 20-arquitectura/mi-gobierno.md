@@ -1,5 +1,7 @@
 # Mi Gobierno
 
+El formulario de acceso retira el subtítulo de demostración, el recuadro «Prueba el portal» con RUN/clave y su nota inferior. Los campos centran verticalmente texto y placeholder en 48 px. El campo de clave conserva su nombre de demostración y el selector de perfiles de prueba sigue en el desplegable separado.
+
 Se elimina el rótulo superior «MI GOBIERNO» del acceso. El título «Tus beneficios, con tu información» y el encabezado del formulario comparten el mismo inicio, sin márgenes superiores en los títulos.
 
 El acceso al portal alinea arriba sus dos columnas. La introducción «Tus beneficios, con tu información» usa 30 px de margen interior superior para acompañar la altura del encabezado del formulario; en móvil se elimina ese margen y se mantiene el apilado.
