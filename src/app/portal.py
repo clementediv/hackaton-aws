@@ -180,12 +180,6 @@ def render_discovery() -> None:
                 key="home_government_access",
             )
         with directory:
-            st.markdown(
-                '<div class="home-directory"><span class="agent-label">'
-                "TRÁMITES Y SERVICIOS</span><h3>¿Buscas algo en particular?</h3>"
-                "<p>Encuentra certificados, pensiones y otros servicios del Estado.</p></div>",
-                unsafe_allow_html=True,
-            )
             st.link_button(
                 "Ver trámites y beneficios →",
                 BASE_URL + "/temas",
