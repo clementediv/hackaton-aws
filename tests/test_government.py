@@ -21,6 +21,31 @@ def test_pgu_actions_respect_all_dataset_results():
         assert not any(step.tramite == "Jubilación" for step in route)
 
 
+def test_timeline_does_not_turn_eligibility_or_calendar_into_an_approval():
+    from datetime import date
+
+    for profile in cargar_perfiles().values():
+        diagnosis = rules.diagnosticar(profile)
+        first, review, result = government.benefit_timeline("pgu", diagnosis)["steps"]
+        if diagnosis.pgu.resultado == rules.ELEGIBLE:
+            assert first["status"] == "Todo listo para postular"
+            assert review["status"] == "Aún no inicia"
+            assert result["status"] == "Sin resultado todavía"
+        if diagnosis.pgu.resultado == rules.ANTECEDENTE_FALTANTE:
+            assert first["status"] == "Faltan datos"
+        assert (result["status"] == "Beneficio vigente") == (
+            diagnosis.pgu.resultado == rules.YA_RECIBE
+        )
+    for benefit in ("fuas", "gratuidad", "becas"):
+        first, review, result = government.benefit_timeline(benefit)["steps"]
+        assert first["date"] == "1 al 22 de octubre de 2026"
+        assert review["status"] == "Aún no inicia"
+        assert result["date"] == "10 de marzo de 2027"
+        assert result["status"] == "Sin resultado todavía"
+        closed = government.benefit_timeline(benefit, reference=date(2026, 10, 23))
+        assert "ya cerró" in closed["steps"][0]["detail"]
+
+
 def test_personal_data_requires_consent_and_uploads_do_not_change_eligibility(
     tmp_path, monkeypatch
 ):
@@ -76,7 +101,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     assert not any(button.label == "Cobrar beneficio" for button in app.button)
     assert len(app.chat_input) == 1
     run = demo_run
-    app.radio(key=f"government_view_{run}").set_value("Chatbot").run()
+    assert app.radio(key=f"government_view_{run}").options == ["Beneficios", "Datos personales"]
     app.chat_input[0].set_value("¿Qué es la PGU?").run()
     assert not app.exception
     histories = [
@@ -94,12 +119,12 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     run = app.session_state["government_person"]
     assert app.session_state[f"government_view_{run}"] == "Beneficios"
     assert len(app.chat_input) == 1
-    app.radio(key=f"government_view_{run}").set_value("Chatbot").run()
     assert any(item.placeholder == "Pregúntale al asistente de trámites" for item in app.chat_input)
     app.radio(key=f"government_view_{run}").set_value("Beneficios").run()
     cards = [element.value for element in app.markdown if "gov-requirement-card" in element.value]
     assert any("ready" in card and "Listo" in card for card in cards)
     assert any("pending" in card and "Faltan datos" in card for card in cards)
+    assert len([item for item in app.markdown if 'class="gov-timeline"' in item.value]) == 4
     assert not any(item.label == "Profesión" for item in app.text_input)
     assert len([button for button in app.button if button.label == "Ver datos faltantes"]) == 3
     app.button(key="gov_check_fuas").click().run()
@@ -145,10 +170,11 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     ui_cases = importlib.import_module("ruta.casos")
     assert "G0" in ui_cases.obtener_caso(run)["completados"]
     next(button for button in app.button if button.label == "← Volver a Mi Gobierno").click().run()
-    ui_gov.save_document(run, "Cédula de identidad", "demo.pdf", b"%PDF-1.4 demo")
+    ui_gov.save_document(run, "Registro Social de Hogares", "demo.pdf", b"%PDF-1.4 demo")
     app.run()
-    # The same stored document appears in both PGU and FUAS, without uploading twice.
-    assert len([item for item in app.text if item.value == "demo.pdf"]) == 2
+    # Shared evidence appears in FUAS, gratuidad and becas without uploading again.
+    assert len([item for item in app.text if item.value == "demo.pdf"]) == 3
+    assert any("youtube.com" in item.proto.url for item in app.get("video"))
     app.radio(key=f"government_view_{run}").set_value("Datos personales").run()
     assert len([item for item in app.text if item.value == "demo.pdf"]) == 1
     next(

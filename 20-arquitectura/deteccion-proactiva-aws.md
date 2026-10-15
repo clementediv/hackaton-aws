@@ -59,7 +59,7 @@ flowchart LR
 
 ## Datos y privacidad
 - Se cargan los 500 perfiles sintéticos del dataset A, con emails `@example.com` que **nunca** se envían (quedan como `email_simulado`).
-- Solo las direcciones de `EMAILS_REALES` (verificadas en SES) reciben correo real. Hoy: la casilla de Clemente.
+- Solo las direcciones de `EMAILS_REALES` (verificadas en SES) reciben correo real. Hoy: el Gmail de Clemente (remitente y destinatario).
 - `utem.cl` publica DMARC `p=quarantine` estricto; un email con remitente `@utem.cl` enviado desde SES sin DKIM del dominio puede caer en spam. El remitente es configurable (`REMITENTE`).
 - La URL de respuesta no expone datos: solo valida un token aleatorio por contacto.
 

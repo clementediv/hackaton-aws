@@ -15,6 +15,26 @@ from ruta.rutas import estado_pasos, generar_ruta, proximo_paso
 CANAL = "Web ChileAtiende"
 ASSETS = Path(__file__).resolve().parent / "assets"
 
+EDUCATION_REQUIREMENT_DOCUMENTS = {
+    "fuas": (
+        ("Certificado de matrícula",),
+        ("Registro Social de Hogares", "Comprobante de ingresos"),
+        ("Comprobante FUAS",),
+    ),
+    "gratuidad": (
+        ("Registro Social de Hogares", "Comprobante FUAS"),
+        ("Certificado de matrícula",),
+        ("Antecedentes académicos",),
+        ("Cédula de identidad", "Certificado de residencia"),
+    ),
+    "becas": (
+        ("Certificado de matrícula",),
+        ("Registro Social de Hogares", "Comprobante FUAS"),
+        ("Antecedentes académicos",),
+        ("Certificado de matrícula",),
+    ),
+}
+
 
 def _money(value: int) -> str:
     return f"${value:,.0f}".replace(",", ".")
@@ -128,7 +148,7 @@ def render(diags) -> None:
     with st.container(key="gov_subnav"):
         page = st.radio(
             "Secciones de Mi Gobierno",
-            ["Beneficios", "Datos personales", "Chatbot"],
+            ["Beneficios", "Datos personales"],
             horizontal=True,
             label_visibility="collapsed",
             key=f"government_view_{d.run}",
@@ -137,16 +157,12 @@ def render(diags) -> None:
         if page == "Datos personales":
             _identity(d, profile)
             _consent(d)
-        elif page == "Chatbot":
-            _chatbot_page(d, authorized=False)
         else:
             _benefits_page(d, authorized=False)
         return
     benefit = st.session_state.get(f"government_route_{d.run}")
     if page == "Datos personales":
         _personal_page(d, profile)
-    elif page == "Chatbot":
-        _chatbot_page(d, authorized=True)
     elif benefit:
         _journey(d, case, benefit)
     else:
@@ -177,7 +193,7 @@ def _chatbot_page(d, authorized: bool) -> None:
         context = asistente.construir_contexto(
             d, route, states, proximo_paso(route, states), authorized
         )
-        ui_persona._asistente(d, d.run, CANAL, context, sidebar=True, message_height=420)
+        ui_persona._asistente(d, d.run, CANAL, context, sidebar=True)
 
 
 def _personal_page(d, profile) -> None:
@@ -425,6 +441,7 @@ def _benefits(d) -> None:
                 on_click=_set_route,
                 args=(d.run, "PGU"),
             )
+        _benefit_timeline("pgu", d)
         with st.expander("Ver requisitos y detalles"):
             ready = d.pgu.resultado == rules.ELEGIBLE
             _requirement_card(
@@ -446,9 +463,17 @@ def _benefits(d) -> None:
                     requirement.detalle + " Fuente: " + requirement.fuente,
                     label[requirement.estado],
                     ready=requirement.estado == rules.CUMPLE,
+                    run=d.run,
+                    context=f"pgu_{requirement.id}",
+                    kinds={
+                        "pfp": ("Registro Social de Hogares",),
+                        "residencia": ("Certificado de residencia",),
+                    }.get(requirement.id, ()),
+                    source=config.FUENTE_PGU,
+                    video="https://www.youtube.com/watch?v=SZ6gcANAzsQ",
+                    allow_upload=requirement.estado == rules.FALTA,
                 )
             st.link_button("Consultar requisitos oficiales ↗", config.FUENTE_PGU)
-            _requirement_documents(d.run, "pgu")
     for option in government.EDUCATION_OPTIONS:
         _pending_benefit(d.run, option)
 
@@ -469,39 +494,145 @@ def _pending_benefit(run: str, option: dict) -> None:
                 "Ver datos faltantes", key=f"gov_check_{option['id']}", use_container_width=True
             ):
                 st.session_state[state_key] = not st.session_state.get(state_key, False)
+        _benefit_timeline(option["id"])
         with st.expander(
             "Ver requisitos y adjuntar documentos", expanded=bool(st.session_state.get(state_key))
         ):
             st.markdown("**Para revisar si puedes acceder, necesitamos conocer:**")
-            for missing in option["missing"]:
+            for index, missing in enumerate(option["missing"]):
                 _requirement_card(
                     missing,
                     "Necesitamos información verificada para revisar este requisito.",
                     "Faltan datos",
                     ready=False,
+                    run=run,
+                    context=f"{option['id']}_{index}",
+                    kinds=EDUCATION_REQUIREMENT_DOCUMENTS[option["id"]][index],
+                    source=option["source"],
+                    video="https://www.youtube.com/watch?v=IRZnHopEGRU",
                 )
             st.caption(
                 "Estos beneficios aún no tienen una evaluación integrada en Mi Gobierno. "
                 "Los datos deben verificarse con Mineduc antes de confirmar si corresponden."
             )
             st.link_button("Revisar en Mineduc ↗", option["source"])
-            _requirement_documents(run, option["id"])
+
+
+def _benefit_timeline(benefit: str, diagnosis=None) -> None:
+    timeline = government.benefit_timeline(benefit, diagnosis)
+    items = []
+    for index, step in enumerate(timeline["steps"], 1):
+        tone = step["tone"]
+        marker = "✓" if tone == "ready" else str(index)
+        current = ' aria-current="step"' if index == 1 and benefit != "pgu" else ""
+        if index == 1 and diagnosis and diagnosis.pgu.resultado != rules.YA_RECIBE:
+            current = ' aria-current="step"'
+        items.append(
+            f'<li class="gov-timeline-step {tone}"{current}>'
+            f'<span class="gov-timeline-marker" aria-hidden="true">{marker}</span>'
+            '<div class="gov-timeline-content">'
+            f"<h4>{index}. {escape(step['title'])}</h4>"
+            f'<p class="gov-timeline-date">{escape(step["date"])}</p>'
+            f'<span class="gov-timeline-state">{escape(step["status"])}</span>'
+            "</div></li>"
+        )
+    st.markdown(
+        '<section class="gov-timeline" aria-label="Etapas de tu beneficio">'
+        '<p class="gov-timeline-heading">Tu beneficio, paso a paso</p>'
+        '<ol class="gov-timeline-track">' + "".join(items) + "</ol></section>",
+        unsafe_allow_html=True,
+    )
 
 
 def _requirement_card(
-    title: str, detail: str, status: str, *, ready: bool, summary: bool = False
+    title: str,
+    detail: str,
+    status: str,
+    *,
+    ready: bool,
+    summary: bool = False,
+    run: str | None = None,
+    context: str = "",
+    kinds: tuple = (),
+    source: str = "",
+    video: str = "",
+    allow_upload: bool = True,
 ) -> None:
     tone = "ready" if ready else "pending"
     icon = "✓" if ready else "!"
     kind = " gov-requirement-summary" if summary else ""
-    st.markdown(
-        f'<div class="gov-requirement-card {tone}{kind}" role="group" '
-        f'aria-label="{escape(title)}: {escape(status)}">'
-        f'<span class="gov-requirement-icon" aria-hidden="true">{icon}</span>'
-        f'<div><strong>{escape(title)}</strong><span class="gov-requirement-status">'
-        f"{escape(status)}</span><p>{escape(detail)}</p></div></div>",
-        unsafe_allow_html=True,
+    with st.container(key=f"gov_requirement_{context}" if context else None):
+        st.markdown(
+            f'<div class="gov-requirement-card {tone}{kind}" role="group" '
+            f'aria-label="{escape(title)}: {escape(status)}">'
+            f'<span class="gov-requirement-icon" aria-hidden="true">{icon}</span>'
+            f'<div><strong>{escape(title)}</strong><span class="gov-requirement-status">'
+            f"{escape(status)}</span><p>{escape(detail)}</p></div></div>",
+            unsafe_allow_html=True,
+        )
+        if not ready and run:
+            _requirement_support(run, context, kinds if allow_upload else (), source, video)
+
+
+def _requirement_support(run: str, context: str, kinds: tuple, source: str, video: str) -> None:
+    st.caption(
+        "Revisamos los antecedentes que autorizaste compartir. Complementa solo lo que falte; "
+        "no necesitas volver a enviar lo disponible."
     )
+    saved = {document["kind"]: document for document in government.list_documents(run)}
+    for kind in kinds:
+        if document := saved.get(kind):
+            st.text(document["name"])
+            st.caption(f"{kind} · ya disponible para todos tus beneficios · pendiente de revisión")
+    help_column, upload_column = st.columns(2)
+    with help_column, st.popover("Ver ayuda", use_container_width=True):
+        st.markdown("**Te acompañamos paso a paso**")
+        st.write(
+            "1. Revisa qué antecedente falta en este requisito.\n"
+            "2. Consulta la guía oficial para obtenerlo o actualizarlo.\n"
+            "3. Si ya tienes el documento y no está entre tus datos compartidos, adjúntalo aquí."
+        )
+        st.video(video)
+        st.caption(
+            "Video de orientación general del beneficio. Puede corresponder a una edición "
+            "anterior; confirma requisitos y fechas en la guía oficial."
+        )
+        st.link_button("Abrir video en YouTube ↗", video)
+        st.link_button("Consultar guía oficial ↗", source)
+    with upload_column:
+        if kinds:
+            with st.popover("Adjuntar documento", use_container_width=True):
+                st.caption(
+                    "Solo para complementar antecedentes que no están "
+                    "en tu información compartida. "
+                    "PDF, JPG o PNG · máximo 10 MB. Demo: usa archivos ficticios."
+                )
+                kind = st.selectbox(
+                    "Documento que quieres complementar", kinds, key=f"gov_kind_{run}_{context}"
+                )
+                if kind in saved:
+                    st.info(
+                        "Ya tienes este documento. "
+                        "Adjunta otro archivo solo si necesitas actualizarlo."
+                    )
+                with st.form(f"gov_requirement_upload_{run}_{context}", clear_on_submit=True):
+                    upload = st.file_uploader(
+                        "Seleccionar documento",
+                        type=["pdf", "jpg", "jpeg", "png"],
+                        key=f"gov_requirement_file_{run}_{context}",
+                    )
+                    if st.form_submit_button("Guardar documento"):
+                        if upload is None:
+                            st.warning("Selecciona un archivo para continuar.")
+                        else:
+                            try:
+                                government.save_document(run, kind, upload.name, upload.getvalue())
+                                st.rerun()
+                            except ValueError as error:
+                                st.error(str(error))
+                st.caption(
+                    "Se reutiliza en todos tus beneficios. Adjuntar no verifica el requisito."
+                )
 
 
 def _personal(d, profile) -> None:
@@ -590,15 +721,6 @@ def _documents(d) -> None:
         "que los necesiten."
     )
     _document_tiles(d.run, government.DOCUMENT_TYPES, "personal")
-
-
-def _requirement_documents(run: str, benefit: str) -> None:
-    st.markdown("**Documentos para preparar este trámite**")
-    st.caption(
-        "Puedes adjuntarlos aquí o en Datos personales. Se reutilizan entre beneficios; "
-        "adjuntar no confirma el cumplimiento de un requisito."
-    )
-    _document_tiles(run, government.BENEFIT_DOCUMENTS[benefit], benefit)
 
 
 def _document_tiles(run: str, kinds, namespace: str) -> None:

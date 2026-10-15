@@ -161,10 +161,10 @@ def render_discovery() -> None:
     content = (assets / "official-home.html").read_text(encoding="utf-8")
     content = content.split("</section>", 1)[1]
     with st.container(border=True, key="home_government"):
-        invitation, directory = st.columns([2.4, 1], gap="large")
-        with invitation:
+        invitation, branding = st.columns([2.6, 1], gap="large", vertical_alignment="top")
+        with invitation, st.container(key="home_government_invitation"):
             st.markdown(
-                '<div class="home-government"><span class="agent-label">CONOCE MI GOBIERNO</span>'
+                '<div class="home-government">'
                 "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
                 "<p>Descubre cuáles podrían corresponderte según tu situación. "
                 "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
@@ -173,24 +173,18 @@ def render_discovery() -> None:
                 unsafe_allow_html=True,
             )
             st.button(
-                "Descubrir mis beneficios →",
+                "Ver mis beneficios",
                 type="primary",
                 on_click=open_section,
                 args=("Mi Gobierno",),
                 key="home_government_access",
             )
-            st.caption("Tus datos · Tus documentos · Tu ruta de beneficios")
-        with directory:
+        with branding:
+            ips_logo = base64.b64encode((assets / "IPS.png").read_bytes()).decode("ascii")
             st.markdown(
-                '<div class="home-directory"><span class="agent-label">'
-                "TRÁMITES Y SERVICIOS</span><h3>¿Buscas algo en particular?</h3>"
-                "<p>Encuentra certificados, pensiones y otros servicios del Estado.</p></div>",
+                '<img class="home-ips-logo" alt="IPS, Instituto de Previsión Social" '
+                f'src="data:image/png;base64,{ips_logo}">',
                 unsafe_allow_html=True,
-            )
-            st.link_button(
-                "Ver trámites y beneficios →",
-                BASE_URL + "/temas",
-                use_container_width=True,
             )
     st.html(f'<style>{styles}</style><div class="official-home">{content}</div>')
 

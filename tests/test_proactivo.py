@@ -97,6 +97,24 @@ def test_turning_65_sends_a_real_email_about_pgu(env):
     assert len(sent_emails()) == 1
     assert sent_emails()[0].destinations["ToAddresses"] == [INBOX]
     assert contact["cola"] == "pendiente"
+    assert contact["motivo_persona"] == "Cumpliste 65 años."
+
+
+def test_email_has_one_call_to_action_and_explains_the_benefit(env):
+    svc, _, _ = env
+    jorge = demo("Jorge")
+    insert(svc, jorge)
+    change(svc, jorge["run"], fecha_nacimiento=add_years(TODAY, -65).isoformat())
+    message = sent_emails()[0]
+    html = message.body
+    assert message.subject == "Jorge, podrías recibir Pensión Garantizada Universal (PGU)"
+    assert html.count("a=acepto") == 1 and "a=rechazo" not in html and "a=ver" not in html
+    assert "No me interesa" not in html
+    assert "Quiero solicitar la PGU" in html
+    assert "Cumpliste 65 años." in html
+    assert "aporte mensual del Estado" in html and "$231.732" in html
+    assert "Tener 65 años o más" in html
+    assert BENEFIT["pgu"]["fuente"]["url"] in html
 
 
 @pytest.mark.parametrize(
@@ -272,7 +290,8 @@ def test_stream_and_http_handlers(env, monkeypatch):
     pixel = handlers.on_http({"queryStringParameters": query | {"a": "abrir"}}, None)
     assert pixel["headers"]["Content-Type"] == "image/gif"
     page = handlers.on_http({"queryStringParameters": query | {"a": "ver"}}, None)
-    assert page["statusCode"] == 200 and "Sí, quiero ayuda" in page["body"]
+    assert page["statusCode"] == 200 and "Quiero orientación" in page["body"]
+    assert "a=rechazo" not in page["body"]
     page = handlers.on_http({"queryStringParameters": query | {"a": "acepto"}}, None)
     assert "Tu próximo paso" in page["body"]
     bad = handlers.on_http({"queryStringParameters": query | {"t": "x", "a": "acepto"}}, None)

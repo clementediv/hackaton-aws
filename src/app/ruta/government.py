@@ -4,6 +4,7 @@ import hashlib
 import json
 import sqlite3
 from contextlib import contextmanager
+from datetime import date
 from pathlib import Path
 
 from . import casos, config
@@ -11,6 +12,81 @@ from . import reglas as rules
 from .rutas import generar_ruta
 
 MAX_DOCUMENT_BYTES = 10 * 1024 * 1024
+
+EDUCATION_CALENDAR_SOURCE = "https://postulacion.beneficiosestudiantiles.cl/fuas/index.php"
+
+
+def benefit_timeline(benefit: str, diagnosis=None, reference: date | None = None) -> dict:
+    """Separate personal progress from published dates; no submission is inferred."""
+    reference = reference or config.FECHA_REFERENCIA
+    current = {"title": "Postulación", "status": "Faltan datos", "tone": "pending"}
+    review = {"title": "En revisión", "status": "Aún no inicia", "tone": "upcoming"}
+    result = {"title": "Resultado", "status": "Sin resultado todavía", "tone": "upcoming"}
+    if benefit == "pgu":
+        if diagnosis is None:
+            raise ValueError("La línea de tiempo PGU necesita un diagnóstico.")
+        opening = diagnosis.hitos.fecha_apertura_pgu
+        current["date"] = (
+            f"Desde el {opening:%d-%m-%Y}" if reference < opening else "Durante todo el año"
+        )
+        current["detail"] = "Fechas para postular · no hay una fecha anual de cierre."
+        current["status"] = {
+            rules.ELEGIBLE: "Todo listo para postular",
+            rules.ANTECEDENTE_FALTANTE: "Faltan datos",
+            rules.NO_ELEGIBLE: "Hoy no cumples los requisitos",
+            rules.FUTURO: "Disponible más adelante",
+            rules.PROXIMO: "Preparar solicitud",
+            rules.YA_RECIBE: "Ya recibes este beneficio",
+        }.get(diagnosis.pgu.resultado, "No disponible")
+        if diagnosis.pgu.resultado == rules.ELEGIBLE:
+            current["tone"] = "ready"
+        review.update(date="Fecha por confirmar", detail="El IPS revisa tu solicitud al recibirla.")
+        result.update(
+            date="Fecha por confirmar",
+            detail=(
+                "Aquí verás si fue aprobado, rechazado o cancelado cuando exista una resolución."
+            ),
+        )
+        if diagnosis.pgu.resultado == rules.YA_RECIBE:
+            current["tone"] = "ready"
+            review.update(
+                status="Finalizada",
+                tone="ready",
+                date="Fecha no informada",
+                detail="El registro compartido indica una PGU vigente.",
+            )
+            result.update(
+                status="Beneficio vigente",
+                tone="ready",
+                date="Fecha no informada",
+                detail="Ya recibes la PGU según los antecedentes compartidos.",
+            )
+        source = config.FUENTE_PGU
+        note = "Estar listo para postular no significa que el IPS haya aprobado el beneficio."
+    elif benefit in ("fuas", "gratuidad", "becas"):
+        current.update(
+            date="1 al 22 de octubre de 2026",
+            detail="Fechas para postular · primer periodo FUAS, año académico 2027.",
+        )
+        if reference > date(2026, 10, 22):
+            current["detail"] += " Este periodo ya cerró; consulta nuevas fechas en Mineduc."
+        review.update(
+            date="17 de diciembre de 2026",
+            detail="Publicación del nivel socioeconómico. Preselección: 15 de enero de 2027.",
+        )
+        result.update(
+            date="10 de marzo de 2027",
+            detail="Fecha de asignación. Aquí verás si fue aprobado, rechazado o cancelado.",
+        )
+        source = EDUCATION_CALENDAR_SOURCE
+        note = (
+            "Fechas del calendario Mineduc, no una confirmación de tu postulación. "
+            "FUAS es el formulario para acceder a beneficios."
+        )
+    else:
+        raise ValueError("Beneficio sin línea de tiempo.")
+    return {"steps": (current, review, result), "source": source, "note": note}
+
 
 # Extend this list to add another row. These entries have no eligibility engine yet.
 # FUAS is an application form, not a cash benefit.

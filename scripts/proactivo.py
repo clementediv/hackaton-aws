@@ -7,6 +7,7 @@ uv run python scripts/proactivo.py responder 90000002-2 pgu acepto --canal telef
 uv run python scripts/proactivo.py terreno
 uv run python scripts/proactivo.py resumen
 uv run python scripts/proactivo.py escalar | revisar  # run the scheduled Lambdas now
+uv run python scripts/proactivo.py reiniciar 90000002-2  # repeat a demo
 """
 
 import argparse
@@ -48,6 +49,9 @@ def cmd_cargar(args, s):
     with db.Table("ca-beneficios").batch_writer() as batch:
         for benefit in BENEFICIOS:
             batch.put_item(Item=benefit)
+    if args.solo_catalogo:
+        print(f"{len(BENEFICIOS)} beneficios actualizados.")
+        return
     people = carga.demo_people(args.email, today())
     if not args.solo_demo:
         contacts = carga.load_contacts()
@@ -58,6 +62,19 @@ def cmd_cargar(args, s):
             batch.put_item(Item=person)
     print(f"{len(BENEFICIOS)} beneficios y {len(people)} personas cargadas.")
     print("La detección corre sola en la Lambda del stream; revisa con `resumen` en unos segundos.")
+
+
+def cmd_reiniciar(args, s):
+    """Repeat a demo: forget the person's contacts and history (data stays)."""
+    svc = _service(s)
+    contacts, history = svc.contacts_of(args.run), svc.history_of(args.run)
+    with svc.contacts.batch_writer() as batch:
+        for c in contacts:
+            batch.delete_item(Key={"run": c["run"], "beneficio_id": c["beneficio_id"]})
+    with svc.history.batch_writer() as batch:
+        for e in history:
+            batch.delete_item(Key={"run": e["run"], "sk": e["sk"]})
+    print(f"{args.run}: {len(contacts)} contactos y {len(history)} eventos borrados.")
 
 
 def cmd_evento(args, s):
@@ -172,11 +189,18 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("cargar")
     p.add_argument(
-        "--email", default="curibeo@utem.cl", help="Casilla verificada de las personas demo"
+        "--email",
+        default="clemente.uribe.ortiz@gmail.com",
+        help="Casilla verificada de las personas demo",
     )
     p.add_argument(
         "--solo-demo", action="store_true", help="No cargar los 500 perfiles del dataset"
     )
+    p.add_argument(
+        "--solo-catalogo", action="store_true", help="Actualizar solo los beneficios"
+    )
+    p = sub.add_parser("reiniciar", help="Borrar contactos e historial de una persona demo")
+    p.add_argument("run")
     p = sub.add_parser("evento", help="Simular un cambio de vida en la base de datos")
     p.add_argument("run")
     p.add_argument("--edad", type=int)
@@ -204,6 +228,7 @@ def main(argv=None):
             stream.reconfigure(encoding="utf-8", errors="replace")
     handler = {
         "cargar": cmd_cargar,
+        "reiniciar": cmd_reiniciar,
         "evento": cmd_evento,
         "estado": cmd_estado,
         "responder": cmd_responder,

@@ -1,5 +1,19 @@
 # Portada basada en ChileAtiende
 
+El logo IPS se reduce a 160 px en escritorio y 120 px en móvil; queda centrado horizontalmente en su espacio, sin desplazamiento hacia la esquina.
+
+El acceso principal usa ahora «Ver mis beneficios»: azul plano, borde de 4 px de radio, altura de 52 px y tipografía de 17 px, sin degradado ni sombra. El logo IPS se alinea arriba a la derecha, con máximo de 220 px; en móvil conserva adaptación y no desborda.
+
+La invitación vuelve a alinearse a la izquierda y agrega a la derecha el archivo `src/app/assets/IPS.png` proporcionado por el usuario, conservando proporciones y texto alternativo. En móvil el logo se apila debajo. El botón secundario de trámites sigue retirado.
+
+La invitación principal ocupa una sola columna centrada: título, descripción y botón «Descubrir mis beneficios». Se elimina el botón lateral «Ver trámites y beneficios» y la columna que lo contenía.
+
+Se retiran también los tres textos del directorio lateral: «TRÁMITES Y SERVICIOS», «¿Buscas algo en particular?» y su descripción. El enlace al catálogo se conserva.
+
+La invitación principal conserva el mismo recuadro y retira «CONOCE MI GOBIERNO» y «Tus datos · Tus documentos · Tu ruta de beneficios». Título de 44 px y descripción de 19 px, con botón principal de 68 px de alto, texto de 20 px y degradado azul dentro de la paleta. El directorio lateral también amplía tipografía y controles. En móvil se ajusta el título a 32 px y el botón ocupa el ancho disponible. El aviso sobre elegibilidad/resolución y el enlace de fechas ya no se renderizan en las líneas de tiempo.
+
+Las opciones de navegación centran el texto respecto del subrayado activo: se elimina el padding del texto reservado para el control radio oculto. El mismo ajuste se aplica a las subpestañas de Mi Gobierno, conservando su diseño segmentado.
+
 **Diseño vigente:** Inicio conserva el portal público y una invitación a [[mi-gobierno]]. El agente ya no aparece en la portada; el espacio personal reúne identidad, antecedentes y beneficios, y el asistente acompaña dentro de la ruta. Los párrafos siguientes conservan la evolución previa de la portada.
 
 El buscador se ubica en el encabezado entre el logo y los accesos, y se retiró el rótulo «Destacamos» para dar entrada directa al agente. La búsqueda mantiene sus resultados y enlaces oficiales.

@@ -54,12 +54,19 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .portal-utilities {gap:16px;font-family:"Roboto Slab",Georgia,serif}
 .portal-utilities a {border:1px solid #0f69b4;border-radius:4px;padding:10px 17px;color:#0f69b4}
 .portal-private {background:#fff;color:#0f69b4!important}
-.st-key-home_government{padding:38px 32px;border-radius:18px!important;background:linear-gradient(120deg,#edf5fa,#f8fafb);border:1px solid #deebf3!important;margin-top:16px}
-.home-government h1{font-family:"Roboto Slab",Georgia,serif;font-size:34px;line-height:1.35;letter-spacing:-.7px;color:#163e59;margin:20px 0}
-.home-government p{font-size:16px;line-height:1.8;color:#536e81;max-width:620px;margin-bottom:22px}
-.home-directory{padding-top:10px}.home-directory h3{font-family:"Roboto Slab",Georgia,serif;font-size:22px;color:#244e6c;margin:20px 0}.home-directory p{font-size:14px;line-height:1.8;color:#6c8292}
-.st-key-home_government [data-testid="stBaseButton-primary"]{background:#143e5c;border:0;border-radius:8px;padding:12px 22px}
-@media(max-width:700px){.st-key-home_government{padding:22px 16px}.home-government h1{font-size:28px}.home-government p{font-size:14px}}
+.st-key-home_government{padding:48px 40px;border-radius:18px!important;background:linear-gradient(120deg,#edf5fa,#f8fafb);border:1px solid #deebf3!important;margin-top:16px}
+.home-government h1{font-family:"Roboto Slab",Georgia,serif;font-size:44px;line-height:1.25;letter-spacing:-.7px;color:#163e59;margin:0 0 24px}
+.home-government{text-align:left}.home-government p{font-size:19px;line-height:1.75;color:#536e81;max-width:720px;margin:0 0 28px}
+.st-key-home_government_invitation [data-testid="stButton"]{display:flex;justify-content:flex-start}
+.st-key-home_government .home-ips-logo{display:block;width:160px;max-width:100%;height:auto;margin:24px auto 0}
+@media(max-width:700px){.st-key-home_government .home-ips-logo{width:120px;margin:20px auto 0}}
+.home-directory{padding-top:10px}.home-directory h3{font-family:"Roboto Slab",Georgia,serif;font-size:26px;color:#244e6c;margin:20px 0}.home-directory p{font-size:17px;line-height:1.75;color:#6c8292}
+.st-key-home_government [data-testid="stLinkButton"] a{min-height:52px;border-radius:10px}.st-key-home_government [data-testid="stLinkButton"] a p{font-size:16px}
+.st-key-home_government [data-testid="stBaseButton-primary"]{background:#0f69b4;color:#fff;border:1px solid #0f69b4;border-radius:4px;padding:12px 24px;min-height:52px;max-width:100%;box-shadow:none;transition:background .15s}
+.st-key-home_government [data-testid="stBaseButton-primary"] p{font-size:17px;font-weight:500;color:#fff}
+.st-key-home_government [data-testid="stBaseButton-primary"]:hover{background:#0d4d82;border-color:#0d4d82;box-shadow:none}
+.st-key-home_government [data-testid="stBaseButton-primary"]:focus-visible{outline:3px solid #0f69b4;outline-offset:4px}
+@media(max-width:700px){.st-key-home_government{padding:30px 20px}.home-government h1{font-size:32px}.home-government p{font-size:17px}.st-key-home_government [data-testid="stBaseButton-primary"]{width:100%;padding:12px 20px;min-height:52px}}
 .st-key-portal_header {padding:24px 0 16px}
 .st-key-portal_header .portal-logo {width:210px;max-width:100%;height:72px}
 .st-key-portal_header .portal-utilities {justify-content:flex-end;gap:10px;flex-wrap:nowrap}
@@ -74,7 +81,8 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 @media(max-width:700px){.st-key-portal_header{padding-top:16px}.st-key-portal_header .portal-utilities{justify-content:flex-start}.st-key-portal_header [data-testid="stForm"] [data-testid="stHorizontalBlock"]{flex-wrap:nowrap}.st-key-portal_header [data-testid="stForm"] [data-testid="column"]{min-width:0!important}.st-key-portal_header [data-testid="stForm"] [data-testid="column"]:first-child{flex:4}.st-key-portal_header [data-testid="stForm"] [data-testid="column"]:last-child{flex:1.3}}
 .portal-utilities a:hover {background:#edf6fc}
 [role="radiogroup"][aria-label="Secciones del portal"] {gap:10px;padding:0;border:0;min-height:40px}
-[role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"] {padding:5px 12px;margin:0;font-size:14px}
+[role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"] {padding:5px 12px;margin:0;font-size:14px;justify-content:center;gap:0}
+[role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"]>div:last-child {margin:0;padding:0}
 [role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"]:has(input:checked) {background:transparent}
 .portal-hero {border:0;border-radius:0;background:#0f69c4;padding:28px 0 4px;margin:0;box-shadow:0 0 0 100vmax #0f69c4;clip-path:inset(0 -100vmax)}
 .portal-hero h1 {font-family:"Roboto Slab Bold",Georgia,serif;font-size:24px;letter-spacing:0;color:#fff;margin:0;line-height:1.45}

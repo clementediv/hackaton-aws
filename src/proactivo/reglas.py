@@ -119,6 +119,40 @@ def changed_fields(old: dict | None, new: dict, benefit: dict, ref: date) -> lis
     return out
 
 
+def personal_reason(old: dict | None, new: dict, benefit: dict, ref: date) -> str | None:
+    """The same relevant change, addressed to the person ("Cumpliste 65 años")."""
+    if old is None:
+        return None
+    before, after = derived_fields(old, ref), derived_fields(new, ref)
+    phrases = []
+    for campo in dict.fromkeys(r["campo"] for r in benefit["requisitos"]):
+        was, now = before.get(campo), after.get(campo)
+        if was == now:
+            continue
+        if campo == "edad":
+            phrases.append(f"cumpliste {now} años")
+        elif campo == "num_hijos" and (now or 0) > (was or 0):
+            phrases.append("registramos el nacimiento de tu hijo o hija")
+        elif campo == "estado_civil":
+            phrases.append(
+                "registramos tu matrimonio"
+                if now == "casado"
+                else f"tu estado civil cambió a {now}"
+            )
+        elif campo == "accidente_laboral" and now:
+            phrases.append("registramos un accidente laboral")
+        elif campo == "tramo_rsh":
+            phrases.append(f"tu Registro Social de Hogares ahora te ubica en el tramo del {now}%")
+        elif campo == "trabaja" and now:
+            phrases.append("registramos que estás trabajando")
+        else:
+            phrases.append(f"cambió tu {LABELS.get(campo, campo)}")
+    if not phrases:
+        return None
+    text = "; ".join(phrases)
+    return text[0].upper() + text[1:] + "."
+
+
 LABELS = {
     "edad": "edad",
     "num_hijos": "número de hijos",
