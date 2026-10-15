@@ -1,0 +1,51 @@
+<script>
+(() => {
+  const doc = window.parent.document;
+  const motion = window.parent.matchMedia('(prefers-reduced-motion: reduce)');
+  const base = 'Describe lo que necesitas';
+  const questions = [
+    '¿Qué es la PGU?',
+    '¿Cómo actualizo mi Registro Social de Hogares?',
+    '¿Cómo preparo mi jubilación?',
+    '¿Qué documentos necesito para solicitar la PGU?',
+    '¿Cómo consulto mis pagos pendientes?'
+  ];
+  let question = 0, letters = 0, deleting = false, timer;
+  const selector = '.st-key-public_chat textarea';
+  function tick() {
+    const input = doc.querySelector(selector);
+    let delay = 85;
+    if (!input || !input.isConnected) {
+      timer = setTimeout(tick, 250);
+      return;
+    }
+    // Only the visual hint changes. Typed text and the accessible name stay intact.
+    if (motion.matches || doc.activeElement === input || input.value) {
+      input.placeholder = base;
+      question = 0; letters = 0; deleting = false;
+      timer = setTimeout(tick, 250);
+      return;
+    }
+    const text = questions[question];
+    letters += deleting ? -1 : 1;
+    input.placeholder = text.slice(0, letters) || ' ';
+    if (!deleting && letters === text.length) {
+      deleting = true;
+      delay = 1800;
+    } else if (deleting && letters === 0) {
+      deleting = false;
+      question = (question + 1) % questions.length;
+      delay = 400;
+    } else if (deleting) {
+      delay = 35;
+    }
+    timer = setTimeout(tick, delay);
+  }
+  timer = setTimeout(tick, 700);
+  window.addEventListener('pagehide', () => {
+    clearTimeout(timer);
+    const input = doc.querySelector(selector);
+    if (input) input.placeholder = base;
+  });
+})();
+</script>

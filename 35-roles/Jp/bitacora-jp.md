@@ -30,3 +30,7 @@ Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hiz
 - 15-10: El chat público reconoce identidad/capacidades y se presenta como asistente IA de ChileAtiende: guía de trámites, requisitos y documentos faltantes. Indica consentimiento en Mi Gobierno para revisión preliminar de PGU y decisión final del organismo. Instrucciones Bedrock coherentes con las plantillas. 23 pruebas enfocadas pasan. Ver [[portal-ayuda-tramites]].
 
 - 15-10: Integrados avances remotos de conversación, voz y acceso ejecutivo con el diseño/streaming local. Consulta personal PGU revisa reglas, antecedentes faltantes y progreso guardado; sin sesión/permiso solicita ingreso y consentimiento en Mi Gobierno, con acceso a completar antecedentes. Historial personal separado del modelo público y eliminado al cambiar sesión o consentimiento. Suite completa: 260 pruebas pasan, 2 omitidas por dependencias opcionales y 8 evals excluidas; pruebas adicionales de privacidad y pasos PGU pasan. Ver [[portal-ayuda-tramites]].
+
+- 15-10: Chat público sin botones de preguntas frecuentes. El placeholder alterna ejemplos con escritura y borrado letra a letra; se pausa al enfocar o escribir y usa texto fijo con movimiento reducido. Controlador local `assets/chat-placeholder.html`, sin cambiar el valor del campo.
+
+- 15-10: Control de dictado más discreto: botón de ícono con tooltip, etiqueta accesible y ayuda desplegable «Cómo usar el micrófono». Durante el dictado se muestra «Detener dictado». Se conserva revisión antes del envío.

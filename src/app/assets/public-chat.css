@@ -54,6 +54,8 @@
 .st-key-public_chat_voice{max-width:760px;width:100%;align-self:center;margin-inline:auto}
 .st-key-public_chat_voice [data-testid="stElementContainer"]{width:100%!important;max-width:100%}
 
+/* The placeholder controller has no visible layout footprint. */
+.st-key-public_chat_placeholder_animation{display:none}
 
 /* Center the send control against the full height of the text field. */
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"] div:has(>[data-testid="stChatInputSubmitButton"]){top:0;bottom:0;height:auto;display:flex;align-items:center;justify-content:center}

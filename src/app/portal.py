@@ -236,14 +236,6 @@ def render_chat_page() -> None:
                 unsafe_allow_html=True,
             )
             _render_public_chat_input()
-            with st.container(key="public_chat_suggestions"):
-                suggestions = st.columns(3)
-                for column, question in zip(suggestions, (
-                    "¿Qué es la PGU?", "¿Cómo actualizo mi RSH?", "¿Cómo preparo mi jubilación?"
-                ), strict=True):
-                    if column.button(question, use_container_width=True):
-                        st.session_state["public_chat_pending"] = question
-                        st.rerun()
         for index, message in enumerate(history):
             with st.container(key=f"public_message_{message['rol']}_{index}"):
                 st.chat_message(message["rol"]).write(message["texto"])
@@ -307,6 +299,13 @@ def render_chat_page() -> None:
 
 
 def _render_public_chat_input() -> None:
+    import streamlit.components.v1 as components
+
+    with st.container(key="public_chat_placeholder_animation"):
+        components.html(
+            (LOGO.parent / "chat-placeholder.html").read_text(encoding="utf-8"),
+            height=0,
+        )
     if question := st.chat_input("Describe lo que necesitas", max_chars=2000, key="public_chat_input"):
         st.session_state["public_chat_pending"] = question
         st.rerun()
