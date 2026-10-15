@@ -8,7 +8,7 @@ Una entrada por avance o commit relevante, la más reciente arriba.
 
 Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
-### 2026-10-15 · Desplazamiento y espera del chatbot
+### 2026-10-15 · Desplazamiento y espera del chatbot · df392ec
 
 Pregunta visible antes de la consulta al agente, tres puntos animados en ola y
 desplazamiento automático al enviar/recibir en ambos chats. Script Chromium aislado
