@@ -70,3 +70,5 @@ Las consultas generales con Bedrock ya no dependen de una lista cerrada de frase
 solo se envía la pregunta actual, sin perfil ni historial personal revocado.
 Verificación: 31 pruebas enfocadas pasan y script 500 perfiles TODO OK.
 - 15-10: Pulido del chat publico: textarea contenido dentro del borde y sin padding que recorta lineas; burbuja de persona con altura suficiente para todo el texto. Chromium verifica banner, dos turnos, enlaces de fuentes y nueva conversacion a 390/900/1440 px. Cinco pruebas enfocadas OK. [[portal-ayuda-tramites]].
+
+- 15-10: `/chat` comparte la temática del banner IA del inicio: fondo #f4f8fc, franja azul/roja, título azul, respuestas blancas con borde azul y campo blanco con envío azul. Se conserva conversación y reinicio. Verificación: 6 pruebas de portal/chat pasan; `git diff --check` sin errores nuevos.

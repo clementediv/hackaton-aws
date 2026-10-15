@@ -27,3 +27,24 @@
 .st-key-public_chat_header button p{font-size:13px;white-space:nowrap}
 @media(prefers-reduced-motion:no-preference){.public-chat-welcome,[class*="st-key-public_message_"]{animation:portal-enter 240ms ease-out both}.st-key-public_chat_header button{transition:background-color 160ms,border-color 160ms}}
 @media(max-width:600px){.stMainBlockContainer:has(.st-key-public_chat){padding:16px 16px 28px}.st-key-public_chat_header [data-testid="stHorizontalBlock"]{flex-wrap:nowrap;gap:8px}.st-key-public_chat_header [data-testid="stColumn"]{min-width:0!important}.st-key-public_chat_header [data-testid="stColumn"]:last-child{flex:0 0 150px;width:150px}.st-key-public_chat{margin-top:20px}.stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{padding:8px 16px 16px}.st-key-public_chat [data-testid="stChatMessage"] p{font-size:15px}[class*="st-key-public_message_user_"]{max-width:94%}}
+
+/* Continue the home assistant banner's ChileAtiende theme. */
+.stApp:has(.st-key-public_chat){background:#f4f8fc}
+.stApp:has(.st-key-public_chat) [data-testid="stBottom"],
+.stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{background:#f4f8fc}
+.st-key-public_chat_header{border-bottom-color:#d5e4f2}
+.st-key-public_chat_header button{border-color:#c6d9ea;color:#0d4d82}
+.st-key-public_chat_header button:hover{background:#e5f0fc;border-color:#0f69c4}
+.public-chat-welcome:before{content:"";display:block;width:64px;height:5px;margin:0 auto 20px;background:linear-gradient(to right,#0f69c4 50%,#eb3c46 50%);border-radius:2px}
+.public-chat-welcome>span{color:#0f69c4}
+.st-key-public_chat .public-chat-welcome h1{font-size:clamp(28px,4vw,36px);color:#0d4d82;letter-spacing:-.8px}
+.public-chat-welcome p{color:#34536e}
+.st-key-public_chat [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]){background:#fff;border:1px solid #d5e4f2;border-left:3px solid #0f69c4;border-radius:16px 16px 16px 4px;padding:16px 20px;color:#34536e}
+[class*="st-key-public_message_user_"] [data-testid="stChatMessage"]{background:#e5f0fc;border-radius:16px 16px 4px 16px;color:#0d4d82}
+.st-key-public_chat [data-testid="stChatMessageAvatarAssistant"]{background:#0f69c4}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"]{background:#fff;border-color:#c6d9ea;box-shadow:0 4px 18px #0d4d8208}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"]:focus-within{border-color:#0f69c4;box-shadow:0 0 0 3px #0f69c414}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{color:#143e5c}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInputSubmitButton"]{background:#0f69c4;color:#fff;border-radius:50%}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInputSubmitButton"]:hover{background:#0d4d82}
+@media(max-width:600px){.st-key-public_chat [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]){padding:14px 12px;gap:10px}}

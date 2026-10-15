@@ -208,7 +208,7 @@ def render_chat_page() -> None:
         if not history:
             st.markdown(
                 '<div class="public-chat-welcome"><span>ASISTENTE CHILEATIENDE</span>'
-                '<h1>¿En qué te podemos ayudar?</h1>'
+                '<h1>Asistente de inteligencia artificial de ChileAtiende</h1>'
                 '<p>Una conversación para encontrar tu próximo paso.</p></div>',
                 unsafe_allow_html=True,
             )
