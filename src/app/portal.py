@@ -41,7 +41,7 @@ SERVICES = (
 )
 
 
-CITIZEN_SECTIONS = ["Inicio", "Mi Gobierno"]
+CITIZEN_SECTIONS = ["Inicio", "Mi Gobierno", "Asistente de IA"]
 # Back-office tools are reached from the demonstration sidebar.
 EXECUTIVE_SECTIONS = [
     "Mapa de calor y campañas",
@@ -53,7 +53,7 @@ EXECUTIVE_SECTIONS = [
 ]
 
 
-def render_header() -> str:
+def render_header(*, chat_page: bool = False) -> str:
     st.markdown(_portal_styles(), unsafe_allow_html=True)
     if st.query_params.get("vista") == "ejecutivos" and not st.session_state.get(
         "staff_deeplink_loaded"
@@ -90,11 +90,11 @@ def render_header() -> str:
     selected = st.radio(
         "Secciones del portal",
         CITIZEN_SECTIONS,
-        index=0,
+        index=2 if chat_page else 0,
         horizontal=True,
         label_visibility="collapsed",
-        key="portal_section",
-        on_change=_leave_executive,
+        key="chat_portal_section" if chat_page else "portal_section",
+        on_change=_navigate_from_chat if chat_page else _leave_executive,
     )
     st.sidebar.button("Vista ejecutivo", key="open_executive", on_click=_open_executive)
     if st.session_state.get("portal_staff_workspace"):
@@ -112,6 +112,12 @@ def _open_executive() -> None:
     st.session_state.pop("portal_staff_workspace", None)
     st.session_state["portal_executive"] = True
     st.session_state["portal_section"] = None
+
+
+def _navigate_from_chat() -> None:
+    section = st.session_state["chat_portal_section"]
+    if section != "Asistente de IA":
+        st.session_state["portal_next_section"] = section
 
 
 def _leave_executive() -> None:
@@ -186,7 +192,10 @@ def _queue_home_question(question: str) -> None:
 def render_chat_page() -> None:
     from ruta.asistente import responder_publico
 
-    st.markdown(_portal_styles(), unsafe_allow_html=True)
+    if st.session_state.get("portal_next_section"):
+        st.switch_page(st.session_state["portal_home_page"])
+    st.session_state["chat_portal_section"] = "Asistente de IA"
+    render_header(chat_page=True)
     with st.container(key="public_chat_header"):
         brand, actions = st.columns([3, 1], vertical_alignment="center")
         with brand:

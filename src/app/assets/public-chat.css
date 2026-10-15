@@ -48,3 +48,16 @@
 .stApp:has(.st-key-public_chat) [data-testid="stChatInputSubmitButton"]{background:#0f69c4;color:#fff;border-radius:50%}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInputSubmitButton"]:hover{background:#0d4d82}
 @media(max-width:600px){.st-key-public_chat [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]){padding:14px 12px;gap:10px}}
+
+/* Streamlit 1.40 uses .block-container and an outer container wrapper. */
+.stApp:has(.st-key-public_chat) .block-container{width:100%;max-width:1080px;margin-inline:auto;padding:24px 40px 40px;box-sizing:border-box}
+.stApp:has(.st-key-public_chat) [data-testid="stVerticalBlockBorderWrapper"]:has(>.st-key-public_chat),
+.stApp:has(.st-key-public_chat) [data-testid="stVerticalBlockBorderWrapper"]:has(>.st-key-public_chat_notice){width:100%!important;max-width:760px;margin-inline:auto;align-self:center}
+.st-key-public_chat{align-self:center;margin-inline:auto!important}
+.public-chat-welcome{width:100%;box-sizing:border-box;text-align:center}
+.st-key-public_chat .public-chat-welcome h1,.public-chat-welcome p{width:100%;max-width:680px;margin-left:auto;margin-right:auto;text-align:center}
+.stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{width:100%;margin-inline:auto;box-sizing:border-box}
+@media(max-width:600px){.stApp:has(.st-key-public_chat) .block-container{padding:16px 16px 28px}}
+.st-key-public_chat [data-testid="stElementContainer"],
+.st-key-public_chat [data-testid="stMarkdownContainer"]{width:100%!important;max-width:100%;min-width:0;box-sizing:border-box}
+.st-key-public_chat [data-testid="stMarkdown"]{width:100%!important;max-width:100%;box-sizing:border-box}

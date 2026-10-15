@@ -292,6 +292,8 @@ def render_portal() -> None:
     if next_section := st.session_state.pop("portal_next_section", None):
         st.session_state["portal_section"] = next_section
     section = portal.render_header()
+    if section == "Asistente de IA":
+        st.switch_page(st.Page(portal.render_chat_page, title="Asistente ChileAtiende", url_path="chat"))
     portal.hero(section)
     with st.sidebar:
         st.title("Controles de demostración")
