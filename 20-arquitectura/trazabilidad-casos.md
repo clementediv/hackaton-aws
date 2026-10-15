@@ -44,3 +44,5 @@ Solo «Demostración · Región Metropolitana» agrega un escenario de uso ficti
 - **Denominador:** acordar la cohorte con el IPS; los porcentajes visuales sobre alertas no sustituyen el KPI validado.
 
 La demo **valida registro y visualización, no cumplimiento de la meta con personas reales**. Pruebas en `tests/test_trazabilidad.py` y `tests/test_engagement.py`: orden temporal, duplicados, autorización previa, fechas futuras, G0/pasos no disponibles, ventanas completas, aislamiento y recorrido de login/vistas/reconexión. Chromium escritorio/móvil y verificador de 500 perfiles.
+
+Cierre: `96abb06`, merge `fb6eea5`; 260 pruebas OK, una omitida por trazas opcionales y ocho evals Bedrock excluidas. Verificador de 500 perfiles y Chrome 1440/390 OK; localhost 8505 actualizado.
