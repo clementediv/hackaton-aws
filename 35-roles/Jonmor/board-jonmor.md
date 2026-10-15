@@ -15,7 +15,8 @@ entorno: Kiro IDE Pro
 Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, revisa el estado del pipeline en [[_equipo]] y los boards de los demás en [[_avance]] para no duplicar trabajo.
 
 ## En curso
-- 
+- T15: API mínima autenticada, bundle Linux y despliegue Bedrock. [[plan-chatbot-desplegado]]
+
 
 ## Por hacer
 - 
