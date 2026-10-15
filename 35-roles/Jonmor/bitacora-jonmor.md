@@ -8,9 +8,9 @@ Una entrada por avance o commit relevante, la más reciente arriba.
 
 Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
-### 2026-10-15 · Consultas generales del chatbot · ver commit
+### 2026-10-15 · Consultas generales del chatbot · 33eed79
 
-Corregido resumen repetido sin permiso: información general por Bedrock con solo pregunta y fuentes públicas; consultas personales requieren autorización. Respaldo pertinente y sin historial revocado. 22 pruebas enfocadas y llamada real Sonnet 5 OK. [[0015-orientacion-general-sin-perfil]].
+Corregido resumen repetido sin permiso: información general por Bedrock con solo pregunta y fuentes públicas; consultas personales requieren autorización. Respaldo pertinente y sin historial revocado. 23 pruebas enfocadas y llamada real Sonnet 5 OK. Integración d8bde76 conserva /chat y su historial público, usando cliente compartido sin temperature. [[0015-orientacion-general-sin-perfil]].
 
 ### 2026-10-15 18:54 · T21 · a54d5df
 

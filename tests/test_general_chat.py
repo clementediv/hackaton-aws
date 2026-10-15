@@ -49,3 +49,25 @@ def test_public_bedrock_failure_keeps_relevant_explanation(monkeypatch):
     assert "fecha de nacimiento" not in reply
     assert "private internal error" not in reply
     assert engine == "plantillas"
+
+
+def test_separate_public_chat_preserves_public_history_and_uses_shared_client(monkeypatch):
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
+    history = [
+        {"rol": "assistant", "texto": "Hola, ¿en qué te ayudo?"},
+        {"rol": "user", "texto": "¿Qué es la PGU?"},
+        {"rol": "assistant", "texto": "Es un beneficio del Estado."},
+    ]
+
+    class Client:
+        def converse(self, messages, **options):
+            assert messages[0]["role"] == "user"
+            assert "¿Qué es la PGU?" in json.dumps(messages, ensure_ascii=False)
+            assert "temperature" not in options["inferenceConfig"]
+            assert "toolConfig" not in options
+            return {"output": {"message": {"content": [{"text": "El IPS revisa los requisitos."}]}}}
+
+    monkeypatch.setattr(chatbot.BedrockClient, "from_env", lambda: Client())
+    text, engine = asistente.responder_publico("¿Quién lo revisa?", history)
+    assert engine == "bedrock"
+    assert "IPS" in text

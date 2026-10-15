@@ -54,3 +54,7 @@ fechas personales. Fuente pública consultada: https://www.chileatiende.gob.cl/f
 - 15-10: Slides del banner cada 2,5 segundos: ciclo CSS completo de 5 segundos para dos paneles. Duracion comprobada en Chromium. [[portal-ayuda-tramites]].
 
 - 15-10: Banner inicia con asistente IA y cambia de slide cada 8 segundos (ciclo de 16 segundos). Orden HTML actualizado tambien para movimiento reducido. Chromium confirma estado inicial y duracion. [[portal-ayuda-tramites]].
+
+Integración: el chat público separado en /chat usa también el cliente compartido,
+sin temperature. Conserva solo su propio historial público. 23 pruebas enfocadas
+pasan tras integrar el aporte; el historial personal revocado nunca se reenvía.

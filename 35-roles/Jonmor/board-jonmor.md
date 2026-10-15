@@ -15,7 +15,7 @@ entorno: Kiro IDE Pro
 Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, revisa el estado del pipeline en [[_equipo]] y los boards de los demás en [[_avance]] para no duplicar trabajo.
 
 ## En curso
-- Corregir consultas generales del chat sin autorización: respuestas pertinentes, sin repetir diagnóstico.
+- Sin tareas abiertas.
 
 ## Por hacer
 - Integrar Streamlit con la API cuando se amplíe el alcance; hoy conserva su adaptador local.
@@ -25,6 +25,7 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 - Cinco pruebas UI heredadas fallan también en origin/main; evidencia en [[chatbot-desplegado]]. No bloquean la API desplegada.
 
 ## Hecho
+- Consultas generales del chat corregidas; Bedrock público sin perfil y respaldo pertinente. Cliente unificado con /chat remoto. `33eed79`, integración `d8bde76`. [[0015-orientacion-general-sin-perfil]].
 - [x] T15: API mínima autenticada y Bedrock real. `f9e7f6d`, integrado a main en `df99c3b`. [[chatbot-desplegado]]
 - [x] T16: Repositorio de casos DynamoDB. `65224cf`, integrado a main en `df99c3b`. [[chatbot-desplegado]]
 - [x] T17: Turnos persistentes y evaluación determinista. `c7599d7`, integrado a main en `df99c3b`. [[chatbot-desplegado]]
