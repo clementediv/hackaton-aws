@@ -122,7 +122,7 @@ def _app(monkeypatch, tmp_path, *, available):
     monkeypatch.setattr(module, "load_contacts", lambda dynamodb=None: sample)
     monkeypatch.setattr(module, "load_history", lambda run, dynamodb=None: [])
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
-    app.radio(key="portal_section").set_value("Vista ejecutivo").run()
+    app.button(key="open_executive").click().run()
     app.radio(key="executive_section").set_value("Contactos AWS").run()
     assert not app.exception
     return app
