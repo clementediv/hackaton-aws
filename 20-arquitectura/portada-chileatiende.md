@@ -1,5 +1,7 @@
 # Portada basada en ChileAtiende
 
+La invitación vuelve a alinearse a la izquierda y agrega a la derecha el archivo `src/app/assets/IPS.png` proporcionado por el usuario, conservando proporciones y texto alternativo. En móvil el logo se apila debajo. El botón secundario de trámites sigue retirado.
+
 La invitación principal ocupa una sola columna centrada: título, descripción y botón «Descubrir mis beneficios». Se elimina el botón lateral «Ver trámites y beneficios» y la columna que lo contenía.
 
 Se retiran también los tres textos del directorio lateral: «TRÁMITES Y SERVICIOS», «¿Buscas algo en particular?» y su descripción. El enlace al catálogo se conserva.

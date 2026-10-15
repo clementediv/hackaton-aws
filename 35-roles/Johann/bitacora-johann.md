@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Invitación alineada e identidad IPS
+- Texto y botón principal alineados a la izquierda y logo `IPS.png` a la derecha, sin deformarlo. En móvil se apila. Tres pruebas del portal OK. [[portada-chileatiende]].
+
 ### 2026-10-15 · Centrar invitación principal
 - Se retiran la columna y el botón lateral de trámites. Título, descripción y botón principal quedan centrados. Tres pruebas del portal OK. [[portada-chileatiende]].
 

@@ -161,7 +161,8 @@ def render_discovery() -> None:
     content = (assets / "official-home.html").read_text(encoding="utf-8")
     content = content.split("</section>", 1)[1]
     with st.container(border=True, key="home_government"):
-        with st.container(key="home_government_invitation"):
+        invitation, branding = st.columns([2.6, 1], gap="large", vertical_alignment="center")
+        with invitation, st.container(key="home_government_invitation"):
             st.markdown(
                 '<div class="home-government">'
                 "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
@@ -177,6 +178,13 @@ def render_discovery() -> None:
                 on_click=open_section,
                 args=("Mi Gobierno",),
                 key="home_government_access",
+            )
+        with branding:
+            ips_logo = base64.b64encode((assets / "IPS.png").read_bytes()).decode("ascii")
+            st.markdown(
+                '<img class="home-ips-logo" alt="IPS, Instituto de Previsión Social" '
+                f'src="data:image/png;base64,{ips_logo}">',
+                unsafe_allow_html=True,
             )
     st.html(f'<style>{styles}</style><div class="official-home">{content}</div>')
 
