@@ -328,6 +328,10 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
                 "¿Qué te gustaría saber?"
             )
         permiso_clave = f"assistant_consent_{run}"
+        public_key = f"general_chat_{run}"
+        if st.session_state.get(permiso_clave) != ctx["autorizado"]:
+            st.session_state[public_key] = []
+            st.session_state[f"voice_person_{run}_read_aloud"] = False
         if (
             st.session_state.get(permiso_clave) != ctx["autorizado"]
             or len(st.session_state.get(clave, [])) <= 1
@@ -338,7 +342,16 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
         hist = st.session_state[clave]
 
         def preguntar(q: str):
-            resp, motor = asistente.responder(q, ctx, hist)
+            public_history = st.session_state.setdefault(public_key, [])
+            if ctx["autorizado"]:
+                resp, motor = asistente.responder(q, ctx, hist)
+            else:
+                resp, motor = asistente.responder(q, ctx, hist, public_history=public_history)
+                if motor == "bedrock":
+                    public_history.extend([
+                        {"rol": "user", "texto": q}, {"rol": "assistant", "texto": resp}
+                    ])
+                    del public_history[:-6]
             hist.extend([{"rol": "user", "texto": q}, {"rol": "assistant", "texto": resp}])
             casos.registrar_evento(run, canal, "consulta_asistente", {"pregunta": q, "motor": motor})
 
@@ -362,6 +375,13 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
         preguntas_rapidas()
         if q := st.chat_input("Pregúntale al asistente de trámites"):
             preguntar(q)
+            st.rerun()
+        from voice import voice_input
+
+        latest_reply = next((m["texto"] for m in reversed(hist) if m["rol"] == "assistant"), "")
+        if spoken := voice_input(key=f"voice_person_{run}", reply=latest_reply,
+                                 message_id=str(len(hist))):
+            preguntar(spoken)
             st.rerun()
 
 

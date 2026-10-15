@@ -10,6 +10,7 @@ import unicodedata
 
 from . import config
 from . import reglas as R
+from .conversation import clarification, social_fallback
 from .fechas import fmt
 from .rutas import Paso
 
@@ -53,11 +54,13 @@ def responder_publico(pregunta: str, historial: list[dict]) -> tuple[str, str]:
             topics[topic]
             if topic
             else (
-                "Puedo orientarte sobre PGU, documentos y beneficios estudiantiles. Cuéntame qué trámite necesitas. Para revisar beneficios personalizados, continúa en Mi Gobierno.",
+                clarification(historial),
                 source,
             )
         )
         fallback = f"{text}\n\nFuente: {citation}."
+    if conversational := social_fallback(pregunta, historial):
+        fallback = conversational + f"\n\nFuente: {source}."
     if config.BEDROCK_MODEL_ID:
         try:
             from .chatbot import answer_general
@@ -163,7 +166,8 @@ def _consulta_personal(question: str) -> bool:
 
 
 def _plantilla(pregunta: str, ctx: dict) -> str:
-    q = _norm(pregunta)
+    q = re.sub(r"\b(mierda|puta|puto|weon|huevon)\b", "", _norm(pregunta))
+    q = " ".join(q.split())
     greeting = re.sub(r"[^\w\s]", "", q).strip()
     if greeting in {
         "hola",
@@ -334,13 +338,26 @@ def explicar_resumen(ctx: dict) -> str:
     return " ".join(p for p in partes if p)
 
 
-def responder(pregunta: str, ctx: dict, historial: list[dict]) -> tuple[str, str]:
+def _respaldo(pregunta, ctx, historial):
+    reply = social_fallback(pregunta, historial)
+    if reply is None:
+        reply = _plantilla(pregunta, ctx)
+        if reply.startswith(("¿Qué parte te gustaría entender?", "¿Qué te gustaría revisar?")):
+            reply = clarification(historial)
+    if "https://" not in reply:
+        reply += f"\n\nFuente de orientación: {config.FUENTES['chileatiende']}"
+    return reply
+
+
+def responder(
+    pregunta: str, ctx: dict, historial: list[dict], *, public_history: list[dict] | None = None
+) -> tuple[str, str]:
     """Devuelve (respuesta, motor) donde motor es 'bedrock' o 'plantillas'."""
     # A revoked consent must not forward previously authorized chat to the LLM.
     if not ctx["autorizado"]:
         # A personal question must get the consent step, never an invented evaluation.
         if _consulta_personal(pregunta):
-            return _plantilla(pregunta, ctx), "plantillas"
+            return _respaldo(pregunta, ctx, historial), "plantillas"
         q = re.sub(r"[^\w\s]", "", _norm(pregunta)).strip()
         social = q in {
             "hola",
@@ -359,14 +376,16 @@ def responder(pregunta: str, ctx: dict, historial: list[dict]) -> tuple[str, str
             try:
                 from .chatbot import answer_general
 
+                if public_history is not None:
+                    return answer_general(pregunta, public_history=public_history), "bedrock"
                 return answer_general(pregunta), "bedrock"
             except Exception:
                 return (
-                    _plantilla(pregunta, ctx)
+                    _respaldo(pregunta, ctx, historial)
                     + "\n\n_(Bedrock no disponible; información general de respaldo.)_",
                     "plantillas",
                 )
-        return _plantilla(pregunta, ctx), "plantillas"
+        return _respaldo(pregunta, ctx, historial), "plantillas"
     if config.BEDROCK_MODEL_ID:
         try:
             return _bedrock(pregunta, ctx, historial), "bedrock"
@@ -374,11 +393,11 @@ def responder(pregunta: str, ctx: dict, historial: list[dict]) -> tuple[str, str
             Exception
         ) as e:  # sin credenciales / modelo no habilitado: degradar sin romper la demo
             return (
-                _plantilla(pregunta, ctx)
+                _respaldo(pregunta, ctx, historial)
                 + f"\n\n_(Bedrock no disponible: {type(e).__name__}; respuesta por plantillas)_",
                 "plantillas",
             )
-    return _plantilla(pregunta, ctx), "plantillas"
+    return _respaldo(pregunta, ctx, historial), "plantillas"
 
 
 def mensaje_invitacion(d: R.Diagnostico) -> str:

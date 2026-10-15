@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{box-sizing:border-box}body{margin:0;font:14px system-ui,sans-serif;color:#23364d;background:transparent}
+button{font:inherit;border:1px solid #b4c7df;border-radius:20px;padding:8px 14px;background:#f2f6fc;color:#164a86;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+button:disabled{opacity:.55;cursor:default}button:focus-visible,textarea:focus-visible{outline:3px solid #6ba8ed;outline-offset:2px}
+button[aria-pressed=true]{background:#fff1f1;border-color:#d86b6b;color:#9c2424}
+svg{width:18px;height:18px}#status{margin-left:9px;font-size:12px}#review{margin-top:10px}label{display:block;margin-bottom:5px}
+textarea{display:block;width:100%;height:70px;resize:vertical;border:1px solid #aebfd5;border-radius:10px;padding:8px;font:inherit;margin-bottom:8px}
+#send{background:#1457a4;color:white}#cancel{margin-left:6px}#help{font-size:11px;color:#52647a;margin:7px 0} [hidden]{display:none!important}
+</style></head><body>
+<button id="mic" type="button" aria-pressed="false" aria-label="Dictar mensaje por micrófono">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg><span id="mic-label">Hablar por micrófono</span></button>
+<button id="listen" type="button" hidden aria-label="Escuchar la respuesta del asistente">Escuchar respuesta</button>
+<button id="stop-voice" type="button" hidden>Detener voz</button>
+<span id="status" role="status" aria-live="polite"></span>
+<div id="review" hidden><label for="draft">Revisa tu mensaje antes de enviarlo</label><textarea id="draft" maxlength="2000"></textarea><button id="send" type="button">Enviar mensaje</button><button id="cancel" type="button">Descartar</button></div>
+<p id="help">El dictado usa el reconocimiento de voz de tu navegador. Tú decides cuándo enviar el texto.</p>
+<script>
+const $=id=>document.getElementById(id);
+const post=(type,extra={})=>window.parent.postMessage({isStreamlitMessage:true,type,...extra},"*");
+const resize=()=>post("streamlit:setFrameHeight",{height:document.body.scrollHeight+8});
+const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
+let recognition=null,listening=false,enabled=true;
+let replyText="",lastSpeechId="",currentSpeechId="",reading=false,activeUtterance=null;
+const synthesis=window.speechSynthesis;
+function stopReading(){activeUtterance=null;if(synthesis)synthesis.cancel();reading=false;$("stop-voice").hidden=true}
+function speakReply(){
+ if(!synthesis||!window.SpeechSynthesisUtterance){status("Tu navegador no dispone de lectura en voz alta.");return}
+ if(!replyText||listening)return;
+ stopReading();
+ const utterance=new SpeechSynthesisUtterance(replyText);utterance.lang="es-CL";utterance.rate=1;
+ const voices=synthesis.getVoices();
+ const voice=voices.find(v=>v.lang.toLowerCase()==="es-cl")||voices.find(v=>v.lang.toLowerCase().startsWith("es"));
+ if(voice)utterance.voice=voice;
+ utterance.onstart=()=>{if(activeUtterance!==utterance)return;reading=true;$("stop-voice").hidden=false;status("Leyendo la respuesta…")};
+ utterance.onend=()=>{if(activeUtterance!==utterance)return;activeUtterance=null;reading=false;$("stop-voice").hidden=true;if(!listening)status("");resize()};
+ utterance.onerror=event=>{if(activeUtterance!==utterance)return;activeUtterance=null;reading=false;$("stop-voice").hidden=true;
+  if(!["canceled","interrupted"].includes(event.error))status("Pulsa Escuchar respuesta para iniciar la voz.");resize()};
+ activeUtterance=utterance;lastSpeechId=currentSpeechId;synthesis.speak(utterance);
+}
+$("listen").onclick=speakReply;
+$("stop-voice").onclick=()=>{stopReading();status("Lectura detenida.")};
+function status(text){$("status").textContent=text;resize()}
+function setListening(value){listening=value;$("mic").setAttribute("aria-pressed",String(value));$("mic-label").textContent=value?"Detener dictado":"Hablar por micrófono";$("send").disabled=value||!$("draft").value.trim();resize()}
+function clearDraft(){ $("draft").value="";$("review").hidden=true;resize() }
+$("draft").oninput=()=>{$("send").disabled=listening||!$("draft").value.trim();resize()};
+$("mic").onclick=()=>{
+ if(!Speech||!enabled)return;
+ if(listening){recognition.stop();return}
+ stopReading();
+ recognition=new Speech();recognition.lang="es-CL";recognition.interimResults=true;recognition.continuous=false;
+ const previous=$("draft").value.trim();
+ recognition.onstart=()=>{setListening(true);status("Escuchando…")};
+ recognition.onresult=event=>{
+  let text="";for(let i=0;i<event.results.length;i++)text+=event.results[i][0].transcript+" ";
+  $("draft").value=((previous?previous+" ":"")+text.trim()).slice(0,2000);$("review").hidden=false;resize();
+ };
+ recognition.onerror=event=>{
+  const errors={"not-allowed":"Permite el micrófono en tu navegador para dictar.","service-not-allowed":"El navegador no permite el dictado. Puedes escribir tu mensaje.","audio-capture":"No se encontró un micrófono disponible.","no-speech":"No alcancé a escuchar. Inténtalo otra vez.","network":"No pude conectar el dictado. Revisa tu conexión o escribe tu mensaje.","aborted":"Dictado detenido."};
+  status(errors[event.error]||"No pude iniciar el dictado. Puedes seguir escribiendo.");
+ };
+ recognition.onend=()=>{setListening(false);if($("status").textContent==="Escuchando…")status($("draft").value.trim()?"Puedes revisar y enviar tu mensaje.":"No se detectó voz. Inténtalo otra vez.")};
+ try{recognition.start()}catch(error){setListening(false);status("No pude iniciar el micrófono. Puedes escribir tu mensaje.")}
+};
+$("send").onclick=()=>{
+ const text=$("draft").value.trim();if(!text||listening)return;
+ post("streamlit:setComponentValue",{value:{id:crypto.randomUUID(),text},dataType:"json"});
+ clearDraft();status("Mensaje enviado.");
+};
+$("cancel").onclick=()=>{if(recognition&&listening)recognition.abort();clearDraft();status("Dictado descartado.")};
+window.addEventListener("pagehide",()=>{if(recognition)recognition.abort();stopReading()});
+window.addEventListener("message",event=>{
+ if(event.source!==window.parent||event.data?.type!=="streamlit:render")return;
+ enabled=!event.data.disabled;$("mic").disabled=!enabled||!Speech;
+ const args=event.data.args||{};replyText=args.reply_text||"";currentSpeechId=args.speech_id||"";
+ $("listen").hidden=!replyText;$("listen").disabled=!synthesis||listening;
+ if(!replyText||!args.read_aloud){stopReading();lastSpeechId=""}
+ else if(replyText&&currentSpeechId!==lastSpeechId)speakReply();
+ if(!Speech)status("Tu navegador no admite dictado. Puedes escribir tu mensaje.");resize();
+});
+post("streamlit:componentReady",{apiVersion:1});resize();
+</script></body></html>
