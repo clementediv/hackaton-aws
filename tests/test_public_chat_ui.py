@@ -57,7 +57,7 @@ def test_personal_pgu_review_does_not_leak_into_public_model_history(monkeypatch
     assert not app.exception
     assert received == []
     assert "Antecedentes que faltan" in app.session_state["public_chat_history"][-1]["texto"]
-    app.chat_input[0].set_value("¿Qué es la PGU?").run()
+    app.chat_input[-1].set_value("¿Qué es la PGU?").run()
     assert not app.exception
     assert received == [[]]
     case["autorizacion"] = False

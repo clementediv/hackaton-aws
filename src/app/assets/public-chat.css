@@ -60,3 +60,15 @@
 /* Center the send control against the full height of the text field. */
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"] div:has(>[data-testid="stChatInputSubmitButton"]){top:0;bottom:0;height:auto;display:flex;align-items:center;justify-content:center}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInputSubmitButton"]{display:flex;align-items:center;justify-content:center;padding:8px;flex-shrink:0}
+
+/* Quiet dictation control immediately before Send. */
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] div:has(>.chat-composer-mic){width:84px;gap:4px}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{padding-right:92px!important}
+.chat-composer-mic{width:40px;height:40px;min-width:40px;padding:10px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:transparent;color:#60798e;cursor:pointer}
+.chat-composer-mic svg{width:18px;height:18px}
+.chat-composer-mic:hover{background:#edf4fb;color:#0f69b4}
+.chat-composer-mic:focus-visible{outline:2px solid #0f69b4;outline-offset:2px}
+.chat-composer-mic[aria-pressed="true"]{background:#fff1f1;color:#bf2838}
+.chat-composer-mic:disabled{opacity:.45;cursor:default}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] div:has(>.chat-composer-mic){z-index:2}
+.chat-composer-mic{pointer-events:auto;position:relative;z-index:3}

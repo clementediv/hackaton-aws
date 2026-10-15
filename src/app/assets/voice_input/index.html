@@ -29,6 +29,43 @@ const post=(type,extra={})=>window.parent.postMessage({isStreamlitMessage:true,t
 const resize=()=>post("streamlit:setFrameHeight",{height:document.body.scrollHeight+8});
 const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
 let recognition=null,listening=false,enabled=true;
+let compact=false,composerMic=null,composerObserver=null;
+
+function syncComposerMic(){
+ if(!composerMic)return;
+ composerMic.disabled=!enabled||!Speech;
+ composerMic.setAttribute("aria-pressed",String(listening));
+ composerMic.setAttribute("aria-label",listening?"Detener dictado":"Dictar mensaje por micrófono");
+ composerMic.title=!Speech?"Tu navegador no admite dictado":listening?"Detener dictado":"Dictar por voz";
+}
+function mountComposerMic(){
+ if(!compact)return;
+ const doc=window.parent.document;
+ const send=doc.querySelector('[data-testid="stChatInputSubmitButton"]');
+ if(!send)return;
+ if(!composerMic){
+  doc.getElementById("public-chat-composer-mic")?.remove();
+  composerMic=doc.createElement("button");
+  composerMic.id="public-chat-composer-mic";
+  composerMic.className="chat-composer-mic";
+  composerMic.type="button";
+  composerMic.innerHTML=$("mic").querySelector("svg").outerHTML;
+  composerMic.onclick=()=>$("mic").click();
+ }
+ if(composerMic.parentElement!==send.parentElement)send.parentElement.insertBefore(composerMic,send);
+ syncComposerMic();
+}
+function setCompact(value){
+ compact=value;$("mic").hidden=value;$("help").hidden=value;
+ if(value){
+  mountComposerMic();
+  if(!composerObserver){
+   composerObserver=new MutationObserver(mountComposerMic);
+   composerObserver.observe(window.parent.document.body,{childList:true,subtree:true});
+  }
+ }
+}
+
 let replyText="",lastSpeechId="",currentSpeechId="",reading=false,activeUtterance=null;
 const synthesis=window.speechSynthesis;
 function stopReading(){activeUtterance=null;if(synthesis)synthesis.cancel();reading=false;$("stop-voice").hidden=true}
@@ -50,7 +87,7 @@ $("help").addEventListener("toggle",resize);
 $("listen").onclick=speakReply;
 $("stop-voice").onclick=()=>{stopReading();status("Lectura detenida.")};
 function status(text){$("status").textContent=text;resize()}
-function setListening(value){listening=value;$("mic").title=value?"Detener dictado":"Activar micrófono para dictar";$("mic").setAttribute("aria-label",value?"Detener dictado":"Dictar mensaje por micrófono");$("mic").setAttribute("aria-pressed",String(value));$("mic-label").textContent=value?"Detener dictado":"Hablar por micrófono";$("send").disabled=value||!$("draft").value.trim();resize()}
+function setListening(value){listening=value;syncComposerMic();$("mic").title=value?"Detener dictado":"Activar micrófono para dictar";$("mic").setAttribute("aria-label",value?"Detener dictado":"Dictar mensaje por micrófono");$("mic").setAttribute("aria-pressed",String(value));$("mic-label").textContent=value?"Detener dictado":"Hablar por micrófono";$("send").disabled=value||!$("draft").value.trim();resize()}
 function clearDraft(){ $("draft").value="";$("review").hidden=true;resize() }
 $("draft").oninput=()=>{$("send").disabled=listening||!$("draft").value.trim();resize()};
 $("mic").onclick=()=>{
@@ -77,15 +114,15 @@ $("send").onclick=()=>{
  clearDraft();status("Mensaje enviado.");
 };
 $("cancel").onclick=()=>{if(recognition&&listening)recognition.abort();clearDraft();status("Dictado descartado.")};
-window.addEventListener("pagehide",()=>{if(recognition)recognition.abort();stopReading()});
+window.addEventListener("pagehide",()=>{if(recognition)recognition.abort();stopReading();composerObserver?.disconnect();composerMic?.remove()});
 window.addEventListener("message",event=>{
  if(event.source!==window.parent||event.data?.type!=="streamlit:render")return;
  enabled=!event.data.disabled;$("mic").disabled=!enabled||!Speech;
- const args=event.data.args||{};replyText=args.reply_text||"";currentSpeechId=args.speech_id||"";
+ const args=event.data.args||{};setCompact(Boolean(args.compact));replyText=args.reply_text||"";currentSpeechId=args.speech_id||"";
  $("listen").hidden=!replyText;$("listen").disabled=!synthesis||listening;
  if(!replyText||!args.read_aloud){stopReading();lastSpeechId=""}
  else if(replyText&&currentSpeechId!==lastSpeechId)speakReply();
- if(!Speech)status("Tu navegador no admite dictado. Puedes escribir tu mensaje.");resize();
+ if(!Speech&&!compact)status("Tu navegador no admite dictado. Puedes escribir tu mensaje.");resize();
 });
 post("streamlit:componentReady",{apiVersion:1});resize();
 </script></body></html>

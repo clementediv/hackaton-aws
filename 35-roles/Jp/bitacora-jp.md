@@ -34,3 +34,5 @@ Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hiz
 - 15-10: Chat público sin botones de preguntas frecuentes. El placeholder alterna ejemplos con escritura y borrado letra a letra; se pausa al enfocar o escribir y usa texto fijo con movimiento reducido. Controlador local `assets/chat-placeholder.html`, sin cambiar el valor del campo.
 
 - 15-10: Control de dictado más discreto: botón de ícono con tooltip, etiqueta accesible y ayuda desplegable «Cómo usar el micrófono». Durante el dictado se muestra «Detener dictado». Se conserva revisión antes del envío.
+
+- 15-10: Micrófono compacto junto a enviar en el campo del chat público, sin botón de texto ni interruptor separado. Dictado conserva revisión y descarte; modo estándar de Mi Gobierno conserva lectura optativa. Chromium verifica posición 1440/390 y dictado simulado → revisión → descarte. Siete pruebas de chat/voz pasan.

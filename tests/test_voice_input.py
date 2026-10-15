@@ -67,3 +67,15 @@ def test_government_chat_resets_public_memory_and_voice_when_consent_changes(mon
     assert not app.exception
     assert not app.toggle[0].value
     assert app.session_state["general_chat_100000010-4"] == []
+
+
+def test_compact_voice_uses_composer_mic_without_separate_toggle(monkeypatch):
+    def unexpected_toggle(*args, **kwargs):
+        pytest.fail("El modo compacto no muestra el interruptor de voz separado")
+
+    received = []
+    monkeypatch.setattr(voice.st, "toggle", unexpected_toggle)
+    monkeypatch.setattr(voice, "_component", lambda **kwargs: received.append(kwargs))
+    assert voice.voice_input("public", compact=True) is None
+    assert received[0]["compact"] is True
+    assert received[0]["read_aloud"] is False

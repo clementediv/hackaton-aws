@@ -292,7 +292,9 @@ def render_chat_page() -> None:
 
     with st.container(key="public_chat_voice"):
         latest_reply = next((m["texto"] for m in reversed(history) if m["rol"] == "assistant"), "")
-        spoken = voice_input(key="voice_public_chat", reply=latest_reply, message_id=str(len(history)))
+        spoken = voice_input(
+            key="voice_public_chat", reply=latest_reply, message_id=str(len(history)), compact=True
+        )
     if spoken:
         st.session_state["public_chat_pending"] = spoken
         st.rerun()
