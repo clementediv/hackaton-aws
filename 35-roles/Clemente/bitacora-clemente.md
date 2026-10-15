@@ -8,6 +8,11 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Trazabilidad visual de uso · `96abb06`, integración `fb6eea5`
+- Cuatro hitos visuales, continuidad diaria, regreso en ventanas completas de 7/30 días y recorrido individual con sesiones/último acceso/vista/intervalos. Auditoría y AWS opcional conservados en desplegable.
+- Mi Gobierno registra accesos identificados, vistas tras autorizar y avance declarado disponible; no cuenta recargas, aperturas de correo ni `started` como conversiones. Escenario ficticio solo en base aislada. Sin reintroducir cobro ni afirmar KPI ≥75% cumplido.
+- Cierre integrado: 260 pruebas OK, una omitida por trazas opcionales y ocho evals excluidas; verificador de 500 perfiles TODO OK. Chrome 1440/390 sin errores/desborde, gráficos y recorrido individual verificados. Localhost 8505 activo. Diseño y límites en [[trazabilidad-casos]], [[0018-trazabilidad-de-uso]].
+
 ### 2026-10-15 · Acotar Mi Gobierno al MVP · commit «Retirar botón de cobro del MVP de Mi Gobierno»
 - Retirado «Cobrar beneficio» de la tarjeta PGU elegible, por solicitud de Clemente. Situación, requisitos, calendario y chat conservados; los estados que requieren preparación/antecedentes mantienen sus acciones.
 - Prueba de sesión/consentimiento/documentos/revocación actualizada para verificar ausencia del botón y ausencia de pasos completados automáticamente. 24 pruebas de UI/integración y verificador de 500 perfiles OK; localhost 8505 actualizado. [[mi-gobierno]].
