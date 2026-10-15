@@ -13,12 +13,13 @@ BASE_URL = "https://www.chileatiende.gob.cl"
 LOGO = Path(__file__).resolve().parent / "assets/logo-chileatiende.svg"
 
 
-CSS = (
-    "<style>"
-    + (LOGO.parent / "fonts.css").read_text(encoding="utf-8")
-    + (LOGO.parent / "portal.css").read_text(encoding="utf-8")
-    + "</style>"
-)
+def _portal_styles() -> str:
+    return (
+        "<style>"
+        + (LOGO.parent / "fonts.css").read_text(encoding="utf-8")
+        + (LOGO.parent / "portal.css").read_text(encoding="utf-8")
+        + "</style>"
+    )
 
 # Labels/URLs verified in the HTML of the official portal on 2026-10-14.
 SERVICES = (
@@ -50,7 +51,7 @@ EXECUTIVE_SECTIONS = [
 
 
 def render_header() -> str:
-    st.markdown(CSS, unsafe_allow_html=True)
+    st.markdown(_portal_styles(), unsafe_allow_html=True)
     # Preserve the destination of sessions opened before the tools were grouped.
     previous = st.session_state.get("portal_section")
     if previous in EXECUTIVE_SECTIONS and previous != "Atención del caso":
