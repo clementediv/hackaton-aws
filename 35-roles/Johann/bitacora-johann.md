@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Posición del chat y esquinas
+- El chat arranca a la altura de la tarjeta PGU y acompaña el desplazamiento centrado en escritorio, limitado al listado. Bordes de 24 px y seguimiento desactivado en móvil/tablet. Chrome comprueba posición inicial, centro al desplazar, radio y ausencia de desbordamiento. [[mi-gobierno]].
+
 ### 2026-10-15 · Recuperar diseño original del chat
 - Se compara con `46f0c76` y se restaura el estilo blanco con borde discreto y conversación de 240 px; se eliminan los estilos azules posteriores. Se mantiene su ubicación lateral en Beneficios y las dos subpestañas. [[mi-gobierno]].
 

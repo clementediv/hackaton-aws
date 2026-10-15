@@ -13,6 +13,11 @@
 .st-key-gov_assistant [data-testid="stChatMessage"] p{line-height:1.65;overflow-wrap:anywhere}
 .st-key-gov_assistant [data-testid="stChatInput"]{border-radius:24px}
 .st-key-gov_assistant button{min-height:44px;text-align:left}
+.st-key-gov_assistant [data-testid="stVerticalBlockBorderWrapper"]{border-radius:24px!important}
+@media(min-width:1051px){
+  .st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page){align-self:stretch;padding-top:52px}
+  .st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page)>[data-testid="stVerticalBlockBorderWrapper"]{position:sticky;top:max(16px,calc(50vh - 214px));z-index:2}
+}
 @media(max-width:1050px){
   :is(.st-key-gov_benefits_layout,.st-key-gov_journey_layout) [data-testid="stHorizontalBlock"]:has(.st-key-gov_assistant){flex-direction:column;gap:24px}
   :is(.st-key-gov_benefits_layout,.st-key-gov_journey_layout) [data-testid="stHorizontalBlock"]:has(.st-key-gov_assistant)>[data-testid="stColumn"]{width:100%!important;flex:1 1 auto!important;min-width:0!important}

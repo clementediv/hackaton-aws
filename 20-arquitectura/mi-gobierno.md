@@ -1,5 +1,7 @@
 # Mi Gobierno
 
+El chat lateral comienza alineado con la tarjeta PGU (52 px después del encabezado del listado). En escritorio acompaña el desplazamiento con posición sticky y se mantiene centrado verticalmente mientras queda contenido de Beneficios. La tarjeta tiene esquinas de 24 px. En pantallas de hasta 1050 px se desactiva el seguimiento y se conserva la distribución apilada. Verificado en Chrome: alineación inicial, centro al desplazar, borde y móvil sin desbordamiento.
+
 ## Acceso de demostración
 
 Al entrar desde Descubrir mis beneficios, el encabezado o la navegación, se solicita RUN y **ClaveÚnica de demostración**. El usuario confirmó expresamente que el acceso es ficticio. La clave de prueba es `demo2026`; la pantalla muestra un RUN de ejemplo y permite consultar otros perfiles sintéticos.
