@@ -120,3 +120,5 @@ chat correctas. El verificador de perfiles sigue TODO OK.
 
 Se comprobó también la configuración real de API Gateway: autorización CUSTOM en
 todas las rutas, rate 2/s y burst 4, consultando get_routes/get_stages.
+
+Resultado final integrado: **193 pruebas correctas, cinco fallos UI heredados y ocho evals excluidas**. Verificador TODO OK. T15–T21 en origin/main mediante df99c3b. Último merge adicional solo añadió CSS y specs de detección, sin cambiar el bundle desplegado.
