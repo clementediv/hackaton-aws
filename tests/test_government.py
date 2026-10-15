@@ -119,8 +119,8 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     run = app.session_state["government_person"]
     assert app.session_state[f"government_view_{run}"] == "Beneficios"
     assert len(app.chat_input) == 1
-    assert any(section.label == "Preguntas frecuentes" for section in app.expander)
-    app.button(key=f"q-{run}-2").click().run()
+    assert not any(section.label == "Preguntas frecuentes" for section in app.expander)
+    app.chat_input[0].set_value("¿Qué documentos necesito?").run()
     assert not app.exception
     assert any(
         message["texto"] == "¿Qué documentos necesito?"
@@ -170,7 +170,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     app.button(key="gov_pgu_action").click().run()
     assert not app.exception
     assert any("paso a paso" in heading.value for heading in app.subheader)
-    assert len(app.chat_input) == 0
+    assert len(app.chat_input) == 1
     assert any(button.label == "Ya completé este paso" for button in app.button)
     next(button for button in app.button if button.label == "Ya completé este paso").click().run()
     assert not app.exception

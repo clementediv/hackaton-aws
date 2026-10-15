@@ -53,6 +53,11 @@ EXECUTIVE_SECTIONS = [
 
 def render_header() -> str:
     st.markdown(CSS, unsafe_allow_html=True)
+    if st.query_params.get("vista") == "ejecutivos" and not st.session_state.get(
+        "staff_deeplink_loaded"
+    ):
+        st.session_state["staff_deeplink_loaded"] = True
+        _open_staff()
     # Preserve the destination of sessions opened before the tools were grouped.
     previous = st.session_state.get("portal_section")
     if previous in EXECUTIVE_SECTIONS and previous != "Atención del caso":
@@ -76,6 +81,10 @@ def render_header() -> str:
             render_search()
         with utilities:
             st.link_button("Red de atención", BASE_URL + "/ayuda", use_container_width=True)
+            st.button(
+                "Para ejecutivos", on_click=_open_staff, key="open_staff_header",
+                use_container_width=True,
+            )
     selected = st.radio(
         "Secciones del portal",
         CITIZEN_SECTIONS,
@@ -86,16 +95,27 @@ def render_header() -> str:
         on_change=_leave_executive,
     )
     st.sidebar.button("Vista ejecutivo", key="open_executive", on_click=_open_executive)
+    if st.session_state.get("portal_staff_workspace"):
+        return "Portal ejecutivo"
     return "Vista ejecutivo" if st.session_state.get("portal_executive") else selected or "Inicio"
 
 
+def _open_staff() -> None:
+    st.session_state["portal_staff_workspace"] = True
+    st.session_state.pop("portal_executive", None)
+    st.session_state["portal_section"] = None
+
+
 def _open_executive() -> None:
+    st.session_state.pop("portal_staff_workspace", None)
     st.session_state["portal_executive"] = True
     st.session_state["portal_section"] = None
 
 
 def _leave_executive() -> None:
     st.session_state.pop("portal_executive", None)
+    st.session_state.pop("portal_staff_workspace", None)
+    st.query_params.pop("vista", None)
 
 
 def hero(section: str) -> None:

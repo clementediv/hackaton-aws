@@ -95,9 +95,9 @@ def test_portal_navigation_search_and_official_links(tmp_path, monkeypatch):
     assert not app.exception
     assert app.session_state["portal_section"] == "Mi Gobierno"
     assert any(button.label == "Ingresar a Mi Gobierno" for button in app.button)
-    app.radio(key="portal_section").set_value("Ayuda para tus trámites").run()
+    app.button(key="open_staff_header").click().run()
     assert not app.exception
-    assert any(button.label == "Sí, quiero que me acompañen" for button in app.button)
+    assert app.session_state["portal_staff_workspace"]
 
 
 def test_home_banner_rotates_pauses_and_passes_question_to_assistant(tmp_path, monkeypatch):
@@ -128,7 +128,13 @@ def test_home_banner_rotates_pauses_and_passes_question_to_assistant(tmp_path, m
     assert app.text_input(key="home_agent_question_text").value == "¿Qué es la PGU?"
     next(button for button in app.button if button.label == "Enviar").click().run()
     assert not app.exception
-    assert app.session_state["portal_section"] == "Ayuda para tus trámites"
+    assert app.session_state["portal_section"] == "Mi Gobierno"
+    assert app.session_state["portal_pending_question"] == "¿Qué es la PGU?"
+    demo_run = app.selectbox(key="gov_demo_example").value
+    app.text_input(key="gov_login_rut").set_value(demo_run)
+    app.text_input(key="gov_login_password").set_value("demo2026")
+    next(button for button in app.button if button.label == "Ingresar a Mi Gobierno").click().run()
+    assert not app.exception
     assert "portal_pending_question" not in app.session_state
     history = [
         value for key, value in app.session_state.filtered_state.items() if key.startswith("chat-")

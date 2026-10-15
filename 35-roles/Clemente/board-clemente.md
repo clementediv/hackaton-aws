@@ -68,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Portal para ejecutivos con estética ChileAtiende, seguimiento, filtros y mapa RM con propuesta automática según personal. Pruebas funcionales y revisión Chrome escritorio/móvil. Commit «Crear portal de seguimiento y campañas para ejecutivos» · [[portal-ejecutivos]].
 - [x] Compactar l?nea de tiempo y contener tarjeta; verificaci?n Chromium en tres anchos OK ? commit ?Compactar etapas del beneficio y contener su ancho? ? [[mi-gobierno]].
 - [x] Banner del asistente con t?tulo principal ?Prueba el asistente de inteligencia artificial?, dise?o neutro centrado, campo de texto redondeado, env?o con flecha y preguntas frecuentes como sugerencias. Cuatro pruebas del portal OK. [[portal-ayuda-tramites]]. Commit ?Dar estilo conversacional al banner del asistente?.
 - [x] Chat de texto directo y t?tulo ?Prueba nuestro asistente de inteligencia artificial?, con preguntas frecuentes; cuatro pruebas del portal OK ? commit ?Mostrar chat directo en el banner del asistente? ? [[portal-ayuda-tramites]].

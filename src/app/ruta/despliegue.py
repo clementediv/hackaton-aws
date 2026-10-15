@@ -11,6 +11,28 @@ LATITUDE_SCALE = EARTH_RADIUS * pi / 180
 LONGITUDE_SCALE = LATITUDE_SCALE * cos(radians(-33.5))
 
 
+def automatic_campaign_area(locations, *, staff=2):
+    """Smallest demo radius covering one team-day; otherwise best available coverage."""
+    if type(staff) is not int or not 1 <= staff <= 20:
+        raise ValueError("El personal debe ser un entero entre 1 y 20.")
+    target = min(len(locations), staff * 8)
+    best = None
+    for radius in (750, 1000, 1500, 2000, 2500, 3000):
+        area = propose_campaign_area(locations, radius_m=radius, staff=staff, daily_capacity=8)
+        if not area:
+            continue
+        if best is None or area["properties"]["people"] > best["properties"]["people"]:
+            best = area
+        if area["properties"]["people"] >= target:
+            best = area
+            break
+    if best:
+        best["properties"].update(
+            automatic=True, target_people=target, planning_policy="smallest-radius-for-team-day"
+        )
+    return best
+
+
 def _project(latitude, longitude):
     return (longitude + 70.7) * LONGITUDE_SCALE, (latitude + 33.5) * LATITUDE_SCALE
 

@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 
 import ui_persona
+import ui_ejecutivos
 import ui_government
 import ui_ficha
 import ui_aws
@@ -295,7 +296,9 @@ with st.sidebar:
     st.title("Controles de demostración")
     st.caption("Perfiles sintéticos · El organismo valida y resuelve.")
     st.divider()
-if section == "Vista ejecutivo":
+if section == "Portal ejecutivo":
+    ui_ejecutivos.render(cargar_perfiles())
+elif section == "Vista ejecutivo":
     vista_oficina(diags)
 elif section == "Inicio":
     portal.render_discovery()
