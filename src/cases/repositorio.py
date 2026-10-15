@@ -75,3 +75,10 @@ class CaseRepository:
             Item={"pk": case.case_id, "sk": "caso", **item},
             ConditionExpression="attribute_exists(pk)",
         )
+
+    def guardar_evaluacion(self, case_id, evaluation):
+        self.table.put_item(Item={"pk": case_id, "sk": "evaluacion", "data": serialize(evaluation)})
+
+    def cargar_evaluacion(self, case_id):
+        result = self.table.get_item(Key={"pk": case_id, "sk": "evaluacion"}, ConsistentRead=True)
+        return deserialize(result["Item"]["data"]) if "Item" in result else None

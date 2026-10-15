@@ -33,3 +33,8 @@ con texto de Bedrock. CloudFormation CREATE_COMPLETE.
 T16: repositorio CaseRepository con paginación, lecturas consistentes de caso e
 historial, escritura append-only y consulta por RUN normalizado. Dos pruebas moto
 pasan con Case completo y consentimiento/revocación serializados.
+
+T17: evaluación determinista persistida en un ítem separado `evaluacion`, evitando
+forzar estados divergentes en PguResult. La herramienta vuelve a verificar permiso
+antes de consultar datos. Tres pruebas offline demuestran dos turnos con memoria,
+error de herramienta sin permiso y persistencia al agotar seis iteraciones.
