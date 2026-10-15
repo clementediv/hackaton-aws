@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Tamaño y centrado del logo IPS
+- Logo reducido a 160 px en escritorio y 120 px en móvil, centrado en su columna sin desplazamiento hacia la esquina. [[portada-chileatiende]].
+
 ### 2026-10-15 · Acceso sobrio y posición del logo
 - Botón azul plano «Ver mis beneficios», sin sombra ni degradado; logo IPS alineado más arriba y a la derecha. Tres pruebas del portal OK. [[portada-chileatiende]].
 

@@ -35,6 +35,7 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Logo IPS más pequeño y centrado en su espacio: 160 px escritorio / 120 px móvil. [[portada-chileatiende]].
 - Botón principal sobrio «Ver mis beneficios» y logo IPS arriba a la derecha. Tres pruebas del portal OK. [[portada-chileatiende]].
 - Portada con texto y botón a la izquierda, logo IPS proporcionado por el usuario a la derecha y adaptación móvil. Tres pruebas del portal OK. [[portada-chileatiende]].
 - Invitación principal centrada en una columna y sin botón lateral de trámites. Tres pruebas del portal OK. [[portada-chileatiende]].
