@@ -10,7 +10,7 @@ import unicodedata
 
 from . import config
 from . import reglas as R
-from .conversation import boundary_reply, clarification, social_fallback
+from .conversation import boundary_reply, clarification, friendly_sources, social_fallback
 from .fechas import fmt
 from .rutas import Paso
 
@@ -72,7 +72,7 @@ def responder_publico(pregunta: str, historial: list[dict]) -> tuple[str, str]:
             ), "bedrock"
         except Exception:
             pass
-    return fallback, "plantillas"
+    return friendly_sources(fallback), "plantillas"
 
 
 def _peso(n: int | float | None) -> str:
@@ -348,7 +348,7 @@ def _respaldo(pregunta, ctx, historial):
             reply = clarification(historial)
     if "https://" not in reply:
         reply += f"\n\nFuente de orientación: {config.FUENTES['chileatiende']}"
-    return reply
+    return friendly_sources(reply)
 
 
 def responder(

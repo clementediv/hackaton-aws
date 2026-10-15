@@ -92,3 +92,23 @@ def test_frustration_about_the_real_task_does_not_trigger_boundary(monkeypatch):
     )
     assert text != BOUNDARY_REPLY
     assert "Pensión Garantizada Universal" in text
+
+
+@pytest.mark.parametrize(
+    "reference",
+    [
+        "Fuente: ChileAtiende — https://www.chileatiende.gob.cl/",
+        "**Fuente:** [Ficha PGU](https://www.chileatiende.gob.cl/fichas/102077)",
+        "La PGU es un beneficio. Fuente de orientación del MVP (no verificada): https://www.chileatiende.gob.cl/fichas/102077",
+    ],
+)
+def test_references_are_an_invitation_without_losing_link_or_verification(reference):
+    from src.app.ruta.conversation import friendly_sources
+
+    reply = friendly_sources(reference)
+    assert "Si quieres saber más, puedes revisar" in reply
+    assert "https://www.chileatiende.gob.cl/" in reply
+    assert "Fuente:" not in reply and "Fuente de orientación" not in reply
+    if "no verificada" in reference:
+        assert "no verificada" in reply
+    assert friendly_sources(reply) == reply

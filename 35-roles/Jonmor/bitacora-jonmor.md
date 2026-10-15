@@ -8,9 +8,9 @@ Una entrada por avance o commit relevante, la más reciente arriba.
 
 Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
-### 2026-10-15 · Respuesta estándar del cortafuegos · ver commit
+### 2026-10-15 · Respuesta estándar del cortafuegos · 7d90e9e
 
-Por solicitud del usuario, límite educado y orientativo idéntico en ambos chats, sin depender de reformulación del modelo para los casos reconocidos. Explica propósito y cómo retomar; preserva consultas reales con frustración. 49 pruebas enfocadas OK. [[portal-ayuda-tramites]].
+Por solicitud del usuario, límite educado y orientativo idéntico en ambos chats, sin depender de reformulación del modelo para los casos reconocidos. Explica propósito y cómo retomar; preserva consultas reales con frustración. Referencias presentadas como invitación a ampliar información, conservando enlaces y advertencias; 57 pruebas enfocadas OK. [[portal-ayuda-tramites]].
 
 ### 2026-10-15 · Conversación y voz del asistente · 7ba7c2f
 

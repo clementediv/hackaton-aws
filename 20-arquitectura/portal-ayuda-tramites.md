@@ -123,3 +123,9 @@ Esta instrucción reemplaza la variación de respuestas del cortafuegos de
 [[0017-conversacion-y-voz-del-navegador]]; la conversación legítima conserva su estilo
 natural. 49 pruebas enfocadas verifican texto idéntico entre turnos y chats, ausencia
 de llamadas al modelo para el cortafuegos y consultas legítimas sin bloqueo.
+
+Las referencias del chat se presentan como «Si quieres saber más, puedes revisar…»,
+con enlaces clicables, en respuestas del modelo y respaldos locales. Se conservan
+las aclaraciones de información no verificada. El formato también se normaliza
+si el modelo devuelve «Fuente» o «Fuente de orientación del MVP». 57 pruebas
+enfocadas pasan, incluyendo preservación de enlaces y normalización idempotente.

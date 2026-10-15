@@ -9,8 +9,28 @@ BOUNDARY_REPLY = (
     "documentos y próximos pasos. La revisión de antecedentes personales se realiza "
     "únicamente con tu autorización en Mi Gobierno. Por favor, cuéntame qué beneficio o trámite deseas "
     "consultar para poder ayudarte."
-    "\n\nFuente: ChileAtiende — https://www.chileatiende.gob.cl/"
+    "\n\nSi quieres saber más, puedes revisar [ChileAtiende](https://www.chileatiende.gob.cl/)."
 )
+
+
+def friendly_sources(text):
+    """Keep citations and verification notes, phrased as an invitation to read more."""
+    pattern = (
+        r"(?im)(?P<start>^|(?<=[.!?])\s+)(?:\*\*)?"
+        r"Fuentes?(?: de orientación(?: del MVP)?)?"
+        r"(?P<note>\s*\([^\n)]*\))?\s*:\s*(?:\*\*)?(?P<reference>[^\n]+)"
+    )
+
+    def replace(match):
+        reference = match["reference"].strip()
+        result = match["start"] + "Si quieres saber más, puedes revisar " + reference
+        if not result.endswith("."):
+            result += "."
+        if note := match["note"]:
+            result += " Esta referencia se indica como " + note.strip(" ()") + "."
+        return result
+
+    return re.sub(pattern, replace, text)
 
 
 def boundary_reply(question):
@@ -51,6 +71,9 @@ una interpretación: haz una sola pregunta breve para aclararla. Si se repite, p
 ejemplo concreto o sugiere reformular, en lugar de repetir textualmente tu respuesta.
 Las intervenciones sociales suelen necesitar una o dos frases, no un diagnóstico ni
 una lista de requisitos. No uses frases corporativas ni 'como inteligencia artificial'.
+Presenta las referencias de forma natural: «Si quieres saber más, puedes revisar
+[título](URL)». Evita encabezados como «Fuente de orientación» o listas de fuentes
+sin explicación. Conserva los enlaces y las advertencias de información no verificada.
 Mantén intactas las reglas de consentimiento, fuentes y decisiones institucionales.
 Para insultos sin consulta, texto ininteligible o solicitudes claramente fuera del
 propósito del chat, usa exactamente la siguiente respuesta estándar, sin variaciones:
