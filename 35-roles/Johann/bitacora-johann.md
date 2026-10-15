@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Centrado de la navegación
+- Se retira el padding de 8 px del texto del radio oculto que desplazaba el centro visual 4 px respecto de la línea activa. Ajuste en todas las opciones del portal y las subpestañas de Mi Gobierno. [[portada-chileatiende]].
+
 ### 2026-10-15 · Posición del chat y esquinas
 - El chat arranca a la altura de la tarjeta PGU y acompaña el desplazamiento centrado en escritorio, limitado al listado. Bordes de 24 px y seguimiento desactivado en móvil/tablet. Chrome comprueba posición inicial, centro al desplazar, radio y ausencia de desbordamiento. [[mi-gobierno]].
 

@@ -1,5 +1,7 @@
 # Portada basada en ChileAtiende
 
+Las opciones de navegación centran el texto respecto del subrayado activo: se elimina el padding del texto reservado para el control radio oculto. El mismo ajuste se aplica a las subpestañas de Mi Gobierno, conservando su diseño segmentado.
+
 **Diseño vigente:** Inicio conserva el portal público y una invitación a [[mi-gobierno]]. El agente ya no aparece en la portada; el espacio personal reúne identidad, antecedentes y beneficios, y el asistente acompaña dentro de la ruta. Los párrafos siguientes conservan la evolución previa de la portada.
 
 El buscador se ubica en el encabezado entre el logo y los accesos, y se retiró el rótulo «Destacamos» para dar entrada directa al agente. La búsqueda mantiene sus resultados y enlaces oficiales.

@@ -105,6 +105,7 @@
 .st-key-gov_subnav [role="radiogroup"]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;background:#edf2f6;border:1px solid #dce5ed;border-radius:14px;padding:6px;margin:8px 0 24px}
 .st-key-gov_subnav label[data-baseweb="radio"]{margin:0!important;min-width:0;min-height:48px;justify-content:center;border-radius:9px;padding:10px 12px;transition:background .15s;color:#476175}
 .st-key-gov_subnav label[data-baseweb="radio"]>div:first-child{display:none}
+.st-key-gov_subnav label[data-baseweb="radio"]>div:last-child{margin:0;padding:0}
 .st-key-gov_subnav label[data-baseweb="radio"]:has(input:checked){background:#125b94;color:white;box-shadow:0 2px 5px #123e6020}
 .st-key-gov_subnav label[data-baseweb="radio"]:focus-within{outline:2px solid #0f69b4;outline-offset:2px}
 .st-key-gov_subnav label p{color:inherit!important;font-weight:600;font-size:15px}

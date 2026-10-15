@@ -35,6 +35,7 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Navegación del portal y subpestañas centradas al retirar el espacio reservado al radio oculto. [[portada-chileatiende]].
 - Chat alineado con PGU al inicio y seguimiento centrado al desplazar en escritorio; bordes de 24 px y móvil apilado. Recorrido Chrome verificado. [[mi-gobierno]].
 - Diseño del chat restaurado a la versión previa a separarlo en pestaña (`46f0c76`): tarjeta blanca, borde discreto e historial de 240 px; continúa a la derecha de Beneficios. [[mi-gobierno]].
 - Dos subpestañas de Mi Gobierno; ayuda con video y carga complementaria dentro de cada requisito pendiente, reutilizando documentos disponibles. Ocho pruebas y recorrido Chrome con ayuda/carga/móvil OK. [[mi-gobierno]].
