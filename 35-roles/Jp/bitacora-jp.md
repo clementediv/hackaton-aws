@@ -16,3 +16,5 @@ Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hiz
 - 15-10: Título del asistente movido encima de las pestañas de navegación en `/chat`, visible también durante la conversación. Reducido espacio vacío de bienvenida.
 
 - 15-10: Chat con composición editorial inspirada en america.gov (la URL /chat redirige al inicio), bienvenida serif, consulta central y sugerencias funcionales. Fondo blanco; se conserva el mismo header, buscador y pestañas del inicio sin desplazar su posición. Chromium verifica escritorio/móvil, consulta centrada, envío, respuesta y reinicio. Seis pruebas del portal/chat pasan.
+
+- 15-10: Saludo del chat en Roboto, bloque de conversación más arriba y texto del campo centrado verticalmente. Chromium confirma coincidencia exacta del eje vertical del texto y del campo a 1440/390 px, sin desborde.
