@@ -34,11 +34,12 @@ La carga del dataset abre unos 620 contactos simulados (`@example.com`, nunca se
 Todos con `uv run python scripts/proactivo.py ...`. También se puede editar el ítem directamente en la consola de DynamoDB (tabla `ca-personas`, campo `fecha_nacimiento`, `num_hijos`, etc.): el stream dispara la misma detección.
 
 Luego:
-1. Llega el email con «Sí, quiero ayuda» / «No me interesa» / «Ver detalle».
+1. Llega el email con la marca ChileAtiende: por qué te escribimos, qué es el beneficio, por qué te conviene, los requisitos que cumples y un solo botón de acción.
 2. `estado <run>` muestra el contacto (`email_enviado`, `email_abierto`, `email_click`, `sms_enviado`, `respuesta`) y el historial.
 3. Sin respuesta: a los 5 min pasa a SMS simulado y a los 10 min a `terreno`. `terreno` lista al equipo de visita por comuna.
 4. Respuesta del equipo o del call center: `responder <run> <beneficio> acepto --canal terreno`.
 5. `escalar` y `revisar` ejecutan ahora el escalador y la revisión diaria (anticipación por edad).
+6. Repetir una demo: `reiniciar <run>`, devolver el dato (`--edad 64`) y volver a cambiarlo. Tras editar `catalogo.py`: `cargar --solo-catalogo`.
 
 ## Tablas
 | Tabla | Clave | Contenido |
