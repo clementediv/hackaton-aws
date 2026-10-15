@@ -300,7 +300,8 @@ def render_portal() -> None:
     if section == "Portal ejecutivo":
         ui_ejecutivos.render(cargar_perfiles())
     elif section == "Vista ejecutivo":
-        vista_oficina(diags)
+        if ui_ejecutivos.require_login():
+            vista_oficina(diags)
     elif section == "Inicio":
         portal.render_discovery()
     elif section == "Mi Gobierno":
