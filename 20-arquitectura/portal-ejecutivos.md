@@ -38,3 +38,5 @@ Abrir `http://localhost:8505/?vista=ejecutivos`.
 Código: `ui_ejecutivos.py`, `ruta/ejecutivos.py`, `ruta/despliegue.py`, `assets/executive.css`; integración en `portal.py` y `app.py`.
 
 Verificación: `uv run --group app pytest`, `uv run --group app python src/app/verificar.py`; pruebas nuevas en `tests/test_executives.py` cubren planificación según equipo, privacidad, persistencia, filtros, navegación, mapa y campaña vacía. Recorrido Chromium en escritorio y móvil.
+
+Implementación `81755d7`, merge `710df25`. Se conserva el chat público remoto en `/chat` y la carga dinámica de estilos. La integración también corrige la lectura UTF-8 de perfiles en la API para Windows y completa la aceptación de invitación en el test autorizado; no cambia las condiciones para leer el perfil.

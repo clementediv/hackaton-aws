@@ -17,7 +17,7 @@ from src.app.ruta import config, reglas  # noqa: E402
 def evaluar(case):
     if not case.can_read_profile:
         raise PermissionError("Se requiere invitación aceptada y autorización.")
-    profiles = json.loads((DATA_DIR / "perfiles.json").read_text())
+    profiles = json.loads((DATA_DIR / "perfiles.json").read_text(encoding="utf-8"))
     profile = next((p for p in profiles if p["run"] == case.run), None)
     result = {
         "source": config.FUENTE_PGU,

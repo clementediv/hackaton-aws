@@ -2,7 +2,7 @@ import json
 
 from src.agent.loop import LIMIT_REPLY
 from src.api.chat import responder
-from src.contracts import Authorization, Channel
+from src.contracts import Authorization, Channel, Invitation, InvitationResponse
 
 pytest_plugins = ["test_cases_repo"]
 
@@ -38,6 +38,12 @@ def tool():
 
 def test_two_turns_persist_and_evaluate(repo):
     case = repo.crear("100000001-5")
+    case.invitation = Invitation(
+        reason="Orientación",
+        channel=Channel.WEB,
+        sent_at=case.created_at,
+        response=InvitationResponse.ACCEPTED,
+    )
     case.authorization = Authorization(
         granted=True,
         sources=["Dataset A"],
@@ -46,6 +52,7 @@ def test_two_turns_persist_and_evaluate(repo):
         decided_at=case.created_at,
     )
     repo.guardar_estado(case)
+    assert repo.cargar(case.case_id).can_read_profile
     first = ScriptedClient([tool(), answer("Fuente: ChileAtiende. Orientación preliminar.")])
     responder(case.case_id, "Me llamo Rosa", client=first, repo=repo)
     second = ScriptedClient([answer("Rosa, seguimos.")])

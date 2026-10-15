@@ -8,11 +8,12 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
-### 2026-10-15 · Portal para ejecutivos · commit «Crear portal de seguimiento y campañas para ejecutivos»
+### 2026-10-15 · Portal para ejecutivos · `81755d7`, integración `710df25`
 - Página nueva con estética del frontend: estados claros, búsqueda/filtros e historial con próximo paso; lectura del mismo snapshot sin cruzar antecedentes privados de otra base.
 - Campañas RM con paleta existente y propuesta automática según cantidad de personal. Radios discretos, capacidad de demo explícita, mínimo cinco casos y GeoJSON sin identificadores. Laboratorio técnico conservado.
 - Demo aislada persistente y selector para el embudo de la aplicación, sin llamadas ni envíos AWS. KPI ≥75% permanece pendiente de instrumentación; no se equipara contacto/inicio con avance válido en plazo. [[portal-ejecutivos]], [[0016-portal-ejecutivos]].
 - Pruebas nuevas de planificación, privacidad, persistencia, filtros, navegación y mapa; verificador de 500 perfiles y recorrido Chromium de escritorio/móvil. Pruebas antiguas adaptadas a las pestañas y chat vigentes.
+- Merge conserva chat público independiente, estilos dinámicos y todos los registros remotos; ADR renumerado a 0016 para conservar el 0015 de orientación general. La revisión detectó lectura del dataset sin UTF-8 en la API sobre Windows y un test de evaluación sin invitación aceptada; corregidos sin cambiar permisos. Cambios locales previos y archivos personales preservados.
 
 ### 2026-10-15 · Merge de aportes locales y remotos · `9626cac`
 - Actualización `1932574`: el remoto avanzó con ayuda audiovisual y documentos por requisito (`947bacc`). Integrado también; único conflicto en la bitácora resuelto conservando ambas entradas. Repetición completa: 174 tests y verificador TODO OK. El laboratorio versionado también inicia y avanza correctamente, independientemente del cambio local sin commit.
