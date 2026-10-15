@@ -183,3 +183,23 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .portal-brand {display:flex;flex-direction:column;align-items:flex-start;gap:2px}
 .portal-institution {font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;color:#0d4d82;letter-spacing:.2px;line-height:1.2;white-space:nowrap}
 @media(max-width:700px){.portal-institution{font-size:12px;white-space:normal}}
+
+/* Home preview follows the public assistant's white, centered conversation. */
+.st-key-home_government:has(.home-assistant-intro){background:#fff;border-color:#d5e4f2!important;padding:36px 40px}
+.home-assistant-intro h1{font:400 clamp(30px,3.2vw,44px)/1.12 Roboto,Arial,sans-serif;letter-spacing:-1.8px;color:#0d4d82;text-wrap:balance}
+.home-assistant-intro p{font:400 16px/1.65 Roboto,Arial,sans-serif;color:#60798e;margin:12px auto 18px;max-width:540px;text-wrap:balance}
+.home-answer-examples{margin:4px auto 16px;min-height:144px}
+.home-example-question{border:1px solid #d5e4f2;border-radius:24px 24px 6px 24px;background:#e5f0fc;color:#0d4d82}
+.home-example-answer{background:transparent;border:0;border-radius:0;padding:8px 0 8px 42px;position:relative;color:#34536e;font-size:15px;line-height:1.7}
+.home-example-answer:before{content:"✦";position:absolute;top:10px;left:0;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#0f69b4;color:#fff;font-size:16px}
+.home-example-answer>span{font-size:12px;color:#0f69b4;margin-bottom:4px}
+.home-example-answer-text span{display:inline-block;animation:home-answer-word 15s infinite;animation-delay:calc(var(--example-index)*5s + var(--word-index)*65ms)}
+@keyframes home-answer-word{0%,5%{opacity:0}6%,30%{opacity:1}32%,100%{opacity:0}}
+.st-key-home_chat_preview{border-radius:36px;padding:12px 16px;box-shadow:0 8px 32px #0d4d820d;border-color:#c6d9ea}
+.st-key-home_chat_preview input{font-size:16px;padding-left:12px}
+.st-key-home_chat_preview [data-testid="stColumn"]:last-child{flex:0 0 40px!important;width:40px!important}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{border-radius:50%;width:40px;height:40px;min-height:40px;padding:0;background:#0f69b4;border-color:#0f69b4}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button p{font-size:0;line-height:1}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button p:after{content:"➤";font-size:18px}
+@media(max-width:700px){.st-key-home_government:has(.home-assistant-intro){padding:28px 18px}.home-answer-examples{min-height:178px}.home-assistant-intro p{font-size:15px}.home-example-answer{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.home-example-answer-text span{animation:none;opacity:1}}

@@ -350,6 +350,7 @@ def _render_home_assistant() -> None:
     st.markdown(
         '<div class="home-government home-assistant-intro">'
         "<h1>Prueba el asistente de inteligencia artificial de ChileAtiende</h1>"
+        "<p>Encuentra tu próximo paso en trámites y beneficios del Estado.</p>"
         "</div>",
         unsafe_allow_html=True,
     )
@@ -362,7 +363,11 @@ def _render_home_assistant() -> None:
         f'<div class="home-answer-example" style="--example-index:{index}">'
         f'<div class="home-example-question">{escape(question)}</div>'
         '<div class="home-example-answer"><span>Asistente ChileAtiende</span>'
-        f'{escape(answer)}</div></div>'
+        '<div class="home-example-answer-text">'
+        + " ".join(
+            f'<span style="--word-index:{word_index}">{escape(word)}</span>'
+            for word_index, word in enumerate(answer.split())
+        ) + '</div></div></div>'
         for index, (question, answer) in enumerate(examples)
     )
     st.html(
@@ -375,7 +380,7 @@ def _render_home_assistant() -> None:
             question = text_column.text_input(
                 "Escribe tu pregunta",
                 key="home_agent_question_text",
-                placeholder="Pregunta lo que necesites",
+                placeholder="Describe lo que necesitas",
                 label_visibility="collapsed",
                 max_chars=2000,
             )
