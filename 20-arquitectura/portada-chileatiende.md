@@ -1,5 +1,9 @@
 # Portada basada en ChileAtiende
 
+El banner alterna cada 10 segundos entre Beneficios y Asistente IA mediante un fragmento de Streamlit; solo se actualiza el banner. Las dos opciones se pueden seleccionar manualmente y el control «Rotación automática» permite pausarlo. Elegir una vista o pulsar «Probar el asistente» pausa la rotación para conservar el borrador. La prueba ofrece un campo de consulta y ejemplos; al enviar, la pregunta pasa una sola vez al asistente existente en Ayuda para tus trámites, sin iniciar sesión ni autorizar antecedentes por la persona. Se conserva el alcance/motor del asistente existente, con Bedrock opcional y respuestas locales según configuración.
+
+Se retira el logo de la esquina superior derecha de ambas vistas del banner. Los avisos «Press enter to submit form» se ocultan globalmente en los campos mediante el selector de instrucciones nativo de Streamlit; los formularios y botones conservan su funcionamiento.
+
 El logo IPS se ubica en la esquina superior derecha del banner completo: 100 px en escritorio y 72 px en móvil. El texto mantiene la alineación izquierda y reserva espacio para evitar superposición. La fila superior contiene logo ChileAtiende, buscador y Red de atención; se retira el botón duplicado Mi Gobierno. La navegación principal conserva Inicio, Mi Gobierno y Ayuda para tus trámites. Vista ejecutivo pasa al panel lateral de demostración, con sus herramientas y retorno a las vistas ciudadanas verificados.
 
 El logo IPS se reduce a 160 px en escritorio y 120 px en móvil; queda centrado horizontalmente en su espacio, sin desplazamiento hacia la esquina.

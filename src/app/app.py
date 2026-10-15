@@ -10,6 +10,7 @@ import streamlit as st
 import ui_persona
 import ui_government
 import ui_ficha
+import ui_aws
 from ui_embudo import render_campaign_lab
 import portal
 from ruta import asistente, casos, config
@@ -18,7 +19,7 @@ from ruta.datos import cargar_perfiles
 from ruta.fechas import fmt
 from ruta.rutas import estado_pasos, generar_ruta, proximo_paso
 
-st.set_page_config(page_title="ChileAtiende · Ayuda para tus trámites", page_icon="🧭", layout="wide",
+st.set_page_config(page_title="ChileAtiende · Mi Gobierno", page_icon="🧭", layout="wide",
                    initial_sidebar_state="collapsed")
 
 ICONO_REQ = {R.CUMPLE: "✅", R.NO_CUMPLE: "❌", R.FALTA: "⚠️", R.PENDIENTE: "⏳"}
@@ -277,6 +278,7 @@ def vista_oficina(diags):
         "Mapa de calor y campañas": vista_mapa,
         "Detectar e invitar": vista_panel,
         "Ficha del beneficiario": ui_ficha.render,
+        "Contactos AWS": ui_aws.render,
         "Atención del caso": vista_ejecutivo,
         "Medición": vista_kpis,
     }
@@ -299,8 +301,4 @@ elif section == "Inicio":
     portal.render_discovery()
 elif section == "Mi Gobierno":
     ui_government.render(diags)
-else:
-    if section == "Ayuda para tus trámites":
-        portal.render_help_intro()
-    ui_persona.vista(diags, casos_demo(diags))
 portal.render_footer()

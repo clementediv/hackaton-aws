@@ -4,6 +4,7 @@ import base64
 import unicodedata
 from html import escape
 from pathlib import Path
+from time import monotonic
 from urllib.parse import quote
 
 import streamlit as st
@@ -36,12 +37,13 @@ SERVICES = (
 )
 
 
-CITIZEN_SECTIONS = ["Inicio", "Mi Gobierno", "Ayuda para tus trámites"]
+CITIZEN_SECTIONS = ["Inicio", "Mi Gobierno"]
 # Back-office tools are reached from the demonstration sidebar.
 EXECUTIVE_SECTIONS = [
     "Mapa de calor y campañas",
     "Detectar e invitar",
     "Ficha del beneficiario",
+    "Contactos AWS",
     "Atención del caso",
     "Medición",
 ]
@@ -56,8 +58,8 @@ def render_header() -> str:
         st.session_state["portal_section"] = "Vista ejecutivo"
     if st.session_state.get("portal_section") == "Vista ejecutivo":
         _open_executive()
-    if st.session_state.get("portal_section") in ("Trámites", "Mi ruta"):
-        st.session_state["portal_section"] = "Inicio"
+    if st.session_state.get("portal_section") in ("Trámites", "Mi ruta", "Ayuda para tus trámites"):
+        st.session_state["portal_section"] = "Mi Gobierno"
     logo = base64.b64encode(LOGO.read_bytes()).decode("ascii")
     with st.container(key="portal_header"):
         brand, search, utilities = st.columns([1.2, 2.8, 1.2], vertical_alignment="center")
@@ -98,24 +100,6 @@ def hero(section: str) -> None:
         st.markdown(
             f'<div class="portal-breadcrumb"><a href="{BASE_URL}">Inicio</a>'
             f" &nbsp;›&nbsp; {escape(section)}</div>",
-            unsafe_allow_html=True,
-        )
-    title = (
-        "Encuentra beneficios y servicios del Estado de manera cercana y fácil"
-        if section == "Inicio"
-        else "Encuentra tu trámite"
-        if section == "Trámites"
-        else "Ayuda para todos tus trámites"
-    )
-    subtitle = (
-        "Encuentra información oficial y recibe orientación para dar tu próximo paso."
-        if section == "Inicio"
-        else "No tienes que hacerlo a solas. Te ayudamos a entender qué necesitas, "
-        "ordenar tus pasos y continuar tu trámite, por el canal que prefieras."
-    )
-    if section == "Ayuda para tus trámites":
-        st.markdown(
-            f'<section class="portal-hero"><h1>{title}</h1><p>{subtitle}</p></section>',
             unsafe_allow_html=True,
         )
     if text := st.session_state.get("portal_query"):
@@ -165,28 +149,85 @@ def render_discovery() -> None:
     styles = (assets / "official-home.css").read_text(encoding="utf-8")
     content = (assets / "official-home.html").read_text(encoding="utf-8")
     content = content.split("</section>", 1)[1]
-    ips_logo = base64.b64encode((assets / "IPS.png").read_bytes()).decode("ascii")
-    with st.container(border=True, key="home_government"):
-        with st.container(key="home_government_invitation"):
-            st.markdown(
-                '<div class="home-government">'
-                '<img class="home-ips-logo" alt="IPS, Instituto de Previsión Social" '
-                f'src="data:image/png;base64,{ips_logo}">'
-                "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
-                "<p>Descubre cuáles podrían corresponderte según tu situación. "
-                "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
-                "en un solo lugar.</p>"
-                "</div>",
-                unsafe_allow_html=True,
-            )
-            st.button(
-                "Ver mis beneficios",
-                type="primary",
-                on_click=open_section,
-                args=("Mi Gobierno",),
-                key="home_government_access",
-            )
+    _render_home_banner()
     st.html(f'<style>{styles}</style><div class="official-home">{content}</div>')
+
+
+def _queue_home_question(question: str) -> None:
+    st.session_state["portal_pending_question"] = question
+    st.session_state["portal_next_section"] = "Mi Gobierno"
+    st.rerun(scope="app")
+
+
+@st.fragment(run_every="5s")
+def _render_home_banner() -> None:
+    now = monotonic()
+    previous = st.session_state.setdefault("home_banner_last_rotation", now)
+    slide = st.session_state.setdefault("home_banner_slide", "Beneficios")
+    if not st.session_state.get("home_banner_chat_open") and now - previous >= 5:
+        st.session_state["home_banner_slide"] = (
+            "Asistente IA" if slide == "Beneficios" else "Beneficios"
+        )
+        st.session_state["home_banner_last_rotation"] = now
+    with st.container(border=True, key="home_government"):
+        active = st.session_state["home_banner_slide"]
+        slide_key = "assistant" if active == "Asistente IA" else "benefits"
+        with st.container(key=f"home_slide_{slide_key}"):
+            if active == "Asistente IA":
+                _render_home_assistant()
+            else:
+                _render_home_benefits()
+
+
+def _render_home_benefits() -> None:
+    with st.container(key="home_government_invitation"):
+        st.markdown(
+            '<div class="home-government">'
+            "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
+            "<p>Descubre cuáles podrían corresponderte según tu situación. "
+            "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
+            "en un solo lugar.</p>"
+            "</div>",
+            unsafe_allow_html=True,
+        )
+        if st.button(
+            "Ver mis beneficios",
+            type="primary",
+            key="home_government_access",
+        ):
+            st.session_state["portal_next_section"] = "Mi Gobierno"
+            st.rerun(scope="app")
+
+
+def _render_home_assistant() -> None:
+    st.markdown(
+        '<div class="home-government home-assistant-intro">'
+        "<h1>Prueba el asistente de inteligencia artificial</h1>"
+        "<p>Resuelve preguntas frecuentes sobre tr?mites y beneficios.</p></div>",
+        unsafe_allow_html=True,
+    )
+    st.session_state["home_banner_chat_open"] = True
+    with st.container(key="home_chat_preview"):
+        with st.form("home_agent_question", border=False):
+            question = st.text_input(
+                "Escribe tu pregunta",
+                key="home_agent_question_text",
+                placeholder="Pregunta lo que necesites?",
+                label_visibility="collapsed",
+                max_chars=2000,
+            )
+            if st.form_submit_button("Enviar", type="primary", icon=":material/arrow_upward:"):
+                if question.strip():
+                    _queue_home_question(question.strip())
+                else:
+                    st.warning("Escribe una pregunta para continuar.")
+    with st.container(key="home_chat_suggestions"):
+        examples = st.columns(2)
+        for index, question in enumerate(("?Qu? es la PGU?", "?Qu? documentos necesito?")):
+            if examples[index].button(
+                question, key=f"home_example_{index}", use_container_width=True
+            ):
+                _queue_home_question(question)
 
 
 def open_section(section: str) -> None:
@@ -212,41 +253,7 @@ def render_directory() -> None:
             st.link_button("Ver requisitos y dónde realizarlo ↗", BASE_URL + path)
     st.link_button("Ver todos los servicios del Estado ↗", BASE_URL + "/temas")
     st.button(
-        "Necesito ayuda para elegir", on_click=open_section, args=("Ayuda para tus trámites",)
-    )
-
-
-def render_help_intro() -> None:
-    st.markdown(
-        '<h2 class="portal-section">Un próximo paso claro, en un solo lugar</h2>',
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        '<p class="portal-help-note">Cuéntanos qué necesitas, prepara tus antecedentes y '
-        "retoma donde quedaste. El asistente de ayuda te acompaña durante el recorrido.</p>",
-        unsafe_allow_html=True,
-    )
-    for col, title, description in zip(
-        st.columns(3),
-        ["1. Entiende tu situación", "2. Prepara tu trámite", "3. Continúa acompañado"],
-        [
-            "Revisamos contigo qué sabes y qué falta, con tu autorización.",
-            "Encuentra documentos, pasos y fechas en tu ruta personalizada.",
-            "Pregunta al asistente o continúa con un ejecutivo sin empezar de nuevo.",
-        ],
-        strict=True,
-    ):
-        col.markdown(
-            f'<article class="portal-card"><h3>{title}</h3><p>{description}</p></article>',
-            unsafe_allow_html=True,
-        )
-    st.caption(
-        "Prototipo del hackatón · La ruta personalizada de este MVP cubre jubilación y PGU. "
-        "Los demás trámites se consultan en el portal oficial. Datos de demostración sintéticos."
-    )
-    st.markdown(
-        '<h2 class="portal-section">Tu acompañamiento: jubilación y PGU</h2>',
-        unsafe_allow_html=True,
+        "Necesito ayuda para elegir", on_click=open_section, args=("Mi Gobierno",)
     )
 
 

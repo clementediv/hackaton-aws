@@ -15,7 +15,7 @@ npx cdk deploy --profile hackaton
 
 ## Cargar datos
 ```powershell
-uv run python scripts/proactivo.py cargar             # 8 beneficios + 6 personas demo + 500 del dataset A
+uv run python scripts/proactivo.py cargar             # 8 beneficios + 7 personas demo + 500 del dataset A
 uv run python scripts/proactivo.py cargar --solo-demo # solo las personas demo
 uv run python scripts/proactivo.py resumen
 ```
@@ -24,7 +24,10 @@ La carga del dataset abre unos 620 contactos simulados (`@example.com`, nunca se
 ## Guion de la demo
 | Evento | Comando | Beneficio detectado |
 |---|---|---|
-| Cumple 65 | `evento 90000002-2 --edad 65` | PGU |
+| Cumple 64 | `evento 90000002-2 --edad 64` | PGU: aviso para preparar documentos (se abre a los 64 y 9 meses) |
+| 64 y 8 meses | `evento 90000002-2 --edad 64 --meses 8` | PGU: falta un mes para la apertura |
+| Cumple 65 | `evento 90000002-2 --edad 65` | PGU: «Felicitaciones: aparentemente usted es elegible» |
+| Recibe PGU y sale de Chile | `evento 90000007-3 --dias-fuera 160` | PGU: aviso de posible pérdida (umbral por verificar) |
 | Cumple 18 | `evento 90000001-4 --edad 18` | Subsidio al Empleo Joven |
 | Tiene un hijo | `evento 90000003-0 --hijos 1` | Subsidio Único Familiar |
 | Se casa | `evento 90000004-9 --estado-civil casado` | Asignación familiar por cónyuge |
@@ -34,7 +37,7 @@ La carga del dataset abre unos 620 contactos simulados (`@example.com`, nunca se
 Todos con `uv run python scripts/proactivo.py ...`. También se puede editar el ítem directamente en la consola de DynamoDB (tabla `ca-personas`, campo `fecha_nacimiento`, `num_hijos`, etc.): el stream dispara la misma detección.
 
 Luego:
-1. Llega el email con la marca ChileAtiende: por qué te escribimos, qué es el beneficio, por qué te conviene, los requisitos que cumples y un solo botón de acción.
+1. Llega el email con la marca ChileAtiende · Instituto de Previsión Social, en registro formal: motivo de la comunicación, en qué consiste el beneficio, por qué le conviene, monto referencial, requisitos o documentos y un solo botón de acción. Siempre advierte que el resultado es aparente y los montos referenciales.
 2. `estado <run>` muestra el contacto (`email_enviado`, `email_abierto`, `email_click`, `sms_enviado`, `respuesta`) y el historial.
 3. Sin respuesta: a los 5 min pasa a SMS simulado y a los 10 min a `terreno`. `terreno` lista al equipo de visita por comuna.
 4. Respuesta del equipo o del call center: `responder <run> <beneficio> acepto --canal terreno`.

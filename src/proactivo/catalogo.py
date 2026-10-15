@@ -2,7 +2,8 @@
 
 Requirements are SIMPLIFIED for the demo. Only the PGU cites its official
 ficha (parameters as in src/app/ruta/config.py); every other entry stays
-`verificado: False` until checked against ChileAtiende. No amounts are given.
+`verificado: False` until checked against ChileAtiende. Texts address the
+person formally ("usted").
 """
 
 CHILEATIENDE = "https://www.chileatiende.gob.cl/"
@@ -17,22 +18,105 @@ def _unverified(nombre: str) -> dict:
     }
 
 
+def _rsh(percent: int) -> dict:
+    return {
+        "campo": "tramo_rsh",
+        "op": "<=",
+        "valor": percent,
+        "texto": f"Pertenecer al {percent}% más vulnerable según el RSH",
+    }
+
+
 BENEFICIOS = [
     {
         "beneficio_id": "pgu",
         "nombre": "Pensión Garantizada Universal (PGU)",
         "evento": "Cumplir 65 años",
         "descripcion": (
-            "La PGU es un aporte mensual del Estado para personas de 65 años o más que no "
-            "pertenecen al 10% de mayores ingresos. Se paga aunque sigas trabajando y se suma a "
-            "tu pensión, si la tienes."
+            "La Pensión Garantizada Universal es un aporte mensual del Estado para personas de "
+            "65 años o más que no pertenecen al 10% de mayores ingresos de la población. Es "
+            "compatible con continuar trabajando y se suma a la pensión que usted perciba, si "
+            "corresponde."
         ),
         "por_que_te_conviene": (
-            "Es un ingreso fijo todos los meses: hoy el monto máximo es de $231.732 entre los 65 "
-            "y 74 años, y de $250.275 desde los 75. Mientras antes la solicites, antes empiezas a"
-            " recibirla."
+            "Constituiría un ingreso mensual que complementa su pensión o que, si usted no "
+            "recibe pensión, le proporcionaría un ingreso. Mientras antes la solicite, antes "
+            "podría comenzar a recibirla."
         ),
-        "boton": "Quiero solicitar la PGU",
+        # Maximums from the ficha (src/app/ruta/config.py); the IPS computes the real amount.
+        "monto_referencial": (
+            "Hasta $231.732 mensuales entre los 65 y 74 años, y hasta $250.275 desde los 75 "
+            "años. Se trata de montos máximos referenciales: el monto que usted podría recibir "
+            "depende de su pensión y de su situación particular, y puede ser inferior."
+        ),
+        "titulo_elegible": "Felicitaciones: aparentemente usted es elegible para la PGU",
+        "boton": "Solicitar la PGU",
+        # Age in months: 64 → prepare; 64 + 8 → one month before the opening.
+        "apertura_meses": 64 * 12 + 9,
+        "avisos_previos": [
+            {
+                "id": "preparacion",
+                "meses": 64 * 12,
+                "titulo": "Prepare su trámite: desde el {apertura} podrá solicitar la PGU",
+                "motivo": (
+                    "Junto con saludarle, le informamos que usted cumplió 64 años. A partir de "
+                    "los 64 años y 9 meses ({apertura}) podrá iniciar la solicitud de la "
+                    "Pensión Garantizada Universal, de modo que, si es aprobada, comience a "
+                    "recibirla al cumplir 65 años ({acceso}). Le escribimos con anticipación "
+                    "para que disponga de tiempo para reunir sus documentos y verificar si le "
+                    "falta algún antecedente."
+                ),
+                "boton": "Preparar mi trámite con ChileAtiende",
+            },
+            {
+                "id": "recordatorio",
+                "meses": 64 * 12 + 8,
+                "titulo": "Falta un mes: el {apertura} se abre su solicitud de la PGU",
+                "motivo": (
+                    "Junto con saludarle, le informamos que el {apertura} se abre el período "
+                    "para solicitar su Pensión Garantizada Universal. Si presenta la solicitud "
+                    "en cuanto se abra, podría comenzar a recibirla desde que cumpla 65 años "
+                    "({acceso}). Esta fecha no corresponde a un plazo de vencimiento: puede "
+                    "presentar la solicitud con posterioridad; sin embargo, mientras antes la "
+                    "presente, antes podría recibir el beneficio."
+                ),
+                "boton": "Iniciar mi trámite oportunamente",
+            },
+        ],
+        "documentos": [
+            "Cédula de identidad vigente",
+            "Registro Social de Hogares actualizado (si no cuenta con él, puede solicitarlo en "
+            "su municipalidad)",
+            "Si residió fuera de Chile, antecedentes que acrediten sus años de residencia en el "
+            "país",
+        ],
+        # Loss-risk notices for people who already receive the PGU. Threshold from the
+        # team's demo brief, NOT verified with the IPS.
+        "riesgos": [
+            {
+                "id": "fuera_de_chile",
+                "campo": "dias_fuera_ultimo_anio",
+                "op": ">=",
+                "valor": 150,
+                "titulo": "Atención: su PGU podría verse afectada",
+                "motivo": (
+                    "Junto con saludarle, le informamos que registramos {valor} días fuera de "
+                    "Chile en los últimos 12 meses. Permanecer más de 6 meses fuera del país "
+                    "podría ocasionar la pérdida de la PGU."
+                ),
+                "explicacion": (
+                    "Para mantener la PGU se considera su residencia en Chile. Si planea "
+                    "permanecer fuera del país o ya regresó, le recomendamos consultar su caso "
+                    "antes de que su pago se vea afectado."
+                ),
+                "boton": "Revisar mi situación",
+                "paso_siguiente": (
+                    "Le recomendamos consultar su caso en ChileAtiende (sitio web, 101 o "
+                    "sucursal) e informar sus fechas de viaje. El IPS revisará la información y "
+                    "resolverá si su PGU se mantiene."
+                ),
+            }
+        ],
         "requisitos": [
             {"campo": "edad", "op": ">=", "valor": 65, "texto": "Tener 65 años o más"},
             {
@@ -54,9 +138,10 @@ BENEFICIOS = [
                 "texto": "Pensión base bajo el límite de la PGU",
             },
         ],
-        # The application opens at 64 years and 9 months.
-        "anticipar_dias": 90,
-        "paso_siguiente": "Solicita la PGU en ChileAtiende (web, 101 o sucursal) con tu cédula.",
+        "paso_siguiente": (
+            "Presente su solicitud de PGU en ChileAtiende (sitio web, 101 o sucursal) con su "
+            "cédula de identidad."
+        ),
         "fuente": {
             "titulo": "Ficha PGU · ChileAtiende",
             "url": PGU_URL,
@@ -69,25 +154,20 @@ BENEFICIOS = [
         "evento": "Cumplir 18 años trabajando",
         "descripcion": (
             "Es un aporte para jóvenes de 18 a 24 años que trabajan y pertenecen a los hogares "
-            "más vulnerables, que complementa su sueldo."
+            "más vulnerables, que complementa su remuneración."
         ),
         "por_que_te_conviene": (
-            "Te ayuda a aumentar tus ingresos mientras trabajas, sin cambiar de empleo."
+            "Le permite aumentar sus ingresos mientras trabaja, sin cambiar de empleo."
         ),
-        "boton": "Quiero postular",
+        "boton": "Postular al subsidio",
         "requisitos": [
             {"campo": "edad", "op": ">=", "valor": 18, "texto": "Tener 18 años o más"},
             {"campo": "edad", "op": "<=", "valor": 24, "texto": "Tener 24 años o menos"},
             {"campo": "trabaja", "op": "==", "valor": True, "texto": "Estar trabajando"},
-            {
-                "campo": "tramo_rsh",
-                "op": "<=",
-                "valor": 40,
-                "texto": "Pertenecer al 40% más vulnerable según el RSH",
-            },
+            _rsh(40),
         ],
         "anticipar_dias": 30,
-        "paso_siguiente": "Postula al Subsidio al Empleo Joven en ChileAtiende o en SENCE.",
+        "paso_siguiente": "Postule al Subsidio al Empleo Joven en ChileAtiende o en SENCE.",
         "fuente": _unverified("Subsidio al Empleo Joven"),
     },
     {
@@ -98,18 +178,15 @@ BENEFICIOS = [
             "Es un aporte mensual para familias vulnerables por cada hijo o hija a cargo que no "
             "recibe asignación familiar."
         ),
-        "por_que_te_conviene": "Te ayuda con los gastos de crianza desde los primeros meses.",
-        "boton": "Quiero solicitarlo",
+        "por_que_te_conviene": "Contribuye a los gastos de crianza desde los primeros meses.",
+        "boton": "Solicitar el beneficio",
         "requisitos": [
             {"campo": "num_hijos", "op": ">=", "valor": 1, "texto": "Tener hijos a cargo"},
-            {
-                "campo": "tramo_rsh",
-                "op": "<=",
-                "valor": 60,
-                "texto": "Pertenecer al 60% más vulnerable según el RSH",
-            },
+            _rsh(60),
         ],
-        "paso_siguiente": "Solicita el SUF en tu municipalidad con el certificado de nacimiento.",
+        "paso_siguiente": (
+            "Solicite el SUF en su municipalidad presentando el certificado de nacimiento."
+        ),
         "fuente": _unverified("Subsidio Único Familiar"),
     },
     {
@@ -119,15 +196,15 @@ BENEFICIOS = [
         "descripcion": (
             "Es un bono que aumenta la pensión de las mujeres por cada hijo nacido vivo o adoptado."
         ),
-        "por_que_te_conviene": "Al cumplir 65 años se suma a tu pensión de forma permanente.",
-        "boton": "Quiero solicitarlo",
+        "por_que_te_conviene": "Al cumplir 65 años se suma a su pensión de forma permanente.",
+        "boton": "Solicitar el beneficio",
         "requisitos": [
             {"campo": "sexo", "op": "==", "valor": "F", "texto": "Ser mujer"},
             {"campo": "edad", "op": ">=", "valor": 65, "texto": "Tener 65 años o más"},
             {"campo": "num_hijos", "op": ">=", "valor": 1, "texto": "Tener al menos un hijo"},
         ],
         "anticipar_dias": 90,
-        "paso_siguiente": "Solicita el Bono por Hijo en el IPS o en ChileAtiende.",
+        "paso_siguiente": "Solicite el Bono por Hijo en el IPS o en ChileAtiende.",
         "fuente": _unverified("Bono por hijo"),
     },
     {
@@ -138,8 +215,8 @@ BENEFICIOS = [
             "Es un aporte mensual para trabajadores que tienen a su cónyuge o conviviente civil "
             "como carga familiar."
         ),
-        "por_que_te_conviene": "Aumenta los ingresos de tu familia todos los meses.",
-        "boton": "Quiero solicitarla",
+        "por_que_te_conviene": "Incrementa mensualmente los ingresos de su grupo familiar.",
+        "boton": "Solicitar el beneficio",
         "requisitos": [
             {
                 "campo": "estado_civil",
@@ -148,14 +225,11 @@ BENEFICIOS = [
                 "texto": "Estar casado o con Acuerdo de Unión Civil",
             },
             {"campo": "trabaja", "op": "==", "valor": True, "texto": "Estar trabajando"},
-            {
-                "campo": "tramo_rsh",
-                "op": "<=",
-                "valor": 60,
-                "texto": "Pertenecer al 60% más vulnerable según el RSH",
-            },
+            _rsh(60),
         ],
-        "paso_siguiente": "Pide a tu empleador o caja de compensación tramitar la asignación.",
+        "paso_siguiente": (
+            "Solicite a su empleador o caja de compensación la tramitación de la asignación."
+        ),
         "fuente": _unverified("Asignación Familiar"),
     },
     {
@@ -164,7 +238,7 @@ BENEFICIOS = [
         "evento": "Cumplir 50 años de matrimonio",
         "descripcion": "Es un bono para matrimonios que cumplen 50 años de casados.",
         "por_que_te_conviene": "Es un reconocimiento en dinero para cada cónyuge.",
-        "boton": "Quiero solicitarlo",
+        "boton": "Solicitar el beneficio",
         "requisitos": [
             {
                 "campo": "anios_casado",
@@ -172,14 +246,9 @@ BENEFICIOS = [
                 "valor": 50,
                 "texto": "Cumplir 50 años de matrimonio",
             },
-            {
-                "campo": "tramo_rsh",
-                "op": "<=",
-                "valor": 80,
-                "texto": "Pertenecer al 80% más vulnerable según el RSH",
-            },
+            _rsh(80),
         ],
-        "paso_siguiente": "Solicita el Bono Bodas de Oro en ChileAtiende junto a tu cónyuge.",
+        "paso_siguiente": "Solicite el Bono Bodas de Oro en ChileAtiende junto a su cónyuge.",
         "fuente": _unverified("Bono Bodas de Oro"),
     },
     {
@@ -190,8 +259,10 @@ BENEFICIOS = [
             "El seguro de la Ley 16.744 cubre la atención médica, los subsidios y las "
             "indemnizaciones por accidentes del trabajo o de trayecto."
         ),
-        "por_que_te_conviene": "Cubre tu tratamiento y tus días de licencia mientras te recuperas.",
-        "boton": "Quiero orientación",
+        "por_que_te_conviene": (
+            "Cubre su tratamiento y sus días de licencia médica durante su recuperación."
+        ),
+        "boton": "Solicitar orientación",
         "requisitos": [
             {
                 "campo": "accidente_laboral",
@@ -201,7 +272,9 @@ BENEFICIOS = [
             },
             {"campo": "trabaja", "op": "==", "valor": True, "texto": "Estar trabajando"},
         ],
-        "paso_siguiente": "Acude a tu mutualidad o al ISL con la denuncia del accidente (DIAT).",
+        "paso_siguiente": (
+            "Acuda a su mutualidad o al ISL con la denuncia individual del accidente (DIAT)."
+        ),
         "fuente": _unverified("Seguro laboral Ley 16.744"),
     },
     {
@@ -209,22 +282,15 @@ BENEFICIOS = [
         "nombre": "Subsidio Eléctrico",
         "evento": "Cambio de tramo en el Registro Social de Hogares",
         "descripcion": (
-            "Es un descuento en la cuenta de la luz para los hogares más vulnerables según el "
-            "Registro Social de Hogares."
+            "Es un descuento en la cuenta de electricidad para los hogares más vulnerables según "
+            "el Registro Social de Hogares."
         ),
         "por_que_te_conviene": (
-            "Te ayuda a pagar menos por la electricidad mientras dure el subsidio."
+            "Le permite reducir el pago de su cuenta de electricidad mientras dure el subsidio."
         ),
-        "boton": "Quiero postular",
-        "requisitos": [
-            {
-                "campo": "tramo_rsh",
-                "op": "<=",
-                "valor": 80,
-                "texto": "Pertenecer al 80% más vulnerable según el RSH",
-            },
-        ],
-        "paso_siguiente": "Postula al Subsidio Eléctrico en ChileAtiende.",
+        "boton": "Postular al subsidio",
+        "requisitos": [_rsh(80)],
+        "paso_siguiente": "Postule al Subsidio Eléctrico en ChileAtiende.",
         "fuente": _unverified("Subsidio Eléctrico"),
     },
 ]
