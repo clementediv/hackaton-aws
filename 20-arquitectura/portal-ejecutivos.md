@@ -7,6 +7,21 @@ estado: demo-local
 
 Página de gestión accesible desde **Para ejecutivos** en el encabezado, o `/?vista=ejecutivos`. Reutiliza logo, fuentes, navegación, azules y tarjetas del frontend. El laboratorio técnico sigue en el acceso lateral «Vista ejecutivo». Diseño: [[0016-portal-ejecutivos]], [[contacto-y-campanas]], [[arquitectura-chileatiende]].
 
+## Inicio de sesión de demostración
+
+El botón «Para ejecutivos», el enlace directo y las herramientas laterales solicitan correo y clave antes de mostrar casos o mapa. Acceso ficticio, separado del ingreso y consentimiento de Mi Gobierno. Las cuentas aparecen en un desplegable en la misma pantalla:
+
+| Persona ficticia | Perfil de demostración | Correo | Clave |
+|---|---|---|---|
+| Carolina Soto | Ejecutiva de atención | `ejecutivo.rm@example.com` | `Ejecutivo2026!` |
+| Daniel Fuentes | Asistente social | `social.rm@example.com` | `Ejecutivo2026!` |
+
+Ambas cuentas ven las mismas campañas; los perfiles solo identifican a la persona ficticia, sin permisos diferentes. Credenciales públicas de ejemplo, sin vinculación a funcionarios o cuentas institucionales. No reemplazan una autenticación profesional de producción.
+
+Una clave incorrecta muestra error y limpia el formulario. «Cerrar sesión de ejecutivo» elimina la identidad y filtros del ejecutivo, sin borrar casos, campañas ni la sesión/historial ciudadano. Volver a la portada no cierra la sesión; cerrar la sesión exige ingresar nuevamente. No se guardan claves en SQLite ni se usan credenciales AWS para este acceso.
+
+Implementación: `ruta/staff_auth.py`, formulario y guardia compartida en `ui_ejecutivos.require_login()`. Pruebas cubren cuentas válidas/inválidas, entrada directa sin sesión, acceso al mapa tras ingresar, salida y aislamiento de Mi Gobierno.
+
 ## Seguimiento
 
 - Resumen de personas alertadas, sin contacto confirmado, contactadas que esperan orientación y quienes iniciaron el trámite. Quienes declinaron se cuentan aparte en el seguimiento; ninguna cifra representa resoluciones concedidas.

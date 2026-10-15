@@ -7,6 +7,7 @@ import pytest
 from src.app.ruta.datos import cargar_perfiles
 from src.app.ruta.despliegue import _unproject, automatic_campaign_area
 from src.app.ruta.ejecutivos import case_rows, demo_snapshot
+from src.app.ruta.staff_auth import DEMO_ACCOUNTS, DEMO_PASSWORD, authenticate
 
 
 def point(x):
@@ -14,6 +15,26 @@ def point(x):
     return dict(
         latitude=latitude, longitude=longitude, weight=1, commune="Santiago", synthetic=True
     )
+
+
+def sign_in(app, email="ejecutivo.rm@example.com", password=DEMO_PASSWORD):
+    app.text_input(key="staff_login_email").set_value(email)
+    app.text_input(key="staff_login_password").set_value(password)
+    next(button for button in app.button if button.label == "Ingresar como ejecutivo").click().run()
+    assert not app.exception
+
+
+def test_only_fictitious_staff_accounts_can_sign_in():
+    for email in DEMO_ACCOUNTS:
+        assert authenticate(f"  {email.upper()} ", DEMO_PASSWORD) == email
+    for email, password in (
+        ("unknown@example.com", DEMO_PASSWORD),
+        ("ejecutivo.rm@example.com", "demo2026"),
+        ("ejecutivo.rm@example.com", ""),
+        ("", DEMO_PASSWORD),
+    ):
+        with pytest.raises(ValueError):
+            authenticate(email, password)
 
 
 def test_automatic_area_scales_to_team_and_omits_small_groups():
@@ -61,6 +82,9 @@ def test_staff_portal_navigation_filters_and_automatic_campaign(tmp_path, monkey
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
     app.button(key="open_staff_header").click().run()
     assert not app.exception
+    assert not app.dataframe and not app.get("deck_gl_json_chart")
+    assert not (tmp_path / "staff.db").exists()
+    sign_in(app)
     assert app.radio[1].options == ["Seguimiento de casos", "Campañas en terreno"]
     app.selectbox(key="staff_status").set_value("Espera orientación").run()
     assert set(app.dataframe[0].value["Situación"]) == {"Espera orientación"}
@@ -92,3 +116,29 @@ def test_staff_deep_link_opens_new_workspace(tmp_path, monkeypatch):
     app.run()
     assert not app.exception
     assert app.session_state["portal_staff_workspace"]
+    assert not app.dataframe and not app.get("deck_gl_json_chart")
+    password_field = app.text_input(key="staff_login_password").proto
+    assert password_field.type == password_field.PASSWORD
+    sign_in(app, password="incorrecta")
+    assert app.error
+    assert not app.session_state.filtered_state.get("staff_authenticated_user")
+    assert not app.session_state.filtered_state.get("staff_login_password")
+    assert not (tmp_path / "deep.db").exists()
+    sign_in(app, email="social.rm@example.com")
+    assert app.session_state["staff_authenticated_user"] == "social.rm@example.com"
+    assert app.dataframe
+    assert not app.session_state.filtered_state.get("staff_login_password")
+    app.session_state["government_login_run"] = "100000001-5"
+    app.session_state["chat-100000001-5"] = [{"rol": "user", "texto": "Conservar"}]
+    app.text_input(key="staff_search").set_value("Maria").run()
+    app.button(key="staff_logout").click().run()
+    assert not app.exception
+    assert not app.dataframe and not app.get("deck_gl_json_chart")
+    assert not app.session_state.filtered_state.get("staff_authenticated_user")
+    assert "staff_search" not in app.session_state
+    assert app.session_state["government_login_run"] == "100000001-5"
+    assert app.session_state["chat-100000001-5"][0]["texto"] == "Conservar"
+    app.button(key="open_executive").click().run()
+    assert not app.exception
+    assert not any(r.key == "executive_section" for r in app.radio)
+    assert not app.dataframe

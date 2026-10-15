@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
-from ruta import config
+from ruta import config, staff_auth
 from ruta.campanas import metropolitan_locations, metropolitan_ranking
 from ruta.colador import Funnel
 from ruta.despliegue import automatic_campaign_area
@@ -29,6 +29,73 @@ EVENTS = {
     "signal": "Nueva alerta en el caso",
 }
 CHANNELS = {1: "Correo electrónico", 2: "Llamada", 3: "Contacto laboral", 4: "Terreno"}
+
+
+def _sign_out():
+    for key in list(st.session_state):
+        if key.startswith("staff_") and key != "staff_deeplink_loaded":
+            del st.session_state[key]
+
+
+def _sign_in():
+    password = st.session_state.pop("staff_login_password", "")
+    try:
+        email = staff_auth.authenticate(st.session_state.get("staff_login_email", ""), password)
+    except ValueError as error:
+        st.session_state["staff_login_error"] = str(error)
+        return
+    _sign_out()
+    st.session_state["staff_authenticated_user"] = email
+
+
+def require_login():
+    """Gate both officer entry points before reading a campaign snapshot."""
+    st.html("<style>" + (ASSETS / "executive.css").read_text(encoding="utf-8") + "</style>")
+    email = st.session_state.get("staff_authenticated_user")
+    account = staff_auth.DEMO_ACCOUNTS.get(email)
+    if account:
+        identity, actions = st.columns([3, 1], vertical_alignment="center")
+        identity.caption(f"{account['name']} · {account['role']} · Sesión de demostración")
+        actions.button("Cerrar sesión de ejecutivo", key="staff_logout", on_click=_sign_out)
+        return True
+    with st.container(key="staff_login"):
+        intro, form = st.columns([1.15, 1], gap="large", vertical_alignment="top")
+        intro.html(
+            '<div class="staff-login-intro"><div class="staff-eyebrow">PARA EJECUTIVOS</div>'
+            "<h1>Acompañar comienza<br>con saber quién espera.</h1>"
+            "<p>Revisa los casos alertados, orienta el próximo paso y organiza "
+            "la atención en terreno desde un solo lugar.</p></div>"
+        )
+        with form, st.container(key="staff_login_card"):
+            st.markdown("### Ingresa al portal de ejecutivos")
+            with st.form("staff_login_form", clear_on_submit=True):
+                st.text_input(
+                    "Correo",
+                    key="staff_login_email",
+                    placeholder="ejecutivo.rm@example.com",
+                    max_chars=120,
+                )
+                st.text_input("Clave", type="password", key="staff_login_password", max_chars=120)
+                st.form_submit_button(
+                    "Ingresar como ejecutivo",
+                    type="primary",
+                    use_container_width=True,
+                    on_click=_sign_in,
+                )
+            if error := st.session_state.get("staff_login_error"):
+                st.error(error)
+            with st.expander("Datos de acceso de demostración", expanded=True):
+                selected = st.selectbox(
+                    "Cuenta ficticia",
+                    list(staff_auth.DEMO_ACCOUNTS),
+                    key="staff_demo_account",
+                    format_func=lambda value: staff_auth.DEMO_ACCOUNTS[value]["name"],
+                )
+                st.code(f"Correo: {selected}\nClave: {staff_auth.DEMO_PASSWORD}", language=None)
+                st.caption(
+                    "Cuentas ficticias para probar el portal. Usa solo estos datos de ejemplo."
+                )
+    return False
 
 
 def _cards(state):
@@ -197,7 +264,8 @@ def _campaigns(state, profiles):
 
 
 def render(profiles, db_path=None):
-    st.html("<style>" + (ASSETS / "executive.css").read_text(encoding="utf-8") + "</style>")
+    if not require_login():
+        return
     with st.container(key="staff_workspace"):
         st.html(
             '<div class="staff-hero"><div><div class="staff-eyebrow">PORTAL DE EJECUTIVOS</div>'
@@ -231,7 +299,11 @@ def render(profiles, db_path=None):
         _cards(state)
         with st.container(key="staff_navigation"):
             view = st.radio(
-                "Secciones de gestión", VIEWS, horizontal=True, label_visibility="collapsed"
+                "Secciones de gestión",
+                VIEWS,
+                horizontal=True,
+                label_visibility="collapsed",
+                key="staff_view",
             )
         if view == VIEWS[0]:
             _tracking(state)
