@@ -131,7 +131,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     cards = [element.value for element in app.markdown if "gov-requirement-card" in element.value]
     assert any("ready" in card and "Listo" in card for card in cards)
     assert any("pending" in card and "Faltan datos" in card for card in cards)
-    assert len([item for item in app.markdown if 'class="gov-timeline"' in item.value]) == 4
+    assert len([item for item in app.get("html") if 'class="gov-timeline"' in item.proto.body]) == 4
     assert not any(item.label == "Profesión" for item in app.text_input)
     assert len([button for button in app.button if button.label == "Ver datos faltantes"]) == 3
     app.button(key="gov_check_fuas").click().run()
