@@ -100,6 +100,11 @@ Prueba de interfaz completa: una transcripción simulada se envió una sola vez
 mediante el componente Streamlit y recibió respuesta real de Bedrock. Prueba
 adicional de Mi Gobierno verifica reinicio de memoria general y lectura al revocar.
 
-Integración final con portal ejecutivo: 234 pruebas correctas, dos omitidas por
+Integración final con portal ejecutivo: 235 pruebas correctas, dos omitidas por
 dependencias opcionales y ocho evals excluidas. Verificador 500 perfiles TODO OK.
 Los cinco fallos históricos de UI quedaron resueltos por el aporte remoto.
+
+Tras la última integración de acceso ejecutivo: 235 pruebas pasan, dos omitidas,
+ocho evals excluidas y verificador TODO OK. Chromium vuelve a confirmar el flujo
+de dictado simulado → envío único → respuesta real de Bedrock, junto con los controles
+de lectura.

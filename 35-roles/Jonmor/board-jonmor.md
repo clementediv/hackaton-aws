@@ -25,7 +25,7 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 - Cinco pruebas UI heredadas fallan también en origin/main; evidencia en [[chatbot-desplegado]]. No bloquean la API desplegada.
 
 ## Hecho
-- Conversación natural y memoria general aislada, dictado editable y voz sintética opcional en ambos chats. `7ba7c2f`, integración `5f78e6f`. 43 pruebas enfocadas y 234 de suite completa pasan. [[0017-conversacion-y-voz-del-navegador]].
+- Conversación natural y memoria general aislada, dictado editable y voz sintética opcional en ambos chats. `7ba7c2f`, integración `5f78e6f`. 43 pruebas enfocadas y 235 de suite completa pasan. [[0017-conversacion-y-voz-del-navegador]].
 - Elegibilidad personal en Mi Gobierno: «puedo tener yo la PGU?» reconocida, consentimiento con paso concreto y agente autorizado preservado. `78bfcf6`. [[portal-ayuda-tramites]].
 - Consultas generales del chat corregidas; Bedrock público sin perfil y respaldo pertinente. Cliente unificado con /chat remoto. `33eed79`, integración `d8bde76`. [[0015-orientacion-general-sin-perfil]].
 - [x] T15: API mínima autenticada y Bedrock real. `f9e7f6d`, integrado a main en `df99c3b`. [[chatbot-desplegado]]

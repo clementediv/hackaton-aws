@@ -10,7 +10,7 @@ Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hiz
 
 ### 2026-10-15 · Conversación y voz del asistente · 7ba7c2f
 
-Estilo natural ante insultos, ruido y frustración, con memoria pública separada en Mi Gobierno y reinicio al cambiar permisos. Dictado editable con envío explícito y voz sintética opcional en español, escuchar/detener, pausa al dictar y prevención de duplicados. 43 pruebas enfocadas, tres turnos reales Sonnet 5 y controles Chromium simulados OK. Tras integrar el portal ejecutivo: 234 pruebas pasan, dos omitidas por dependencias opcionales y ocho evals excluidas; verificador TODO OK. [[0017-conversacion-y-voz-del-navegador]].
+Estilo natural ante insultos, ruido y frustración, con memoria pública separada en Mi Gobierno y reinicio al cambiar permisos. Dictado editable con envío explícito y voz sintética opcional en español, escuchar/detener, pausa al dictar y prevención de duplicados. 43 pruebas enfocadas, tres turnos reales Sonnet 5 y controles Chromium simulados OK. Tras integrar el portal ejecutivo: 235 pruebas pasan, dos omitidas por dependencias opcionales y ocho evals excluidas; verificador TODO OK. [[0017-conversacion-y-voz-del-navegador]].
 
 ### 2026-10-15 · Elegibilidad personal del chat · 78bfcf6
 
