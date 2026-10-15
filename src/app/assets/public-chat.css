@@ -41,3 +41,12 @@
 
 .st-key-public_chat [data-testid="stChatInput"]{width:100%!important;max-width:100%;min-width:0;box-sizing:border-box}
 @media(max-width:700px){.stApp:has(.st-key-public_chat) .block-container{padding-left:18px;padding-right:18px}}
+/* Keep every conversation element on the same horizontal axis. */
+.st-key-public_chat_header{width:100%;max-width:760px;align-self:center;margin-inline:auto!important}
+.st-key-public_chat_notice [data-testid="stElementContainer"],
+.st-key-public_chat_notice [data-testid="stMarkdown"],
+.st-key-public_chat_notice [data-testid="stMarkdownContainer"]{width:100%!important;max-width:100%;box-sizing:border-box}
+.st-key-public_chat .public-chat-welcome h2{padding-inline:0!important;text-align:center}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{padding:12px 48px!important}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea:placeholder-shown{text-align:center}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea:not(:placeholder-shown){text-align:left}
