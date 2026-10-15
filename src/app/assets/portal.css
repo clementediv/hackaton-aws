@@ -110,13 +110,6 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 @media(max-width:700px){.portal-header{height:auto;padding:18px 0;gap:12px;flex-wrap:wrap}.portal-logo{width:190px;height:60px}.portal-utilities{gap:8px;font-size:12px}.portal-utilities a{padding:8px}.portal-hero h1{font-size:22px}.block-container{padding-left:18px;padding-right:18px}}
 /* Homepage carousel with a rightward slide entrance. */
 .st-key-home_government{overflow:hidden}
-/* Keep both slides mounted so the browser can animate their shared track. */
-.st-key-home_slide_track{display:flex;flex-direction:row;gap:0;align-items:center;width:200%!important;max-width:none!important;transform:translateX(-50%);animation:home-carousel 10s infinite}
-.st-key-home_slide_track>[data-testid="stVerticalBlock"]{display:flex;flex-direction:row;gap:0;align-items:center}
-.st-key-home_slide_track .st-key-home_slide_assistant,.st-key-home_slide_track .st-key-home_slide_benefits{width:50%!important;min-width:0;flex:0 0 50%;box-sizing:border-box;padding:0 8px}
-.st-key-home_slide_track:focus-within,.st-key-home_slide_track:hover{animation-play-state:paused}
-@keyframes home-carousel{0%,44%{transform:translateX(-50%)}50%,94%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){.st-key-home_slide_track{animation:none;width:100%!important;transform:none}.st-key-home_slide_track>[data-testid="stVerticalBlock"]{flex-direction:column}.st-key-home_slide_track .st-key-home_slide_assistant,.st-key-home_slide_track .st-key-home_slide_benefits{width:100%!important;flex-basis:auto}}
 .home-slide-indicator{text-align:center;color:#0d4d82;font-size:14px;padding:8px 0}
 .st-key-home_banner_controls{margin-top:28px;padding-top:20px;border-top:1px solid #d7e4ee}
 .st-key-home_chat_preview{max-width:720px;padding:20px;border:1px solid #d4e2ed;border-radius:10px;background:#fff}
