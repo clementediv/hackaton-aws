@@ -84,7 +84,7 @@ def _login(diags) -> None:
         intro, form = st.columns([1.15, 1], gap="large", vertical_alignment="top")
         with intro:
             st.markdown(
-                '<div class="gov-login-intro"><span class="gov-eyebrow">MI GOBIERNO</span>'
+                '<div class="gov-login-intro">'
                 "<h1>Tus beneficios,<br>con tu información.</h1>"
                 "<p>Ingresa para descubrir los apoyos que podrían corresponderte "
                 "y continuar tus trámites paso a paso.</p>"

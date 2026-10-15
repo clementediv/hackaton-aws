@@ -1,5 +1,7 @@
 # Mi Gobierno
 
+Se elimina el rótulo superior «MI GOBIERNO» del acceso. El título «Tus beneficios, con tu información» y el encabezado del formulario comparten el mismo inicio, sin márgenes superiores en los títulos.
+
 El acceso al portal alinea arriba sus dos columnas. La introducción «Tus beneficios, con tu información» usa 30 px de margen interior superior para acompañar la altura del encabezado del formulario; en móvil se elimina ese margen y se mantiene el apilado.
 
 El asistente lateral incorpora un desplegable «Preguntas frecuentes» con accesos de un clic a qué es la PGU, monto, documentos, fechas, canales y requisitos. Cada botón usa el mismo motor, contexto, consentimiento e historial que escribir la pregunta. Antes de autorizar se muestran las dos preguntas generales del asistente. El desplegable mantiene compacto el panel cuando no se usa.

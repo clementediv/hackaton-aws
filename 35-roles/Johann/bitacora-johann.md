@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Alinear títulos del acceso
+- Se retira el rótulo MI GOBIERNO y el margen superior del título de introducción para alinearlo directamente con el encabezado del formulario. [[mi-gobierno]].
+
 ### 2026-10-15 · Alinear introducción del acceso
 - Las columnas del acceso se alinean arriba y la introducción acompaña el encabezado del formulario con 30 px interiores, sin margen adicional en móvil. [[mi-gobierno]].
 
