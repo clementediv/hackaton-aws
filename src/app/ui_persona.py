@@ -6,6 +6,7 @@ o están rotulados como "demo" para no confundirlos con la experiencia real.
 """
 from datetime import date
 from html import escape
+from pathlib import Path
 
 import streamlit as st
 
@@ -312,16 +313,12 @@ def _pantalla_ruta(d, run, canal, ruta, estados, caso):
 
 
 # --- Asistente ---------------------------------------------------------------
-PREGUNTAS = ["¿Qué es la PGU?", "¿Cuánto recibiría?", "¿Qué documentos necesito?",
-             "¿Cuándo puedo hacerlo?", "¿Dónde lo hago?", "¿Cumplo los requisitos?"]
-
-
 def _asistente(d, run, canal, ctx, *, sidebar=False):
     with st.container(border=True):
         if sidebar:
             st.markdown(
                 '<div class="gov-assistant-intro"><h4>Asistente de IA</h4>'
-                '<p>Tu próximo paso, con tus antecedentes.</p></div>',
+                '</div>',
                 unsafe_allow_html=True,
             )
         else:
@@ -361,7 +358,8 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
                 except Exception:
                     response.empty()
                     raise
-                response.write(resp)
+                with response.container():
+                    st.write_stream(asistente._template_stream(resp))
             hist.extend([{"rol": "user", "texto": q}, {"rol": "assistant", "texto": resp}])
             scroll_chat(".st-key-assistant_messages", f"received:{hist!r}")
             casos.registrar_evento(run, canal, "consulta_asistente", {"pregunta": q, "motor": motor})
@@ -379,42 +377,34 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
                     del public_history[:-6]
             return resp, motor
 
-        def preguntas_rapidas():
-            questions = [PREGUNTAS[2], PREGUNTAS[3]] if ctx["autorizado"] else [PREGUNTAS[0], PREGUNTAS[3]]
-            with st.container(key="assistant_quick_questions"):
-                cols = st.columns(2, gap="small")
-                for i, q in enumerate(questions):
-                    if cols[i].button(q, key=f"q-{run}-{i}", use_container_width=True):
-                        preguntar(q)
-                        st.rerun()
-
         mensajes = st.container(height=300 if sidebar else 360, border=not sidebar,
                                 key="assistant_messages")
         for i, m in enumerate(hist):
-            target = mensajes.container(key=f"gov_chat_{m['rol']}_{i}") if sidebar else mensajes
+            message_key = "gov_chat_assistant_welcome" if sidebar and len(hist) == 1 else f"gov_chat_{m['rol']}_{i}"
+            target = mensajes.container(key=message_key) if sidebar else mensajes
             avatar = None if sidebar else ("🧭" if m["rol"] == "assistant" else "🙂")
             target.chat_message(m["rol"], avatar=avatar).write(m["texto"])
         scroll_chat(".st-key-assistant_messages", f"received:{hist!r}")
         if pending_question := st.session_state.pop("portal_pending_question", None):
             preguntar(pending_question)
-        if not sidebar:
-            preguntas_rapidas()
-        placeholder = "Describe lo que necesitas" if sidebar else "Pregúntale al asistente de trámites"
-        if q := st.chat_input(placeholder):
-            preguntar(q)
-            st.rerun()
-        if sidebar:
-            preguntas_rapidas()
+        import streamlit.components.v1 as components
+
+        with st.container(key="personal_chat_composer"):
+            with st.container(key="personal_chat_placeholder_animation"):
+                components.html(
+                    (Path(__file__).parent / "assets/chat-placeholder.html").read_text(encoding="utf-8"),
+                    height=0,
+                )
+            if q := st.chat_input("Describe lo que necesitas"):
+                preguntar(q)
+                st.rerun()
         from voice import voice_input
 
         latest_reply = next((m["texto"] for m in reversed(hist) if m["rol"] == "assistant"), "")
-        if sidebar:
-            with st.expander("Opciones de voz", expanded=False):
-                spoken = voice_input(key=f"voice_person_{run}", reply=latest_reply,
-                                     message_id=str(len(hist)))
-        else:
-            spoken = voice_input(key=f"voice_person_{run}", reply=latest_reply,
-                                 message_id=str(len(hist)))
+        spoken = voice_input(
+            key=f"voice_person_{run}", reply=latest_reply,
+            message_id=str(len(hist)), compact=True,
+        )
         if spoken:
             preguntar(spoken)
             st.rerun()

@@ -58,14 +58,15 @@ def test_government_chat_resets_public_memory_and_voice_when_consent_changes(mon
         default_timeout=30,
     ).run()
     assert not app.exception
-    assert app.toggle[0].label == "Leer respuestas en voz alta"
-    app.toggle[0].set_value(True).run()
-    assert app.toggle[0].value
+    assert not app.toggle
+    assert not any(button.label in {"¿Qué es la PGU?", "¿Qué documentos necesito?"}
+                   for button in app.button)
+    app.session_state["voice_person_100000010-4_read_aloud"] = True
     app.session_state["general_chat_100000010-4"] = [{"rol": "user", "texto": "Un tema público"}]
     app.session_state["test_authorized"] = False
     app.run()
     assert not app.exception
-    assert not app.toggle[0].value
+    assert not app.session_state["voice_person_100000010-4_read_aloud"]
     assert app.session_state["general_chat_100000010-4"] == []
 
 

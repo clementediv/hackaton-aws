@@ -44,3 +44,7 @@ Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hiz
 - 15-10: Beneficios alineados visualmente con el asistente público: Roboto, títulos livianos, tarjetas blancas, bordes discretos y botones azules redondeados; línea de tiempo con menos recuadros. Banner de beneficios centrado y simplificado.
 
 - 15-10: Integración con `origin/main` sobre `269d4aa`: conserva cambios visuales, presentación breve, streaming y consulta personal PGU; incorpora cortafuegos, referencias amigables y espera/desplazamiento de ambos chats. Conflictos resueltos preservando ambos aportes. Validación: 277 pruebas pasan, 2 omitidas por dependencias opcionales, 8 evals excluidas; verificador de 500 perfiles TODO OK.
+
+- 15-10: Asistente de Mi Gobierno con micrófono compacto junto al envío y campo «Describe lo que necesitas», igual al chat público. Retiradas preguntas rápidas y panel de voz separado; se mantienen revisión del dictado, consentimiento e historial.
+
+- 15-10: Unificado asistente personal con el chat público: micrófono junto al envío, sin preguntas rápidas ni subtítulo, saludo centrado, respuestas palabra a palabra y preguntas animadas en gris dentro del campo. Se conserva consentimiento y revisión del dictado.

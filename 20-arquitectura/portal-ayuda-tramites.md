@@ -168,3 +168,5 @@ Verificación reproducible sin AWS: `uv run --with playwright python scripts/ver
 El script levanta una app aislada con respuesta demorada y comprueba envío inmediato,
 puntos escalonados, retirada del indicador y scroll de envío/respuesta en ambos chats
 a 390 y 1440 px, además de permitir desplazamiento manual posterior.
+
+- 15-10: Asistente de Mi Gobierno con micrófono compacto junto al envío y campo «Describe lo que necesitas», igual al chat público. Retiradas preguntas rápidas y panel de voz separado; se mantienen revisión del dictado, consentimiento e historial.
