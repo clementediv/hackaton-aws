@@ -346,12 +346,13 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
             preguntar(pending_question)
 
         def preguntas_rapidas():
-            cols = st.columns(1 if sidebar else 2)
             questions = [PREGUNTAS[2], PREGUNTAS[3]] if ctx["autorizado"] else [PREGUNTAS[0], PREGUNTAS[3]]
-            for i, q in enumerate(questions):
-                if cols[i % len(cols)].button(q, key=f"q-{run}-{i}", use_container_width=True):
-                    preguntar(q)
-                    st.rerun()
+            with st.container(key="assistant_quick_questions"):
+                cols = st.columns(2, gap="small")
+                for i, q in enumerate(questions):
+                    if cols[i].button(q, key=f"q-{run}-{i}", use_container_width=True):
+                        preguntar(q)
+                        st.rerun()
 
         mensajes = st.container(height=240 if sidebar else 360, border=not sidebar)
         for i, m in enumerate(hist):
