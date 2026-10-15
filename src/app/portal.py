@@ -87,6 +87,12 @@ def render_header(*, chat_page: bool = False) -> str:
                 "Para ejecutivos", on_click=_open_staff, key="open_staff_header",
                 use_container_width=True,
             )
+    if chat_page:
+        st.markdown(
+            '<div class="public-chat-title"><h1>Asistente de inteligencia artificial '
+            'de ChileAtiende</h1></div>',
+            unsafe_allow_html=True,
+        )
     selected = st.radio(
         "Secciones del portal",
         CITIZEN_SECTIONS,
@@ -217,7 +223,6 @@ def render_chat_page() -> None:
         if not history:
             st.markdown(
                 '<div class="public-chat-welcome"><span>ASISTENTE CHILEATIENDE</span>'
-                '<h1>Asistente de inteligencia artificial de ChileAtiende</h1>'
                 '<p>Una conversación para encontrar tu próximo paso.</p></div>',
                 unsafe_allow_html=True,
             )

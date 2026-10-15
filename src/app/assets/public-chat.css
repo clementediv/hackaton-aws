@@ -61,3 +61,9 @@
 .st-key-public_chat [data-testid="stElementContainer"],
 .st-key-public_chat [data-testid="stMarkdownContainer"]{width:100%!important;max-width:100%;min-width:0;box-sizing:border-box}
 .st-key-public_chat [data-testid="stMarkdown"]{width:100%!important;max-width:100%;box-sizing:border-box}
+
+/* Keep the assistant title immediately above its navigation tab. */
+.public-chat-title{text-align:center;width:100%;padding:16px 0 8px}
+.public-chat-title h1{font:500 clamp(26px,4vw,36px)/1.25 Roboto,Arial,sans-serif;color:#0d4d82;letter-spacing:-.8px;max-width:760px;margin:0 auto;padding:0}
+.public-chat-welcome{padding:20px 0 24px}
+.st-key-public_chat{margin-top:16px}
