@@ -133,3 +133,13 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .st-key-home_chat_suggestions button{border:1px solid #dedede;background:transparent;border-radius:24px;color:#555;min-height:40px}
 .st-key-home_chat_suggestions button:hover{border-color:#bdbdbd;background:#f0f0f0;color:#202123}
 @media(max-width:700px){.st-key-home_government:has(.home-assistant-intro){padding:32px 18px}.home-assistant-intro h1{font-size:30px;letter-spacing:-.7px}.home-assistant-intro p{font-size:16px}.st-key-home_chat_preview{padding:12px;border-radius:22px}.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{width:auto}}
+
+/* Overlay complete panels at their natural width; animate only their wrappers. */
+.st-key-home_government{display:grid!important;grid-template-columns:minmax(0,1fr);isolation:isolate}
+.st-key-home_government>[data-testid="stVerticalBlockBorderWrapper"]{grid-area:1/1;min-width:0;width:100%;will-change:transform}
+.st-key-home_government>[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_slide_benefits){animation:banner-benefits 10s infinite}
+.st-key-home_government>[data-testid="stVerticalBlockBorderWrapper"]:has(.st-key-home_slide_assistant){animation:banner-assistant 10s infinite}
+.st-key-home_government:hover>[data-testid="stVerticalBlockBorderWrapper"],.st-key-home_government:focus-within>[data-testid="stVerticalBlockBorderWrapper"]{animation-play-state:paused}
+@keyframes banner-benefits{0%,44%{transform:translateX(0);visibility:visible}50%,94%{transform:translateX(110%);visibility:hidden}100%{transform:translateX(0);visibility:visible}}
+@keyframes banner-assistant{0%,44%{transform:translateX(-110%);visibility:hidden}50%,94%{transform:translateX(0);visibility:visible}100%{transform:translateX(-110%);visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.st-key-home_government>[data-testid="stVerticalBlockBorderWrapper"]{animation:none!important;grid-area:auto;transform:none;visibility:visible}}

@@ -4,7 +4,6 @@ import base64
 import unicodedata
 from html import escape
 from pathlib import Path
-from time import monotonic
 from urllib.parse import quote
 
 import streamlit as st
@@ -160,24 +159,12 @@ def _queue_home_question(question: str) -> None:
     st.rerun(scope="app")
 
 
-@st.fragment(run_every="5s")
 def _render_home_banner() -> None:
-    now = monotonic()
-    previous = st.session_state.setdefault("home_banner_last_rotation", now)
-    slide = st.session_state.setdefault("home_banner_slide", "Beneficios")
-    if not st.session_state.get("home_banner_chat_open") and now - previous >= 5:
-        st.session_state["home_banner_slide"] = (
-            "Asistente IA" if slide == "Beneficios" else "Beneficios"
-        )
-        st.session_state["home_banner_last_rotation"] = now
     with st.container(border=True, key="home_government"):
-        active = st.session_state["home_banner_slide"]
-        slide_key = "assistant" if active == "Asistente IA" else "benefits"
-        with st.container(key=f"home_slide_{slide_key}"):
-            if active == "Asistente IA":
-                _render_home_assistant()
-            else:
-                _render_home_benefits()
+        with st.container(key="home_slide_benefits"):
+            _render_home_benefits()
+        with st.container(key="home_slide_assistant"):
+            _render_home_assistant()
 
 
 def _render_home_benefits() -> None:
@@ -204,16 +191,15 @@ def _render_home_assistant() -> None:
     st.markdown(
         '<div class="home-government home-assistant-intro">'
         "<h1>Prueba el asistente de inteligencia artificial</h1>"
-        "<p>Resuelve preguntas frecuentes sobre tr?mites y beneficios.</p></div>",
+        "<p>Resuelve preguntas frecuentes sobre trámites y beneficios.</p></div>",
         unsafe_allow_html=True,
     )
-    st.session_state["home_banner_chat_open"] = True
     with st.container(key="home_chat_preview"):
         with st.form("home_agent_question", border=False):
             question = st.text_input(
                 "Escribe tu pregunta",
                 key="home_agent_question_text",
-                placeholder="Pregunta lo que necesites?",
+                placeholder="Pregunta lo que necesites",
                 label_visibility="collapsed",
                 max_chars=2000,
             )
@@ -224,7 +210,7 @@ def _render_home_assistant() -> None:
                     st.warning("Escribe una pregunta para continuar.")
     with st.container(key="home_chat_suggestions"):
         examples = st.columns(2)
-        for index, question in enumerate(("?Qu? es la PGU?", "?Qu? documentos necesito?")):
+        for index, question in enumerate(("¿Qué es la PGU?", "¿Qué documentos necesito?")):
             if examples[index].button(
                 question, key=f"home_example_{index}", use_container_width=True
             ):
