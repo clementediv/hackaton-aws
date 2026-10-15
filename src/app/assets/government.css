@@ -193,3 +193,7 @@
 .st-key-gov_assistant .st-key-assistant_quick_questions button:hover{background:#edf4fb!important;border-color:#0f69b4!important}
 .st-key-gov_assistant [data-testid="stExpander"]{border-color:#e2eaf1;border-radius:16px}
 @media(min-width:1051px){.st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page)>[data-testid="stVerticalBlockBorderWrapper"]{top:16px}}
+
+
+/* Bring the login introduction closer to the sign-in form on desktop. */
+@media(min-width:701px){.gov-login-intro{margin-left:clamp(24px,4vw,56px);width:calc(100% - clamp(24px,4vw,56px));box-sizing:border-box}}
