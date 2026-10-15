@@ -534,15 +534,12 @@ def _benefit_timeline(benefit: str, diagnosis=None) -> None:
             f"<h4>{index}. {escape(step['title'])}</h4>"
             f'<p class="gov-timeline-date">{escape(step["date"])}</p>'
             f'<span class="gov-timeline-state">{escape(step["status"])}</span>'
-            f'<p class="gov-timeline-detail">{escape(step["detail"])}</p></div></li>'
+            "</div></li>"
         )
     st.markdown(
         '<section class="gov-timeline" aria-label="Etapas de tu beneficio">'
         '<p class="gov-timeline-heading">Tu beneficio, paso a paso</p>'
-        '<ol class="gov-timeline-track">' + "".join(items) + "</ol>"
-        f'<p class="gov-timeline-note">{escape(timeline["note"])} '
-        f'<a href="{escape(timeline["source"])}" target="_blank" rel="noopener noreferrer">'
-        "Ver fechas oficiales ↗</a></p></section>",
+        '<ol class="gov-timeline-track">' + "".join(items) + "</ol></section>",
         unsafe_allow_html=True,
     )
 

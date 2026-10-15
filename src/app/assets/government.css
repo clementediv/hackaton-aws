@@ -143,6 +143,4 @@
 .gov-timeline-date{font-size:14px!important;font-weight:600;color:#294e6b;line-height:1.5;margin:0 0 10px}
 .gov-timeline-state{display:inline-block;border-radius:8px;background:#e7edf3;padding:6px 9px;font-size:12px;font-weight:600;color:#405e76;line-height:1.5}
 .pending .gov-timeline-state{background:#fff0c7;color:#775311}.ready .gov-timeline-state{background:#ddf0e6;color:#166145}
-.gov-timeline-detail{font-size:13px!important;color:#4d6476;line-height:1.6;margin:10px 0 0;overflow-wrap:anywhere}
-.gov-timeline-note{font-size:12px!important;color:#536b7d;line-height:1.6;margin:20px 0 0;padding-top:14px;border-top:1px solid #dde5ed}.gov-timeline-note a{color:#0f69b4;text-decoration:underline}
 @media(max-width:700px){.gov-timeline{padding:16px}.gov-timeline-track{grid-template-columns:1fr;gap:24px}.gov-timeline-step{display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px}.gov-timeline-step:not(:last-child):before{left:17px;top:36px;width:2px;height:calc(100% - 12px)}.gov-timeline-marker{margin:0}.gov-timeline-content h4{font-size:17px!important}}

@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Simplificar línea de tiempo
+- Se retiran los textos explicativos de cada punto y el pie con advertencia/enlace. Permanecen etapas, fechas y estados; las fuentes siguen documentadas en [[mi-gobierno]].
+
 ### 2026-10-15 · Línea de tiempo de beneficios
 - Tres etapas visuales por beneficio: postulación, revisión y resultado, con fechas y estado explícito. En móvil se apilan. Calendario FUAS 2027 verificado con Mineduc; PGU usa apertura calculada y fechas por confirmar. Elegibilidad o carga de documentos no implican envío ni aprobación. Nueve pruebas verifican navegación, documentos y estados sobre los 500 perfiles. [[mi-gobierno]].
 

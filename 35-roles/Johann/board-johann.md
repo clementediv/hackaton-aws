@@ -35,6 +35,7 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Línea de tiempo simplificada: solo etapas, fechas y estados, sin párrafos inferiores ni pie explicativo. [[mi-gobierno]].
 - Línea de tiempo por beneficio con postulación, revisión y resultado antes de los requisitos. Estados accesibles, calendario oficial FUAS y fechas PGU sin inventar resolución. Nueve pruebas de flujo/modelo OK. [[mi-gobierno]].
 - Navegación del portal y subpestañas centradas al retirar el espacio reservado al radio oculto. [[portada-chileatiende]].
 - Chat alineado con PGU al inicio y seguimiento centrado al desplazar en escritorio; bordes de 24 px y móvil apilado. Recorrido Chrome verificado. [[mi-gobierno]].
