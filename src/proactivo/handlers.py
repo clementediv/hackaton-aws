@@ -82,34 +82,38 @@ def on_http(event, context):
     source = benefit["fuente"]
     note = "" if source.get("verificado") else " (requisitos por verificar)"
     cite = (
-        f'<p class="note-text">Orientación preliminar: el organismo competente revisa y '
-        f'resuelve. Fuente: <a href="{escape(source["url"])}">{escape(source["titulo"])}</a>'
-        f"{escape(note)}. Datos de demostración sintéticos.</p>"
+        f'<p class="note-text">Fuente: <a href="{escape(source["url"])}">'
+        f"{escape(source['titulo'])}</a>{escape(note)}. ChileAtiende · Instituto de Previsión "
+        "Social. Datos de demostración sintéticos.</p>"
     )
     if action == "acepto" or contact["estado"] == "aceptado":
         body = (
-            "<h2>¡Listo! Registramos tu solicitud de ayuda</h2>"
-            "<p>Te acompañaremos durante el trámite.</p>"
-            f"<h2>Tu próximo paso</h2><p>{escape(contact.get('paso_siguiente', ''))}</p>"
-            "<p>¿Prefieres hablar con alguien? Llama al <strong>101</strong> o acércate a "
-            "una sucursal ChileAtiende.</p>"
+            "<h2>Hemos registrado su solicitud de orientación</h2>"
+            "<p>Le acompañaremos durante el trámite.</p>"
+            f"<h2>Su próximo paso</h2><p>{escape(contact.get('paso_siguiente', ''))}</p>"
+            f"<p>{escape(mensajes.PHONE_LINE)}</p>"
+            "<p>Atentamente,<br>ChileAtiende · Instituto de Previsión Social</p>"
         )
         return _html(200, benefit["nombre"], body + cite)
     if action == "rechazo" or contact["estado"] == "rechazado":
-        body = "<p>Entendido. No te volveremos a contactar por este beneficio.</p>"
+        body = (
+            "<p>Hemos registrado su respuesta. No volveremos a contactarle por este beneficio.</p>"
+        )
         return _html(200, benefit["nombre"], body + cite)
+    content = mensajes.compose(svc.person(run) or {}, benefit, contact)
     yes = f"?c={escape(run)}&b={escape(benefit_id)}&t={escape(token)}&v={escape(via)}&a=acepto"
-    checks = "".join(f"<li>{escape(r['texto'])}</li>" for r in benefit["requisitos"])
     body = (
-        f"<h2>¿Por qué te escribimos?</h2>"
-        f"<p>{escape(contact.get('motivo_persona') or contact.get('motivo', ''))}</p>"
-        f"<h2>¿Qué es?</h2><p>{escape(benefit.get('descripcion', ''))}</p>"
-        f"<h2>¿Por qué te conviene?</h2><p>{escape(benefit.get('por_que_te_conviene', ''))}</p>"
-        f"<h2>Requisitos</h2><ul>{checks}</ul>"
-        f'<p><a class="btn" href="{yes}">'
-        f'{escape(benefit.get("boton", "Quiero solicitarlo"))}</a></p>'
+        f"<p>{escape(mensajes.salutation(svc.person(run) or {}))}</p>"
+        f"<h2>Motivo de esta comunicación</h2><p>{escape(content.why)}</p>"
     )
-    return _html(200, benefit["nombre"], body + cite)
+    for heading, text in content.sections:
+        body += f"<h2>{escape(heading)}</h2><p>{escape(text)}</p>"
+    for block in (content.checklist, content.missing):
+        if block and block[1]:
+            entries = "".join(f"<li>{escape(e)}</li>" for e in block[1])
+            body += f"<h2>{escape(block[0])}</h2><ul>{entries}</ul>"
+    body += f'<p><a class="btn" href="{yes}">{escape(content.button)}</a></p>'
+    return _html(200, content.title, body + cite)
 
 
 def _gif():

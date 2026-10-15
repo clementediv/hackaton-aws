@@ -1,5 +1,21 @@
 # Mi Gobierno
 
+El bloque introductorio del acceso se sube otros 18 px (padding superior de 12 px). El campo se etiqueta «ClaveÚnica» y su placeholder es «Ingresa tu clave»; el desplegable «Probar con otro perfil ficticio» permanece debajo. El mecanismo de acceso sigue usando las credenciales sintéticas existentes.
+
+El formulario de acceso retira el subtítulo de demostración, el recuadro «Prueba el portal» con RUN/clave y su nota inferior. Los campos centran verticalmente texto y placeholder en 48 px. El campo de clave conserva su nombre de demostración y el selector de perfiles de prueba sigue en el desplegable separado.
+
+Se elimina el rótulo superior «MI GOBIERNO» del acceso. El título «Tus beneficios, con tu información» y el encabezado del formulario comparten el mismo inicio, sin márgenes superiores en los títulos.
+
+El acceso al portal alinea arriba sus dos columnas. La introducción «Tus beneficios, con tu información» usa 30 px de margen interior superior para acompañar la altura del encabezado del formulario; en móvil se elimina ese margen y se mantiene el apilado.
+
+El asistente lateral incorpora un desplegable «Preguntas frecuentes» con accesos de un clic a qué es la PGU, monto, documentos, fechas, canales y requisitos. Cada botón usa el mismo motor, contexto, consentimiento e historial que escribir la pregunta. Antes de autorizar se muestran las dos preguntas generales del asistente. El desplegable mantiene compacto el panel cuando no se usa.
+
+La línea de tiempo muestra solo los nombres de las etapas, fechas y estados. A pedido del usuario se retiran las explicaciones bajo cada punto y el pie con advertencia/enlace a fechas oficiales; las fuentes del calendario permanecen documentadas aquí.
+
+Cada beneficio incorpora una línea de tiempo antes de desplegar requisitos: Postulación, En revisión y Resultado, con fechas, estados escritos y marcadores numerados. Horizontal en escritorio y vertical hasta 700 px. Verde indica antecedentes listos; amarillo, faltantes; gris, etapas futuras. No se infieren envíos ni resoluciones por completar pasos locales o subir archivos. Si el registro sintético indica PGU vigente, el resultado lo refleja sin inventar una fecha de resolución.
+
+Las fechas de educación corresponden al primer periodo FUAS 2027: postulación del 1 al 22 de octubre de 2026, nivel socioeconómico el 17 de diciembre, preselección el 15 de enero de 2027 y asignación el 10 de marzo. [Calendario oficial Mineduc consultado el 15-10-2026](https://postulacion.beneficiosestudiantiles.cl/fuas/index.php). Fuera de la ventana se indica que cerró y se remite a nuevas fechas; no se reutiliza como calendario de otro año. PGU muestra disponibilidad anual o apertura personal calculada, y fechas de revisión/resolución por confirmar. [Fuente oficial PGU](https://www.ventanillaunicasocial.gob.cl/ficha/95/pension-garantizada-universal). No hay integración de seguimiento oficial de solicitudes; los hitos futuros se muestran pendientes.
+
 El chat lateral comienza alineado con la tarjeta PGU (52 px después del encabezado del listado). En escritorio acompaña el desplazamiento con posición sticky y se mantiene centrado verticalmente mientras queda contenido de Beneficios. La tarjeta tiene esquinas de 24 px. En pantallas de hasta 1050 px se desactiva el seguimiento y se conserva la distribución apilada. Verificado en Chrome: alineación inicial, centro al desplazar, borde y móvil sin desbordamiento.
 
 ## Acceso de demostración
@@ -75,3 +91,5 @@ Referencias consultadas el 15-10-2026:
 `ruta/government.py` agrega tablas de declaraciones y documentos en `config.DB_PATH`. Los archivos se validan por extensión, firma y tamaño; se guardan como BLOB local con hash y nombre saneado. Es una demo sin autenticación real, no un repositorio de documentos de producción. La revocación desde Mi Gobierno elimina esos adjuntos/declaraciones; la lectura y escritura siempre exigen el consentimiento actual. Reiniciar la demo elimina ambas tablas personales.
 
 139 pruebas y verificador de 500 perfiles pasan. Se cubren todos los estados PGU, dependencias de ruta, consentimiento, carga inválida/tamaño, declaraciones sin alterar elegibilidad, navegación, pasos y revocación. Ver [[0013-mi-gobierno]] y [[portada-chileatiende]]. El proceso de contacto conserva el backend existente; su siguiente integración de experiencia queda aparte.
+
+- 15-10: L?nea de tiempo compacta: menos padding, marcadores de 30 px y texto reducido; tarjetas con box-sizing border-box para contener su ancho. Chromium verific? el componente a 390/900/1440 px sin desborde. Test actualizado a st.html; tres pruebas pasan, prueba integral falla despu?s en expectativa de chat tras revocar (fuera del CSS). [[mi-gobierno]].

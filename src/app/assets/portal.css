@@ -1,4 +1,5 @@
 :root {--portal-blue:#0f69b4;--portal-navy:#0d4d82;--portal-red:#eb3c46}
+[data-testid="InputInstructions"]{display:none!important}
 .stApp {background:#fff;color:#272727;font-family:Roboto,Arial,sans-serif}
 .block-container {max-width:1280px;padding-top:2rem;padding-bottom:2rem}
 [data-testid="stSidebar"] {background:#f7f7f7}
@@ -54,12 +55,17 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .portal-utilities {gap:16px;font-family:"Roboto Slab",Georgia,serif}
 .portal-utilities a {border:1px solid #0f69b4;border-radius:4px;padding:10px 17px;color:#0f69b4}
 .portal-private {background:#fff;color:#0f69b4!important}
-.st-key-home_government{padding:38px 32px;border-radius:18px!important;background:linear-gradient(120deg,#edf5fa,#f8fafb);border:1px solid #deebf3!important;margin-top:16px}
-.home-government h1{font-family:"Roboto Slab",Georgia,serif;font-size:34px;line-height:1.35;letter-spacing:-.7px;color:#163e59;margin:20px 0}
-.home-government p{font-size:16px;line-height:1.8;color:#536e81;max-width:620px;margin-bottom:22px}
-.home-directory{padding-top:10px}.home-directory h3{font-family:"Roboto Slab",Georgia,serif;font-size:22px;color:#244e6c;margin:20px 0}.home-directory p{font-size:14px;line-height:1.8;color:#6c8292}
-.st-key-home_government [data-testid="stBaseButton-primary"]{background:#143e5c;border:0;border-radius:8px;padding:12px 22px}
-@media(max-width:700px){.st-key-home_government{padding:22px 16px}.home-government h1{font-size:28px}.home-government p{font-size:14px}}
+.st-key-home_government{padding:48px 40px;border-radius:18px!important;background:linear-gradient(120deg,#edf5fa,#f8fafb);border:1px solid #deebf3!important;margin-top:16px}
+.home-government h1{font-family:"Roboto Slab",Georgia,serif;font-size:44px;line-height:1.25;letter-spacing:-.7px;color:#163e59;margin:0 0 24px}
+.home-government{position:relative;text-align:left}.home-government p{font-size:19px;line-height:1.75;color:#536e81;max-width:720px;margin:0 0 28px}
+.st-key-home_government_invitation [data-testid="stButton"]{display:flex;justify-content:flex-start}
+.home-directory{padding-top:10px}.home-directory h3{font-family:"Roboto Slab",Georgia,serif;font-size:26px;color:#244e6c;margin:20px 0}.home-directory p{font-size:17px;line-height:1.75;color:#6c8292}
+.st-key-home_government [data-testid="stLinkButton"] a{min-height:52px;border-radius:10px}.st-key-home_government [data-testid="stLinkButton"] a p{font-size:16px}
+.st-key-home_government [data-testid="stBaseButton-primary"]{background:#0f69b4;color:#fff;border:1px solid #0f69b4;border-radius:4px;padding:12px 24px;min-height:52px;max-width:100%;box-shadow:none;transition:background .15s}
+.st-key-home_government [data-testid="stBaseButton-primary"] p{font-size:17px;font-weight:500;color:#fff}
+.st-key-home_government [data-testid="stBaseButton-primary"]:hover{background:#0d4d82;border-color:#0d4d82;box-shadow:none}
+.st-key-home_government [data-testid="stBaseButton-primary"]:focus-visible{outline:3px solid #0f69b4;outline-offset:4px}
+@media(max-width:700px){.st-key-home_government{padding:30px 20px}.home-government h1{font-size:32px}.home-government p{font-size:17px}.st-key-home_government [data-testid="stBaseButton-primary"]{width:100%;padding:12px 20px;min-height:52px}}
 .st-key-portal_header {padding:24px 0 16px}
 .st-key-portal_header .portal-logo {width:210px;max-width:100%;height:72px}
 .st-key-portal_header .portal-utilities {justify-content:flex-end;gap:10px;flex-wrap:nowrap}
@@ -74,7 +80,8 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 @media(max-width:700px){.st-key-portal_header{padding-top:16px}.st-key-portal_header .portal-utilities{justify-content:flex-start}.st-key-portal_header [data-testid="stForm"] [data-testid="stHorizontalBlock"]{flex-wrap:nowrap}.st-key-portal_header [data-testid="stForm"] [data-testid="column"]{min-width:0!important}.st-key-portal_header [data-testid="stForm"] [data-testid="column"]:first-child{flex:4}.st-key-portal_header [data-testid="stForm"] [data-testid="column"]:last-child{flex:1.3}}
 .portal-utilities a:hover {background:#edf6fc}
 [role="radiogroup"][aria-label="Secciones del portal"] {gap:10px;padding:0;border:0;min-height:40px}
-[role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"] {padding:5px 12px;margin:0;font-size:14px}
+[role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"] {padding:5px 12px;margin:0;font-size:14px;justify-content:center;gap:0}
+[role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"]>div:last-child {margin:0;padding:0}
 [role="radiogroup"][aria-label="Secciones del portal"] label[data-baseweb="radio"]:has(input:checked) {background:transparent}
 .portal-hero {border:0;border-radius:0;background:#0f69c4;padding:28px 0 4px;margin:0;box-shadow:0 0 0 100vmax #0f69c4;clip-path:inset(0 -100vmax)}
 .portal-hero h1 {font-family:"Roboto Slab Bold",Georgia,serif;font-size:24px;letter-spacing:0;color:#fff;margin:0;line-height:1.45}
@@ -101,3 +108,35 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 [data-testid="stForm"]:has(input[aria-label="Describe lo que necesitas"]) button:hover {background:#0f69b4}
 .directory-symbol {display:flex;width:48px;height:48px;align-items:center;justify-content:center;border-radius:50%;background:#edf3f7;color:#0f69b4;font-size:25px;margin-bottom:28px}
 @media(max-width:700px){.portal-header{height:auto;padding:18px 0;gap:12px;flex-wrap:wrap}.portal-logo{width:190px;height:60px}.portal-utilities{gap:8px;font-size:12px}.portal-utilities a{padding:8px}.portal-hero h1{font-size:22px}.block-container{padding-left:18px;padding-right:18px}}
+/* Homepage carousel with a rightward slide entrance. */
+.st-key-home_government{overflow:hidden}
+/* Keep both slides mounted so the browser can animate their shared track. */
+.st-key-home_slide_track{display:flex;flex-direction:row;gap:0;align-items:center;width:200%!important;max-width:none!important;transform:translateX(-50%);animation:home-carousel 10s infinite}
+.st-key-home_slide_track>[data-testid="stVerticalBlock"]{display:flex;flex-direction:row;gap:0;align-items:center}
+.st-key-home_slide_track .st-key-home_slide_assistant,.st-key-home_slide_track .st-key-home_slide_benefits{width:50%!important;min-width:0;flex:0 0 50%;box-sizing:border-box;padding:0 8px}
+.st-key-home_slide_track:focus-within,.st-key-home_slide_track:hover{animation-play-state:paused}
+@keyframes home-carousel{0%,44%{transform:translateX(-50%)}50%,94%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.st-key-home_slide_track{animation:none;width:100%!important;transform:none}.st-key-home_slide_track>[data-testid="stVerticalBlock"]{flex-direction:column}.st-key-home_slide_track .st-key-home_slide_assistant,.st-key-home_slide_track .st-key-home_slide_benefits{width:100%!important;flex-basis:auto}}
+.home-slide-indicator{text-align:center;color:#0d4d82;font-size:14px;padding:8px 0}
+.st-key-home_banner_controls{margin-top:28px;padding-top:20px;border-top:1px solid #d7e4ee}
+.st-key-home_chat_preview{max-width:720px;padding:20px;border:1px solid #d4e2ed;border-radius:10px;background:#fff}
+.st-key-home_chat_preview [data-testid="stForm"]{padding:0;border:0}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{background:#0f69b4;border-color:#0f69b4;color:white;min-height:46px;border-radius:4px}
+@media(max-width:700px){.st-key-home_chat_preview{padding:14px}.st-key-home_banner_controls{margin-top:24px}}
+
+/* Chat de texto en el banner de inicio. */
+.st-key-home_government:has(.home-assistant-intro){background:#fafafa;border-color:#e8e8e8!important;padding:52px 40px}
+.home-assistant-intro{text-align:center;max-width:820px;margin:0 auto}
+.home-assistant-intro h1{font-family:"Roboto",Arial,sans-serif;font-size:40px;font-weight:500;letter-spacing:-1.2px;line-height:1.2;color:#202123;margin:0 auto 16px;max-width:760px}
+.home-assistant-intro p{font-size:17px;color:#6b6b6b;line-height:1.5;margin:0 auto 28px}
+.st-key-home_chat_preview{max-width:760px;margin:0 auto;padding:16px 18px 12px;border:1px solid #dedede;border-radius:28px;background:#fff;box-shadow:0 4px 18px #00000008}
+.st-key-home_chat_preview [data-testid="stTextInputRootElement"]{border:0!important;background:transparent;box-shadow:none!important}
+.st-key-home_chat_preview input{font-size:17px;background:transparent;color:#202123}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"]{display:flex;justify-content:flex-end}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{background:#202123;border-color:#202123;border-radius:24px;min-height:40px;padding:6px 14px}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button:hover{background:#404040;border-color:#404040}
+.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button p{font-size:14px}
+.st-key-home_chat_suggestions{max-width:620px;margin:8px auto 0}
+.st-key-home_chat_suggestions button{border:1px solid #dedede;background:transparent;border-radius:24px;color:#555;min-height:40px}
+.st-key-home_chat_suggestions button:hover{border-color:#bdbdbd;background:#f0f0f0;color:#202123}
+@media(max-width:700px){.st-key-home_government:has(.home-assistant-intro){padding:32px 18px}.home-assistant-intro h1{font-size:30px;letter-spacing:-.7px}.home-assistant-intro p{font-size:16px}.st-key-home_chat_preview{padding:12px;border-radius:22px}.st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{width:auto}}

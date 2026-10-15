@@ -35,6 +35,21 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Introducción del acceso subida 18 px y campo simplificado a ClaveÚnica; selector de perfil ficticio conservado. [[mi-gobierno]].
+- Banner rotativo Beneficios/Asistente IA con pausa y prueba de consulta al chat existente; sin logo de esquina ni instrucciones inglesas en campos. Diez pruebas de flujo/modelo OK. [[portada-chileatiende]].
+- Acceso simplificado sin subtítulo ni recuadro de credenciales; texto y placeholder centrados verticalmente. [[mi-gobierno]].
+- Acceso sin rótulo MI GOBIERNO; títulos alineados arriba sin márgenes adicionales. [[mi-gobierno]].
+- Introducción del acceso subida y alineada con el formulario, conservando adaptación móvil. [[mi-gobierno]].
+- Logo pequeño en esquina superior derecha del banner; encabezado sin botón duplicado Mi Gobierno ni Vista ejecutivo (disponible en panel lateral). Preguntas frecuentes de un clic en el asistente. 16 pruebas y Chrome escritorio/móvil OK. [[portada-chileatiende]], [[mi-gobierno]].
+- Logo IPS más pequeño y centrado en su espacio: 160 px escritorio / 120 px móvil. [[portada-chileatiende]].
+- Botón principal sobrio «Ver mis beneficios» y logo IPS arriba a la derecha. Tres pruebas del portal OK. [[portada-chileatiende]].
+- Portada con texto y botón a la izquierda, logo IPS proporcionado por el usuario a la derecha y adaptación móvil. Tres pruebas del portal OK. [[portada-chileatiende]].
+- Invitación principal centrada en una columna y sin botón lateral de trámites. Tres pruebas del portal OK. [[portada-chileatiende]].
+- Retirados los tres textos del directorio lateral de la invitación principal. Enlace al catálogo conservado. [[portada-chileatiende]].
+- Recuadro principal simplificado y ampliado: sin etiquetas accesorias, tipografía mayor y botón azul destacado. Tres pruebas del portal OK. [[portada-chileatiende]].
+- Línea de tiempo simplificada: solo etapas, fechas y estados, sin párrafos inferiores ni pie explicativo. [[mi-gobierno]].
+- Línea de tiempo por beneficio con postulación, revisión y resultado antes de los requisitos. Estados accesibles, calendario oficial FUAS y fechas PGU sin inventar resolución. Nueve pruebas de flujo/modelo OK. [[mi-gobierno]].
+- Navegación del portal y subpestañas centradas al retirar el espacio reservado al radio oculto. [[portada-chileatiende]].
 - Chat alineado con PGU al inicio y seguimiento centrado al desplazar en escritorio; bordes de 24 px y móvil apilado. Recorrido Chrome verificado. [[mi-gobierno]].
 - Diseño del chat restaurado a la versión previa a separarlo en pestaña (`46f0c76`): tarjeta blanca, borde discreto e historial de 240 px; continúa a la derecha de Beneficios. [[mi-gobierno]].
 - Dos subpestañas de Mi Gobierno; ayuda con video y carga complementaria dentro de cada requisito pendiente, reutilizando documentos disponibles. Ocho pruebas y recorrido Chrome con ayuda/carga/móvil OK. [[mi-gobierno]].

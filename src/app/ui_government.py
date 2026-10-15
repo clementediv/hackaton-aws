@@ -81,10 +81,10 @@ def _login(diags) -> None:
     sample = demo_people[0]
     sample_run = cargar_perfiles()[sample.run]["registro_civil"]["run_formateado"]
     with st.container(key="government_login"):
-        intro, form = st.columns([1.15, 1], gap="large", vertical_alignment="center")
+        intro, form = st.columns([1.15, 1], gap="large", vertical_alignment="top")
         with intro:
             st.markdown(
-                '<div class="gov-login-intro"><span class="gov-eyebrow">MI GOBIERNO</span>'
+                '<div class="gov-login-intro">'
                 "<h1>Tus beneficios,<br>con tu información.</h1>"
                 "<p>Ingresa para descubrir los apoyos que podrían corresponderte "
                 "y continuar tus trámites paso a paso.</p>"
@@ -95,15 +95,14 @@ def _login(diags) -> None:
             )
         with form, st.container(border=False, key="government_login_card"):
             st.markdown("### Ingresa a Mi Gobierno")
-            st.caption("Acceso de demostración · perfiles y clave ficticios")
             with st.form("gov_login_form"):
                 st.text_input(
-                    "RUN", placeholder="Ej.: " + sample_run, key="gov_login_rut", max_chars=16
+                    "RUN", placeholder="Ej: " + sample_run, key="gov_login_rut", max_chars=16
                 )
                 st.text_input(
-                    "ClaveÚnica de demostración",
+                    "ClaveÚnica",
                     type="password",
-                    placeholder="Ingresa la clave ficticia",
+                    placeholder="Ingresa tu clave",
                     key="gov_login_password",
                     max_chars=128,
                 )
@@ -116,14 +115,6 @@ def _login(diags) -> None:
                 )
             if error := st.session_state.get("gov_login_error"):
                 st.error(error)
-            st.markdown(
-                '<div class="gov-login-example"><b>Prueba el portal</b>'
-                f"<span>RUN: <strong>{escape(sample_run)}</strong></span>"
-                f"<span>Clave ficticia: <strong>{demo_auth.DEMO_PASSWORD}</strong></span>"
-                "</div>",
-                unsafe_allow_html=True,
-            )
-            st.caption("Usa solo estos datos ficticios. Esta demo no está conectada a ClaveÚnica.")
     with st.expander("Probar con otro perfil ficticio"):
         selected = st.selectbox(
             "Perfil de ejemplo",
@@ -131,7 +122,7 @@ def _login(diags) -> None:
             format_func=lambda run: f"{diags[run].nombre} · {run}",
             key="gov_demo_example",
         )
-        st.code(f"RUN: {selected}\nClave de demostración: {demo_auth.DEMO_PASSWORD}", language=None)
+        st.code(f"RUN: {selected}\nClave: {demo_auth.DEMO_PASSWORD}", language=None)
 
 
 def render(diags) -> None:
@@ -177,6 +168,8 @@ def _benefits_page(d, authorized: bool) -> None:
     with st.container(key="gov_benefits_layout"):
         benefits, chat = st.columns([2.15, 1], gap="large")
         with benefits:
+            st.markdown("### Te acompañamos paso a paso")
+            st.caption("Revisa tu situación, prepara tus antecedentes y continúa con el próximo paso. El asistente te acompaña durante todo el recorrido.")
             if authorized:
                 _benefits(d)
             else:
@@ -441,6 +434,7 @@ def _benefits(d) -> None:
                 on_click=_set_route,
                 args=(d.run, "PGU"),
             )
+        _benefit_timeline("pgu", d)
         with st.expander("Ver requisitos y detalles"):
             ready = d.pgu.resultado == rules.ELEGIBLE
             _requirement_card(
@@ -493,6 +487,7 @@ def _pending_benefit(run: str, option: dict) -> None:
                 "Ver datos faltantes", key=f"gov_check_{option['id']}", use_container_width=True
             ):
                 st.session_state[state_key] = not st.session_state.get(state_key, False)
+        _benefit_timeline(option["id"])
         with st.expander(
             "Ver requisitos y adjuntar documentos", expanded=bool(st.session_state.get(state_key))
         ):
@@ -514,6 +509,31 @@ def _pending_benefit(run: str, option: dict) -> None:
                 "Los datos deben verificarse con Mineduc antes de confirmar si corresponden."
             )
             st.link_button("Revisar en Mineduc ↗", option["source"])
+
+
+def _benefit_timeline(benefit: str, diagnosis=None) -> None:
+    timeline = government.benefit_timeline(benefit, diagnosis)
+    items = []
+    for index, step in enumerate(timeline["steps"], 1):
+        tone = step["tone"]
+        marker = "✓" if tone == "ready" else str(index)
+        current = ' aria-current="step"' if index == 1 and benefit != "pgu" else ""
+        if index == 1 and diagnosis and diagnosis.pgu.resultado != rules.YA_RECIBE:
+            current = ' aria-current="step"'
+        items.append(
+            f'<li class="gov-timeline-step {tone}"{current}>'
+            f'<span class="gov-timeline-marker" aria-hidden="true">{marker}</span>'
+            '<div class="gov-timeline-content">'
+            f"<h4>{index}. {escape(step['title'])}</h4>"
+            f'<p class="gov-timeline-date">{escape(step["date"])}</p>'
+            f'<span class="gov-timeline-state">{escape(step["status"])}</span>'
+            "</div></li>"
+        )
+    st.html(
+        '<div class="gov-timeline" role="region" aria-label="Etapas de tu beneficio">'
+        '<p class="gov-timeline-heading">Tu beneficio, paso a paso</p>'
+        '<ol class="gov-timeline-track">' + "".join(items) + "</ol></div>",
+    )
 
 
 def _requirement_card(
@@ -751,6 +771,16 @@ def _document_slot(run: str, kind: str, document: dict | None, namespace: str) -
 
 
 def _journey(d, case, benefit) -> None:
+    with st.container(key="gov_journey_layout"):
+        steps, chat = st.columns([2.15, 1], gap="large")
+        with steps:
+            _journey_steps(d, case, benefit)
+            ui_persona._historial(case)
+        with chat:
+            _chatbot_page(d, authorized=True)
+
+
+def _journey_steps(d, case, benefit) -> None:
     st.button("← Volver a Mi Gobierno", on_click=_set_route, args=(d.run, None))
     _, _, allowed = government.pgu_action(d)
     if benefit != "PGU" or not allowed:
@@ -768,6 +798,11 @@ def _journey(d, case, benefit) -> None:
         completed / len(route) if route else 0,
         text=f"{completed} de {len(route)} pasos completados",
     )
+    if next_step:
+        st.success(f"Tu próximo paso: **{next_step.titulo}**")
+        st.write("Avancemos de a uno. Abre el paso destacado, revisa lo que necesitas y pregunta al asistente si tienes dudas. Tu avance queda guardado para continuar donde quedaste.")
+    elif route and completed == len(route):
+        st.success("Completaste tu ruta de acompañamiento. Puedes revisar tus pasos y volver al asistente cuando lo necesites.")
     for index, step in enumerate(route, 1):
         state = states[step.id]
         labels = {
