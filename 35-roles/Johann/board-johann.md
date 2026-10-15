@@ -35,6 +35,10 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Beneficios ampliados hacia los bordes con chat destacado a la derecha y distribución adaptable; se conserva el diseño de las tres subpestañas y el historial compartido. [[mi-gobierno]].
+- Mi Gobierno: barra segmentada con Beneficios, Datos personales y Chatbot; asistente exclusivo de su pestaña y requisitos desplegados verdes/amarillos según evaluación. Adjuntos compartidos con estado visible sin aprobación automática. [[mi-gobierno]].
+- `8af4ca9` · Acceso RUN/clave ficticia integrado con mejoras de contacto y asistente del equipo. 173 pruebas y verificador de 500 perfiles OK; recorrido Chrome escritorio/móvil validado.
+- Acceso de demostración a Mi Gobierno con RUN y clave ficticia, selección del perfil correspondiente y cierre de sesión. Consentimiento separado del acceso. [[mi-gobierno]].
 - `ff8c1d8` · Mi Gobierno y portada: beneficios como vista inicial, datos personales separados, documentos compartidos por requisito, asistente y confirmación de revocación. 139 pruebas y verificador de 500 perfiles OK. [[mi-gobierno]].
 - Mi Gobierno validado localmente: panel separado de Inicio, autorización, documentos, declaración económica y guía PGU según requisitos. 139 pruebas, verificador 500 perfiles y recorrido Chrome escritorio/móvil OK. [[mi-gobierno]].
 - Portada de ChileAtiende reproducida desde los recursos públicos del 15-10-2026, con navegación al acompañamiento y 136 pruebas OK. [[portada-chileatiende]].

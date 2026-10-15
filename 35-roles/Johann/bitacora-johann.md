@@ -4,6 +4,19 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Beneficios amplios y asistente lateral
+- A pedido del usuario se conserva la barra segmentada y vuelve el chat a la derecha de Beneficios. Contenido a todo el ancho con márgenes reducidos, mayor proporción para beneficios y panel azul claro destacado. Móvil apila las columnas. Ocho pruebas de flujo pasan. [[mi-gobierno]].
+
+### 2026-10-15 · Subpestañas y requisitos de Mi Gobierno
+- Barra segmentada Beneficios / Datos personales / Chatbot; el asistente se mueve a su pestaña y se retira del listado y de la guía. Requisitos individuales verdes al cumplir y amarillos cuando faltan o están pendientes, con texto que distingue cada estado. Adjuntos compartidos conservan su revisión pendiente. Pruebas de navegación, consentimiento, documentos y Chrome escritorio/móvil OK. [[mi-gobierno]].
+
+### 2026-10-15 · Integración del acceso · 8af4ca9
+- Merge con `296d0da`: conserva el acceso de demostración y las mejoras remotas del chat, ficha/contacto y detección proactiva. Conflictos de README/bitácora resueltos conservando ambos aportes. 173 pruebas, verificador de 500 perfiles y recorrido Chrome OK.
+
+### 2026-10-15 · Acceso personalizado de demostración
+- Descubrir mis beneficios y Mi Gobierno muestran un acceso RUN/clave ficticia. Se verifica el dígito y que el RUN exista en el dataset; la sesión queda vinculada a ese perfil y puede cerrarse. No se registra la clave ni se envía a servicios externos.
+- Modo demostración confirmado por el usuario. No hay autenticación real de ClaveÚnica ni consulta de registros reales; entrar no otorga consentimiento para los antecedentes. [[mi-gobierno]].
+
 ### 2026-10-15 · Integración para main · ff8c1d8
 - Aporte completo guardado en `ff8c1d8`. Integrada la documentación remota de seguimiento de contacto (`65e46bb`); la bitácora diaria conserva ambos aportes. No hay cambios remotos de código que alteren la validación: 139 pruebas y 500 perfiles OK.
 

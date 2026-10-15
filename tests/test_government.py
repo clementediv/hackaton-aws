@@ -65,7 +65,18 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
     app.button(key="header_government").click().run()
     assert not app.exception
+    assert len(app.chat_input) == 0
+    demo_run = app.selectbox(key="gov_demo_example").value
+    app.text_input(key="gov_login_rut").set_value(demo_run)
+    app.text_input(key="gov_login_password").set_value("demo2026")
+    next(button for button in app.button if button.label == "Ingresar a Mi Gobierno").click().run()
+    assert not app.exception
+    assert app.session_state["government_login_run"] == demo_run
+    assert not app.session_state.filtered_state.get("gov_login_password", "")
     assert not any(button.label == "Cobrar beneficio" for button in app.button)
+    assert len(app.chat_input) == 1
+    run = demo_run
+    app.radio(key=f"government_view_{run}").set_value("Chatbot").run()
     app.chat_input[0].set_value("¿Qué es la PGU?").run()
     assert not app.exception
     histories = [
@@ -74,6 +85,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     assert any(
         any(message["texto"] == "¿Qué es la PGU?" for message in history) for history in histories
     )
+    app.radio(key=f"government_view_{run}").set_value("Beneficios").run()
     next(
         item for item in app.checkbox if item.label.startswith("Acepto el acompañamiento")
     ).check().run()
@@ -81,7 +93,13 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     assert not app.exception
     run = app.session_state["government_person"]
     assert app.session_state[f"government_view_{run}"] == "Beneficios"
+    assert len(app.chat_input) == 1
+    app.radio(key=f"government_view_{run}").set_value("Chatbot").run()
     assert any(item.placeholder == "Pregúntale al asistente de trámites" for item in app.chat_input)
+    app.radio(key=f"government_view_{run}").set_value("Beneficios").run()
+    cards = [element.value for element in app.markdown if "gov-requirement-card" in element.value]
+    assert any("ready" in card and "Listo" in card for card in cards)
+    assert any("pending" in card and "Faltan datos" in card for card in cards)
     assert not any(item.label == "Profesión" for item in app.text_input)
     assert len([button for button in app.button if button.label == "Ver datos faltantes"]) == 3
     app.button(key="gov_check_fuas").click().run()
@@ -120,6 +138,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     app.button(key="gov_pgu_action").click().run()
     assert not app.exception
     assert any("paso a paso" in heading.value for heading in app.subheader)
+    assert len(app.chat_input) == 0
     assert any(button.label == "Ya completé este paso" for button in app.button)
     next(button for button in app.button if button.label == "Ya completé este paso").click().run()
     assert not app.exception
@@ -150,3 +169,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     ui_cases.autorizar(run, True, "Web")
     assert ui_gov.list_documents(run) == []
     assert ui_gov.load_profile(run) == {}
+    app.button(key="government_logout").click().run()
+    assert not app.exception
+    assert "government_login_run" not in app.session_state
+    assert any(item.label == "RUN" for item in app.text_input)

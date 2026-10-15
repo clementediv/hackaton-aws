@@ -1,8 +1,16 @@
 # Mi Gobierno
 
-Beneficios incorpora el Asistente de ayuda compartido al lado del listado. Usa el perfil seleccionado y el mismo motor/consentimiento que la ruta; antes de autorizar solo recibe el contexto permitido. Datos personales no renderiza otro chatbot. La guía de un beneficio conserva su asistente.
+## Acceso de demostración
 
-El panel de ayuda ocupa el 40% del espacio entre columnas tanto en Beneficios como en la guía PGU. El campo para escribir aparece debajo de la conversación, cuya altura se redujo de 420 a 240 px para acercar la entrada al contenido y evitar el gran espacio vacío. A pedido del usuario se retiraron las preguntas frecuentes de Mi Gobierno y el aviso sobre llamar al 101 o ir a una sucursal. Hasta 1050 px de pantalla se apila bajo el contenido principal y ocupa el ancho disponible. La distribución adaptable fue verificada en Chrome a 1440, 900 y 390 px, sin desbordamiento horizontal; acceso a la guía OK.
+Al entrar desde Descubrir mis beneficios, el encabezado o la navegación, se solicita RUN y **ClaveÚnica de demostración**. El usuario confirmó expresamente que el acceso es ficticio. La clave de prueba es `demo2026`; la pantalla muestra un RUN de ejemplo y permite consultar otros perfiles sintéticos.
+
+`ruta/demo_auth.py` normaliza RUN con/sin puntos, valida el dígito y exige que exista entre los perfiles vivos de la demo. La sesión guarda el identificador del perfil, no la clave; el valor del campo contraseña se retira del estado al enviar el formulario, también si hay error. Cerrar sesión limpia el estado personal y el chat, sin borrar documentos persistidos. No se permite cambiar de persona desde el selector lateral: para otro perfil se vuelve a ingresar.
+
+Este acceso no se conecta a ClaveÚnica ni consulta datos reales. No equivale al consentimiento para usar antecedentes: la autorización sigue siendo explícita y revocable. La autenticación real futura debe usar el flujo de redirección oficial y una integración registrada, no pedir la contraseña real dentro de la app. Referencia: [integración institucional de ClaveÚnica](https://www.claveunica.gob.cl/instituciones).
+
+Mi Gobierno conserva tres subpestañas en una barra segmentada: Beneficios, Datos personales y Chatbot. Por ajuste del usuario, el asistente compartido también vuelve a la derecha del listado de Beneficios: proporción 2,15:1, contenido sin límite de ancho y márgenes laterales de 32 px. El panel destaca con fondo azul claro, borde superior azul y sombra suave dentro de la paleta. Hasta 1050 px se apila bajo los beneficios; en móvil los márgenes bajan a 16 px. La pestaña Chatbot conserva el acceso dedicado a la misma conversación, con historial de 420 px; usa el perfil y consentimiento vigentes. La guía PGU sigue sin chat lateral.
+
+Cada requisito desplegado se muestra en un recuadro verde si el motor lo marca cumplido y amarillo si falta información, no se cumple o está pendiente; el texto distingue estos estados. La revisión global de PGU también tiene un recuadro. FUAS, gratuidad y becas siguen pendientes de verificación, sin inventar elegibilidad. Los adjuntos compartidos usan verde para «Documento adjunto» y amarillo para «Falta adjuntar»; adjuntar un archivo no valida el requisito ni concede el beneficio. Navegación, estados y ausencia de desbordamiento verificados en Chrome a 1440 y 390 px.
 
 **Navegación vigente:** Mi Gobierno abre en Beneficios. Datos personales es una vista separada con las cinco secciones y todos los tipos de adjuntos. Cada beneficio despliega sus requisitos y permite adjuntar los documentos de apoyo faltantes allí mismo.
 
