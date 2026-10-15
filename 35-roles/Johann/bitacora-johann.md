@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Invitación principal más grande
+- Se eliminan las etiquetas de Mi Gobierno y se amplían título, descripción, directorio y botón dentro del mismo cuadro. Botón azul con degradado y adaptación móvil. Tres pruebas del portal pasan. [[portada-chileatiende]].
+
 ### 2026-10-15 · Simplificar línea de tiempo
 - Se retiran los textos explicativos de cada punto y el pie con advertencia/enlace. Permanecen etapas, fechas y estados; las fuentes siguen documentadas en [[mi-gobierno]].
 

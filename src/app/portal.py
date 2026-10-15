@@ -164,7 +164,7 @@ def render_discovery() -> None:
         invitation, directory = st.columns([2.4, 1], gap="large")
         with invitation:
             st.markdown(
-                '<div class="home-government"><span class="agent-label">CONOCE MI GOBIERNO</span>'
+                '<div class="home-government">'
                 "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
                 "<p>Descubre cuáles podrían corresponderte según tu situación. "
                 "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
@@ -179,7 +179,6 @@ def render_discovery() -> None:
                 args=("Mi Gobierno",),
                 key="home_government_access",
             )
-            st.caption("Tus datos · Tus documentos · Tu ruta de beneficios")
         with directory:
             st.markdown(
                 '<div class="home-directory"><span class="agent-label">'

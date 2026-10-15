@@ -1,5 +1,7 @@
 # Portada basada en ChileAtiende
 
+La invitación principal conserva el mismo recuadro y retira «CONOCE MI GOBIERNO» y «Tus datos · Tus documentos · Tu ruta de beneficios». Título de 44 px y descripción de 19 px, con botón principal de 68 px de alto, texto de 20 px y degradado azul dentro de la paleta. El directorio lateral también amplía tipografía y controles. En móvil se ajusta el título a 32 px y el botón ocupa el ancho disponible. El aviso sobre elegibilidad/resolución y el enlace de fechas ya no se renderizan en las líneas de tiempo.
+
 Las opciones de navegación centran el texto respecto del subrayado activo: se elimina el padding del texto reservado para el control radio oculto. El mismo ajuste se aplica a las subpestañas de Mi Gobierno, conservando su diseño segmentado.
 
 **Diseño vigente:** Inicio conserva el portal público y una invitación a [[mi-gobierno]]. El agente ya no aparece en la portada; el espacio personal reúne identidad, antecedentes y beneficios, y el asistente acompaña dentro de la ruta. Los párrafos siguientes conservan la evolución previa de la portada.
