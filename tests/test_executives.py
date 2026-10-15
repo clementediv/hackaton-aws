@@ -61,7 +61,7 @@ def test_staff_portal_navigation_filters_and_automatic_campaign(tmp_path, monkey
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
     app.button(key="open_staff_header").click().run()
     assert not app.exception
-    assert app.radio[1].options == ["Seguimiento de casos", "Campañas en terreno"]
+    assert app.radio[1].options == ["Seguimiento de casos", "Campañas en terreno", "Trazabilidad"]
     app.selectbox(key="staff_status").set_value("Espera orientación").run()
     assert set(app.dataframe[0].value["Situación"]) == {"Espera orientación"}
     app.text_input(key="staff_search").set_value("DOES-NOT-EXIST").run()
