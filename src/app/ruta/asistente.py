@@ -6,6 +6,8 @@ En ambos casos solo usa hechos calculados por el motor de reglas: no decide ni i
 """
 
 import re
+import time
+from itertools import chain
 import unicodedata
 
 from . import config
@@ -14,7 +16,7 @@ from .fechas import fmt
 from .rutas import Paso
 
 
-def responder_publico(pregunta: str, historial: list[dict]) -> tuple[str, str]:
+def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
     """General orientation without reading profiles or authorized personal routes."""
     source = f"[ChileAtiende]({config.FUENTES['chileatiende']})"
     topics = {
@@ -62,12 +64,22 @@ def responder_publico(pregunta: str, historial: list[dict]) -> tuple[str, str]:
         try:
             from .chatbot import answer_general
 
-            return answer_general(
-                pregunta, public_history=historial, public_guidance=fallback
-            ), "bedrock"
+            options = {"public_history": historial, "public_guidance": fallback}
+            if stream:
+                chunks = answer_general(pregunta, stream=True, **options)
+                first = next(chunks)
+                return chain([first], chunks), "bedrock"
+            return answer_general(pregunta, **options), "bedrock"
         except Exception:
             pass
-    return fallback, "plantillas"
+    return (_template_stream(fallback) if stream else fallback), "plantillas"
+
+
+def _template_stream(text):
+    """Progressive display for the offline template mode."""
+    for word in re.findall(r"\S+\s*", text):
+        yield word
+        time.sleep(0.02)
 
 
 def _peso(n: int | float | None) -> str:

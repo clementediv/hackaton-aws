@@ -27,3 +27,5 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 - Estilo de `/chat` alineado con el banner IA: fondo, franja institucional, título, mensajes y campo de escritura. Ver [[portal-ayuda-tramites]].
 
 - Centrado de `/chat` y pestaña «Asistente de IA» verificados en navegador.
+
+- Respuestas progresivas del chat público: stream Bedrock y visualización por palabras en modo plantilla. 21 pruebas y navegador OK.

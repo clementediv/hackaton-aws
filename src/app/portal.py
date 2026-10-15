@@ -214,12 +214,7 @@ def render_chat_page() -> None:
     with st.container(key="public_chat"):
         history = st.session_state.setdefault("public_chat_history", [])
         pending = st.session_state.pop("public_chat_pending", None)
-        if pending:
-            with st.spinner("Preparando tu respuesta…"):
-                answer, engine = responder_publico(pending, history)
-            st.session_state["public_chat_engine"] = engine
-            history.extend([{"rol": "user", "texto": pending}, {"rol": "assistant", "texto": answer}])
-        if not history:
+        if not history and not pending:
             st.markdown(
                 '<div class="public-chat-welcome"><span>CHILEATIENDE · ASISTENTE IA</span>'
                 '<h2>Hola, ¿en qué te ayudamos?</h2>'
@@ -238,6 +233,32 @@ def render_chat_page() -> None:
         for index, message in enumerate(history):
             with st.container(key=f"public_message_{message['rol']}_{index}"):
                 st.chat_message(message["rol"]).write(message["texto"])
+        if pending:
+            index = len(history)
+            with st.container(key=f"public_message_user_{index}"):
+                st.chat_message("user").write(pending)
+            with st.container(key=f"public_message_assistant_{index + 1}"):
+                with st.chat_message("assistant"):
+                    with st.spinner("Preparando tu respuesta…"):
+                        chunks, engine = responder_publico(pending, history, stream=True)
+                    parts = []
+
+                    def visible_chunks():
+                        try:
+                            for chunk in chunks:
+                                parts.append(chunk)
+                                yield chunk
+                        except Exception:
+                            notice = "\n\nLa respuesta se interrumpió. Puedes volver a preguntar."
+                            parts.append(notice)
+                            yield notice
+
+                    st.write_stream(visible_chunks())
+            history.extend([
+                {"rol": "user", "texto": pending},
+                {"rol": "assistant", "texto": "".join(parts)},
+            ])
+            st.session_state["public_chat_engine"] = engine
         if st.session_state.get("public_chat_engine") == "plantillas" and history:
             st.caption("Orientación con respuestas predefinidas y fuentes oficiales.")
     if history:

@@ -54,7 +54,9 @@ def answer(question: str, context: dict, history: list[dict], *, client=None) ->
     return agent.run_turn(case, question).text
 
 
-def answer_general(question: str, *, client=None, public_history=None, public_guidance="") -> str:
+def answer_general(
+    question: str, *, client=None, public_history=None, public_guidance="", stream=False
+):
     """Public guidance: only current question and public facts go to Bedrock.
 
     No Case, RUN, profile tools, context or previous conversation is supplied.
@@ -98,11 +100,14 @@ def answer_general(question: str, *, client=None, public_history=None, public_gu
         messages.append({"role": "user", "content": [{"text": question}]})
     if public_guidance:
         public_context += " Orientación pública adicional con fuentes: " + public_guidance
-    result = (client if client is not None else BedrockClient.from_env()).converse(
-        messages,
-        system=[{"text": SYSTEM_PROMPT}, {"text": public_context}],
-        inferenceConfig={"maxTokens": 600},
-    )
+    active_client = client if client is not None else BedrockClient.from_env()
+    options = {
+        "system": [{"text": SYSTEM_PROMPT}, {"text": public_context}],
+        "inferenceConfig": {"maxTokens": 600},
+    }
+    if stream:
+        return _stream_general(active_client, messages, options)
+    result = active_client.converse(messages, **options)
     text = "\n".join(
         c["text"] for c in result["output"]["message"]["content"] if "text" in c
     ).strip()
@@ -111,3 +116,25 @@ def answer_general(question: str, *, client=None, public_history=None, public_gu
     if "https://" not in text:
         text += f"\n\nFuente: {config.FUENTE_PGU}"
     return text
+
+
+def _stream_general(client, messages, options):
+    response = client.converse_stream(messages, **options)
+    events = response["stream"]
+    parts = []
+    try:
+        for event in events:
+            if any(key.endswith("Exception") for key in event):
+                raise RuntimeError("Se interrumpió la respuesta de Bedrock")
+            text = event.get("contentBlockDelta", {}).get("delta", {}).get("text", "")
+            if text:
+                parts.append(text)
+                yield text
+        if not "".join(parts).strip():
+            raise ValueError("Bedrock devolvió una respuesta vacía")
+        if "https://" not in "".join(parts):
+            yield f"\n\nFuente: {config.FUENTE_PGU}"
+    finally:
+        close = getattr(events, "close", None)
+        if close:
+            close()

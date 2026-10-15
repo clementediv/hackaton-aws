@@ -20,3 +20,5 @@ Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hiz
 - 15-10: Saludo del chat en Roboto, bloque de conversación más arriba y texto del campo centrado verticalmente. Chromium confirma coincidencia exacta del eje vertical del texto y del campo a 1440/390 px, sin desborde.
 
 - 15-10: Unificado eje horizontal del encabezado de conversación, saludo, entrada y aviso inferior; placeholder centrado con padding simétrico. Chromium confirma ejes 720/195 px en viewport 1440/390.
+
+- 15-10: Chat público con salida progresiva mediante `st.write_stream`: Bedrock ConverseStream entrega deltas reales; modo plantilla muestra palabras progresivamente. Se guardan respuestas completas en historial, se conserva respuesta parcial si se corta el stream y se informa la interrupción. Falla previa al primer fragmento usa plantilla. 21 pruebas enfocadas pasan; Chromium observa longitudes crecientes 8 → 64 → 100 → 142 → 176 → 222 → 224 y reinicio correcto. API consultada: https://docs.aws.amazon.com/boto3/latest/reference/services/bedrock-runtime/client/converse_stream.html. Sin llamada real a AWS en validación.
