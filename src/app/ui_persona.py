@@ -316,7 +316,7 @@ PREGUNTAS = ["¿Qué es la PGU?", "¿Cuánto recibiría?", "¿Qué documentos ne
              "¿Cuándo puedo hacerlo?", "¿Dónde lo hago?", "¿Cumplo los requisitos?"]
 
 
-def _asistente(d, run, canal, ctx, *, sidebar=False):
+def _asistente(d, run, canal, ctx, *, sidebar=False, message_height=None):
     with st.container(border=True):
         st.markdown("#### Asistente de ayuda")
         st.caption("Tu chatbot para entender el trámite y encontrar el próximo paso.")
@@ -355,7 +355,7 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
 
         if not sidebar:
             preguntas_rapidas()
-        mensajes = st.container(height=240 if sidebar else 360, border=not sidebar)
+        mensajes = st.container(height=message_height or (240 if sidebar else 360), border=not sidebar)
         for i, m in enumerate(hist):
             target = mensajes.container(key=f"gov_chat_{m['rol']}_{i}") if sidebar else mensajes
             avatar = None if sidebar else ("🧭" if m["rol"] == "assistant" else "🙂")

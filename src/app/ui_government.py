@@ -125,23 +125,28 @@ def render(diags) -> None:
         return
     case = casos.obtener_caso(d.run)
     profile = cargar_perfiles()[d.run]
-    page = st.radio(
-        "Secciones de Mi Gobierno",
-        ["Beneficios", "Datos personales"],
-        horizontal=True,
-        label_visibility="collapsed",
-        key=f"government_view_{d.run}",
-    )
+    with st.container(key="gov_subnav"):
+        page = st.radio(
+            "Secciones de Mi Gobierno",
+            ["Beneficios", "Datos personales", "Chatbot"],
+            horizontal=True,
+            label_visibility="collapsed",
+            key=f"government_view_{d.run}",
+        )
     if not case["autorizacion"]:
         if page == "Datos personales":
             _identity(d, profile)
             _consent(d)
+        elif page == "Chatbot":
+            _chatbot_page(d, authorized=False)
         else:
             _benefits_page(d, authorized=False)
         return
     benefit = st.session_state.get(f"government_route_{d.run}")
     if page == "Datos personales":
         _personal_page(d, profile)
+    elif page == "Chatbot":
+        _chatbot_page(d, authorized=True)
     elif benefit:
         _journey(d, case, benefit)
     else:
@@ -153,21 +158,21 @@ def render(diags) -> None:
 
 
 def _benefits_page(d, authorized: bool) -> None:
-    layout = st.container(key="gov_benefits_layout")
-    benefits, chat = layout.columns([1.5, 1], gap="large")
-    with benefits:
-        if authorized:
-            _benefits(d)
-        else:
-            _consent(d)
-    with chat, st.container(key="gov_assistant"):
+    if authorized:
+        _benefits(d)
+    else:
+        _consent(d)
+
+
+def _chatbot_page(d, authorized: bool) -> None:
+    with st.container(key="gov_chat_page"), st.container(key="gov_assistant"):
         case = casos.obtener_caso(d.run)
         route = generar_ruta(d)
         states = estado_pasos(route, case["completados"])
         context = asistente.construir_contexto(
             d, route, states, proximo_paso(route, states), authorized
         )
-        ui_persona._asistente(d, d.run, CANAL, context, sidebar=True)
+        ui_persona._asistente(d, d.run, CANAL, context, sidebar=True, message_height=420)
 
 
 def _personal_page(d, profile) -> None:
@@ -416,7 +421,14 @@ def _benefits(d) -> None:
                 args=(d.run, "PGU"),
             )
         with st.expander("Ver requisitos y detalles"):
-            st.write(d.pgu.motivo)
+            ready = d.pgu.resultado == rules.ELEGIBLE
+            _requirement_card(
+                "Resultado de la revisión",
+                d.pgu.motivo,
+                "Listo para iniciar la solicitud" if ready else status,
+                ready=ready,
+                summary=True,
+            )
             for requirement in d.pgu.requisitos:
                 label = {
                     rules.CUMPLE: "Cumple",
@@ -424,8 +436,12 @@ def _benefits(d) -> None:
                     rules.FALTA: "Falta información",
                     rules.PENDIENTE: "Más adelante",
                 }
-                st.markdown(f"**{requirement.nombre}** · {label[requirement.estado]}")
-                st.caption(requirement.detalle + " Fuente: " + requirement.fuente)
+                _requirement_card(
+                    requirement.nombre,
+                    requirement.detalle + " Fuente: " + requirement.fuente,
+                    label[requirement.estado],
+                    ready=requirement.estado == rules.CUMPLE,
+                )
             st.link_button("Consultar requisitos oficiales ↗", config.FUENTE_PGU)
             _requirement_documents(d.run, "pgu")
     for option in government.EDUCATION_OPTIONS:
@@ -453,13 +469,34 @@ def _pending_benefit(run: str, option: dict) -> None:
         ):
             st.markdown("**Para revisar si puedes acceder, necesitamos conocer:**")
             for missing in option["missing"]:
-                st.markdown("- " + missing)
+                _requirement_card(
+                    missing,
+                    "Necesitamos información verificada para revisar este requisito.",
+                    "Faltan datos",
+                    ready=False,
+                )
             st.caption(
                 "Estos beneficios aún no tienen una evaluación integrada en Mi Gobierno. "
                 "Los datos deben verificarse con Mineduc antes de confirmar si corresponden."
             )
             st.link_button("Revisar en Mineduc ↗", option["source"])
             _requirement_documents(run, option["id"])
+
+
+def _requirement_card(
+    title: str, detail: str, status: str, *, ready: bool, summary: bool = False
+) -> None:
+    tone = "ready" if ready else "pending"
+    icon = "✓" if ready else "!"
+    kind = " gov-requirement-summary" if summary else ""
+    st.markdown(
+        f'<div class="gov-requirement-card {tone}{kind}" role="group" '
+        f'aria-label="{escape(title)}: {escape(status)}">'
+        f'<span class="gov-requirement-icon" aria-hidden="true">{icon}</span>'
+        f'<div><strong>{escape(title)}</strong><span class="gov-requirement-status">'
+        f"{escape(status)}</span><p>{escape(detail)}</p></div></div>",
+        unsafe_allow_html=True,
+    )
 
 
 def _personal(d, profile) -> None:
@@ -580,13 +617,16 @@ def _document_slot(run: str, kind: str, document: dict | None, namespace: str) -
         )
         if document:
             st.text(document["name"])
-            st.caption(
-                "Disponible para este beneficio · pendiente de revisión"
-                if namespace != "personal"
-                else "Adjunto · disponible para tus beneficios"
+            st.markdown(
+                '<div class="gov-document-state ready">✓ Documento adjunto</div>',
+                unsafe_allow_html=True,
             )
+            st.caption("Disponible para reutilizar · pendiente de revisión")
         else:
-            st.caption("Falta adjuntar")
+            st.markdown(
+                '<div class="gov-document-state pending">! Falta adjuntar</div>',
+                unsafe_allow_html=True,
+            )
         with st.popover("Reemplazar" if document else "Adjuntar", use_container_width=True):
             st.markdown(f"**{kind}**")
             with st.form(f"gov_document_{run}_{context}", clear_on_submit=True):
@@ -629,40 +669,34 @@ def _journey(d, case, benefit) -> None:
         completed / len(route) if route else 0,
         text=f"{completed} de {len(route)} pasos completados",
     )
-    layout = st.container(key="gov_journey_layout")
-    main, chat = layout.columns([1.5, 1], gap="large")
-    with main:
-        for index, step in enumerate(route, 1):
-            state = states[step.id]
-            labels = {
-                "completado": "Completado",
-                "disponible": "Tu próximo paso",
-                "bloqueado": "Pendiente del paso anterior",
-                "en_espera": "Disponible más adelante",
-            }
-            with st.expander(
-                f"{index}. {step.titulo} · {labels[state]}",
-                expanded=bool(next_step and step.id == next_step.id),
-            ):
-                st.write(step.que_hacer)
-                st.markdown("**Dónde:** " + step.donde)
-                if step.documentos:
-                    st.markdown("**Necesitas:** " + ", ".join(step.documentos))
-                if step.disponible_desde:
-                    st.write("Disponible desde: " + fmt(step.disponible_desde))
-                if step.fuente:
-                    st.link_button("Consultar el sitio oficial ↗", step.fuente)
-                if step.tipo == "organismo":
-                    st.info(
-                        "La resolución y el pago los confirma el organismo. "
-                        "Esta demo no presenta solicitudes ni ejecuta pagos."
-                    )
-                    if state == "completado":
-                        st.caption("Este paso fue completado en la simulación de la demo.")
-                elif state == "disponible":
-                    if st.button("Ya completé este paso", key=f"gov_step_{d.run}_{step.id}"):
-                        casos.completar_paso(d.run, step.id, CANAL, step.titulo)
-                        st.rerun()
-    with chat, st.container(key="gov_assistant"):
-        context = asistente.construir_contexto(d, route, states, next_step, True)
-        ui_persona._asistente(d, d.run, CANAL, context, sidebar=True)
+    for index, step in enumerate(route, 1):
+        state = states[step.id]
+        labels = {
+            "completado": "Completado",
+            "disponible": "Tu próximo paso",
+            "bloqueado": "Pendiente del paso anterior",
+            "en_espera": "Disponible más adelante",
+        }
+        with st.expander(
+            f"{index}. {step.titulo} · {labels[state]}",
+            expanded=bool(next_step and step.id == next_step.id),
+        ):
+            st.write(step.que_hacer)
+            st.markdown("**Dónde:** " + step.donde)
+            if step.documentos:
+                st.markdown("**Necesitas:** " + ", ".join(step.documentos))
+            if step.disponible_desde:
+                st.write("Disponible desde: " + fmt(step.disponible_desde))
+            if step.fuente:
+                st.link_button("Consultar el sitio oficial ↗", step.fuente)
+            if step.tipo == "organismo":
+                st.info(
+                    "La resolución y el pago los confirma el organismo. "
+                    "Esta demo no presenta solicitudes ni ejecuta pagos."
+                )
+                if state == "completado":
+                    st.caption("Este paso fue completado en la simulación de la demo.")
+            elif state == "disponible":
+                if st.button("Ya completé este paso", key=f"gov_step_{d.run}_{step.id}"):
+                    casos.completar_paso(d.run, step.id, CANAL, step.titulo)
+                    st.rerun()

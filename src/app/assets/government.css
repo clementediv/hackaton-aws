@@ -94,3 +94,24 @@
 @media(max-width:700px){.gov-welcome{flex-direction:column;align-items:flex-start;padding:22px 0}.gov-welcome h1{font-size:32px}.gov-welcome p{font-size:14px}.gov-stat{min-height:140px;padding:20px}.gov-category{display:block;margin-left:0}.gov-identity{margin-top:10px}.st-key-gov_pgu{padding:14px}.gov-benefit-title{font-size:21px!important}}
 
 @media(max-width:700px){.gov-identity .gov-id-card{max-width:460px;padding:14px 12px 0}.gov-id-card-top{grid-template-columns:78px 1fr auto;gap:8px}.gov-id-country>span{font-size:11px}.gov-id-document-type{font-size:10px}.gov-id-card-body{grid-template-columns:78px minmax(0,1fr);gap:8px}.gov-id-portrait svg{height:106px}.gov-id-fields>b{font-size:12px}.gov-id-card-run strong{font-size:9px}.gov-id-card-run>span{font-size:7px}.gov-id-watermark{margin:0 -12px}}
+/* Navigation and requirement states for Mi Gobierno. */
+.st-key-gov_subnav [role="radiogroup"]{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;background:#edf2f6;border:1px solid #dce5ed;border-radius:14px;padding:6px;margin:8px 0 24px}
+.st-key-gov_subnav label[data-baseweb="radio"]{margin:0!important;min-width:0;min-height:48px;justify-content:center;border-radius:9px;padding:10px 12px;transition:background .15s;color:#476175}
+.st-key-gov_subnav label[data-baseweb="radio"]>div:first-child{display:none}
+.st-key-gov_subnav label[data-baseweb="radio"]:has(input:checked){background:#125b94;color:white;box-shadow:0 2px 5px #123e6020}
+.st-key-gov_subnav label[data-baseweb="radio"]:focus-within{outline:2px solid #0f69b4;outline-offset:2px}
+.st-key-gov_subnav label p{color:inherit!important;font-weight:600;font-size:15px}
+.st-key-gov_subnav label:has(input:checked) p{color:#fff!important}
+.gov-requirement-card{display:flex;gap:12px;padding:16px;margin:10px 0;border:1px solid;border-radius:12px;align-items:flex-start}
+.gov-requirement-card.ready{background:#edf8f1;border-color:#b8dfc7;color:#166145}
+.gov-requirement-card.pending{background:#fff8e8;border-color:#ead49a;color:#805b13}
+.gov-requirement-icon{display:flex;align-items:center;justify-content:center;width:25px;height:25px;flex-shrink:0;border:1px solid currentColor;border-radius:50%;font-weight:700}
+.gov-requirement-card strong{display:block;font-size:15px;line-height:1.5}
+.gov-requirement-status{display:block;font-size:12px;font-weight:700;margin:3px 0}
+.gov-requirement-card p{font-size:13px!important;line-height:1.65;margin:5px 0 0;overflow-wrap:anywhere;color:inherit!important}
+.gov-document-state{font-size:12px;font-weight:600;margin:10px 0}
+.gov-document-state.ready{color:#166145}.gov-document-state.pending{color:#805b13}
+[class*="st-key-gov_document_slot_"]:has(.gov-document-state.ready){background:#f1faf5;border-color:#b8dfc7!important}
+[class*="st-key-gov_document_slot_"]:has(.gov-document-state.pending){background:#fffaf0;border-color:#ead49a!important}
+.st-key-gov_chat_page{max-width:900px;margin:0 auto;width:100%}
+@media(max-width:600px){.st-key-gov_subnav label[data-baseweb="radio"]{padding:8px 4px}.st-key-gov_subnav label p{font-size:12px}.gov-requirement-card{padding:12px;gap:9px}}

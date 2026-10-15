@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Subpestañas y requisitos de Mi Gobierno
+- Barra segmentada Beneficios / Datos personales / Chatbot; el asistente se mueve a su pestaña y se retira del listado y de la guía. Requisitos individuales verdes al cumplir y amarillos cuando faltan o están pendientes, con texto que distingue cada estado. Adjuntos compartidos conservan su revisión pendiente. Pruebas de navegación, consentimiento, documentos y Chrome escritorio/móvil OK. [[mi-gobierno]].
+
 ### 2026-10-15 · Integración del acceso · 8af4ca9
 - Merge con `296d0da`: conserva el acceso de demostración y las mejoras remotas del chat, ficha/contacto y detección proactiva. Conflictos de README/bitácora resueltos conservando ambos aportes. 173 pruebas, verificador de 500 perfiles y recorrido Chrome OK.
 
