@@ -6,7 +6,7 @@ from html import escape
 
 from boto3.dynamodb.types import TypeDeserializer
 
-from .reglas import evaluate
+from . import mensajes
 from .servicio import Service, Settings
 
 log = logging.getLogger()
@@ -80,30 +80,34 @@ def on_http(event, context):
         return _gif()
     benefit = svc.benefit(benefit_id)
     source = benefit["fuente"]
+    note = "" if source.get("verificado") else " (requisitos por verificar)"
     cite = (
-        f'<p class="s">Fuente: <a href="{escape(source["url"])}">{escape(source["titulo"])}</a>. '
-        "Orientación preliminar: el organismo competente revisa y resuelve. "
-        "Datos de demostración sintéticos.</p>"
+        f'<p class="note-text">Orientación preliminar: el organismo competente revisa y '
+        f'resuelve. Fuente: <a href="{escape(source["url"])}">{escape(source["titulo"])}</a>'
+        f"{escape(note)}. Datos de demostración sintéticos.</p>"
     )
     if action == "acepto" or contact["estado"] == "aceptado":
         body = (
-            "<p>¡Gracias! Registramos que quieres ayuda.</p>"
-            f"<p><strong>Tu próximo paso:</strong> {escape(contact.get('paso_siguiente', ''))}</p>"
+            "<h2>¡Listo! Registramos tu solicitud de ayuda</h2>"
+            "<p>Te acompañaremos durante el trámite.</p>"
+            f"<h2>Tu próximo paso</h2><p>{escape(contact.get('paso_siguiente', ''))}</p>"
+            "<p>¿Prefieres hablar con alguien? Llama al <strong>101</strong> o acércate a "
+            "una sucursal ChileAtiende.</p>"
         )
         return _html(200, benefit["nombre"], body + cite)
     if action == "rechazo" or contact["estado"] == "rechazado":
         body = "<p>Entendido. No te volveremos a contactar por este beneficio.</p>"
         return _html(200, benefit["nombre"], body + cite)
-    person = svc.person(run) or {}
-    reasons = "".join(
-        f"<li>{escape(m)}</li>" for m in evaluate(person, benefit, svc.today()).motivos
-    )
     yes = f"?c={escape(run)}&b={escape(benefit_id)}&t={escape(token)}&v={escape(via)}&a=acepto"
-    no = yes.replace("a=acepto", "a=rechazo")
+    checks = "".join(f"<li>{escape(r['texto'])}</li>" for r in benefit["requisitos"])
     body = (
-        f"<p>{escape(contact.get('motivo', ''))}</p><ul>{reasons}</ul>"
-        f'<p><a class="b" href="{yes}">Sí, quiero ayuda</a> '
-        f'<a class="b n" href="{no}">No me interesa</a></p>'
+        f"<h2>¿Por qué te escribimos?</h2>"
+        f"<p>{escape(contact.get('motivo_persona') or contact.get('motivo', ''))}</p>"
+        f"<h2>¿Qué es?</h2><p>{escape(benefit.get('descripcion', ''))}</p>"
+        f"<h2>¿Por qué te conviene?</h2><p>{escape(benefit.get('por_que_te_conviene', ''))}</p>"
+        f"<h2>Requisitos</h2><ul>{checks}</ul>"
+        f'<p><a class="btn" href="{yes}">'
+        f'{escape(benefit.get("boton", "Quiero solicitarlo"))}</a></p>'
     )
     return _html(200, benefit["nombre"], body + cite)
 
@@ -118,16 +122,8 @@ def _gif():
 
 
 def _html(status: int, title: str, body: str):
-    page = f"""<!doctype html><html lang="es"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>{escape(title)}</title>
-<style>body{{font-family:Arial,sans-serif;font-size:20px;line-height:1.5;max-width:640px;
-margin:24px auto;padding:0 16px;color:#1a1a1a}}h1{{font-size:26px;color:#0f69c4}}
-.b{{display:inline-block;padding:14px 22px;margin:6px 8px 6px 0;border-radius:8px;
-background:#0f69c4;color:#fff;text-decoration:none}}.n{{background:#e9e9e9;color:#1a1a1a}}
-.s{{font-size:16px;color:#555}}</style></head>
-<body><p>ChileAtiende a Tiempo</p><h1>{escape(title)}</h1>{body}</body></html>"""
     return {
         "statusCode": status,
         "headers": {"Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store"},
-        "body": page,
+        "body": mensajes.web_page(title, body),
     }

@@ -17,7 +17,7 @@ from boto3.dynamodb.conditions import Attr, Key
 
 from . import mensajes
 from .esquema import QUEUE_INDEX, QUEUE_PENDING, STATE_INDEX
-from .reglas import changed_fields, eligible_from, evaluate, excluded
+from .reglas import changed_fields, eligible_from, evaluate, excluded, personal_reason
 
 ANSWERS = {"acepto", "rechazo", "sin_respuesta"}
 CLOSED = {"aceptado", "rechazado"}
@@ -151,9 +151,11 @@ class Service:
         ref = self.today()
         existing = self.contact(person["run"], benefit["beneficio_id"])
         changes = changed_fields(old, person, benefit, ref)
+        personal = personal_reason(old, person, benefit, ref)
         if evaluate(person, benefit, ref).cumple:
             if existing is None:
-                return self._open(person, benefit, "disponible", _reason(changes, origin))
+                reason = _reason(changes, origin)
+                return self._open(person, benefit, "disponible", reason, personal=personal)
             if existing["tipo"] == "anticipado" and existing["respuesta"] != "rechazo":
                 return self._available_now(existing, person, benefit)
             return None
@@ -162,14 +164,14 @@ class Service:
             reason = f"Se acerca la fecha en que cumplirías los requisitos ({when:%d-%m-%Y})."
             if changes:
                 reason = _reason(changes, origin) + " " + reason
-            return self._open(person, benefit, "anticipado", reason, when)
+            return self._open(person, benefit, "anticipado", reason, when, personal=personal)
         return None
 
     def reconcile_all(self, origin: str = "diario") -> int:
         """Daily: time changes ages without anyone editing the table."""
         return sum(len(self.on_person_change(None, p, origin)) for p in _scan(self.people))
 
-    def _open(self, person, benefit, kind, reason, available_from: date | None = None):
+    def _open(self, person, benefit, kind, reason, available_from=None, *, personal=None):
         run, benefit_id = person["run"], benefit["beneficio_id"]
         item = {
             "run": run,
@@ -191,6 +193,8 @@ class Service:
         }
         if available_from:
             item["disponible_desde"] = available_from.strftime("%d-%m-%Y")
+        if personal:
+            item["motivo_persona"] = personal
         try:
             self.contacts.put_item(Item=item, ConditionExpression=Attr("run").not_exists())
         except Exception as exc:  # stream retries / concurrent daily run
