@@ -3,7 +3,7 @@ tipo: adr
 estado: aceptada
 fecha: 2026-10-15
 ---
-# 0016 · Conversación natural y voz en los chats
+# 0017 · Conversación natural y voz en los chats
 
 ## Contexto
 El usuario reportó respuestas repetidas ante insultos y mensajes ambiguos, y pidió

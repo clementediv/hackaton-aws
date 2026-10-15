@@ -73,7 +73,7 @@ Verificación: 31 pruebas enfocadas pasan y script 500 perfiles TODO OK.
 
 ## Conversación y voz · 15-10
 
-[[0016-conversacion-y-voz-del-navegador]] agrega estilo conversacional en ambos
+[[0017-conversacion-y-voz-del-navegador]] agrega estilo conversacional en ambos
 adaptadores. No se repite un menú ante frustración o mensajes ambiguos; se pide
 una aclaración breve y se responde la pregunta real aunque incluya una grosería.
 Mi Gobierno conserva solo turnos públicos en un historial separado cuando no hay

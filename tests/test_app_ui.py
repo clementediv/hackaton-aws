@@ -20,17 +20,24 @@ def test_citizen_can_accept_authorize_and_revoke_without_stale_chat(tmp_path, mo
         next(button for button in app.button if button.label == label).click().run()
         assert not app.exception
 
-    app.radio(key="portal_section").set_value("Ayuda para tus trámites").run()
-    click("Sí, quiero que me acompañen")
-    click("Sí, autorizo")
-    click("¿Cuánto recibiría?")
+    app.radio(key="portal_section").set_value("Mi Gobierno").run()
+    run = app.selectbox(key="gov_demo_example").value
+    app.text_input(key="gov_login_rut").set_value(run)
+    app.text_input(key="gov_login_password").set_value("demo2026")
+    click("Ingresar a Mi Gobierno")
+    app.checkbox(key=f"gov_consent_{run}").check().run()
+    click("Activar Mi Gobierno")
+    app.chat_input[0].set_value("¿Cuánto recibiría?").run()
     histories = [
         app.session_state[key]
         for key in app.session_state.filtered_state
         if key.startswith("chat-")
     ]
     assert any(len(history) > 1 for history in histories)
-    click("Retirar mi autorización")
+    app.radio(key=f"government_view_{run}").set_value("Datos personales").run()
+    app.button(key=f"gov_revoke_{run}").click().run()
+    app.button(key=f"gov_revoke_confirm_{run}").click().run()
+    assert not app.exception
     histories = [
         app.session_state[key]
         for key in app.session_state.filtered_state

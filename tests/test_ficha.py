@@ -106,7 +106,7 @@ def test_every_portal_tab_renders(tmp_path, monkeypatch):
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=60).run()
     tabs = app.radio(key="portal_section")
     assert list(tabs.options) == portal.CITIZEN_SECTIONS
-    assert list(tabs.options) == ["Inicio", "Mi Gobierno", "Ayuda para tus trámites"]
+    assert list(tabs.options) == ["Inicio", "Mi Gobierno"]
     for section in portal.CITIZEN_SECTIONS:
         app.radio(key="portal_section").set_value(section).run()
         assert not app.exception, section
