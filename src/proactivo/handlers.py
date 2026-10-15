@@ -88,19 +88,24 @@ def on_http(event, context):
     )
     if action == "acepto" or contact["estado"] == "aceptado":
         body = (
-            "<h2>¡Listo! Registramos que quieres ayuda</h2>"
-            "<p>Te acompañaremos durante el trámite.</p>"
-            f"<h2>Tu próximo paso</h2><p>{escape(contact.get('paso_siguiente', ''))}</p>"
-            "<p>¿Prefieres hablar con alguien? Llama al <strong>101</strong> o acércate a "
-            "una sucursal ChileAtiende.</p>"
+            "<h2>Hemos registrado su solicitud de orientación</h2>"
+            "<p>Le acompañaremos durante el trámite.</p>"
+            f"<h2>Su próximo paso</h2><p>{escape(contact.get('paso_siguiente', ''))}</p>"
+            f"<p>{escape(mensajes.PHONE_LINE)}</p>"
+            "<p>Atentamente,<br>ChileAtiende · Instituto de Previsión Social</p>"
         )
         return _html(200, benefit["nombre"], body + cite)
     if action == "rechazo" or contact["estado"] == "rechazado":
-        body = "<p>Entendido. No te volveremos a contactar por este beneficio.</p>"
+        body = (
+            "<p>Hemos registrado su respuesta. No volveremos a contactarle por este beneficio.</p>"
+        )
         return _html(200, benefit["nombre"], body + cite)
     content = mensajes.compose(svc.person(run) or {}, benefit, contact)
     yes = f"?c={escape(run)}&b={escape(benefit_id)}&t={escape(token)}&v={escape(via)}&a=acepto"
-    body = f"<h2>¿Por qué te escribimos?</h2><p>{escape(content.why)}</p>"
+    body = (
+        f"<p>{escape(mensajes.salutation(svc.person(run) or {}))}</p>"
+        f"<h2>Motivo de esta comunicación</h2><p>{escape(content.why)}</p>"
+    )
     for heading, text in content.sections:
         body += f"<h2>{escape(heading)}</h2><p>{escape(text)}</p>"
     for block in (content.checklist, content.missing):

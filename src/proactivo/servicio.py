@@ -291,7 +291,7 @@ class Service:
         values = {
             "tipo": "disponible",
             "motivo": "Ya cumples los requisitos.",
-            "motivo_persona": personal or "Según tus datos, hoy cumples los requisitos.",
+            "motivo_persona": personal or "Según sus datos, hoy usted cumple los requisitos.",
         }
         if not accepted:
             values["respuesta"] = "pendiente"
@@ -500,8 +500,9 @@ def next_step(benefit: dict, contact: dict) -> str:
     if contact.get("tipo") == "aviso":
         documents = "; ".join(benefit.get("documentos") or [])
         return (
-            f"Reúne estos documentos: {documents}. Desde el {contact.get('disponible_desde')} "
-            "podrás iniciar la solicitud; te avisaremos."
+            f"Le recomendamos reunir los siguientes documentos: {documents}. A partir del "
+            f"{contact.get('disponible_desde')} podrá iniciar la solicitud; le informaremos "
+            "oportunamente."
         )
     return benefit["paso_siguiente"]
 
@@ -512,10 +513,10 @@ def _some(contact: dict | None) -> list[dict]:
 
 def _reason(changes: list[str], origin: str) -> str:
     if changes:
-        return "Cambió tu información (" + "; ".join(changes) + ")."
+        return "Cambió su información (" + "; ".join(changes) + ")."
     if origin == "carga":
-        return "Lo detectamos al revisar tus datos registrados."
-    return "Lo detectamos en la revisión periódica de tus datos."
+        return "Detectado al revisar sus datos registrados."
+    return "Detectado en la revisión periódica de sus datos."
 
 
 def _scan(table) -> list[dict]:

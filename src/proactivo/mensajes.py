@@ -26,19 +26,27 @@ BACKGROUND = "#f2f2f2"
 NOTICE_BG = "#fff6db"
 NOTICE_BORDER = "#946c00"
 SANS = "Roboto,Arial,Helvetica,sans-serif"
-SLAB = "'Roboto Slab',Georgia,serif"
+# Minimalist sans-serif headings (weight 600), instead of a slab serif.
+HEAD = "'Helvetica Neue',Helvetica,Arial,sans-serif"
 
 DISCLAIMER = (
-    "Esta es una orientación preliminar basada en los datos disponibles hoy: el resultado es "
-    "aparente, no es una resolución y no garantiza el beneficio. El Instituto de Previsión "
-    "Social revisa tus requisitos y decide. Los montos son referenciales: lo que podrías "
-    "recibir puede ser distinto y lo calcula el IPS. Las condiciones pueden cambiar."
+    "La presente información constituye una orientación preliminar basada en los datos "
+    "disponibles a la fecha: el resultado es aparente, no constituye una resolución y no "
+    "garantiza el otorgamiento del beneficio. El Instituto de Previsión Social revisará sus "
+    "requisitos y resolverá. Los montos indicados son referenciales: el monto que usted podría "
+    "recibir puede ser distinto y será calculado por el IPS. Las condiciones están sujetas a "
+    "cambios."
 )
 RISK_DISCLAIMER = (
-    "Este es un aviso preventivo basado en los datos disponibles: no significa que hayas "
-    "perdido el beneficio. El Instituto de Previsión Social revisa cada caso y decide. "
-    "Las condiciones pueden cambiar."
+    "El presente es un aviso preventivo basado en los datos disponibles: no significa que "
+    "usted haya perdido el beneficio. El Instituto de Previsión Social revisa cada caso y "
+    "resuelve. Las condiciones están sujetas a cambios."
 )
+PHONE_LINE = (
+    "Si prefiere atención personalizada, puede llamar al 101 o acudir a cualquier sucursal "
+    "ChileAtiende."
+)
+GREETING = "Junto con saludarle, le informamos que "
 
 
 def link(base_url: str, contact: dict, action: str, via: str) -> str:
@@ -56,11 +64,21 @@ def _first_name(person: dict) -> str:
     return (person.get("nombre") or "").split(" ")[0]
 
 
+def salutation(person: dict) -> str:
+    name = (person.get("nombre") or "").strip()
+    return f"Estimado(a) {name}:" if name else "Estimado(a):"
+
+
+def _lower_first(text: str) -> str:
+    return text[:1].lower() + text[1:]
+
+
 @dataclass
 class Content:
     title: str
     why: str
     button: str
+    salutation: str = "Estimado(a):"
     sections: list[tuple[str, str]] = field(default_factory=list)
     checklist: tuple[str, list[str]] | None = None
     missing: tuple[str, list[str]] | None = None
@@ -70,7 +88,7 @@ class Content:
 
 def compose(person: dict, benefit: dict, contact: dict) -> Content:
     """Texts of the notice; the HTML and plain-text renderers share them."""
-    name = _first_name(person) or "Hola"
+    name = _first_name(person)
     values = {
         "nombre": name,
         "apertura": contact.get("disponible_desde", ""),
@@ -78,11 +96,11 @@ def compose(person: dict, benefit: dict, contact: dict) -> Content:
         "valor": contact.get("riesgo_valor", ""),
     }
     about = [
-        ("¿Qué es?", benefit.get("descripcion", "")),
-        ("¿Por qué te conviene?", benefit.get("por_que_te_conviene", "")),
+        ("¿En qué consiste?", benefit.get("descripcion", "")),
+        ("¿Por qué le conviene?", benefit.get("por_que_te_conviene", "")),
     ]
     if amount := benefit.get("monto_referencial"):
-        about.append(("¿Cuánto podrías recibir? (monto referencial)", amount))
+        about.append(("Monto referencial", amount))
     requirements = list(dict.fromkeys(r["texto"] for r in benefit["requisitos"]))
     kind = contact.get("tipo")
 
@@ -92,7 +110,7 @@ def compose(person: dict, benefit: dict, contact: dict) -> Content:
             title=risk["titulo"].format(**values),
             why=risk["motivo"].format(**values),
             button=risk["boton"],
-            sections=[("¿Qué debes saber?", risk["explicacion"])],
+            sections=[("Información relevante", risk["explicacion"])],
             disclaimer=RISK_DISCLAIMER,
             warning=True,
         )
@@ -104,38 +122,45 @@ def compose(person: dict, benefit: dict, contact: dict) -> Content:
             why=stage["motivo"].format(**values),
             button=stage["boton"],
             sections=about,
-            checklist=("Qué te conviene preparar desde ya", list(benefit.get("documentos") or [])),
+            checklist=(
+                "Documentos que le recomendamos preparar",
+                list(benefit.get("documentos") or []),
+            ),
             missing=(
-                ("Según tus datos, aún te falta", missing)
+                ("Según sus datos, aún le falta", missing)
                 if missing
                 else (
-                    "Según los datos que tenemos, no te falta ningún antecedente. Igual revisa "
-                    "que tus documentos estén vigentes.",
+                    "Según los datos disponibles, no le falta ningún antecedente. Le "
+                    "recomendamos revisar que sus documentos se encuentren vigentes.",
                     [],
                 )
             ),
         )
     if kind == "anticipado":
         return Content(
-            title=f"{name}, pronto podrías acceder a {benefit['nombre']}",
+            title=f"Próximamente usted podría acceder a {benefit['nombre']}",
             why=(
-                f"Desde el {values['apertura']} cumplirías los requisitos. Te avisamos antes "
-                "para que lo solicites apenas puedas."
+                f"{GREETING}a partir del {values['apertura']} usted cumpliría los requisitos "
+                "de este beneficio. Le escribimos con anticipación para que pueda solicitarlo "
+                "oportunamente."
             ),
-            button=benefit.get("boton", "Quiero solicitarlo"),
+            button=benefit.get("boton", "Solicitar el beneficio"),
             sections=about,
-            checklist=("Según tus datos, cumplirías con", requirements),
+            checklist=("Según sus datos, usted cumpliría con", requirements),
         )
     title = (
         benefit.get("titulo_elegible")
-        or "{nombre}, aparentemente podrías recibir " + (benefit["nombre"])
+        or "Aparentemente usted podría recibir " + (benefit["nombre"])
     )
     return Content(
         title=title.format(**values),
-        why=contact.get("motivo_persona") or "Revisamos tus datos y aparentemente cumples.",
-        button=benefit.get("boton", "Quiero solicitarlo"),
+        why=GREETING
+        + _lower_first(contact.get("motivo_persona") or "Revisamos sus datos.")
+        + " Según la información disponible, aparentemente usted cumple los requisitos de "
+        "este beneficio.",
+        button=benefit.get("boton", "Solicitar el beneficio"),
         sections=about,
-        checklist=("Según tus datos, aparentemente cumples con", requirements),
+        checklist=("Según sus datos, aparentemente cumple con", requirements),
     )
 
 
@@ -148,10 +173,11 @@ def _source_note(benefit: dict) -> tuple[str, str, str]:
 def email(person: dict, benefit: dict, contact: dict, base_url: str) -> tuple[str, str, str]:
     """Return (subject, text, html) with a single call to action."""
     content = compose(person, benefit, contact)
+    content.salutation = salutation(person)
     cta = link(base_url, contact, "acepto", "email")
     source_title, source_url, note = _source_note(benefit)
 
-    lines = [content.title, "", f"¿Por qué te escribimos? {content.why}", ""]
+    lines = [content.salutation, "", content.title, "", content.why, ""]
     lines += [f"IMPORTANTE: {content.disclaimer}", ""]
     for heading, body in content.sections:
         lines += [f"{heading} {body}"]
@@ -161,16 +187,19 @@ def email(person: dict, benefit: dict, contact: dict, base_url: str) -> tuple[st
     lines += [
         "",
         f"{content.button}: {cta}",
-        "¿Prefieres hablar con alguien? Llama al 101 o acércate a una sucursal ChileAtiende.",
+        PHONE_LINE,
+        "",
+        "Atentamente,",
+        "ChileAtiende · Instituto de Previsión Social",
         "",
         f"Fuente: {source_title} {source_url}{note}",
-        "ChileAtiende · Instituto de Previsión Social. Datos de demostración sintéticos.",
+        "Datos de demostración sintéticos.",
     ]
     text = "\n".join(lines)
 
     def heading(label: str) -> str:
         return (
-            f'<p style="margin:0 0 4px;font-family:{SLAB};font-size:18px;font-weight:bold;'
+            f'<p style="margin:0 0 4px;font-family:{HEAD};font-size:18px;font-weight:600;'
             f'color:{BLUE_DARK}">{escape(label)}</p>'
         )
 
@@ -192,7 +221,8 @@ def email(person: dict, benefit: dict, contact: dict, base_url: str) -> tuple[st
             f'style="margin:0 0 20px">{rows}</table>'
         )
 
-    body = heading("¿Por qué te escribimos?") + paragraph(content.why)
+    body = paragraph(content.salutation)
+    body += heading("Motivo de esta comunicación") + paragraph(content.why)
     body += (
         f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" '
         f'style="margin:0 0 22px"><tr><td style="background:{NOTICE_BG};'
@@ -217,12 +247,13 @@ def email(person: dict, benefit: dict, contact: dict, base_url: str) -> tuple[st
 <a href="{escape(cta)}" style="display:inline-block;padding:16px 32px;font-family:{SANS};
 font-size:19px;font-weight:bold;color:#ffffff;text-decoration:none">{escape(content.button)}</a>
 </td></tr></table>
-<p style="margin:0;font-size:15px;color:{MUTED}">¿Prefieres hablar con alguien? Llama al
-<strong>101</strong> o acércate a una sucursal ChileAtiende.</p>"""
+<p style="margin:0 0 22px;font-size:15px;color:{MUTED}">{escape(PHONE_LINE)}</p>
+<p style="margin:0;font-size:16px;color:{TEXT}">Atentamente,<br>
+<span style="font-family:{HEAD};font-weight:600;color:{BLUE_DARK}">ChileAtiende ·
+Instituto de Previsión Social</span></p>"""
     footer = (
         f'Fuente: <a href="{escape(source_url)}" style="color:{BLUE}">{escape(source_title)}</a>'
-        f"{escape(note)}. ChileAtiende · Instituto de Previsión Social. "
-        "Datos de demostración sintéticos."
+        f"{escape(note)}. Datos de demostración sintéticos."
     )
     hero = LOGO_RED if content.warning else BLUE
     pixel = escape(link(base_url, contact, "abrir", "email"))
@@ -236,7 +267,7 @@ font-size:19px;font-weight:bold;color:#ffffff;text-decoration:none">{escape(cont
  style="width:100%;max-width:600px;background:#ffffff;font-family:{SANS};color:{TEXT}">
 {_brand_rows()}
 <tr><td style="background:{hero};padding:26px 32px">
-<p style="margin:0;font-family:{SLAB};font-size:25px;line-height:1.3;font-weight:bold;
+<p style="margin:0;font-family:{HEAD};font-size:24px;line-height:1.3;font-weight:600;
 color:#ffffff">{escape(content.title)}</p></td></tr>
 <tr><td style="padding:28px 32px 8px">{body}{cta_html}</td></tr>
 <tr><td style="padding:20px 32px 28px">
@@ -255,9 +286,9 @@ def _brand_rows() -> str:
 <td width="38%" style="background:{LOGO_BLUE};height:6px;font-size:0">&nbsp;</td>
 <td style="background:{LOGO_RED};height:6px;font-size:0">&nbsp;</td></tr></table></td></tr>
 <tr><td style="padding:18px 32px;border-bottom:1px solid #e8e8e8">
-<span style="font-family:{SLAB};font-size:26px;font-weight:bold;color:{LOGO_BLUE}">Chile</span><span
- style="font-family:{SLAB};font-size:26px;font-weight:bold;color:{LOGO_RED}">Atiende</span>
-<span style="display:block;font-size:14px;font-weight:bold;color:{BLUE_DARK}">
+<span style="font-family:{HEAD};font-size:26px;font-weight:600;color:{LOGO_BLUE}">Chile</span><span
+ style="font-family:{HEAD};font-size:26px;font-weight:600;color:{LOGO_RED}">Atiende</span>
+<span style="display:block;font-family:{HEAD};font-size:14px;font-weight:500;color:{BLUE_DARK}">
 Instituto de Previsión Social</span>
 </td></tr>"""
 
@@ -271,9 +302,9 @@ body{{margin:0;background:{BACKGROUND};font-family:{SANS};color:{TEXT}}}
 .card{{max-width:640px;margin:24px auto;background:#fff}}
 .card td{{font-family:{SANS}}}
 .hero{{background:{BLUE};color:#fff;padding:26px 32px}}
-.hero h1{{margin:0;font-family:{SLAB};font-size:26px;line-height:1.25}}
+.hero h1{{margin:0;font-family:{HEAD};font-size:24px;font-weight:600;line-height:1.3}}
 .content{{padding:28px 32px;font-size:18px;line-height:1.55}}
-.content h2{{margin:0 0 4px;font-family:{SLAB};font-size:18px;color:{BLUE_DARK}}}
+.content h2{{margin:0 0 4px;font-family:{HEAD};font-size:18px;font-weight:600;color:{BLUE_DARK}}}
 .content p{{margin:0 0 18px}}
 .btn{{display:inline-block;padding:16px 32px;border-radius:6px;background:{BLUE};color:#fff;
 font-weight:bold;font-size:19px;text-decoration:none}}

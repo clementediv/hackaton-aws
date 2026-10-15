@@ -191,7 +191,7 @@ def changed_fields(old: dict | None, new: dict, benefit: dict, ref: date) -> lis
 
 
 def personal_reason(old: dict | None, new: dict, benefit: dict, ref: date) -> str | None:
-    """The same relevant change, addressed to the person ("Cumpliste 65 años")."""
+    """The same relevant change, addressed to the person ("Usted cumplió 65 años")."""
     if old is None:
         return None
     before, after = derived_fields(old, ref), derived_fields(new, ref)
@@ -201,23 +201,23 @@ def personal_reason(old: dict | None, new: dict, benefit: dict, ref: date) -> st
         if was == now:
             continue
         if campo == "edad":
-            phrases.append(f"cumpliste {now} años")
+            phrases.append(f"usted cumplió {now} años")
         elif campo == "num_hijos" and (now or 0) > (was or 0):
-            phrases.append("registramos el nacimiento de tu hijo o hija")
+            phrases.append("registramos el nacimiento de su hijo o hija")
         elif campo == "estado_civil":
             phrases.append(
-                "registramos tu matrimonio"
+                "registramos su matrimonio"
                 if now == "casado"
-                else f"tu estado civil cambió a {now}"
+                else f"su estado civil cambió a {now}"
             )
         elif campo == "accidente_laboral" and now:
             phrases.append("registramos un accidente laboral")
         elif campo == "tramo_rsh":
-            phrases.append(f"tu Registro Social de Hogares ahora te ubica en el tramo del {now}%")
+            phrases.append(f"su Registro Social de Hogares indica ahora el tramo del {now}%")
         elif campo == "trabaja" and now:
-            phrases.append("registramos que estás trabajando")
+            phrases.append("registramos que usted se encuentra trabajando")
         else:
-            phrases.append(f"cambió tu {LABELS.get(campo, campo)}")
+            phrases.append(f"cambió su {LABELS.get(campo, campo)}")
     if not phrases:
         return None
     text = "; ".join(phrases)

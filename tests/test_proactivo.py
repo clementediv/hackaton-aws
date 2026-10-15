@@ -97,7 +97,7 @@ def test_turning_65_sends_a_real_email_about_pgu(env):
     assert len(sent_emails()) == 1
     assert sent_emails()[0].destinations["ToAddresses"] == [INBOX]
     assert contact["cola"] == "pendiente"
-    assert contact["motivo_persona"] == "Cumpliste 65 años."
+    assert contact["motivo_persona"] == "Usted cumplió 65 años."
 
 
 def test_email_has_one_call_to_action_and_explains_the_benefit(env):
@@ -107,11 +107,12 @@ def test_email_has_one_call_to_action_and_explains_the_benefit(env):
     change(svc, jorge["run"], fecha_nacimiento=add_years(TODAY, -65).isoformat())
     message = sent_emails()[0]
     html = message.body
-    assert message.subject == "¡Felicidades, Jorge! Aparentemente eres elegible para la PGU"
+    assert message.subject == "Felicitaciones: aparentemente usted es elegible para la PGU"
     assert html.count("a=acepto") == 1 and "a=rechazo" not in html and "a=ver" not in html
     assert "No me interesa" not in html
-    assert "Quiero solicitar la PGU" in html
-    assert "Cumpliste 65 años." in html
+    assert "Solicitar la PGU" in html
+    assert "Junto con saludarle, le informamos que usted cumplió 65 años." in html
+    assert "Estimado(a) Jorge Demo:" in html and "Atentamente," in html
     assert "aporte mensual del Estado" in html and "$231.732" in html
     assert "Tener 65 años o más" in html
     assert BENEFIT["pgu"]["fuente"]["url"] in html
@@ -295,13 +296,15 @@ def test_pgu_notices_at_64_then_64_8_then_eligible_at_65(env):
     assert contact["cola"] == "pendiente"  # now the contact escalates if unanswered
     subjects = [m.subject for m in sent_emails()]
     assert subjects == [
-        f"Jorge, prepárate: desde el {contact_date(birth, 777)} podrías solicitar la PGU",
-        f"Jorge, falta un mes: el {contact_date(birth, 777)} se abre tu solicitud de PGU",
-        "¡Felicidades, Jorge! Aparentemente eres elegible para la PGU",
+        f"Prepare su trámite: desde el {contact_date(birth, 777)} podrá solicitar la PGU",
+        f"Falta un mes: el {contact_date(birth, 777)} se abre su solicitud de la PGU",
+        "Felicitaciones: aparentemente usted es elegible para la PGU",
     ]
     preparation, reminder, eligible = (m.body for m in sent_emails())
     assert "Cédula de identidad vigente" in preparation
-    assert "No es un plazo que vence" in reminder
+    assert "Le recomendamos revisar que sus documentos se encuentren vigentes." in preparation
+    assert "Igual revisa" not in preparation
+    assert "no corresponde a un plazo de vencimiento" in reminder
     for body in (preparation, reminder, eligible):
         assert "Instituto de Previsión Social" in body
         assert "aparente" in body and "referenciales" in body
@@ -318,7 +321,7 @@ def test_pgu_notice_lists_missing_records_and_skips_top_income(env):
     no_rsh = {k: v for k, v in demo("Jorge").items() if k != "percentil_pfp"}
     contact = insert(svc, no_rsh | {"fecha_nacimiento": birth})[0]
     assert contact["faltantes"] == ["No pertenecer al 10% de mayores ingresos"]
-    assert "aún te falta" in sent_emails()[0].body
+    assert "aún le falta" in sent_emails()[0].body
     rich = demo("Marcelo") | {"fecha_nacimiento": birth, "percentil_pfp": 95}
     assert [c for c in insert(svc, rich) if c["beneficio_id"] == "pgu"] == []
 
@@ -331,13 +334,13 @@ def test_risk_notice_for_pgu_recipient_abroad(env):
     assert contact["beneficio_id"] == "pgu:riesgo:fuera_de_chile"
     assert contact["tipo"] == "riesgo" and "cola" not in contact
     message = sent_emails()[0]
-    assert message.subject == "Rosa, atención: tu PGU podría verse afectada"
+    assert message.subject == "Atención: su PGU podría verse afectada"
     assert "160 días fuera de Chile" in message.body and "preventivo" in message.body
     assert change(svc, rosa["run"], dias_fuera_ultimo_anio=170) == []
     clock.advance(60)
     assert svc.escalate() == 0
     answer = svc.interact(rosa["run"], contact["beneficio_id"], contact["token"], "acepto", "email")
-    assert "informa tus fechas de viaje" in answer["paso_siguiente"]
+    assert "informar sus fechas de viaje" in answer["paso_siguiente"]
 
 
 def test_stream_and_http_handlers(env, monkeypatch):
@@ -368,10 +371,10 @@ def test_stream_and_http_handlers(env, monkeypatch):
     pixel = handlers.on_http({"queryStringParameters": query | {"a": "abrir"}}, None)
     assert pixel["headers"]["Content-Type"] == "image/gif"
     page = handlers.on_http({"queryStringParameters": query | {"a": "ver"}}, None)
-    assert page["statusCode"] == 200 and "Quiero orientación" in page["body"]
+    assert page["statusCode"] == 200 and "Solicitar orientación" in page["body"]
     assert "a=rechazo" not in page["body"]
     page = handlers.on_http({"queryStringParameters": query | {"a": "acepto"}}, None)
-    assert "Tu próximo paso" in page["body"]
+    assert "Su próximo paso" in page["body"]
     bad = handlers.on_http({"queryStringParameters": query | {"t": "x", "a": "acepto"}}, None)
     assert bad["statusCode"] == 400
 
