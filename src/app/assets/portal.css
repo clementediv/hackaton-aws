@@ -143,3 +143,14 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 @keyframes banner-benefits{0%,44%{transform:translateX(0);visibility:visible}50%,94%{transform:translateX(110%);visibility:hidden}100%{transform:translateX(0);visibility:visible}}
 @keyframes banner-assistant{0%,44%{transform:translateX(-110%);visibility:hidden}50%,94%{transform:translateX(0);visibility:visible}100%{transform:translateX(-110%);visibility:hidden}}
 @media(prefers-reduced-motion:reduce){.st-key-home_government>[data-testid="stVerticalBlockBorderWrapper"]{animation:none!important;grid-area:auto;transform:none;visibility:visible}}
+
+/* Example conversations: fixed layout, then question and answer appear in turn. */
+.home-answer-examples{display:grid;max-width:680px;margin:8px auto 24px;min-height:170px}
+.home-answer-example{grid-area:1/1;min-width:0;opacity:0;visibility:hidden;animation:example-conversation 15s infinite;animation-delay:calc(var(--example-index)*5s)}
+.home-example-question{margin:0 0 10px auto;width:fit-content;max-width:90%;padding:9px 14px;background:#e9eef5;border-radius:16px 16px 4px 16px;color:#253e52;font-size:14px}
+.home-example-answer{max-width:95%;padding:12px 16px;border:1px solid #e0e7ee;background:white;border-radius:16px 16px 16px 4px;font-size:14px;line-height:1.55;color:#43576a;animation:example-answer 15s infinite;animation-delay:calc(var(--example-index)*5s)}
+.home-example-answer>span{display:block;font-size:11px;font-weight:600;color:#0f69b4;margin-bottom:5px}
+@keyframes example-conversation{0%,30%{opacity:1;visibility:visible}32%,100%{opacity:0;visibility:hidden}}
+@keyframes example-answer{0%,5%{opacity:0;transform:translateY(6px)}9%,30%{opacity:1;transform:translateY(0)}32%,100%{opacity:0;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.home-answer-example,.home-example-answer{animation:none;opacity:1;visibility:visible;transform:none}.home-answer-example{grid-area:auto;margin-bottom:12px}}
+@media(max-width:700px){.home-answer-examples{min-height:210px}.home-example-question,.home-example-answer{font-size:13px}}

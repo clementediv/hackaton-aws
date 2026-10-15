@@ -190,9 +190,25 @@ def _render_home_benefits() -> None:
 def _render_home_assistant() -> None:
     st.markdown(
         '<div class="home-government home-assistant-intro">'
-        "<h1>Prueba el asistente de inteligencia artificial</h1>"
-        "<p>Resuelve preguntas frecuentes sobre trámites y beneficios.</p></div>",
+        "<h1>Prueba el asistente de inteligencia artificial de ChileAtiende</h1>"
+        "</div>",
         unsafe_allow_html=True,
+    )
+    examples = (
+        ("¿Qué documentos necesito?", "En Mi Gobierno, abre tu beneficio y revisa los antecedentes de cada paso."),
+        ("¿Por dónde empiezo?", "Ingresa a Mi Gobierno y autoriza la consulta de tus antecedentes para preparar tu ruta."),
+        ("¿Puedo continuar después?", "Sí. Tu avance queda guardado para retomar desde el próximo paso pendiente."),
+    )
+    cards = "".join(
+        f'<div class="home-answer-example" style="--example-index:{index}">'
+        f'<div class="home-example-question">{escape(question)}</div>'
+        '<div class="home-example-answer"><span>Asistente ChileAtiende</span>'
+        f'{escape(answer)}</div></div>'
+        for index, (question, answer) in enumerate(examples)
+    )
+    st.html(
+        '<div class="home-answer-examples" aria-label="Ejemplos de preguntas y respuestas">'
+        + cards + '</div>'
     )
     with st.container(key="home_chat_preview"):
         with st.form("home_agent_question", border=False):
