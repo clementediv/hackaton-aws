@@ -24,6 +24,7 @@ La app no tiene login: es para demo local. `--server.address localhost` evita ex
 IA generativa (opcional): define `BEDROCK_MODEL_ID` (por ejemplo `us.anthropic.claude-sonnet-5`) junto con `AWS_PROFILE=hackaton` y `AWS_REGION=us-east-1`. Sin ella, el asistente responde con plantillas a partir del mismo contexto.
 
 ## Vistas
+- **Contactos AWS** (Vista ejecutivo): lee en solo lectura lo que la detección proactiva desplegada en AWS detectó, envió y registró (`ca-contactos`, `ca-historial`), con métricas, filtros e historial por persona; la ficha del beneficiario muestra lo mismo para su RUN. Usa el perfil `hackaton` de `.env`; si las credenciales vencen, la vista lo avisa. Ver [[deteccion-proactiva-aws]].
 - El acompañamiento ciudadano se concentra en **Mi Gobierno**: autorización, beneficios, ruta PGU con próximo paso destacado, avance guardado, historial y asistente junto a los pasos. La antigua sección de ayuda ya no aparece en la navegación; sus accesos llevan a Mi Gobierno. Ver [[mi-gobierno]].
 - Acceso Mi Gobierno: usa el RUN sintético mostrado en la pantalla y la clave ficticia `demo2026`. No ingreses tu ClaveÚnica real. El acceso abre el perfil correspondiente y la autorización de antecedentes se concede por separado.
 - **Vista ejecutivo**: entrada única para Mapa de calor y campañas, Detectar e invitar, Ficha del beneficiario, Atención del caso y Medición. El selector interno abre una herramienta a la vez. Ver [[ficha-beneficiario]].

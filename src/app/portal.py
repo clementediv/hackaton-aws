@@ -42,6 +42,7 @@ EXECUTIVE_SECTIONS = [
     "Mapa de calor y campañas",
     "Detectar e invitar",
     "Ficha del beneficiario",
+    "Contactos AWS",
     "Atención del caso",
     "Medición",
 ]

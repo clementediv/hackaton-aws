@@ -12,7 +12,7 @@ from moto.ses.models import ses_backends
 from src.proactivo import carga, handlers
 from src.proactivo.catalogo import BENEFICIOS
 from src.proactivo.esquema import create_tables
-from src.proactivo.reglas import add_years, eligible_from, evaluate
+from src.proactivo.reglas import add_months, add_years, eligible_from, evaluate
 from src.proactivo.servicio import Service, Settings
 
 TODAY = date(2026, 10, 15)
@@ -93,11 +93,11 @@ def test_turning_65_sends_a_real_email_about_pgu(env):
     contact = opened[0]
     assert contact["estado"] == "email_enviado"
     assert contact["email_enviado"] and not contact["email_simulado"]
-    assert "edad: 64 → 65" in contact["motivo"]
+    assert "edad: 63 → 65" in contact["motivo"]
     assert len(sent_emails()) == 1
     assert sent_emails()[0].destinations["ToAddresses"] == [INBOX]
     assert contact["cola"] == "pendiente"
-    assert contact["motivo_persona"] == "Cumpliste 65 años."
+    assert contact["motivo_persona"] == "Usted cumplió 65 años."
 
 
 def test_email_has_one_call_to_action_and_explains_the_benefit(env):
@@ -107,11 +107,12 @@ def test_email_has_one_call_to_action_and_explains_the_benefit(env):
     change(svc, jorge["run"], fecha_nacimiento=add_years(TODAY, -65).isoformat())
     message = sent_emails()[0]
     html = message.body
-    assert message.subject == "Jorge, podrías recibir Pensión Garantizada Universal (PGU)"
+    assert message.subject == "Felicitaciones: aparentemente usted es elegible para la PGU"
     assert html.count("a=acepto") == 1 and "a=rechazo" not in html and "a=ver" not in html
     assert "No me interesa" not in html
-    assert "Quiero solicitar la PGU" in html
-    assert "Cumpliste 65 años." in html
+    assert "Solicitar la PGU" in html
+    assert "Junto con saludarle, le informamos que usted cumplió 65 años." in html
+    assert "Estimado(a) Jorge Demo:" in html and "Atentamente," in html
     assert "aporte mensual del Estado" in html and "$231.732" in html
     assert "Tener 65 años o más" in html
     assert BENEFIT["pgu"]["fuente"]["url"] in html
@@ -241,25 +242,105 @@ def test_simulated_inbox_is_never_sent(env):
     assert sent_emails() == []
 
 
-def test_anticipation_then_available(env):
-    svc, clock, _ = env
-    birthday = TODAY + timedelta(days=30)
-    jorge = demo("Jorge") | {"fecha_nacimiento": add_years(birthday, -65).isoformat()}
-    assert eligible_from(jorge, BENEFIT["pgu"], TODAY) == birthday
-    contact = insert(svc, jorge)[0]
-    assert contact["tipo"] == "anticipado"
-    assert contact["disponible_desde"] == birthday.strftime("%d-%m-%Y")
-    svc.record_answer(jorge["run"], "pgu", "acepto", "telefono")
-    later = Service(
-        Settings(**{**svc.settings.__dict__, "reference_date": birthday}),
+def later(svc, clock, ref):
+    """Same tables, another reference date (the daily job on a later day)."""
+    return Service(
+        Settings(**{**svc.settings.__dict__, "reference_date": ref}),
         dynamodb=boto3.resource("dynamodb", region_name="us-east-1"),
         ses=svc.ses,
         clock=clock,
     )
-    assert later.reconcile_all() == 1
-    contact = later.contact(jorge["run"], "pgu")
+
+
+def test_generic_anticipation_then_available(env):
+    svc, clock, _ = env
+    birthday = TODAY + timedelta(days=30)
+    rosa = demo("Rosa") | {
+        "fecha_nacimiento": add_years(birthday, -65).isoformat(),
+        "num_hijos": 2,
+        "beneficios_vigentes": ["pgu"],
+    }
+    assert eligible_from(rosa, BENEFIT["bono_por_hijo"], TODAY) == birthday
+    contact = next(c for c in insert(svc, rosa) if c["beneficio_id"] == "bono_por_hijo")
+    assert contact["tipo"] == "anticipado"
+    svc.record_answer(rosa["run"], "bono_por_hijo", "acepto", "telefono")
+    assert later(svc, clock, birthday).reconcile_all() == 1
+    contact = svc.contact(rosa["run"], "bono_por_hijo")
     assert contact["tipo"] == "disponible" and contact["estado"] == "aceptado"
-    assert len(sent_emails()) == 2
+
+
+def test_pgu_notices_at_64_then_64_8_then_eligible_at_65(env):
+    svc, clock, _ = env
+    jorge = demo("Jorge")
+    assert insert(svc, jorge) == []
+    birth = add_months(TODAY, -64 * 12)
+    contact = change(svc, jorge["run"], fecha_nacimiento=birth.isoformat())[0]
+    assert (contact["tipo"], contact["etapa"], contact["estado"]) == (
+        "aviso",
+        "preparacion",
+        "aviso_enviado",
+    )
+    assert contact["disponible_desde"] == add_months(birth, 64 * 12 + 9).strftime("%d-%m-%Y")
+    assert contact["faltantes"] == [] and "cola" not in contact  # informational only
+    assert change(svc, jorge["run"], tramo_rsh=50) == []  # same stage: no repeat
+
+    eight = add_months(birth, 64 * 12 + 8)
+    assert later(svc, clock, eight).reconcile_all() == 1
+    contact = svc.contact(jorge["run"], "pgu")
+    assert contact["etapa"] == "recordatorio" and "cola" not in contact
+
+    turns = add_years(birth, 65)
+    assert later(svc, clock, turns).reconcile_all() == 1
+    contact = svc.contact(jorge["run"], "pgu")
+    assert contact["tipo"] == "disponible" and contact["estado"] == "email_enviado"
+    assert contact["cola"] == "pendiente"  # now the contact escalates if unanswered
+    subjects = [m.subject for m in sent_emails()]
+    assert subjects == [
+        f"Prepare su trámite: desde el {contact_date(birth, 777)} podrá solicitar la PGU",
+        f"Falta un mes: el {contact_date(birth, 777)} se abre su solicitud de la PGU",
+        "Felicitaciones: aparentemente usted es elegible para la PGU",
+    ]
+    preparation, reminder, eligible = (m.body for m in sent_emails())
+    assert "Cédula de identidad vigente" in preparation
+    assert "Le recomendamos revisar que sus documentos se encuentren vigentes." in preparation
+    assert "Igual revisa" not in preparation
+    assert "no corresponde a un plazo de vencimiento" in reminder
+    for body in (preparation, reminder, eligible):
+        assert "Instituto de Previsión Social" in body
+        assert "aparente" in body and "referenciales" in body
+        assert body.count("a=acepto") == 1
+
+
+def contact_date(birth, months):
+    return add_months(birth, months).strftime("%d-%m-%Y")
+
+
+def test_pgu_notice_lists_missing_records_and_skips_top_income(env):
+    svc, _, _ = env
+    birth = add_months(TODAY, -(64 * 12 + 1)).isoformat()
+    no_rsh = {k: v for k, v in demo("Jorge").items() if k != "percentil_pfp"}
+    contact = insert(svc, no_rsh | {"fecha_nacimiento": birth})[0]
+    assert contact["faltantes"] == ["No pertenecer al 10% de mayores ingresos"]
+    assert "aún le falta" in sent_emails()[0].body
+    rich = demo("Marcelo") | {"fecha_nacimiento": birth, "percentil_pfp": 95}
+    assert [c for c in insert(svc, rich) if c["beneficio_id"] == "pgu"] == []
+
+
+def test_risk_notice_for_pgu_recipient_abroad(env):
+    svc, clock, _ = env
+    rosa = demo("Rosa")
+    assert insert(svc, rosa) == []
+    contact = change(svc, rosa["run"], dias_fuera_ultimo_anio=160)[0]
+    assert contact["beneficio_id"] == "pgu:riesgo:fuera_de_chile"
+    assert contact["tipo"] == "riesgo" and "cola" not in contact
+    message = sent_emails()[0]
+    assert message.subject == "Atención: su PGU podría verse afectada"
+    assert "160 días fuera de Chile" in message.body and "preventivo" in message.body
+    assert change(svc, rosa["run"], dias_fuera_ultimo_anio=170) == []
+    clock.advance(60)
+    assert svc.escalate() == 0
+    answer = svc.interact(rosa["run"], contact["beneficio_id"], contact["token"], "acepto", "email")
+    assert "informar sus fechas de viaje" in answer["paso_siguiente"]
 
 
 def test_stream_and_http_handlers(env, monkeypatch):
@@ -290,10 +371,10 @@ def test_stream_and_http_handlers(env, monkeypatch):
     pixel = handlers.on_http({"queryStringParameters": query | {"a": "abrir"}}, None)
     assert pixel["headers"]["Content-Type"] == "image/gif"
     page = handlers.on_http({"queryStringParameters": query | {"a": "ver"}}, None)
-    assert page["statusCode"] == 200 and "Quiero orientación" in page["body"]
+    assert page["statusCode"] == 200 and "Solicitar orientación" in page["body"]
     assert "a=rechazo" not in page["body"]
     page = handlers.on_http({"queryStringParameters": query | {"a": "acepto"}}, None)
-    assert "Tu próximo paso" in page["body"]
+    assert "Su próximo paso" in page["body"]
     bad = handlers.on_http({"queryStringParameters": query | {"t": "x", "a": "acepto"}}, None)
     assert bad["statusCode"] == 400
 
