@@ -141,3 +141,18 @@ def test_home_banner_rotates_pauses_and_passes_question_to_assistant(tmp_path, m
         )
         == 1
     )
+
+
+def test_header_names_the_institution_under_the_logo(tmp_path, monkeypatch):
+    pytest.importorskip("streamlit", reason="Instalar el grupo app para verificar la UI")
+    from streamlit.testing.v1 import AppTest
+
+    app_dir = Path(__file__).resolve().parents[1] / "src/app"
+    monkeypatch.syspath_prepend(str(app_dir))
+    config = importlib.import_module("ruta.config")
+    monkeypatch.setattr(config, "DB_PATH", tmp_path / "ui-cases.db")
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "")
+    app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
+    assert not app.exception
+    header = next(m.value for m in app.markdown if 'class="portal-logo"' in m.value)
+    assert header.index("portal-logo") < header.index("Instituto de Previsión Social")

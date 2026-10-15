@@ -10,6 +10,8 @@ import streamlit as st
 
 BASE_URL = "https://www.chileatiende.gob.cl"
 LOGO = Path(__file__).resolve().parent / "assets/logo-chileatiende.svg"
+# Shown under the logo, as in the emails sent by the proactive detection.
+INSTITUTION = "Instituto de Previsión Social"
 
 
 def _portal_styles() -> str:
@@ -17,7 +19,8 @@ def _portal_styles() -> str:
         "<style>"
         + (LOGO.parent / "fonts.css").read_text(encoding="utf-8")
         + (LOGO.parent / "portal.css").read_text(encoding="utf-8")
-    + (LOGO.parent / "motion.css").read_text(encoding="utf-8")
+        + (LOGO.parent / "motion.css").read_text(encoding="utf-8")
+        + (LOGO.parent / "public-chat.css").read_text(encoding="utf-8")
         + "</style>"
     )
 
@@ -65,9 +68,10 @@ def render_header() -> str:
     with st.container(key="portal_header"):
         brand, search, utilities = st.columns([1.2, 2.8, 1.2], vertical_alignment="center")
         brand.markdown(
-            f'<a href="{BASE_URL}" target="_blank" rel="noopener noreferrer">'
-            f'<img class="portal-logo" alt="ChileAtiende" '
-            f'src="data:image/svg+xml;base64,{logo}"></a>',
+            f'<div class="portal-brand"><a href="{BASE_URL}" target="_blank" '
+            f'rel="noopener noreferrer"><img class="portal-logo" alt="ChileAtiende" '
+            f'src="data:image/svg+xml;base64,{logo}"></a>'
+            f'<span class="portal-institution">{INSTITUTION}</span></div>',
             unsafe_allow_html=True,
         )
         with search:
@@ -163,11 +167,17 @@ def render_chat_page() -> None:
     from ruta.asistente import responder_publico
 
     st.markdown(_portal_styles(), unsafe_allow_html=True)
-    st.page_link(st.session_state["portal_home_page"], label="← Volver a Inicio")
+    with st.container(key="public_chat_header"):
+        brand, actions = st.columns([3, 1], vertical_alignment="center")
+        with brand:
+            st.page_link(st.session_state["portal_home_page"], label="← ChileAtiende")
+        with actions:
+            if st.button("Nueva conversación", key="public_chat_reset", use_container_width=True):
+                st.session_state["public_chat_history"] = []
+                st.session_state.pop("public_chat_pending", None)
+                st.session_state.pop("public_chat_engine", None)
+                st.rerun()
     with st.container(key="public_chat"):
-        st.markdown('<span class="agent-label">CHILEATIENDE</span>', unsafe_allow_html=True)
-        st.title("Conversemos sobre tus trámites")
-        st.caption("Orientación general con fuentes oficiales. No ingreses claves ni datos personales.")
         history = st.session_state.setdefault("public_chat_history", [])
         pending = st.session_state.pop("public_chat_pending", None)
         if pending:
@@ -176,17 +186,22 @@ def render_chat_page() -> None:
             st.session_state["public_chat_engine"] = engine
             history.extend([{"rol": "user", "texto": pending}, {"rol": "assistant", "texto": answer}])
         if not history:
-            st.chat_message("assistant").write("Hola. ¿En qué te ayudo hoy? Puedes preguntarme por PGU, documentos o cómo comenzar tu ruta.")
-        for message in history:
-            st.chat_message(message["rol"]).write(message["texto"])
+            st.markdown(
+                '<div class="public-chat-welcome"><span>ASISTENTE CHILEATIENDE</span>'
+                '<h1>¿En qué te podemos ayudar?</h1>'
+                '<p>Una conversación para encontrar tu próximo paso.</p></div>',
+                unsafe_allow_html=True,
+            )
+        for index, message in enumerate(history):
+            with st.container(key=f"public_message_{message['rol']}_{index}"):
+                st.chat_message(message["rol"]).write(message["texto"])
         if st.session_state.get("public_chat_engine") == "plantillas" and history:
             st.caption("Orientación con respuestas predefinidas y fuentes oficiales.")
-        if question := st.chat_input("Pregunta lo que necesites", max_chars=2000):
-            st.session_state["public_chat_pending"] = question
-            st.rerun()
-        if history and st.button("Nueva conversación", key="public_chat_reset"):
-            st.session_state["public_chat_history"] = []
-            st.rerun()
+    if question := st.chat_input("Escribe tu pregunta sobre trámites o beneficios", max_chars=2000):
+        st.session_state["public_chat_pending"] = question
+        st.rerun()
+    with st.container(key="public_chat_notice"):
+        st.caption("Orientación general con fuentes oficiales. No compartas claves ni datos personales.")
 
 
 def _render_home_banner() -> None:
