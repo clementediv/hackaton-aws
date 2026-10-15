@@ -170,49 +170,30 @@ def render_discovery() -> None:
     st.html(f'<style>{styles}</style><div class="official-home">{content}</div>')
 
 
-def _pause_home_banner() -> None:
-    st.session_state["home_banner_auto"] = False
-
-
-def _open_home_chat() -> None:
-    _pause_home_banner()
-    st.session_state["home_banner_chat_open"] = True
-
-
 def _queue_home_question(question: str) -> None:
     st.session_state["portal_pending_question"] = question
     st.session_state["portal_next_section"] = "Ayuda para tus trámites"
     st.rerun(scope="app")
 
 
-@st.fragment(run_every="10s")
+@st.fragment(run_every="5s")
 def _render_home_banner() -> None:
     now = monotonic()
     previous = st.session_state.setdefault("home_banner_last_rotation", now)
     slide = st.session_state.setdefault("home_banner_slide", "Beneficios")
-    if st.session_state.get("home_banner_auto", True) and now - previous >= 10:
+    if not st.session_state.get("home_banner_chat_open") and now - previous >= 5:
         st.session_state["home_banner_slide"] = (
             "Asistente IA" if slide == "Beneficios" else "Beneficios"
         )
         st.session_state["home_banner_last_rotation"] = now
     with st.container(border=True, key="home_government"):
-        if st.session_state["home_banner_slide"] == "Asistente IA":
-            _render_home_assistant()
-        else:
-            _render_home_benefits()
-        with st.container(key="home_banner_controls"):
-            navigation, playback = st.columns([3, 1], vertical_alignment="center")
-            with navigation:
-                st.radio(
-                    "Explora nuestros servicios",
-                    ["Beneficios", "Asistente IA"],
-                    horizontal=True,
-                    label_visibility="collapsed",
-                    key="home_banner_slide",
-                    on_change=_pause_home_banner,
-                )
-            with playback:
-                st.toggle("Rotación automática", value=True, key="home_banner_auto")
+        active = st.session_state["home_banner_slide"]
+        slide_key = "assistant" if active == "Asistente IA" else "benefits"
+        with st.container(key=f"home_slide_{slide_key}"):
+            if active == "Asistente IA":
+                _render_home_assistant()
+            else:
+                _render_home_benefits()
 
 
 def _render_home_benefits() -> None:
@@ -226,13 +207,13 @@ def _render_home_benefits() -> None:
             "</div>",
             unsafe_allow_html=True,
         )
-        st.button(
+        if st.button(
             "Ver mis beneficios",
             type="primary",
-            on_click=open_section,
-            args=("Mi Gobierno",),
             key="home_government_access",
-        )
+        ):
+            st.session_state["portal_next_section"] = "Mi Gobierno"
+            st.rerun(scope="app")
 
 
 def _render_home_assistant() -> None:
@@ -243,14 +224,7 @@ def _render_home_assistant() -> None:
         "y encuentra por dónde empezar.</p></div>",
         unsafe_allow_html=True,
     )
-    if not st.session_state.get("home_banner_chat_open"):
-        st.button(
-            "Probar el asistente",
-            type="primary",
-            key="home_try_assistant",
-            on_click=_open_home_chat,
-        )
-        return
+    st.session_state["home_banner_chat_open"] = True
     with st.container(key="home_chat_preview"):
         st.markdown("**Asistente de ayuda**")
         st.write("Hola. ¿Qué necesitas saber sobre tu trámite?")

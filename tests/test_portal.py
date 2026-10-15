@@ -116,13 +116,12 @@ def test_home_banner_rotates_pauses_and_passes_question_to_assistant(tmp_path, m
     clock[0] = 111.0
     app.run()
     assert not app.exception
-    assert app.radio(key="home_banner_slide").value == "Asistente IA"
+    assert app.session_state["home_banner_slide"] == "Asistente IA"
+    assert app.text_input(key="home_agent_question_text")
+    assert not any(button.key == "home_try_assistant" for button in app.button)
     clock[0] = 122.0
     app.run()
-    assert app.radio(key="home_banner_slide").value == "Beneficios"
-    app.radio(key="home_banner_slide").set_value("Asistente IA").run()
-    app.button(key="home_try_assistant").click().run()
-    assert not app.session_state["home_banner_auto"]
+    assert app.session_state["home_banner_slide"] == "Asistente IA"
     app.text_input(key="home_agent_question_text").set_value("¿Qué es la PGU?")
     clock[0] = 200.0
     app.run()

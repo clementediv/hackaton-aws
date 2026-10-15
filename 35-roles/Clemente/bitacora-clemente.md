@@ -111,3 +111,5 @@ Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo
 
 ### 2026-10-14 · T01 · `125f8f8`
 - T01 implementada por Codex: configuración Python, estructura inicial y cliente Bedrock. `uv run pytest`: 11 tests pasan; ruff check y format OK. Documentación en [[T01-scaffold-python]].
+
+- 15-10: banner con chat de texto visible sin bot?n previo; t?tulo ?Prueba nuestro asistente de inteligencia artificial? e invitaci?n a preguntas frecuentes. Rotaci?n detenida al mostrar el chat; consulta contin?a en Ayuda. Cuatro pruebas del portal y verificador de 500 perfiles OK. [[portal-ayuda-tramites]].
