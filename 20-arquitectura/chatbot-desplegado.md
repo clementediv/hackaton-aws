@@ -43,3 +43,25 @@ T18: rutas de creación, invitación, consentimiento, consulta y chat implementa
 La key autentica al integrador; x-run acota el caso solicitado para la demo, pero
 no prueba identidad ciudadana. Producción requiere integrar una identidad
 verificada antes de exponer datos reales. Declinar revoca autorización.
+
+T19: instrumentación opcional de Bedrock antes de construir el cliente, span
+chat.turn y flush en finally. Prueba real Sonnet 5: leer_caso OK, dos spans
+bedrock.converse anidados en chat.turn. Un colector caído no rompió el turno.
+Prueba offline adicional con Stubber confirma el identificador exacto del modelo.
+
+Phoenix local se instala aislado para evitar conflictos con la app:
+
+```sh
+uv tool run --python 3.12 --from 'arize-phoenix>=12,<13' \
+  --with 'arize-phoenix-evals>=2.8,<3' --with 'graphql-core==3.2.6' \
+  --with 'fastapi==0.115.12' --with 'starlette==0.46.2' phoenix serve
+AWS_PROFILE=hackaton PHOENIX_COLLECTOR_ENDPOINT=http://localhost:6006 \
+  uv run --group api python scripts/verificar_chat_tracing.py
+```
+
+Los límites extra corrigen incompatibilidades transitivas observadas al iniciar
+Phoenix 12 (evals 3, graphql-core y cambio de firma TemplateResponse).
+
+Recepción T19 confirmada en Phoenix 12.35: UI Chrome muestra proyecto ca-chat y
+chat.turn (17,8 s); API del colector devuelve ese span y dos bedrock.converse hijos.
+Trace ID: 07ede8f4a30670148475cb21d5bf3d22. Captura local /tmp/chat-phoenix.png.

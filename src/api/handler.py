@@ -8,6 +8,9 @@ from functools import lru_cache
 import boto3
 
 from src.agent.bedrock import BedrockClient
+from src.api.tracing import flush, setup_tracing
+
+setup_tracing()
 
 
 @lru_cache(maxsize=1)
@@ -26,6 +29,13 @@ def response(status, payload):
 
 
 def on_http(event, context):
+    try:
+        return _on_http(event, context)
+    finally:
+        flush()
+
+
+def _on_http(event, context):
     try:
         headers = {k.lower(): v for k, v in (event.get("headers") or {}).items()}
         supplied = headers.get("x-api-key", "")
