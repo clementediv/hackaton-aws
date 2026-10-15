@@ -9,7 +9,7 @@
 .st-key-public_chat_header button:hover{background:#e5f0fc;border-color:#0f69c4}
 .st-key-public_chat{width:100%;max-width:760px;min-width:0;align-self:center;margin:8px auto!important}
 .st-key-public_chat [data-testid="stElementContainer"],.st-key-public_chat [data-testid="stMarkdown"],.st-key-public_chat [data-testid="stMarkdownContainer"]{width:100%!important;max-width:100%;min-width:0;box-sizing:border-box}
-.public-chat-welcome{width:100%;box-sizing:border-box;text-align:center;padding:20px 0 18px}
+.public-chat-welcome{width:100%;box-sizing:border-box;text-align:center;padding:0 0 38px}
 .public-chat-welcome>span{font:600 11px/1.5 Roboto,Arial,sans-serif;letter-spacing:1.8px;color:#0f69b4}
 .public-chat-welcome:before{content:"";display:block;width:48px;height:4px;margin:0 auto 24px;background:linear-gradient(to right,#0f69c4 50%,#eb3c46 50%);border-radius:2px}
 .st-key-public_chat .public-chat-welcome h2{font:400 clamp(36px,4.6vw,58px)/1.12 Roboto,Arial,sans-serif;letter-spacing:-1.8px;color:#0d4d82;padding:0;margin:18px auto;max-width:760px;text-wrap:balance}
@@ -31,13 +31,13 @@
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"]{border-radius:36px;background:#fff;border:1px solid #c6d9ea;box-shadow:0 8px 32px #0d4d820d;padding:12px 16px}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"]:focus-within{border-color:#0f69b4;box-shadow:0 0 0 3px #0f69b410,0 8px 32px #0d4d820d}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"] [data-baseweb="textarea"]{border:0!important;box-shadow:none!important;background:transparent;width:100%!important;max-width:100%;min-width:0}
-.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{font-size:16px;box-sizing:border-box;width:100%!important;max-width:100%;min-width:0;min-height:48px;line-height:24px;padding:12px 48px 12px 0!important;color:#143e5c}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{font-size:16px;box-sizing:border-box;width:100%!important;max-width:100%;min-width:0;min-height:48px;line-height:24px;padding:12px 48px 12px 12px!important;color:#143e5c}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInputSubmitButton"]{background:#0f69b4;color:#fff;border-radius:50%}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInputSubmitButton"]:hover{background:#0d4d82}
 .st-key-public_chat_notice{max-width:760px;margin:0 auto;text-align:center}
 .st-key-public_chat_notice p{font-size:11px;line-height:1.7;color:#60798e}
 @media(prefers-reduced-motion:no-preference){.public-chat-welcome,[class*="st-key-public_message_"]{animation:portal-enter 240ms ease-out both}.st-key-public_chat_suggestions button,.st-key-public_chat_header button{transition:background-color 160ms,border-color 160ms}}
-@media(max-width:600px){.stApp:has(.st-key-public_chat) .block-container{padding:0 24px 36px}.public-chat-title h1{font-size:13px}.public-chat-welcome{padding-top:12px}.public-chat-welcome p{font-size:15px}.st-key-public_chat_header [data-testid="stHorizontalBlock"]{flex-wrap:nowrap;gap:8px}.st-key-public_chat_header [data-testid="stColumn"]{min-width:0!important}.st-key-public_chat_header [data-testid="stColumn"]:last-child{flex:0 0 150px;width:150px}.st-key-public_chat_suggestions [data-testid="stHorizontalBlock"]{gap:8px}.st-key-public_chat_suggestions [data-testid="stColumn"]{width:100%!important;flex:1 1 100%!important;min-width:0!important}.stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{padding:8px 16px 16px}.st-key-public_chat [data-testid="stChatMessage"] p{font-size:15px}[class*="st-key-public_message_user_"]{max-width:94%}}
+@media(max-width:600px){.stApp:has(.st-key-public_chat) .block-container{padding:0 24px 36px}.public-chat-title h1{font-size:13px}.public-chat-welcome{padding-top:0;padding-bottom:30px}.public-chat-welcome p{font-size:15px}.st-key-public_chat_header [data-testid="stHorizontalBlock"]{flex-wrap:nowrap;gap:8px}.st-key-public_chat_header [data-testid="stColumn"]{min-width:0!important}.st-key-public_chat_header [data-testid="stColumn"]:last-child{flex:0 0 150px;width:150px}.st-key-public_chat_suggestions [data-testid="stHorizontalBlock"]{gap:8px}.st-key-public_chat_suggestions [data-testid="stColumn"]{width:100%!important;flex:1 1 100%!important;min-width:0!important}.stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{padding:8px 16px 16px}.st-key-public_chat [data-testid="stChatMessage"] p{font-size:15px}[class*="st-key-public_message_user_"]{max-width:94%}}
 
 .st-key-public_chat [data-testid="stChatInput"]{width:100%!important;max-width:100%;min-width:0;box-sizing:border-box}
 @media(max-width:700px){.stApp:has(.st-key-public_chat) .block-container{padding-left:18px;padding-right:18px}}
@@ -47,6 +47,6 @@
 .st-key-public_chat_notice [data-testid="stMarkdown"],
 .st-key-public_chat_notice [data-testid="stMarkdownContainer"]{width:100%!important;max-width:100%;box-sizing:border-box}
 .st-key-public_chat .public-chat-welcome h2{padding-inline:0!important;text-align:center}
-.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{padding:12px 48px!important}
-.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea:placeholder-shown{text-align:center}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{padding:12px 48px 12px 12px!important}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea:placeholder-shown{text-align:left}
 .stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea:not(:placeholder-shown){text-align:left}

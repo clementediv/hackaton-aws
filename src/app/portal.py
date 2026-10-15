@@ -266,12 +266,8 @@ def render_chat_page() -> None:
                 {"rol": "assistant", "texto": "".join(parts)},
             ])
             st.session_state["public_chat_engine"] = engine
-        if st.session_state.get("public_chat_engine") == "plantillas" and history:
-            st.caption("Orientación con respuestas predefinidas y fuentes oficiales.")
     if history:
         _render_public_chat_input()
-    with st.container(key="public_chat_notice"):
-        st.caption("Orientación general con fuentes oficiales. No compartas claves ni datos personales.")
 
 
 def _render_public_chat_input() -> None:
