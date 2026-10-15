@@ -22,6 +22,8 @@ Una clave incorrecta muestra error y limpia el formulario. «Cerrar sesión de e
 
 Implementación: `ruta/staff_auth.py`, formulario y guardia compartida en `ui_ejecutivos.require_login()`. Pruebas cubren cuentas válidas/inválidas, entrada directa sin sesión, acceso al mapa tras ingresar, salida y aislamiento de Mi Gobierno.
 
+Acceso implementado en `dc0e849`: 225 pruebas OK, una omitida por trazas opcionales y ocho evals Bedrock excluidas; verificador de 500 perfiles y Chrome escritorio/móvil OK.
+
 ## Seguimiento
 
 - Resumen de personas alertadas, sin contacto confirmado, contactadas que esperan orientación y quienes iniciaron el trámite. Quienes declinaron se cuentan aparte en el seguimiento; ninguna cifra representa resoluciones concedidas.

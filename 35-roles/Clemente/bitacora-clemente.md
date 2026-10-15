@@ -9,6 +9,7 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
 ### 2026-10-15 · Acceso ficticio de ejecutivos · commit «Agregar acceso ficticio para ejecutivos y asistentes sociales»
+- Implementación `dc0e849`. Cierre: 225 pruebas OK, una omitida por dependencia opcional de trazas y ocho evals Bedrock excluidas; lint de archivos cambiados y verificador de 500 perfiles OK. Localhost 8505 actualizado.
 - Login con correo y clave para ejecutiva/asistente social ficticios; credenciales visibles en la pantalla para la demo. Misma línea visual del acceso ciudadano. Sesión propia, sin alterar consentimiento ni historial de Mi Gobierno.
 - Guardia común antes de leer campañas y herramientas laterales; salida limpia identidad, campos y filtros del ejecutivo sin borrar los casos. Error de credenciales limpia el formulario.
 - Pruebas de validación, acceso directo, mapa tras ingresar, salida y aislamiento de sesión ciudadana. Actualizadas pruebas de ficha/Contactos AWS para ingresar primero. Chromium verifica error, ingreso, heatmap, salida y móvil sin desborde; verificador de 500 perfiles TODO OK. [[portal-ejecutivos]].
