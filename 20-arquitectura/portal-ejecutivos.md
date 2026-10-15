@@ -40,3 +40,5 @@ Código: `ui_ejecutivos.py`, `ruta/ejecutivos.py`, `ruta/despliegue.py`, `assets
 Verificación: `uv run --group app pytest`, `uv run --group app python src/app/verificar.py`; pruebas nuevas en `tests/test_executives.py` cubren planificación según equipo, privacidad, persistencia, filtros, navegación, mapa y campaña vacía. Recorrido Chromium en escritorio y móvil.
 
 Implementación `81755d7`, merge `710df25`. Se conserva el chat público remoto en `/chat` y la carga dinámica de estilos. La integración también corrige la lectura UTF-8 de perfiles en la API para Windows y completa la aceptación de invitación en el test autorizado; no cambia las condiciones para leer el perfil.
+
+Resultado integrado: **224 pruebas OK**, una omitida por dependencia opcional de trazas no instalada y ocho evaluaciones Bedrock excluidas del comando offline; verificador de 500 perfiles TODO OK. Chromium comprueba mapa y navegación sin errores JavaScript, a 1440 y 390 px. Vista local en puerto 8505.
