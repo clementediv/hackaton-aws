@@ -32,3 +32,7 @@ Phoenix 12.35 local verificado en Chrome: proyecto ca-chat, una traza chat.turn 
 ### 2026-10-15 · T20 · ver commit T20
 
 Ocho escenarios con DeepEval y juez Sonnet 5 real verificados: herramientas 1,00 en todos; fuente/no aprobación ≥0,90. Seis pasan en ronda completa y dos expectativas de herramienta corregidas pasan en repetición seleccionada. Fuente de respaldo incorporada a la respuesta persistida. Scorecard en [[chatbot-desplegado]]. Marker eval excluido por defecto; telemetría desactivada.
+
+### 2026-10-15 · T21 · ver commit T21
+
+Stack completo desplegado en UPDATE_COMPLETE. Tres turnos HTTPS recuerdan Rosa/teléfono y AWS CLI confirma seis mensajes. Auth 401/403/200, 188 pruebas offline, verificador 500 perfiles TODO OK, synth y assertions CDK OK. Phoenix Lambda cableado e inerte; endpoint remoto no configurado. [[chatbot-desplegado]] y [[0014-chatbot-api-desplegada]].

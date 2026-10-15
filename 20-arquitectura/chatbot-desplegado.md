@@ -1,7 +1,7 @@
 ---
 tipo: implementacion
 fecha: 2026-10-15
-estado: en curso
+estado: implementado
 ---
 # Chatbot desplegado
 
@@ -20,8 +20,9 @@ nuevos y síntesis CDK OK. Comprobación del template: autorización CUSTOM, thr
 y GSI por-run. Verificación remota: `uv run python scripts/verificar_chat_health.py`.
 El script recupera la key sin imprimirla y prueba solicitudes sin key, inválida y válida.
 
-T16–T21 pendientes: repositorio, evaluación/turnos, rutas HTTP, Phoenix, DeepEval
-y verificación de continuidad. Health no constituye todavía un chat persistente.
+T15–T21 implementadas: repositorio, evaluación/turnos, rutas HTTP, Phoenix, DeepEval
+y continuidad verificada en AWS. Streamlit conserva su adaptador local; su migración
+a esta API queda fuera del alcance de este plan.
 
 La revisión global de ruff detecta 183 errores heredados fuera de este aporte;
 los archivos Python nuevos/modificados pasan lint y formato. No se reformatea
@@ -83,3 +84,27 @@ Seis escenarios pasan en la ronda completa; los dos casos ajustados de expectati
 de leer_caso pasan en una segunda ejecución seleccionada (2/2). Se verifica además
 que sin autorización no se guarda evaluación y ninguna llamada de herramienta es exitosa.
 El juez valida JSON por Pydantic; Sonnet 5 rechaza temperature y se omite ese parámetro.
+
+## T21 · Verificación final
+
+ChileAtiendeChat en UPDATE_COMPLETE. `scripts/chat.py --run 100000010-4 --verify`
+creó caso, aceptó invitación, autorizó fuentes y completó tres turnos vía HTTPS.
+El tercero recordó Rosa y atención telefónica del primero. AWS CLI, con lectura
+consistente de ca-casos, confirmó seis mensajes del caso
+6f00091d-3f8d-4649-8fa6-f5633a926478. Health: 401 sin key, 403 inválida, 200 con Bedrock.
+
+188 pruebas offline pasan, ocho evals excluidas. Verificador 500 perfiles TODO OK.
+Un timeout inicial de Streamlit pasó al repetir la prueba individual (1,05 s) y
+la suite completa (188/188). Assertions CDK y synth pasan; lint/formato de los 23
+archivos Python del aporte pasan. El lint global conserva errores heredados.
+
+Phoenix en Lambda queda **cableado e inerte**, sin endpoint Cloud configurado.
+Para activarlo, reemplazar el valor de ca-chat-phoenix-key por la key real y desplegar
+con `-c phoenix_endpoint=https://...`; no se debe exportar datos reales sin resolver
+identidad y tratamiento de datos. La recepción local de trazas se comprobó en T19.
+
+Cliente interactivo: `uv run python scripts/chat.py --run 100000010-4`.
+Prueba de continuidad: agregar `--verify`. El cliente usa el perfil hackaton y recupera
+la API key desde Secrets Manager sin imprimirla. No publicar esta key en el frontend.
+La identidad ciudadana verificada, transportes de contacto y estado institucional de
+solicitudes quedan fuera de esta API de integración demo.

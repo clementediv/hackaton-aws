@@ -42,7 +42,7 @@ include = ["src", "src.*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = '-ra -m "not eval"'
+addopts = '-ra -p no:deepeval -m "not eval"'
 markers = ["eval: evaluación explícita con Bedrock real (consume tokens)"]
 
 [tool.ruff]
