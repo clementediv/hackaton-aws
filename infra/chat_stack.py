@@ -65,12 +65,16 @@ def lambda_asset():
         raise RuntimeError("Bundle no compatible con Lambda Linux x86_64")
     (BUILD / "src").mkdir()
     shutil.copy2(ROOT / "src/__init__.py", BUILD / "src/__init__.py")
-    for package in ("api", "agent", "contracts", "tools"):
+    for package in ("api", "agent", "contracts", "tools", "cases"):
         shutil.copytree(
             ROOT / "src" / package,
             BUILD / "src" / package,
             ignore=shutil.ignore_patterns("__pycache__"),
         )
+    (BUILD / "src/app/ruta").mkdir(parents=True)
+    for name in ("__init__.py", "config.py", "reglas.py", "fechas.py"):
+        shutil.copy2(ROOT / "src/app/ruta" / name, BUILD / "src/app/ruta" / name)
+    shutil.copy2(ROOT / "src/app/__init__.py", BUILD / "src/app/__init__.py")
     shutil.copytree(
         ROOT / "data/raw/dataset_A_participantes", BUILD / "data/raw/dataset_A_participantes"
     )
@@ -110,6 +114,9 @@ class ChatStack(Stack):
         key.apply_removal_policy(RemovalPolicy.DESTROY)
         role_arn = self.node.try_get_context("lambda_role_arn")
         role = iam.Role.from_role_arn(self, "RolExistente", role_arn) if role_arn else None
+        code = lambda_asset()
+        phoenix = secrets.Secret(self, "PhoenixKey", secret_name="ca-chat-phoenix-key")
+        phoenix.apply_removal_policy(RemovalPolicy.DESTROY)
         fn = lambda_.Function(
             self,
             "Chat",
@@ -117,7 +124,7 @@ class ChatStack(Stack):
             runtime=lambda_.Runtime.PYTHON_3_12,
             architecture=lambda_.Architecture.X86_64,
             handler="src.api.handler.on_http",
-            code=lambda_asset(),
+            code=code,
             role=role,
             timeout=Duration.seconds(28),
             memory_size=512,
@@ -126,6 +133,9 @@ class ChatStack(Stack):
                 "TABLA_CASOS": table.table_name,
                 "BEDROCK_MODEL_ID": "us.anthropic.claude-sonnet-5",
                 "DATA_DIR": "/var/task/data/raw/dataset_A_participantes",
+                "FECHA_REFERENCIA": "2026-10-08",
+                "PHOENIX_COLLECTOR_ENDPOINT": self.node.try_get_context("phoenix_endpoint") or "",
+                "PHOENIX_API_KEY_SECRET_ARN": phoenix.secret_arn,
             },
             log_group=logs.LogGroup(
                 self,
@@ -136,6 +146,7 @@ class ChatStack(Stack):
             ),
         )
         key.grant_read(fn)
+        phoenix.grant_read(fn)
         table.grant_read_write_data(fn)
         fn.add_to_role_policy(
             iam.PolicyStatement(
@@ -167,7 +178,7 @@ class ChatStack(Stack):
             function_name="ca-chat-auth",
             runtime=lambda_.Runtime.PYTHON_3_12,
             handler="src.api.handler.authorize",
-            code=lambda_.Code.from_asset(str(BUILD)),
+            code=code,
             environment={"API_KEY_SECRET_ARN": key.secret_arn},
             role=role,
             timeout=Duration.seconds(10),

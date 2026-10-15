@@ -123,7 +123,9 @@
 .st-key-gov_subnav label[data-baseweb="radio"]:focus-within{outline:2px solid #0f69b4;outline-offset:2px}
 .st-key-gov_subnav label p{color:inherit!important;font-weight:600;font-size:15px}
 .st-key-gov_subnav label:has(input:checked) p{color:#fff!important}
-.gov-requirement-card{display:flex;gap:12px;padding:16px;margin:10px 0;border:1px solid;border-radius:12px;align-items:flex-start}
+.gov-requirement-card{box-sizing:border-box;position:relative;display:block;width:100%;max-width:100%;min-width:0;padding:16px 52px;margin:10px 0;border:1px solid;border-radius:12px;text-align:center}
+.gov-requirement-card>div{min-width:0;width:100%;text-align:center}
+.gov-requirement-card strong{overflow-wrap:anywhere}
 .gov-requirement-card.ready{background:#edf8f1;border-color:#b8dfc7;color:#166145}
 .gov-requirement-card.pending{background:#fff8e8;border-color:#ead49a;color:#805b13}
 [class*="st-key-gov_requirement_"]:has(.gov-requirement-card){border:1px solid #b8dfc7;border-radius:12px;background:#edf8f1;margin:10px 0;overflow:hidden}
@@ -133,7 +135,7 @@
 [class*="st-key-gov_requirement_"] [data-testid="stCaptionContainer"], [class*="st-key-gov_requirement_"] [data-testid="stText"]{padding:0 16px}
 [class*="st-key-gov_requirement_"] [data-testid="stHorizontalBlock"]{padding:0 16px}
 [class*="st-key-gov_requirement_"] [data-testid="stPopover"] button{background:#fffdf7;border:1px solid #d9c38e;color:#725216;border-radius:8px;min-height:42px}
-.gov-requirement-icon{display:flex;align-items:center;justify-content:center;width:25px;height:25px;flex-shrink:0;border:1px solid currentColor;border-radius:50%;font-weight:700}
+.gov-requirement-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:25px;height:25px;flex-shrink:0;border:1px solid currentColor;border-radius:50%;font-weight:700}
 .gov-requirement-card strong{display:block;font-size:15px;line-height:1.5}
 .gov-requirement-status{display:block;font-size:12px;font-weight:700;margin:3px 0}
 .gov-requirement-card p{font-size:13px!important;line-height:1.65;margin:5px 0 0;overflow-wrap:anywhere;color:inherit!important}
@@ -142,7 +144,7 @@
 [class*="st-key-gov_document_slot_"]:has(.gov-document-state.ready){background:#f1faf5;border-color:#b8dfc7!important}
 [class*="st-key-gov_document_slot_"]:has(.gov-document-state.pending){background:#fffaf0;border-color:#ead49a!important}
 .st-key-gov_chat_page{max-width:900px;margin:0 auto;width:100%}
-@media(max-width:600px){.st-key-gov_subnav label[data-baseweb="radio"]{padding:8px 4px}.st-key-gov_subnav label p{font-size:12px}.gov-requirement-card{padding:12px;gap:9px}}
+@media(max-width:600px){.st-key-gov_subnav label[data-baseweb="radio"]{padding:8px 4px}.st-key-gov_subnav label p{font-size:12px}.gov-requirement-card{padding:12px 42px}.gov-requirement-icon{left:10px}}
 /* A readable three-stage journey, with words as well as color. */
 /* Keep card padding inside the width assigned by Streamlit. */
 .st-key-gov_pgu,[class*="st-key-gov_benefit_"]{box-sizing:border-box;min-width:0;max-width:100%}
@@ -164,3 +166,6 @@
 .pending .gov-timeline-state{background:#fff0c7;color:#775311}.ready .gov-timeline-state{background:#ddf0e6;color:#166145}
 @container(max-width:580px){.gov-timeline-track{grid-template-columns:1fr;gap:16px}.gov-timeline-step{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px}.gov-timeline-step:not(:last-child):before{left:14px;top:30px;width:2px;height:calc(100% - 12px)}.gov-timeline-marker{margin:0}}
 @media(max-width:700px){.gov-timeline{padding:12px}.gov-timeline-track{grid-template-columns:1fr;gap:16px}.gov-timeline-step{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px}.gov-timeline-step:not(:last-child):before{left:14px;top:30px;width:2px;height:calc(100% - 12px)}.gov-timeline-marker{margin:0}.gov-timeline-content h4{font-size:14px!important}}
+
+/* Streamlit assigns stHtml a pixel width before card padding is applied. */
+:is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) [data-testid="stHtml"]:has(.gov-timeline){width:100%!important;max-width:100%;min-width:0;box-sizing:border-box}

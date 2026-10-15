@@ -3,7 +3,7 @@ tipo: plan
 integrante: Jonmor
 tareas: T15-T21
 fecha: 2026-10-15
-estado: por implementar
+estado: implementado
 reto: "[[ChileAtiende-a-tiempo]]"
 arquitectura: "[[arquitectura-chileatiende]]"
 ---
@@ -496,6 +496,10 @@ Si el suite del equipo se rompe por algo que hiciste, arréglalo. Si se rompe po
 ---
 
 ## 9. Estado actual del trabajo
+
+**Actualización de implementación:** T15–T21 implementadas y verificadas. Evidencia,
+scorecard y comandos vigentes en [[chatbot-desplegado]] y [[board-jonmor]].
+El bloque siguiente conserva el estado de preparación original.
 
 Existe un worktree con dos commits de preparación:
 

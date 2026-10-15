@@ -12,12 +12,13 @@ BASE_URL = "https://www.chileatiende.gob.cl"
 LOGO = Path(__file__).resolve().parent / "assets/logo-chileatiende.svg"
 
 
-CSS = (
-    "<style>"
-    + (LOGO.parent / "fonts.css").read_text(encoding="utf-8")
-    + (LOGO.parent / "portal.css").read_text(encoding="utf-8")
-    + "</style>"
-)
+def _portal_styles() -> str:
+    return (
+        "<style>"
+        + (LOGO.parent / "fonts.css").read_text(encoding="utf-8")
+        + (LOGO.parent / "portal.css").read_text(encoding="utf-8")
+        + "</style>"
+    )
 
 # Labels/URLs verified in the HTML of the official portal on 2026-10-14.
 SERVICES = (
@@ -49,7 +50,7 @@ EXECUTIVE_SECTIONS = [
 
 
 def render_header() -> str:
-    st.markdown(CSS, unsafe_allow_html=True)
+    st.markdown(_portal_styles(), unsafe_allow_html=True)
     # Preserve the destination of sessions opened before the tools were grouped.
     previous = st.session_state.get("portal_section")
     if previous in EXECUTIVE_SECTIONS and previous != "Atención del caso":
@@ -160,21 +161,25 @@ def _queue_home_question(question: str) -> None:
 
 def _render_home_banner() -> None:
     with st.container(border=True, key="home_government"):
-        with st.container(key="home_slide_track"):
-            with st.container(key="home_slide_assistant"):
-                _render_home_assistant()
-            with st.container(key="home_slide_benefits"):
-                _render_home_benefits()
+        with st.container(key="home_slide_benefits"):
+            _render_home_benefits()
+        with st.container(key="home_slide_assistant"):
+            _render_home_assistant()
 
 
 def _render_home_benefits() -> None:
     with st.container(key="home_government_invitation"):
         st.markdown(
             '<div class="home-government">'
-            "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
+            "<h1>Cobra beneficios gratis del Estado</h1>"
             "<p>Descubre cuáles podrían corresponderte según tu situación. "
             "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
             "en un solo lugar.</p>"
+            '<ul class="home-benefit-examples" aria-label="Ejemplos de beneficios">'
+            '<li>Pensión Garantizada Universal (PGU)</li>'
+            '<li>Gratuidad en educación superior</li>'
+            '<li>Becas de educación superior</li>'
+            '</ul>'
             "</div>",
             unsafe_allow_html=True,
         )
@@ -190,28 +195,44 @@ def _render_home_benefits() -> None:
 def _render_home_assistant() -> None:
     st.markdown(
         '<div class="home-government home-assistant-intro">'
-        "<h1>Prueba el asistente de inteligencia artificial</h1>"
-        "<p>Resuelve preguntas frecuentes sobre tr?mites y beneficios.</p></div>",
+        "<h1>Prueba el asistente de inteligencia artificial de ChileAtiende</h1>"
+        "</div>",
         unsafe_allow_html=True,
     )
-    st.session_state["home_banner_chat_open"] = True
+    examples = (
+        ("¿Qué documentos necesito?", "En Mi Gobierno, abre tu beneficio y revisa los antecedentes de cada paso."),
+        ("¿Por dónde empiezo?", "Ingresa a Mi Gobierno y autoriza la consulta de tus antecedentes para preparar tu ruta."),
+        ("¿Puedo continuar después?", "Sí. Tu avance queda guardado para retomar desde el próximo paso pendiente."),
+    )
+    cards = "".join(
+        f'<div class="home-answer-example" style="--example-index:{index}">'
+        f'<div class="home-example-question">{escape(question)}</div>'
+        '<div class="home-example-answer"><span>Asistente ChileAtiende</span>'
+        f'{escape(answer)}</div></div>'
+        for index, (question, answer) in enumerate(examples)
+    )
+    st.html(
+        '<div class="home-answer-examples" aria-label="Ejemplos de preguntas y respuestas">'
+        + cards + '</div>'
+    )
     with st.container(key="home_chat_preview"):
         with st.form("home_agent_question", border=False):
-            question = st.text_input(
+            text_column, send_column = st.columns([5, 1], gap="small", vertical_alignment="center")
+            question = text_column.text_input(
                 "Escribe tu pregunta",
                 key="home_agent_question_text",
-                placeholder="Pregunta lo que necesites?",
+                placeholder="Pregunta lo que necesites",
                 label_visibility="collapsed",
                 max_chars=2000,
             )
-            if st.form_submit_button("Enviar", type="primary", icon=":material/arrow_upward:"):
+            if send_column.form_submit_button("Enviar", type="primary", use_container_width=True):
                 if question.strip():
                     _queue_home_question(question.strip())
                 else:
                     st.warning("Escribe una pregunta para continuar.")
     with st.container(key="home_chat_suggestions"):
         examples = st.columns(2)
-        for index, question in enumerate(("?Qu? es la PGU?", "?Qu? documentos necesito?")):
+        for index, question in enumerate(("¿Qué es la PGU?", "¿Qué documentos necesito?")):
             if examples[index].button(
                 question, key=f"home_example_{index}", use_container_width=True
             ):

@@ -16,8 +16,11 @@ La evaluación determinista vivirá fuera del agente, con leer_caso como única
 herramienta; queda pendiente unificar motores con Clemente y Johann.
 
 ## Consecuencias
-T15 prueba primero el despliegue mínimo. T16–T21 completarán persistencia,
-consentimiento, trazas y evaluaciones. Phoenix quedará inerte sin endpoint.
+T15 probó primero el despliegue mínimo. T16–T21 completan persistencia,
+consentimiento, trazas y evaluaciones. Phoenix queda inerte en Lambda sin endpoint;
+la recepción local fue verificada. Tres turnos HTTPS y seis mensajes recargados por
+AWS CLI confirman continuidad. La key autentica al integrador demo; x-run no sustituye
+una identidad ciudadana verificada.
 Las trazas pueden contener prompts, respuestas y RUN sintéticos; si el endpoint
 es gestionado, ese contenido sale de AWS hacia un tercero.
 El plan reporta que us.anthropic.claude-haiku-4-5 no es un inference profile válido:
