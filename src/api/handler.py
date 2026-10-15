@@ -8,6 +8,9 @@ from functools import lru_cache
 import boto3
 
 from src.agent.bedrock import BedrockClient
+from src.api.tracing import flush, setup_tracing
+
+setup_tracing()
 
 
 @lru_cache(maxsize=1)
@@ -27,13 +30,22 @@ def response(status, payload):
 
 def on_http(event, context):
     try:
+        return _on_http(event, context)
+    finally:
+        flush()
+
+
+def _on_http(event, context):
+    try:
         headers = {k.lower(): v for k, v in (event.get("headers") or {}).items()}
         supplied = headers.get("x-api-key", "")
         if not supplied or not hmac.compare_digest(supplied, api_key()):
             return response(401, {"ok": False, "error": {"type": "unauthorized"}})
         http = event.get("requestContext", {}).get("http", {})
         if http.get("method") != "GET" or event.get("rawPath") != "/health":
-            return response(404, {"ok": False, "error": {"type": "not_found"}})
+            from src.api.http import route
+
+            return route(event)
         result = BedrockClient.from_env().converse(
             [{"role": "user", "content": [{"text": "Responde solamente OK."}]}],
             inferenceConfig={"maxTokens": 16},
