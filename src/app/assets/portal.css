@@ -108,15 +108,13 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 [data-testid="stForm"]:has(input[aria-label="Describe lo que necesitas"]) button:hover {background:#0f69b4}
 .directory-symbol {display:flex;width:48px;height:48px;align-items:center;justify-content:center;border-radius:50%;background:#edf3f7;color:#0f69b4;font-size:25px;margin-bottom:28px}
 @media(max-width:700px){.portal-header{height:auto;padding:18px 0;gap:12px;flex-wrap:wrap}.portal-logo{width:190px;height:60px}.portal-utilities{gap:8px;font-size:12px}.portal-utilities a{padding:8px}.portal-hero h1{font-size:22px}.block-container{padding-left:18px;padding-right:18px}}
-/* Two clear entry points in the same rotating banner. */
+/* Homepage carousel with a rightward slide entrance. */
+.st-key-home_government{overflow:hidden}
+.st-key-home_slide_benefits,.st-key-home_slide_assistant{animation:home-slide-right .55s ease-out both}
+@keyframes home-slide-right{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){.st-key-home_slide_benefits,.st-key-home_slide_assistant{animation:none}}
+.home-slide-indicator{text-align:center;color:#0d4d82;font-size:14px;padding:8px 0}
 .st-key-home_banner_controls{margin-top:28px;padding-top:20px;border-top:1px solid #d7e4ee}
-.st-key-home_banner_controls [role="radiogroup"]{gap:8px;border:0!important;padding:0!important}
-.st-key-home_banner_controls label[data-baseweb="radio"]{padding:8px 14px;margin:0;border:1px solid transparent;border-radius:5px;gap:0;min-height:40px}
-.st-key-home_banner_controls label[data-baseweb="radio"]>div:first-child{display:none}
-.st-key-home_banner_controls label[data-baseweb="radio"]>div:last-child{padding:0;margin:0}
-.st-key-home_banner_controls label:has(input:checked){background:#fff;border-color:#bfd0df;color:#0d4d82}
-.st-key-home_banner_controls label p{font-size:14px!important}
-.st-key-home_banner_controls label:focus-within{outline:2px solid #0f69b4;outline-offset:2px}
 .st-key-home_chat_preview{max-width:720px;padding:20px;border:1px solid #d4e2ed;border-radius:10px;background:#fff}
 .st-key-home_chat_preview [data-testid="stForm"]{padding:0;border:0}
 .st-key-home_chat_preview [data-testid="stFormSubmitButton"] button{background:#0f69b4;border-color:#0f69b4;color:white;min-height:46px;border-radius:4px}
