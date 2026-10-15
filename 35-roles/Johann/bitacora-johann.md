@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Ayuda y documentos dentro de los requisitos
+- Se elimina la subpestaña Chatbot, conservando el asistente lateral. Cada requisito pendiente contiene ayuda con video y, cuando corresponde, carga complementaria de documentos fuera de los antecedentes compartidos. Los adjuntos existentes se reutilizan; no se aprueba ningún requisito por subir un archivo. Ocho pruebas y Chrome escritorio/móvil validan navegación, ayuda incrustada y acceso a carga. [[mi-gobierno]].
+
 ### 2026-10-15 · Beneficios amplios y asistente lateral
 - A pedido del usuario se conserva la barra segmentada y vuelve el chat a la derecha de Beneficios. Contenido a todo el ancho con márgenes reducidos, mayor proporción para beneficios y panel azul claro destacado. Móvil apila las columnas. Ocho pruebas de flujo pasan. [[mi-gobierno]].
 
