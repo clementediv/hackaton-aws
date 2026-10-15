@@ -81,7 +81,7 @@ def _login(diags) -> None:
     sample = demo_people[0]
     sample_run = cargar_perfiles()[sample.run]["registro_civil"]["run_formateado"]
     with st.container(key="government_login"):
-        intro, form = st.columns([1.15, 1], gap="large", vertical_alignment="center")
+        intro, form = st.columns([1.15, 1], gap="large", vertical_alignment="top")
         with intro:
             st.markdown(
                 '<div class="gov-login-intro"><span class="gov-eyebrow">MI GOBIERNO</span>'

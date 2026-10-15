@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Alinear introducción del acceso
+- Las columnas del acceso se alinean arriba y la introducción acompaña el encabezado del formulario con 30 px interiores, sin margen adicional en móvil. [[mi-gobierno]].
+
 ### 2026-10-15 · Encabezado, logo y preguntas frecuentes
 - Logo IPS de 100/72 px en esquina del banner; se elimina el acceso superior duplicado Mi Gobierno y se mueve Vista ejecutivo al panel lateral de demostración. Se mantienen navegación y herramientas técnicas.
 - Preguntas frecuentes en desplegable del chat, con envío al motor e historial compartido. 16 pruebas y Chrome verifican logo, encabezado, adaptación móvil y pregunta sobre documentos con respuesta. [[portada-chileatiende]], [[mi-gobierno]].
