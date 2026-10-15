@@ -4,7 +4,8 @@ import re
 import unicodedata
 
 BOUNDARY_REPLY = (
-    "Estoy aquí para orientarte sobre beneficios y trámites, como la PGU, sus requisitos, "
+    "Estoy aquí para orientarte sobre beneficios y trámites, como la Pensión Garantizada "
+    "Universal (PGU), sus requisitos, "
     "documentos y próximos pasos. La revisión de antecedentes personales se realiza "
     "únicamente con tu autorización en Mi Gobierno. Por favor, cuéntame qué beneficio o trámite deseas "
     "consultar para poder ayudarte."

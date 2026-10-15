@@ -11,11 +11,11 @@ from ruta import config, staff_auth
 from ruta.campanas import metropolitan_locations, metropolitan_ranking
 from ruta.colador import Funnel
 from ruta.despliegue import automatic_campaign_area
-from ruta.ejecutivos import STATUS, case_rows, demo_snapshot, next_action
+from ruta.ejecutivos import DEMO_DB, STATUS, case_rows, demo_snapshot, next_action
 from ui_campanas import campaign_map
 
 ASSETS = Path(__file__).parent / "assets"
-VIEWS = ["Seguimiento de casos", "Campañas en terreno"]
+VIEWS = ["Seguimiento de casos", "Campañas en terreno", "Trazabilidad"]
 EVENTS = {
     "attempt": "Se intentó contactar",
     "contacted": "Contacto confirmado",
@@ -204,6 +204,129 @@ def _tracking(state):
         st.dataframe(pd.DataFrame(history), hide_index=True, use_container_width=True)
 
 
+def _campaign_db(db_path=None):
+    """Database of the campaign on screen; its `eventos` log is the audit trail."""
+    if db_path is not None:
+        return db_path
+    if st.session_state.get("staff_source", "Demostración").startswith("Demostración"):
+        return os.getenv("STAFF_DEMO_DB") or DEMO_DB
+    return config.DB_PATH
+
+
+@st.cache_data(ttl=30, show_spinner=False)
+def _aws_history(run):
+    from ruta import aws_contactos
+
+    return aws_contactos.load_history(run)
+
+
+def _traceability(state, db_file):
+    # Local imports keep this view independent from the module header.
+    import ui_aws
+    from ruta import trazabilidad
+
+    events = trazabilidad.load_events(db_file)
+    quality = trazabilidad.quality(events)
+    clock = (state.get("clock") or {}).get("now")
+    st.html(
+        '<div class="staff-callout"><strong>Cada caso deja un rastro que se puede auditar.'
+        "</strong><br>Con datos sintéticos no es posible demostrar que la meta de 75% se "
+        "cumpla: eso requiere personas reales en un piloto. Lo que sí se demuestra es que cada "
+        "contacto, respuesta y paso queda registrado con fecha, canal y origen, para medir el "
+        "indicador apenas existan casos reales y para que ningún caso pierda su seguimiento."
+        "</div>"
+    )
+    st.markdown("### Cómo se medirá cada indicador")
+    st.dataframe(
+        pd.DataFrame(trazabilidad.kpi_evidence(state["people"], events)),
+        hide_index=True,
+        use_container_width=True,
+    )
+    st.caption(
+        "Los conteos usan datos sintéticos: comprueban que la evidencia se registra, no que la "
+        "meta se cumpla. «Parcial» indica qué falta definir antes del piloto."
+    )
+
+    st.markdown("### Calidad del registro")
+    days = st.slider(
+        "Días sin movimiento para pedir seguimiento", 3, 30, 7, key="staff_trace_days"
+    )
+    stale = trazabilidad.follow_up(state["people"], events, clock, stale_days=days)
+    cards = [
+        ("Eventos registrados", quality["eventos"], "Contactos, respuestas y pasos", ""),
+        ("Registros completos", f"{quality['porcentaje']}%", "Con fecha, canal y tipo", "green"),
+        ("Casos con historial", quality["casos"], "Cada uno con su línea de tiempo", ""),
+        ("Requieren seguimiento", len(stale), f"Sin movimiento hace {days}+ días", "amber"),
+    ]
+    st.html(
+        '<div class="staff-stats">'
+        + "".join(
+            f'<div class="staff-stat {tone}"><div class="label">{label}</div>'
+            f'<div class="number">{value}</div><div class="note">{note}</div></div>'
+            for label, value, note, tone in cards
+        )
+        + "</div>"
+    )
+    if stale:
+        st.dataframe(
+            pd.DataFrame(stale).rename(
+                columns={
+                    "run": "RUN",
+                    "name": "Persona",
+                    "last": "Último movimiento",
+                    "days": "Días",
+                    "last_event": "Qué ocurrió",
+                    "reason": "Por qué revisar",
+                }
+            ),
+            hide_index=True,
+            use_container_width=True,
+            height=240,
+        )
+    else:
+        st.success("Todos los casos abiertos tienen movimiento reciente.")
+
+    st.markdown("### Línea de tiempo de un caso")
+    options = {p["run"]: f"{p['name']} · {p['run']}" for p in state["people"]}
+    run = st.selectbox(
+        "Persona", list(options), format_func=options.get, key="staff_trace_person"
+    )
+    aws_ok, aws_message = ui_aws.status()
+    extra = trazabilidad.aws_events(_aws_history(run)) if aws_ok else []
+    rows = trazabilidad.timeline(run, events, extra)
+    if rows:
+        st.dataframe(
+            pd.DataFrame(
+                [
+                    {
+                        "Fecha": e["fecha"].replace("T", " ")[:16],
+                        "Canal": e["canal"],
+                        "Qué ocurrió": e["evento"],
+                        "Detalle": e["detalle"],
+                        "Origen": e["origen"],
+                    }
+                    for e in rows
+                ]
+            ),
+            hide_index=True,
+            use_container_width=True,
+        )
+    else:
+        st.info("Este caso aún no tiene eventos registrados.")
+    st.caption(
+        "Incluye la detección automática en AWS cuando hay credenciales."
+        if aws_ok
+        else f"Solo registro local. {aws_message}"
+    )
+    st.download_button(
+        "Descargar registro de auditoría (CSV)",
+        data=trazabilidad.audit_csv(events),
+        file_name="trazabilidad-casos.csv",
+        mime="text/csv",
+        key="staff_trace_csv",
+    )
+
+
 def _campaigns(state, profiles):
     st.markdown("### Acercar la atención a quienes todavía esperan")
     st.write(
@@ -307,5 +430,7 @@ def render(profiles, db_path=None):
             )
         if view == VIEWS[0]:
             _tracking(state)
-        else:
+        elif view == VIEWS[1]:
             _campaigns(state, profiles)
+        else:
+            _traceability(state, _campaign_db(db_path))
