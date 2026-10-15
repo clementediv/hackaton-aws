@@ -35,6 +35,8 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Introducción del acceso subida y alineada con el formulario, conservando adaptación móvil. [[mi-gobierno]].
+- Logo pequeño en esquina superior derecha del banner; encabezado sin botón duplicado Mi Gobierno ni Vista ejecutivo (disponible en panel lateral). Preguntas frecuentes de un clic en el asistente. 16 pruebas y Chrome escritorio/móvil OK. [[portada-chileatiende]], [[mi-gobierno]].
 - Logo IPS más pequeño y centrado en su espacio: 160 px escritorio / 120 px móvil. [[portada-chileatiende]].
 - Botón principal sobrio «Ver mis beneficios» y logo IPS arriba a la derecha. Tres pruebas del portal OK. [[portada-chileatiende]].
 - Portada con texto y botón a la izquierda, logo IPS proporcionado por el usuario a la derecha y adaptación móvil. Tres pruebas del portal OK. [[portada-chileatiende]].

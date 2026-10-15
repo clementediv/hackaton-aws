@@ -1,5 +1,9 @@
 # Mi Gobierno
 
+El acceso al portal alinea arriba sus dos columnas. La introducción «Tus beneficios, con tu información» usa 30 px de margen interior superior para acompañar la altura del encabezado del formulario; en móvil se elimina ese margen y se mantiene el apilado.
+
+El asistente lateral incorpora un desplegable «Preguntas frecuentes» con accesos de un clic a qué es la PGU, monto, documentos, fechas, canales y requisitos. Cada botón usa el mismo motor, contexto, consentimiento e historial que escribir la pregunta. Antes de autorizar se muestran las dos preguntas generales del asistente. El desplegable mantiene compacto el panel cuando no se usa.
+
 La línea de tiempo muestra solo los nombres de las etapas, fechas y estados. A pedido del usuario se retiran las explicaciones bajo cada punto y el pie con advertencia/enlace a fechas oficiales; las fuentes del calendario permanecen documentadas aquí.
 
 Cada beneficio incorpora una línea de tiempo antes de desplegar requisitos: Postulación, En revisión y Resultado, con fechas, estados escritos y marcadores numerados. Horizontal en escritorio y vertical hasta 700 px. Verde indica antecedentes listos; amarillo, faltantes; gris, etapas futuras. No se infieren envíos ni resoluciones por completar pasos locales o subir archivos. Si el registro sintético indica PGU vigente, el resultado lo refleja sin inventar una fecha de resolución.

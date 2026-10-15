@@ -1,5 +1,7 @@
 # Portada basada en ChileAtiende
 
+El logo IPS se ubica en la esquina superior derecha del banner completo: 100 px en escritorio y 72 px en móvil. El texto mantiene la alineación izquierda y reserva espacio para evitar superposición. La fila superior contiene logo ChileAtiende, buscador y Red de atención; se retira el botón duplicado Mi Gobierno. La navegación principal conserva Inicio, Mi Gobierno y Ayuda para tus trámites. Vista ejecutivo pasa al panel lateral de demostración, con sus herramientas y retorno a las vistas ciudadanas verificados.
+
 El logo IPS se reduce a 160 px en escritorio y 120 px en móvil; queda centrado horizontalmente en su espacio, sin desplazamiento hacia la esquina.
 
 El acceso principal usa ahora «Ver mis beneficios»: azul plano, borde de 4 px de radio, altura de 52 px y tipografía de 17 px, sin degradado ni sombra. El logo IPS se alinea arriba a la derecha, con máximo de 220 px; en móvil conserva adaptación y no desborda.

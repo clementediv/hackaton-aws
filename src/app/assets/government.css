@@ -1,9 +1,10 @@
 .gov-welcome{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:32px 0 28px}
 .st-key-government_login{padding:52px 0 36px}.gov-login-intro{max-width:490px;padding-right:24px}.gov-login-intro h1{font:400 42px/1.25 "Roboto Slab",Georgia,serif;letter-spacing:-1px;color:#143e5c;padding:0;margin:18px 0 22px}.gov-login-intro p{font-size:17px;color:#5d7485;line-height:1.8}.gov-login-intro ul{padding-left:20px;color:#47667d;font-size:14px;line-height:2.4}
+.gov-login-intro{padding-top:30px}
 .st-key-government_login_card{padding:30px;background:#fff;border:1px solid #dbe6ee!important;border-radius:16px!important;box-shadow:0 12px 40px #143e5c08}.st-key-government_login_card h3{font:400 24px/1.4 "Roboto Slab",Georgia,serif;color:#143e5c}.st-key-government_login_card [data-testid="stForm"]{padding:0;border:0}.st-key-government_login_card input{height:48px;background:#f7f9fb}.st-key-government_login_card [data-testid="stFormSubmitButton"] button{min-height:48px;background:#0f69b4;border:0;border-radius:8px;color:#fff}
 .gov-login-example{padding:15px 18px;border-radius:10px;background:#edf5fa;color:#49677d;display:flex;flex-direction:column;gap:8px;font-size:13px}.gov-login-example>b{color:#234b68;margin-bottom:4px}.gov-login-example strong{font-weight:500;color:#244f70}
 .st-key-government_login_card,.gov-login-example{box-sizing:border-box;max-width:100%}.gov-login-example{width:100%;overflow-wrap:anywhere}
-@media(max-width:700px){.st-key-government_login{padding:24px 0}.gov-login-intro{padding-right:0}.gov-login-intro h1{font-size:32px}.gov-login-intro p{font-size:15px}.st-key-government_login_card{padding:20px}}
+@media(max-width:700px){.st-key-government_login{padding:24px 0}.gov-login-intro{padding-right:0;padding-top:0}.gov-login-intro h1{font-size:32px}.gov-login-intro p{font-size:15px}.st-key-government_login_card{padding:20px}}
 .gov-eyebrow{font-size:11px;font-weight:700;letter-spacing:1.7px;color:#587184}
 /* Give the help conversation room, including on tablets and small laptops. */
 .st-key-gov_assistant h4{font:500 22px/1.35 Roboto,Arial,sans-serif;color:#143550;padding:0 0 8px}
@@ -16,7 +17,7 @@
 .st-key-gov_assistant [data-testid="stVerticalBlockBorderWrapper"]{border-radius:24px!important}
 @media(min-width:1051px){
   .st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page){align-self:stretch;padding-top:52px}
-  .st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page)>[data-testid="stVerticalBlockBorderWrapper"]{position:sticky;top:max(16px,calc(50vh - 214px));z-index:2}
+  .st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page)>[data-testid="stVerticalBlockBorderWrapper"]{position:sticky;top:max(16px,calc(50vh - 243px));z-index:2}
 }
 @media(max-width:1050px){
   :is(.st-key-gov_benefits_layout,.st-key-gov_journey_layout) [data-testid="stHorizontalBlock"]:has(.st-key-gov_assistant){flex-direction:column;gap:24px}
