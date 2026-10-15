@@ -4,7 +4,6 @@ import base64
 import unicodedata
 from html import escape
 from pathlib import Path
-from time import monotonic
 from urllib.parse import quote
 
 import streamlit as st
@@ -159,23 +158,12 @@ def _queue_home_question(question: str) -> None:
     st.rerun(scope="app")
 
 
-@st.fragment(run_every="5s")
 def _render_home_banner() -> None:
-    now = monotonic()
-    previous = st.session_state.setdefault("home_banner_last_rotation", now)
-    slide = st.session_state.setdefault("home_banner_slide", "Beneficios")
-    if not st.session_state.get("home_banner_chat_open") and now - previous >= 5:
-        st.session_state["home_banner_slide"] = (
-            "Asistente IA" if slide == "Beneficios" else "Beneficios"
-        )
-        st.session_state["home_banner_last_rotation"] = now
     with st.container(border=True, key="home_government"):
-        active = st.session_state["home_banner_slide"]
-        slide_key = "assistant" if active == "Asistente IA" else "benefits"
-        with st.container(key=f"home_slide_{slide_key}"):
-            if active == "Asistente IA":
+        with st.container(key="home_slide_track"):
+            with st.container(key="home_slide_assistant"):
                 _render_home_assistant()
-            else:
+            with st.container(key="home_slide_benefits"):
                 _render_home_benefits()
 
 
