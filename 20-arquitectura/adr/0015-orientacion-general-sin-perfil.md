@@ -1,0 +1,25 @@
+---
+tipo: adr
+estado: aceptada
+fecha: 2026-10-15
+---
+# 0015 · Orientación general sin consultar el perfil
+
+## Contexto
+Al preguntar qué es la PGU sin consentimiento, el chat devolvía siempre el resumen
+personal de fechas. El guard de autorización se ejecutaba antes de identificar la
+consulta general. [[portal-ayuda-tramites]] y [[chatbot-desplegado]].
+
+## Decisión
+Permitir preguntas generales sobre PGU, AFP, RSH y SCOMP sin consultar antecedentes.
+Con Bedrock configurado, answer_general recibe únicamente la pregunta actual,
+instrucciones y hechos públicos con sus fuentes. No recibe Case, RUN, nombre,
+contexto personal, herramientas ni historial previo, incluso después de revocar.
+Las consultas personales conservan el permiso obligatorio y el adaptador autorizado.
+El respaldo offline clasifica consultas antes del guard y evita repetir la biografía.
+
+## Consecuencias
+Se responde a la pregunta concreta incluso sin autorización. El modo general no
+conserva historial, para no reenviar conversaciones personales anteriores. No evalúa
+montos, elegibilidad ni fechas individuales. Las reglas deterministas no cambian.
+Se verifica con fakes, pruebas de no filtración y una llamada real a Sonnet 5.

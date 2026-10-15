@@ -14,13 +14,13 @@ Estructura observada: logo/encabezado, Red de atención, Mi ChileAtiende, buscad
 
 ## Comportamiento
 - **Inicio**: destacados de la demo, acceso a Mi ChileAtiende, servicios/momentos de vida y enlaces oficiales.
-- **Ayuda para tus trámites** (pestaña inicial): explicación del acompañamiento, invitación/autorización, ruta existente y chatbot al lado. El chat aparece desde la invitación; sin permiso solo ofrece orientación inicial y no llama AWS.
+- **Ayuda para tus trámites** (pestaña inicial): explicación del acompañamiento, invitación/autorización, ruta existente y chatbot al lado. El chat aparece desde la invitación; sin permiso permite orientación general sin consultar perfil ni reenviar historial personal.
 - **Mi ruta**: retoma el mismo caso SQLite, con antecedentes, checklist, permisos e historial. Cambiar pestaña no crea otro caso.
 - Buscador: selección local de accesos verificados y botón que continúa en el buscador oficial. No afirmar que el catálogo reducido contiene todos los trámites.
 - Vistas ejecutivo/campañas/medición y selección de persona/canal siguen en controles de demostración, en la barra lateral colapsada.
 
 ## Chatbot y límite del MVP
-`src/app/ruta/asistente.py` conserva las plantillas y delega Bedrock a `chatbot.answer`. Este usa `BedrockClient.from_env()` (modelo/credenciales configurables y allowlist), `Agent` y un handler `leer_caso` con el contexto calculado por el motor de la app. El modelo recibe estado, ruta y fuente; no aporta RUN, permiso ni resultados inventados. El permiso viene del flujo real de la app antes de crear el cliente. Las fuentes del prototipo mantienen su marca de no verificadas.
+`src/app/ruta/asistente.py` conserva las plantillas y delega Bedrock a `chatbot.answer`. Este usa `BedrockClient.from_env()` (modelo/credenciales configurables y allowlist), `Agent` y un handler `leer_caso` con el contexto calculado por el motor de la app. El modelo recibe estado, ruta y fuente; no aporta RUN, permiso ni resultados inventados. El permiso viene del flujo real de la app antes de crear el cliente para la ruta personal. Las fuentes del prototipo mantienen su marca de no verificadas.
 
 El modo Bedrock se activa con `BEDROCK_MODEL_ID` del proceso, como en el aporte de Johann; una vez activo, el cliente común también lee `.env`. Sin configuración o ante error sigue funcionando por plantillas. No se verificó una inferencia real en este cambio: el tool use se probó con un cliente falso.
 
@@ -36,3 +36,16 @@ Ejecutar: `uv run --group app streamlit run src/app/app.py --server.address loca
 - 15-10: banner con chat de texto visible sin bot?n previo; t?tulo ?Prueba nuestro asistente de inteligencia artificial? e invitaci?n a preguntas frecuentes. Rotaci?n detenida al mostrar el chat; consulta contin?a en Ayuda. Cuatro pruebas del portal y verificador de 500 perfiles OK. [[portal-ayuda-tramites]].
 
 - 15-10: Banner del asistente con t?tulo principal ?Prueba el asistente de inteligencia artificial?, dise?o neutro centrado, campo de texto redondeado, env?o con flecha y preguntas frecuentes como sugerencias. Cuatro pruebas del portal OK. [[portal-ayuda-tramites]].
+
+
+## Consultas generales sin repetir el diagnóstico · 15-10
+
+Según [[0015-orientacion-general-sin-perfil]], la definición de PGU/AFP/RSH/SCOMP
+se atiende antes de pedir autorización de antecedentes. Con Bedrock configurado,
+answer_general envía solo la pregunta actual y hechos públicos con fuentes; no
+recibe perfil ni historial. El respaldo explica el tema solicitado. Consultas
+personales piden consentimiento; las desconocidas piden aclaración sin repetir fechas.
+
+Verificación: 22 pruebas enfocadas pasan. Llamada real a Sonnet 5 a «¿Qué es la PGU?»
+sin autorización devolvió una definición con fuente ChileAtiende y sin nombre ni
+fechas personales. Fuente pública consultada: https://www.chileatiende.gob.cl/fichas/102077.

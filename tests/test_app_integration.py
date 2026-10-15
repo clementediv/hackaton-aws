@@ -65,9 +65,7 @@ def test_greeting_does_not_repeat_diagnosis(monkeypatch, authorized, question):
         diagnosis, route, states, proximo_paso(route, states), autorizado=authorized
     )
     initial = asistente.explicar_resumen(context)
-    reply, engine = asistente.responder(
-        question, context, [{"rol": "assistant", "texto": initial}]
-    )
+    reply, engine = asistente.responder(question, context, [{"rol": "assistant", "texto": initial}])
     assert engine == "plantillas"
     assert reply != initial
     assert "¿En qué te ayudo hoy?" in reply
@@ -79,3 +77,51 @@ def test_unknown_question_asks_for_clarification_instead_of_repeating_summary(mo
     context = {"autorizado": True, "hitos": {}, "pgu": {}, "ruta": []}
     reply, _ = asistente.responder("No entiendo la explicación", context, [])
     assert "Cuéntame un poco más" in reply
+
+
+@pytest.mark.parametrize("authorized", [False, True])
+@pytest.mark.parametrize(
+    "question", ["¿Qué es la PGU?", "PGU", "Explícame la PGU", "¿Qué significa PGU?"]
+)
+def test_general_pgu_question_does_not_repeat_personal_summary(monkeypatch, authorized, question):
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "")
+    context = {
+        "nombre": "Raúl",
+        "autorizado": authorized,
+        "hitos": {},
+        "pgu": {},
+        "ruta": [],
+        "fuente_pgu": config.FUENTE_PGU,
+    }
+    text, engine = asistente.responder(question, context, [])
+    assert "Pensión Garantizada Universal" in text
+    assert config.FUENTE_PGU in text
+    assert "fecha de nacimiento" not in text
+    assert "Raúl" not in text
+    assert engine == "plantillas"
+
+
+def test_distinct_questions_without_consent_and_no_history_leak(monkeypatch):
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("No enviar contexto personal o historial revocado a Bedrock")
+
+    monkeypatch.setattr(asistente, "_bedrock", forbidden)
+    monkeypatch.setattr(
+        "src.app.ruta.chatbot.answer_general",
+        lambda q: asistente._plantilla(q, {"autorizado": False, "hitos": {}}),
+    )
+    context = {"nombre": "Raúl", "autorizado": False, "hitos": {}}
+    history = [{"rol": "assistant", "texto": "ANTECEDENTE_PRIVADO"}]
+    questions = [
+        "¿Qué es la PGU?",
+        "¿Qué es una AFP?",
+        "¿Cuánto me corresponde?",
+        "No entiendo la explicación",
+    ]
+    answers = [asistente.responder(q, context, history)[0] for q in questions]
+    assert len(set(answers)) == len(questions)
+    assert all("ANTECEDENTE_PRIVADO" not in text for text in answers)
+    assert "autorices" in answers[2]
+    assert "Cuéntame tu duda" in answers[3]
