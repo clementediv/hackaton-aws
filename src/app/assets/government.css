@@ -100,7 +100,7 @@
 .st-key-gov_benefits_layout .st-key-gov_assistant [data-testid="stVerticalBlockBorderWrapper"]{border:0!important}
 .st-key-gov_benefits_layout .st-key-gov_assistant [data-testid="stChatInput"]{background:white;border:1px solid #94b9d4}
 @media(max-width:700px){.block-container:has(.st-key-gov_subnav){padding-left:16px;padding-right:16px}.st-key-gov_benefits_layout .st-key-gov_assistant{padding:14px}}
-.st-key-gov_subnav [role="radiogroup"]{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;background:#edf2f6;border:1px solid #dce5ed;border-radius:14px;padding:6px;margin:8px 0 24px}
+.st-key-gov_subnav [role="radiogroup"]{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;background:#edf2f6;border:1px solid #dce5ed;border-radius:14px;padding:6px;margin:8px 0 24px}
 .st-key-gov_subnav label[data-baseweb="radio"]{margin:0!important;min-width:0;min-height:48px;justify-content:center;border-radius:9px;padding:10px 12px;transition:background .15s;color:#476175}
 .st-key-gov_subnav label[data-baseweb="radio"]>div:first-child{display:none}
 .st-key-gov_subnav label[data-baseweb="radio"]:has(input:checked){background:#125b94;color:white;box-shadow:0 2px 5px #123e6020}
@@ -110,6 +110,13 @@
 .gov-requirement-card{display:flex;gap:12px;padding:16px;margin:10px 0;border:1px solid;border-radius:12px;align-items:flex-start}
 .gov-requirement-card.ready{background:#edf8f1;border-color:#b8dfc7;color:#166145}
 .gov-requirement-card.pending{background:#fff8e8;border-color:#ead49a;color:#805b13}
+[class*="st-key-gov_requirement_"]:has(.gov-requirement-card){border:1px solid #b8dfc7;border-radius:12px;background:#edf8f1;margin:10px 0;overflow:hidden}
+[class*="st-key-gov_requirement_"]:has(.gov-requirement-card.pending){background:#fff8e8;border-color:#ead49a;padding-bottom:14px}
+[class*="st-key-gov_requirement_"] .gov-requirement-card{border:0;margin:0}
+[class*="st-key-gov_requirement_"]>[data-testid="stVerticalBlock"]{gap:8px}
+[class*="st-key-gov_requirement_"] [data-testid="stCaptionContainer"], [class*="st-key-gov_requirement_"] [data-testid="stText"]{padding:0 16px}
+[class*="st-key-gov_requirement_"] [data-testid="stHorizontalBlock"]{padding:0 16px}
+[class*="st-key-gov_requirement_"] [data-testid="stPopover"] button{background:#fffdf7;border:1px solid #d9c38e;color:#725216;border-radius:8px;min-height:42px}
 .gov-requirement-icon{display:flex;align-items:center;justify-content:center;width:25px;height:25px;flex-shrink:0;border:1px solid currentColor;border-radius:50%;font-weight:700}
 .gov-requirement-card strong{display:block;font-size:15px;line-height:1.5}
 .gov-requirement-status{display:block;font-size:12px;font-weight:700;margin:3px 0}

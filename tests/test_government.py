@@ -76,7 +76,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     assert not any(button.label == "Cobrar beneficio" for button in app.button)
     assert len(app.chat_input) == 1
     run = demo_run
-    app.radio(key=f"government_view_{run}").set_value("Chatbot").run()
+    assert app.radio(key=f"government_view_{run}").options == ["Beneficios", "Datos personales"]
     app.chat_input[0].set_value("¿Qué es la PGU?").run()
     assert not app.exception
     histories = [
@@ -94,7 +94,6 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     run = app.session_state["government_person"]
     assert app.session_state[f"government_view_{run}"] == "Beneficios"
     assert len(app.chat_input) == 1
-    app.radio(key=f"government_view_{run}").set_value("Chatbot").run()
     assert any(item.placeholder == "Pregúntale al asistente de trámites" for item in app.chat_input)
     app.radio(key=f"government_view_{run}").set_value("Beneficios").run()
     cards = [element.value for element in app.markdown if "gov-requirement-card" in element.value]
@@ -145,10 +144,11 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     ui_cases = importlib.import_module("ruta.casos")
     assert "G0" in ui_cases.obtener_caso(run)["completados"]
     next(button for button in app.button if button.label == "← Volver a Mi Gobierno").click().run()
-    ui_gov.save_document(run, "Cédula de identidad", "demo.pdf", b"%PDF-1.4 demo")
+    ui_gov.save_document(run, "Registro Social de Hogares", "demo.pdf", b"%PDF-1.4 demo")
     app.run()
-    # The same stored document appears in both PGU and FUAS, without uploading twice.
-    assert len([item for item in app.text if item.value == "demo.pdf"]) == 2
+    # Shared evidence appears in FUAS, gratuidad and becas without uploading again.
+    assert len([item for item in app.text if item.value == "demo.pdf"]) == 3
+    assert any("youtube.com" in item.proto.url for item in app.get("video"))
     app.radio(key=f"government_view_{run}").set_value("Datos personales").run()
     assert len([item for item in app.text if item.value == "demo.pdf"]) == 1
     next(

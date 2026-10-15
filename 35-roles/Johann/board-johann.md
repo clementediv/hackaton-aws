@@ -35,6 +35,7 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Dos subpestañas de Mi Gobierno; ayuda con video y carga complementaria dentro de cada requisito pendiente, reutilizando documentos disponibles. Ocho pruebas y recorrido Chrome con ayuda/carga/móvil OK. [[mi-gobierno]].
 - Beneficios ampliados hacia los bordes con chat destacado a la derecha y distribución adaptable; se conserva el diseño de las tres subpestañas y el historial compartido. [[mi-gobierno]].
 - Mi Gobierno: barra segmentada con Beneficios, Datos personales y Chatbot; asistente exclusivo de su pestaña y requisitos desplegados verdes/amarillos según evaluación. Adjuntos compartidos con estado visible sin aprobación automática. [[mi-gobierno]].
 - `8af4ca9` · Acceso RUN/clave ficticia integrado con mejoras de contacto y asistente del equipo. 173 pruebas y verificador de 500 perfiles OK; recorrido Chrome escritorio/móvil validado.
