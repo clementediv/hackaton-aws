@@ -108,3 +108,15 @@ Prueba de continuidad: agregar `--verify`. El cliente usa el perfil hackaton y r
 la API key desde Secrets Manager sin imprimirla. No publicar esta key en el frontend.
 La identidad ciudadana verificada, transportes de contacto y estado institucional de
 solicitudes quedan fuera de esta API de integración demo.
+
+## Integración remota final
+
+Tras incorporar origin/main 9486b88, cinco tests UI fallan por cambios remotos de
+navegación y banner (pestaña Ayuda retirada y monotonic eliminado). Se reprodujeron
+los mismos cinco fallos en un snapshot limpio de origin/main: cinco fallos y once
+pruebas correctas en los archivos de UI afectados. No se modifican esos archivos.
+Antes de ese merge pasaron 188/188; la integración final conserva las pruebas del
+chat correctas. El verificador de perfiles sigue TODO OK.
+
+Se comprobó también la configuración real de API Gateway: autorización CUSTOM en
+todas las rutas, rate 2/s y burst 4, consultando get_routes/get_stages.

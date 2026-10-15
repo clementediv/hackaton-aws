@@ -36,3 +36,5 @@ Ocho escenarios con DeepEval y juez Sonnet 5 real verificados: herramientas 1,00
 ### 2026-10-15 · T21 · ver commit T21
 
 Stack completo desplegado en UPDATE_COMPLETE. Tres turnos HTTPS recuerdan Rosa/teléfono y AWS CLI confirma seis mensajes. Auth 401/403/200, 188 pruebas offline, verificador 500 perfiles TODO OK, synth y assertions CDK OK. Phoenix Lambda cableado e inerte; endpoint remoto no configurado. [[chatbot-desplegado]] y [[0014-chatbot-api-desplegada]].
+
+Integración final: cinco fallos UI reproducidos en snapshot limpio de origin/main 9486b88 (navegación/banner). No provienen de este aporte; se documentan sin modificar la UI. Throttle real 2/s y burst 4 comprobados por API Gateway.
