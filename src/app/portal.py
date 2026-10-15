@@ -192,7 +192,10 @@ def _queue_home_question(question: str) -> None:
 
 
 def render_chat_page() -> None:
-    from ruta.asistente import responder_publico
+    from ruta.asistente import responder_publico, _template_stream
+    from ruta import casos
+    from ruta.datos import cargar_perfiles
+    from ruta.pgu_review import is_personal_pgu_question, review_pgu
 
     if st.session_state.get("portal_next_section"):
         st.switch_page(st.session_state["portal_home_page"])
@@ -213,6 +216,15 @@ def render_chat_page() -> None:
                 st.session_state.pop("public_chat_pending", None)
                 st.session_state.pop("public_chat_engine", None)
                 st.rerun()
+    run = st.session_state.get("government_login_run")
+    case = casos.obtener_caso(run) if run else None
+    access = (run, bool(case and case.get("autorizacion")))
+    if st.session_state.get("public_chat_access") != access:
+        st.session_state["public_chat_history"] = [
+            m for m in st.session_state.get("public_chat_history", [])
+            if m.get("scope") != "personal"
+        ]
+        st.session_state["public_chat_access"] = access
     with st.container(key="public_chat"):
         history = st.session_state.setdefault("public_chat_history", [])
         pending = st.session_state.pop("public_chat_pending", None)
@@ -242,7 +254,15 @@ def render_chat_page() -> None:
             with st.container(key=f"public_message_assistant_{index + 1}"):
                 with st.chat_message("assistant"):
                     with st.spinner("Preparando tu respuesta…"):
-                        chunks, engine = responder_publico(pending, history, stream=True)
+                        personal = is_personal_pgu_question(
+                            pending, pgu_context=bool(history and history[-1].get("scope") == "personal")
+                        )
+                        if personal:
+                            chunks = _template_stream(review_pgu(run, case, cargar_perfiles))
+                            engine = "reglas"
+                        else:
+                            public_history = [m for m in history if m.get("scope") != "personal"]
+                            chunks, engine = responder_publico(pending, public_history, stream=True)
                     parts = []
 
                     def visible_chunks():
@@ -262,11 +282,19 @@ def render_chat_page() -> None:
 
                     st.write_stream(visible_chunks())
             history.extend([
-                {"rol": "user", "texto": pending},
-                {"rol": "assistant", "texto": "".join(parts)},
+                {"rol": "user", "texto": pending, "scope": "personal" if personal else "public"},
+                {"rol": "assistant", "texto": "".join(parts),
+                 "scope": "personal" if personal else "public"},
             ])
             st.session_state["public_chat_engine"] = engine
     if history:
+        if history[-1].get("scope") == "personal":
+            if st.button("Revisar o completar antecedentes en Mi Gobierno", key="chat_pgu_review"):
+                st.session_state["portal_next_section"] = "Mi Gobierno"
+                if run and case and case.get("autorizacion"):
+                    st.session_state[f"government_view_{run}"] = "Beneficios"
+                    st.session_state[f"government_route_{run}"] = "pgu"
+                st.switch_page(st.session_state["portal_home_page"])
         _render_public_chat_input()
     from voice import voice_input
 

@@ -124,3 +124,5 @@ Tras la última integración de acceso ejecutivo: 235 pruebas pasan, dos omitida
 ocho evals excluidas y verificador TODO OK. Chromium vuelve a confirmar el flujo
 de dictado simulado → envío único → respuesta real de Bedrock, junto con los controles
 de lectura.
+
+- 15-10: Integrados avances remotos de conversación, voz y acceso ejecutivo con el diseño/streaming local. Consulta personal PGU revisa reglas, antecedentes faltantes y progreso guardado; sin sesión/permiso solicita ingreso y consentimiento en Mi Gobierno, con acceso a completar antecedentes. Historial personal separado del modelo público y eliminado al cambiar sesión o consentimiento. Suite completa: 260 pruebas pasan, 2 omitidas por dependencias opcionales y 8 evals excluidas; pruebas adicionales de privacidad y pasos PGU pasan. Ver [[portal-ayuda-tramites]].

@@ -30,3 +30,5 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 - Centrado de `/chat` y pestaña «Asistente de IA» verificados en navegador.
 
 - Respuestas progresivas del chat público: stream Bedrock y visualización por palabras en modo plantilla. 21 pruebas y navegador OK.
+
+- Revisión personal PGU desde el chatbot con pasos guardados, antecedentes faltantes y acceso a Mi Gobierno, con autorización y separación de historial público.
