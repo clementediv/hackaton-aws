@@ -93,3 +93,5 @@ Referencias consultadas el 15-10-2026:
 139 pruebas y verificador de 500 perfiles pasan. Se cubren todos los estados PGU, dependencias de ruta, consentimiento, carga inválida/tamaño, declaraciones sin alterar elegibilidad, navegación, pasos y revocación. Ver [[0013-mi-gobierno]] y [[portada-chileatiende]]. El proceso de contacto conserva el backend existente; su siguiente integración de experiencia queda aparte.
 
 - 15-10: L?nea de tiempo compacta: menos padding, marcadores de 30 px y texto reducido; tarjetas con box-sizing border-box para contener su ancho. Chromium verific? el componente a 390/900/1440 px sin desborde. Test actualizado a st.html; tres pruebas pasan, prueba integral falla despu?s en expectativa de chat tras revocar (fuera del CSS). [[mi-gobierno]].
+
+- 15-10: Corregido desborde real de etapas: stHtml recibia 875 px dentro de 833 px disponibles por el padding de la tarjeta. Se limita el bloque HTML al 100% del ancho interior. Chromium sobre Mi Gobierno completo confirma cuatro tarjetas contenidas a 1440, 900 y 390 px. [[mi-gobierno]].
