@@ -5,23 +5,67 @@
 button{font:inherit;border:1px solid #b4c7df;border-radius:20px;padding:8px 14px;background:#f2f6fc;color:#164a86;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
 button:disabled{opacity:.55;cursor:default}button:focus-visible,textarea:focus-visible{outline:3px solid #6ba8ed;outline-offset:2px}
 button[aria-pressed=true]{background:#fff1f1;border-color:#d86b6b;color:#9c2424}
+#mic{min-width:44px;min-height:44px;justify-content:center;padding:10px;border-color:transparent;background:transparent;color:#60798e}
+#mic:hover{background:#edf4fb;color:#0f69b4;border-color:#d5e4f2}
+#mic[aria-pressed=true]{background:#fff1f1;border-color:#d86b6b;color:#9c2424}
+#mic[aria-pressed=false] #mic-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#help summary{cursor:pointer;width:fit-content;min-height:24px;line-height:24px}
+#help p{margin:4px 0 0;max-width:480px;line-height:1.5}
+@media(prefers-reduced-motion:no-preference){#mic{transition:background-color 160ms,color 160ms,border-color 160ms}}
 svg{width:18px;height:18px}#status{margin-left:9px;font-size:12px}#review{margin-top:10px}label{display:block;margin-bottom:5px}
 textarea{display:block;width:100%;height:70px;resize:vertical;border:1px solid #aebfd5;border-radius:10px;padding:8px;font:inherit;margin-bottom:8px}
 #send{background:#1457a4;color:white}#cancel{margin-left:6px}#help{font-size:11px;color:#52647a;margin:7px 0} [hidden]{display:none!important}
 </style></head><body>
-<button id="mic" type="button" aria-pressed="false" aria-label="Dictar mensaje por micrófono">
+<button id="mic" type="button" aria-pressed="false" aria-label="Dictar mensaje por micrófono" title="Activar micrófono para dictar">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg><span id="mic-label">Hablar por micrófono</span></button>
 <button id="listen" type="button" hidden aria-label="Escuchar la respuesta del asistente">Escuchar respuesta</button>
 <button id="stop-voice" type="button" hidden>Detener voz</button>
 <span id="status" role="status" aria-live="polite"></span>
 <div id="review" hidden><label for="draft">Revisa tu mensaje antes de enviarlo</label><textarea id="draft" maxlength="2000"></textarea><button id="send" type="button">Enviar mensaje</button><button id="cancel" type="button">Descartar</button></div>
-<p id="help">El dictado usa el reconocimiento de voz de tu navegador. Tú decides cuándo enviar el texto.</p>
+<details id="help"><summary>Cómo usar el micrófono</summary><p>Pulsa el ícono del micrófono y permite su uso cuando el navegador lo solicite. Revisa el dictado antes de enviarlo.</p><p>El dictado usa el reconocimiento de voz de tu navegador. Tú decides cuándo enviar el texto.</p></details>
 <script>
 const $=id=>document.getElementById(id);
 const post=(type,extra={})=>window.parent.postMessage({isStreamlitMessage:true,type,...extra},"*");
 const resize=()=>post("streamlit:setFrameHeight",{height:document.body.scrollHeight+8});
 const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
 let recognition=null,listening=false,enabled=true;
+let compact=false,composerMic=null,composerObserver=null;
+
+function syncComposerMic(){
+ if(!composerMic)return;
+ composerMic.disabled=!enabled||!Speech;
+ composerMic.setAttribute("aria-pressed",String(listening));
+ composerMic.setAttribute("aria-label",listening?"Detener dictado":"Dictar mensaje por micrófono");
+ composerMic.title=!Speech?"Tu navegador no admite dictado":listening?"Detener dictado":"Dictar por voz";
+}
+function mountComposerMic(){
+ if(!compact)return;
+ const doc=window.parent.document;
+ const send=doc.querySelector('[data-testid="stChatInputSubmitButton"]');
+ if(!send)return;
+ if(!composerMic){
+  doc.getElementById("public-chat-composer-mic")?.remove();
+  composerMic=doc.createElement("button");
+  composerMic.id="public-chat-composer-mic";
+  composerMic.className="chat-composer-mic";
+  composerMic.type="button";
+  composerMic.innerHTML=$("mic").querySelector("svg").outerHTML;
+  composerMic.onclick=()=>$("mic").click();
+ }
+ if(composerMic.parentElement!==send.parentElement)send.parentElement.insertBefore(composerMic,send);
+ syncComposerMic();
+}
+function setCompact(value){
+ compact=value;$("mic").hidden=value;$("help").hidden=value;
+ if(value){
+  mountComposerMic();
+  if(!composerObserver){
+   composerObserver=new MutationObserver(mountComposerMic);
+   composerObserver.observe(window.parent.document.body,{childList:true,subtree:true});
+  }
+ }
+}
+
 let replyText="",lastSpeechId="",currentSpeechId="",reading=false,activeUtterance=null;
 const synthesis=window.speechSynthesis;
 function stopReading(){activeUtterance=null;if(synthesis)synthesis.cancel();reading=false;$("stop-voice").hidden=true}
@@ -39,10 +83,11 @@ function speakReply(){
   if(!["canceled","interrupted"].includes(event.error))status("Pulsa Escuchar respuesta para iniciar la voz.");resize()};
  activeUtterance=utterance;lastSpeechId=currentSpeechId;synthesis.speak(utterance);
 }
+$("help").addEventListener("toggle",resize);
 $("listen").onclick=speakReply;
 $("stop-voice").onclick=()=>{stopReading();status("Lectura detenida.")};
 function status(text){$("status").textContent=text;resize()}
-function setListening(value){listening=value;$("mic").setAttribute("aria-pressed",String(value));$("mic-label").textContent=value?"Detener dictado":"Hablar por micrófono";$("send").disabled=value||!$("draft").value.trim();resize()}
+function setListening(value){listening=value;syncComposerMic();$("mic").title=value?"Detener dictado":"Activar micrófono para dictar";$("mic").setAttribute("aria-label",value?"Detener dictado":"Dictar mensaje por micrófono");$("mic").setAttribute("aria-pressed",String(value));$("mic-label").textContent=value?"Detener dictado":"Hablar por micrófono";$("send").disabled=value||!$("draft").value.trim();resize()}
 function clearDraft(){ $("draft").value="";$("review").hidden=true;resize() }
 $("draft").oninput=()=>{$("send").disabled=listening||!$("draft").value.trim();resize()};
 $("mic").onclick=()=>{
@@ -69,15 +114,15 @@ $("send").onclick=()=>{
  clearDraft();status("Mensaje enviado.");
 };
 $("cancel").onclick=()=>{if(recognition&&listening)recognition.abort();clearDraft();status("Dictado descartado.")};
-window.addEventListener("pagehide",()=>{if(recognition)recognition.abort();stopReading()});
+window.addEventListener("pagehide",()=>{if(recognition)recognition.abort();stopReading();composerObserver?.disconnect();composerMic?.remove()});
 window.addEventListener("message",event=>{
  if(event.source!==window.parent||event.data?.type!=="streamlit:render")return;
  enabled=!event.data.disabled;$("mic").disabled=!enabled||!Speech;
- const args=event.data.args||{};replyText=args.reply_text||"";currentSpeechId=args.speech_id||"";
+ const args=event.data.args||{};setCompact(Boolean(args.compact));replyText=args.reply_text||"";currentSpeechId=args.speech_id||"";
  $("listen").hidden=!replyText;$("listen").disabled=!synthesis||listening;
  if(!replyText||!args.read_aloud){stopReading();lastSpeechId=""}
  else if(replyText&&currentSpeechId!==lastSpeechId)speakReply();
- if(!Speech)status("Tu navegador no admite dictado. Puedes escribir tu mensaje.");resize();
+ if(!Speech&&!compact)status("Tu navegador no admite dictado. Puedes escribir tu mensaje.");resize();
 });
 post("streamlit:componentReady",{apiVersion:1});resize();
 </script></body></html>

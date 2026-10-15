@@ -6,6 +6,8 @@ En ambos casos solo usa hechos calculados por el motor de reglas: no decide ni i
 """
 
 import re
+import time
+from itertools import chain
 import unicodedata
 
 from . import config
@@ -15,10 +17,10 @@ from .fechas import fmt
 from .rutas import Paso
 
 
-def responder_publico(pregunta: str, historial: list[dict]) -> tuple[str, str]:
+def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
     """General orientation without reading profiles or authorized personal routes."""
     if boundary := boundary_reply(pregunta):
-        return boundary, "plantillas"
+        return (_template_stream(boundary) if stream else boundary), "plantillas"
     source = f"[ChileAtiende]({config.FUENTES['chileatiende']})"
     topics = {
         "pgu": (
@@ -42,9 +44,24 @@ def responder_publico(pregunta: str, historial: list[dict]) -> tuple[str, str]:
             source,
         ),
     }
+    introduction = (
+        "Soy el asistente de IA de ChileAtiende. "
+        "Te ayudo con trámites, beneficios y los documentos que necesitas."
+    )
     question = _norm(pregunta)
-    if question.strip(" ¡!¿?.") in {"hola", "buenas", "buenos dias"}:
-        fallback = "Hola. ¿En qué te ayudo? Puedes preguntarme por PGU, documentos, becas o cómo comenzar tu ruta."
+    identity_question = any(phrase in question for phrase in (
+        "quien eres", "que eres", "que haces", "que puedes hacer", "que puede hacer",
+        "para que sirves", "para que sirve", "como me puedes ayudar", "como puedes ayudar",
+        "en que me puedes ayudar", "eres una ia", "eres un asistente", "eres una inteligencia",
+        "eres inteligencia artificial", "presentate", "tu funcion", "tus funciones",
+        "ayudas con tramites", "ayudar con tramites",
+    ))
+    if identity_question:
+        fallback = introduction
+        return (_template_stream(fallback) if stream else fallback), "plantillas"
+    elif question.strip(" ¡!¿?.") in {"hola", "buenas", "buenos dias"}:
+        fallback = "¡Hola! Te ayudo con trámites y beneficios. ¿Qué necesitas?"
+        return (_template_stream(fallback) if stream else fallback), "plantillas"
     elif "gracias" in question:
         fallback = "¡De nada! Puedes seguir preguntándome aquí cuando lo necesites."
     else:
@@ -61,18 +78,30 @@ def responder_publico(pregunta: str, historial: list[dict]) -> tuple[str, str]:
             )
         )
         fallback = f"{text}\n\nFuente: {citation}."
-    if conversational := social_fallback(pregunta, historial):
+    if (not identity_question and question.strip(" ¡!¿?.") not in {"hola", "buenas", "buenos dias"}
+            and (conversational := social_fallback(pregunta, historial))):
         fallback = conversational + f"\n\nFuente: {source}."
     if config.BEDROCK_MODEL_ID:
         try:
             from .chatbot import answer_general
 
-            return answer_general(
-                pregunta, public_history=historial, public_guidance=fallback
-            ), "bedrock"
+            options = {"public_history": historial, "public_guidance": fallback}
+            if stream:
+                chunks = answer_general(pregunta, stream=True, **options)
+                first = next(chunks)
+                return chain([first], chunks), "bedrock"
+            return answer_general(pregunta, **options), "bedrock"
         except Exception:
             pass
-    return friendly_sources(fallback), "plantillas"
+    fallback = friendly_sources(fallback)
+    return (_template_stream(fallback) if stream else fallback), "plantillas"
+
+
+def _template_stream(text):
+    """Progressive display for the offline template mode."""
+    for word in re.findall(r"\S+\s*", text):
+        yield word
+        time.sleep(0.08)
 
 
 def _peso(n: int | float | None) -> str:

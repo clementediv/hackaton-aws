@@ -55,7 +55,9 @@ def answer(question: str, context: dict, history: list[dict], *, client=None) ->
     return friendly_sources(agent.run_turn(case, question).text)
 
 
-def answer_general(question: str, *, client=None, public_history=None, public_guidance="") -> str:
+def answer_general(
+    question: str, *, client=None, public_history=None, public_guidance="", stream=False
+):
     """Public guidance: only current question and public facts go to Bedrock.
 
     No Case, RUN, profile tools, context or previous conversation is supplied.
@@ -65,6 +67,17 @@ def answer_general(question: str, *, client=None, public_history=None, public_gu
     from src.agent.prompts import SYSTEM_PROMPT
 
     public_context = (
+        "Eres el asistente de inteligencia artificial de ChileAtiende. "
+        "Si preguntan quién eres, responde en un máximo de dos frases breves. "
+        "No incluyas consentimiento, evaluación ni límites de PGU en la presentación. "
+        "Cuando pregunten por un trámite concreto, explica que guías "
+        "paso a paso en trámites, explicas requisitos de beneficios y ayudas a identificar "
+        "documentos y antecedentes faltantes. Para revisar si una persona podría optar "
+        "a un beneficio, indica entrar a Mi Gobierno y autorizar antecedentes. "
+        "Actualmente solo la evaluación personalizada de PGU está implementada: "
+        "las reglas de código determinan el resultado preliminar y los antecedentes faltantes; "
+        "la decisión final es del organismo. No prometas evaluar otros beneficios. "
+        "Preséntate al saludar o cuando te lo pidan; no repitas tu presentación en cada turno. "
         "Modo de información general, sin acceso a antecedentes personales ni herramientas. "
         "Responde directamente a la pregunta en español sencillo y breve. "
         "No saludes de nuevo en cada respuesta ni repitas una invitación. "
@@ -99,11 +112,14 @@ def answer_general(question: str, *, client=None, public_history=None, public_gu
         messages.append({"role": "user", "content": [{"text": question}]})
     if public_guidance:
         public_context += " Orientación pública adicional con fuentes: " + public_guidance
-    result = (client if client is not None else BedrockClient.from_env()).converse(
-        messages,
-        system=[{"text": SYSTEM_PROMPT}, {"text": public_context}, {"text": CHAT_STYLE}],
-        inferenceConfig={"maxTokens": 600},
-    )
+    active_client = client if client is not None else BedrockClient.from_env()
+    options = {
+        "system": [{"text": SYSTEM_PROMPT}, {"text": public_context}, {"text": CHAT_STYLE}],
+        "inferenceConfig": {"maxTokens": 600},
+    }
+    if stream:
+        return _stream_general(active_client, messages, options)
+    result = active_client.converse(messages, **options)
     text = "\n".join(
         c["text"] for c in result["output"]["message"]["content"] if "text" in c
     ).strip()
@@ -112,3 +128,25 @@ def answer_general(question: str, *, client=None, public_history=None, public_gu
     if "https://" not in text:
         text += f"\n\nFuente: {config.FUENTE_PGU}"
     return friendly_sources(text)
+
+
+def _stream_general(client, messages, options):
+    response = client.converse_stream(messages, **options)
+    events = response["stream"]
+    parts = []
+    try:
+        for event in events:
+            if any(key.endswith("Exception") for key in event):
+                raise RuntimeError("Se interrumpió la respuesta de Bedrock")
+            text = event.get("contentBlockDelta", {}).get("delta", {}).get("text", "")
+            if text:
+                parts.append(text)
+                yield text
+        if not "".join(parts).strip():
+            raise ValueError("Bedrock devolvió una respuesta vacía")
+        if "https://" not in "".join(parts):
+            yield f"\n\nFuente: {config.FUENTE_PGU}"
+    finally:
+        close = getattr(events, "close", None)
+        if close:
+            close()

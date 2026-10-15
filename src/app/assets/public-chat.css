@@ -1,33 +1,79 @@
-/* Dedicated conversation page. Scope every rule to this page. */
-.stMainBlockContainer:has(.st-key-public_chat){max-width:1080px;padding:24px 40px 40px}
-.st-key-public_chat_header{padding:0 0 20px;border-bottom:1px solid #edf0f2}
-.st-key-public_chat_header button{border:1px solid #e1e6eb;border-radius:24px;min-height:40px;background:#fff;color:#34536b;font-size:13px}
-.st-key-public_chat_header button:hover{background:#f4f7fa;border-color:#b8cbdc}
-.st-key-public_chat{width:100%;max-width:760px;min-width:0;margin:36px auto 24px}
-.public-chat-welcome{text-align:center;padding:clamp(40px,12vh,120px) 0 48px}
-.public-chat-welcome>span{font-size:11px;font-weight:600;letter-spacing:2px;color:#5f7b90}
-.st-key-public_chat .public-chat-welcome h1{font:500 clamp(28px,4vw,42px)/1.25 Roboto,Arial,sans-serif;letter-spacing:-1px;color:#173d59;margin:18px 0 14px;padding:0}
-.public-chat-welcome p{font-size:17px;line-height:1.6;color:#6a7f8e}
-.st-key-public_chat [data-testid="stChatMessage"]{background:transparent;gap:14px;padding:16px 0;margin:0;border-radius:0}
+/* Public assistant: editorial typography, quiet surfaces, ChileAtiende palette. */
+.stApp:has(.st-key-public_chat){background:#fff;color:#143e5c}
+.stApp:has(.st-key-public_chat) .block-container{width:100%;max-width:1200px;margin-inline:auto;padding:0 24px 36px;box-sizing:border-box}
+.public-chat-title{text-align:center;padding:12px 0 2px}
+.public-chat-title h1{font:500 15px/1.5 Roboto,Arial,sans-serif;color:#34536e;margin:0;padding:0;letter-spacing:.1px}
+.st-key-public_chat_header{padding:12px 0 0}
+.st-key-public_chat_header button{border:1px solid #c6d9ea;border-radius:24px;min-height:40px;background:#fff;color:#0d4d82}
+.st-key-public_chat_header button p{font-size:13px;white-space:nowrap}
+.st-key-public_chat_header button:hover{background:#e5f0fc;border-color:#0f69c4}
+.st-key-public_chat{width:100%;max-width:760px;min-width:0;align-self:center;margin:8px auto!important}
+.st-key-public_chat [data-testid="stElementContainer"],.st-key-public_chat [data-testid="stMarkdown"],.st-key-public_chat [data-testid="stMarkdownContainer"]{width:100%!important;max-width:100%;min-width:0;box-sizing:border-box}
+.public-chat-welcome{width:100%;box-sizing:border-box;text-align:center;padding:0 0 38px}
+.public-chat-welcome>span{font:600 11px/1.5 Roboto,Arial,sans-serif;letter-spacing:1.8px;color:#0f69b4}
+.public-chat-welcome:before{content:"";display:block;width:48px;height:4px;margin:0 auto 12px;background:linear-gradient(to right,#0f69c4 50%,#eb3c46 50%);border-radius:2px}
+.st-key-public_chat .public-chat-welcome h2{font:400 clamp(36px,4.6vw,58px)/1.12 Roboto,Arial,sans-serif;letter-spacing:-1.8px;color:#0d4d82;padding:0;margin:8px auto 18px;max-width:760px;text-wrap:balance}
+.public-chat-welcome p{font:400 17px/1.65 Roboto,Arial,sans-serif;color:#60798e;margin:0 auto;max-width:540px;text-wrap:balance}
+.st-key-public_chat_suggestions{margin-top:10px}
+.st-key-public_chat_suggestions button{border:1px solid #d5e4f2;background:transparent;border-radius:20px;color:#34536e;padding:10px 12px;min-height:44px}
+.st-key-public_chat_suggestions button p{font-size:12px}
+.st-key-public_chat_suggestions button:hover{background:#fff;border-color:#0f69b4;color:#0d4d82}
+.st-key-public_chat [data-testid="stChatMessage"]{background:transparent;gap:14px;padding:18px 0;margin:0;border-radius:0;color:#34536e}
 .st-key-public_chat [data-testid="stChatMessage"] p{font-size:16px;line-height:1.8;overflow-wrap:anywhere}
 [class*="st-key-public_message_user_"]{align-self:flex-end;width:fit-content!important;max-width:88%;margin:12px 0}
-[class*="st-key-public_message_user_"] [data-testid="stChatMessage"]{background:#eef3f8;border-radius:22px;padding:12px 20px}
+[class*="st-key-public_message_user_"] [data-testid="stChatMessage"]{background:#e5f0fc;border:1px solid #d5e4f2;border-radius:24px 24px 6px 24px;padding:12px 20px;color:#0d4d82}
 [class*="st-key-public_message_user_"] [data-testid="stChatMessageAvatarUser"]{display:none}
 [class*="st-key-public_message_user_"] p{margin:0}
 [class*="st-key-public_message_user_"] [data-testid="stElementContainer"]{height:auto!important;min-height:1.8em}
-.st-key-public_chat_notice{max-width:760px;margin:0 auto;text-align:center}
-.st-key-public_chat_notice p{font-size:12px;color:#788895}
-.stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{max-width:840px;padding:12px 40px 20px}
-.stApp:has(.st-key-public_chat) [data-testid="stChatInput"]{border-radius:28px;background:#f7f9fb;border:1px solid #dce4eb;box-shadow:0 4px 24px #173d5908;padding:8px 12px}
-.stApp:has(.st-key-public_chat) [data-testid="stChatInput"]:focus-within{border-color:#7fa8c8;box-shadow:0 0 0 3px #0f69b40c}
-.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{font-size:16px;line-height:1.6}
-.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] [data-baseweb="textarea"]{border:0!important;box-shadow:none!important;background:transparent;width:100%!important;max-width:100%;min-width:0}
-.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{box-sizing:border-box;width:100%!important;max-width:100%;min-width:0;min-height:48px;line-height:24px;padding:0!important}
 .st-key-public_chat [data-testid="stChatMessageAvatarAssistant"]{background:#0f69b4;color:white}
-.st-key-public_chat_header button p{font-size:13px;white-space:nowrap}
-@media(prefers-reduced-motion:no-preference){.public-chat-welcome,[class*="st-key-public_message_"]{animation:portal-enter 240ms ease-out both}.st-key-public_chat_header button{transition:background-color 160ms,border-color 160ms}}
-@media(max-width:600px){.stMainBlockContainer:has(.st-key-public_chat){padding:16px 16px 28px}.st-key-public_chat_header [data-testid="stHorizontalBlock"]{flex-wrap:nowrap;gap:8px}.st-key-public_chat_header [data-testid="stColumn"]{min-width:0!important}.st-key-public_chat_header [data-testid="stColumn"]:last-child{flex:0 0 150px;width:150px}.st-key-public_chat{margin-top:20px}.stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{padding:8px 16px 16px}.st-key-public_chat [data-testid="stChatMessage"] p{font-size:15px}[class*="st-key-public_message_user_"]{max-width:94%}}
+.stApp:has(.st-key-public_chat) [data-testid="stBottom"],.stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{background:#fff}
+.stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{width:100%;max-width:840px;padding:12px 40px 24px;margin-inline:auto;box-sizing:border-box}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"]{border-radius:36px;background:#fff;border:1px solid #c6d9ea;box-shadow:0 8px 32px #0d4d820d;padding:12px 16px}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"]:focus-within{border-color:#0f69b4;box-shadow:0 0 0 3px #0f69b410,0 8px 32px #0d4d820d}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] [data-baseweb="textarea"]{border:0!important;box-shadow:none!important;background:transparent;width:100%!important;max-width:100%;min-width:0}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{font-size:16px;box-sizing:border-box;width:100%!important;max-width:100%;min-width:0;min-height:48px;line-height:24px;padding:12px 48px 12px 12px!important;color:#143e5c}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInputSubmitButton"]{background:#0f69b4;color:#fff;border-radius:50%}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInputSubmitButton"]:hover{background:#0d4d82}
+.st-key-public_chat_notice{max-width:760px;margin:0 auto;text-align:center}
+.st-key-public_chat_notice p{font-size:11px;line-height:1.7;color:#60798e}
+@media(prefers-reduced-motion:no-preference){.public-chat-welcome,[class*="st-key-public_message_"]{animation:portal-enter 240ms ease-out both}.st-key-public_chat_suggestions button,.st-key-public_chat_header button{transition:background-color 160ms,border-color 160ms}}
+@media(max-width:600px){.stApp:has(.st-key-public_chat) .block-container{padding:0 24px 36px}.public-chat-title h1{font-size:13px}.public-chat-welcome{padding-top:0;padding-bottom:30px}.public-chat-welcome p{font-size:15px}.st-key-public_chat_header [data-testid="stHorizontalBlock"]{flex-wrap:nowrap;gap:8px}.st-key-public_chat_header [data-testid="stColumn"]{min-width:0!important}.st-key-public_chat_header [data-testid="stColumn"]:last-child{flex:0 0 150px;width:150px}.st-key-public_chat_suggestions [data-testid="stHorizontalBlock"]{gap:8px}.st-key-public_chat_suggestions [data-testid="stColumn"]{width:100%!important;flex:1 1 100%!important;min-width:0!important}.stApp:has(.st-key-public_chat) [data-testid="stBottomBlockContainer"]{padding:8px 16px 16px}.st-key-public_chat [data-testid="stChatMessage"] p{font-size:15px}[class*="st-key-public_message_user_"]{max-width:94%}}
 
-/* Keep voice controls beside the fixed message composer. */
-.st-key-public_chat_voice{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);width:min(760px,calc(100vw - 32px));z-index:90;background:#fff;border-radius:14px;padding:8px 0}
-.stMainBlockContainer:has(.st-key-public_chat){padding-bottom:250px}
+.st-key-public_chat [data-testid="stChatInput"]{width:100%!important;max-width:100%;min-width:0;box-sizing:border-box}
+@media(max-width:700px){.stApp:has(.st-key-public_chat) .block-container{padding-left:18px;padding-right:18px}}
+/* Keep every conversation element on the same horizontal axis. */
+.st-key-public_chat_header{width:100%;max-width:760px;align-self:center;margin-inline:auto!important}
+.st-key-public_chat_notice [data-testid="stElementContainer"],
+.st-key-public_chat_notice [data-testid="stMarkdown"],
+.st-key-public_chat_notice [data-testid="stMarkdownContainer"]{width:100%!important;max-width:100%;box-sizing:border-box}
+.st-key-public_chat .public-chat-welcome h2{padding-inline:0!important;text-align:center}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{padding:12px 48px 12px 12px!important}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea:placeholder-shown{text-align:left}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea:not(:placeholder-shown){text-align:left}
+
+.st-key-public_chat_voice{max-width:760px;width:100%;align-self:center;margin-inline:auto}
+.st-key-public_chat_voice [data-testid="stElementContainer"]{width:100%!important;max-width:100%}
+
+/* The placeholder controller has no visible layout footprint. */
+.st-key-public_chat_placeholder_animation{display:none}
+
+/* Center the send control against the full height of the text field. */
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] div:has(>[data-testid="stChatInputSubmitButton"]){top:0;bottom:0;height:auto;display:flex;align-items:center;justify-content:center}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInputSubmitButton"]{display:flex;align-items:center;justify-content:center;padding:8px;flex-shrink:0}
+
+/* Quiet dictation control immediately before Send. */
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] div:has(>.chat-composer-mic){width:84px;gap:4px}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] textarea{padding-right:92px!important}
+.chat-composer-mic{width:40px;height:40px;min-width:40px;padding:10px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:transparent;color:#60798e;cursor:pointer}
+.chat-composer-mic svg{width:18px;height:18px}
+.chat-composer-mic:hover{background:#edf4fb;color:#0f69b4}
+.chat-composer-mic:focus-visible{outline:2px solid #0f69b4;outline-offset:2px}
+.chat-composer-mic[aria-pressed="true"]{background:#fff1f1;color:#bf2838}
+.chat-composer-mic:disabled{opacity:.45;cursor:default}
+.stApp:has(.st-key-public_chat) [data-testid="stChatInput"] div:has(>.chat-composer-mic){z-index:2}
+.chat-composer-mic{pointer-events:auto;position:relative;z-index:3}
+
+/* Keep the personal-review action centered on the conversation axis. */
+.st-key-public_chat_pgu_action{width:100%;max-width:760px;align-self:center;margin-inline:auto!important}
+.st-key-public_chat_pgu_action [data-testid="stButton"]{display:flex;justify-content:center;width:100%}
+.st-key-public_chat_pgu_action button{max-width:100%;text-align:center}

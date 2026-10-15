@@ -20,12 +20,17 @@ def spoken_text(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()[:8000]
 
 
-def voice_input(key: str, *, reply: str = "", message_id: str = "") -> str | None:
-    read_aloud = st.toggle("Leer respuestas en voz alta", key=f"{key}_read_aloud", value=False)
+def voice_input(
+    key: str, *, reply: str = "", message_id: str = "", compact: bool = False
+) -> str | None:
+    read_aloud = False if compact else st.toggle(
+        "Leer respuestas en voz alta", key=f"{key}_read_aloud", value=False
+    )
     text = spoken_text(reply)
     speech_id = message_id + hashlib.sha256(text.encode()).hexdigest()
     value = _component(
-        key=key, default=None, reply_text=text, speech_id=speech_id, read_aloud=read_aloud
+        key=key, default=None, reply_text=text, speech_id=speech_id, read_aloud=read_aloud,
+        compact=compact
     )
     if not isinstance(value, dict):
         return None
