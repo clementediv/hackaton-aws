@@ -58,15 +58,15 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .home-government h1{font-family:"Roboto Slab",Georgia,serif;font-size:44px;line-height:1.25;letter-spacing:-.7px;color:#163e59;margin:0 0 24px}
 .home-government{text-align:left}.home-government p{font-size:19px;line-height:1.75;color:#536e81;max-width:720px;margin:0 0 28px}
 .st-key-home_government_invitation [data-testid="stButton"]{display:flex;justify-content:flex-start}
-.home-ips-logo{display:block;width:100%;max-width:260px;height:auto;margin:0 auto}
-@media(max-width:700px){.home-ips-logo{max-width:180px;margin:20px 0 0}}
+.home-ips-logo{display:block;width:100%;max-width:220px;height:auto;margin:0 0 0 auto;transform:translate(16px,-16px)}
+@media(max-width:700px){.home-ips-logo{max-width:160px;margin:20px 0 0 auto;transform:none}}
 .home-directory{padding-top:10px}.home-directory h3{font-family:"Roboto Slab",Georgia,serif;font-size:26px;color:#244e6c;margin:20px 0}.home-directory p{font-size:17px;line-height:1.75;color:#6c8292}
 .st-key-home_government [data-testid="stLinkButton"] a{min-height:52px;border-radius:10px}.st-key-home_government [data-testid="stLinkButton"] a p{font-size:16px}
-.st-key-home_government [data-testid="stBaseButton-primary"]{background:linear-gradient(110deg,#0f69b4,#124d7c);color:#fff;border:0;border-radius:14px;padding:18px 30px;min-height:68px;min-width:min(360px,100%);max-width:100%;box-shadow:0 7px 18px #0f69b42b;transition:background .15s,box-shadow .15s}
-.st-key-home_government [data-testid="stBaseButton-primary"] p{font-size:20px;font-weight:700;color:#fff}
-.st-key-home_government [data-testid="stBaseButton-primary"]:hover{background:#0d4d82;box-shadow:0 9px 22px #0f69b43b}
+.st-key-home_government [data-testid="stBaseButton-primary"]{background:#0f69b4;color:#fff;border:1px solid #0f69b4;border-radius:4px;padding:12px 24px;min-height:52px;max-width:100%;box-shadow:none;transition:background .15s}
+.st-key-home_government [data-testid="stBaseButton-primary"] p{font-size:17px;font-weight:500;color:#fff}
+.st-key-home_government [data-testid="stBaseButton-primary"]:hover{background:#0d4d82;border-color:#0d4d82;box-shadow:none}
 .st-key-home_government [data-testid="stBaseButton-primary"]:focus-visible{outline:3px solid #0f69b4;outline-offset:4px}
-@media(max-width:700px){.st-key-home_government{padding:30px 20px}.home-government h1{font-size:32px}.home-government p{font-size:17px}.st-key-home_government [data-testid="stBaseButton-primary"]{width:100%;padding:16px;min-height:64px}.st-key-home_government [data-testid="stBaseButton-primary"] p{font-size:18px}}
+@media(max-width:700px){.st-key-home_government{padding:30px 20px}.home-government h1{font-size:32px}.home-government p{font-size:17px}.st-key-home_government [data-testid="stBaseButton-primary"]{width:100%;padding:12px 20px;min-height:52px}}
 .st-key-portal_header {padding:24px 0 16px}
 .st-key-portal_header .portal-logo {width:210px;max-width:100%;height:72px}
 .st-key-portal_header .portal-utilities {justify-content:flex-end;gap:10px;flex-wrap:nowrap}

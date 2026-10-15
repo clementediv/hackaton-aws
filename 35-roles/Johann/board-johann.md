@@ -35,6 +35,7 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Botón principal sobrio «Ver mis beneficios» y logo IPS arriba a la derecha. Tres pruebas del portal OK. [[portada-chileatiende]].
 - Portada con texto y botón a la izquierda, logo IPS proporcionado por el usuario a la derecha y adaptación móvil. Tres pruebas del portal OK. [[portada-chileatiende]].
 - Invitación principal centrada en una columna y sin botón lateral de trámites. Tres pruebas del portal OK. [[portada-chileatiende]].
 - Retirados los tres textos del directorio lateral de la invitación principal. Enlace al catálogo conservado. [[portada-chileatiende]].

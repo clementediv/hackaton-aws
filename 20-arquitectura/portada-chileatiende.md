@@ -1,5 +1,7 @@
 # Portada basada en ChileAtiende
 
+El acceso principal usa ahora «Ver mis beneficios»: azul plano, borde de 4 px de radio, altura de 52 px y tipografía de 17 px, sin degradado ni sombra. El logo IPS se alinea arriba a la derecha, con máximo de 220 px; en móvil conserva adaptación y no desborda.
+
 La invitación vuelve a alinearse a la izquierda y agrega a la derecha el archivo `src/app/assets/IPS.png` proporcionado por el usuario, conservando proporciones y texto alternativo. En móvil el logo se apila debajo. El botón secundario de trámites sigue retirado.
 
 La invitación principal ocupa una sola columna centrada: título, descripción y botón «Descubrir mis beneficios». Se elimina el botón lateral «Ver trámites y beneficios» y la columna que lo contenía.

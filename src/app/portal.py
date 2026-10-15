@@ -161,7 +161,7 @@ def render_discovery() -> None:
     content = (assets / "official-home.html").read_text(encoding="utf-8")
     content = content.split("</section>", 1)[1]
     with st.container(border=True, key="home_government"):
-        invitation, branding = st.columns([2.6, 1], gap="large", vertical_alignment="center")
+        invitation, branding = st.columns([2.6, 1], gap="large", vertical_alignment="top")
         with invitation, st.container(key="home_government_invitation"):
             st.markdown(
                 '<div class="home-government">'
@@ -173,7 +173,7 @@ def render_discovery() -> None:
                 unsafe_allow_html=True,
             )
             st.button(
-                "Descubrir mis beneficios →",
+                "Ver mis beneficios",
                 type="primary",
                 on_click=open_section,
                 args=("Mi Gobierno",),

@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Acceso sobrio y posición del logo
+- Botón azul plano «Ver mis beneficios», sin sombra ni degradado; logo IPS alineado más arriba y a la derecha. Tres pruebas del portal OK. [[portada-chileatiende]].
+
 ### 2026-10-15 · Invitación alineada e identidad IPS
 - Texto y botón principal alineados a la izquierda y logo `IPS.png` a la derecha, sin deformarlo. En móvil se apila. Tres pruebas del portal OK. [[portada-chileatiende]].
 
