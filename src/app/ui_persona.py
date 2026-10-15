@@ -347,7 +347,7 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
 
         def preguntas_rapidas():
             cols = st.columns(1 if sidebar else 2)
-            questions = PREGUNTAS if ctx["autorizado"] else PREGUNTAS[:1] + PREGUNTAS[3:4]
+            questions = [PREGUNTAS[2], PREGUNTAS[3]] if ctx["autorizado"] else [PREGUNTAS[0], PREGUNTAS[3]]
             for i, q in enumerate(questions):
                 if cols[i % len(cols)].button(q, key=f"q-{run}-{i}", use_container_width=True):
                     preguntar(q)
