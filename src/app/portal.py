@@ -162,10 +162,10 @@ def _queue_home_question(question: str) -> None:
 
 def _render_home_banner() -> None:
     with st.container(border=True, key="home_government"):
-        with st.container(key="home_slide_benefits"):
-            _render_home_benefits()
         with st.container(key="home_slide_assistant"):
             _render_home_assistant()
+        with st.container(key="home_slide_benefits"):
+            _render_home_benefits()
 
 
 def _render_home_benefits() -> None:
