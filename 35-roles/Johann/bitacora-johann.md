@@ -4,6 +4,59 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Ajustar posición y etiqueta del acceso
+- Introducción 18 px más arriba; etiqueta ClaveÚnica y placeholder Ingresa tu clave. Se conserva Probar con otro perfil ficticio y la validación sintética. [[mi-gobierno]].
+
+### 2026-10-15 · Banner con acceso al asistente
+- Banner alterna beneficios y asistente cada 10 segundos, con selección manual y pausa. Probar detiene la rotación, conserva la pregunta y la lleva una sola vez al asistente existente, sin consentir antecedentes automáticamente.
+- Retirado el logo superior derecho de las dos vistas y ocultas las instrucciones inglesas de envío en todos los campos. Diez pruebas verifican giro, pausa, borrador, envío y flujos de acceso/datos. [[portada-chileatiende]].
+
+### 2026-10-15 · Limpiar textos del formulario
+- Retirados subtítulo, recuadro Prueba el portal y nota inferior. Texto/placeholder centrados verticalmente en los campos, manteniendo la autenticación de demostración existente. [[mi-gobierno]].
+
+### 2026-10-15 · Alinear títulos del acceso
+- Se retira el rótulo MI GOBIERNO y el margen superior del título de introducción para alinearlo directamente con el encabezado del formulario. [[mi-gobierno]].
+
+### 2026-10-15 · Alinear introducción del acceso
+- Las columnas del acceso se alinean arriba y la introducción acompaña el encabezado del formulario con 30 px interiores, sin margen adicional en móvil. [[mi-gobierno]].
+
+### 2026-10-15 · Encabezado, logo y preguntas frecuentes
+- Logo IPS de 100/72 px en esquina del banner; se elimina el acceso superior duplicado Mi Gobierno y se mueve Vista ejecutivo al panel lateral de demostración. Se mantienen navegación y herramientas técnicas.
+- Preguntas frecuentes en desplegable del chat, con envío al motor e historial compartido. 16 pruebas y Chrome verifican logo, encabezado, adaptación móvil y pregunta sobre documentos con respuesta. [[portada-chileatiende]], [[mi-gobierno]].
+
+### 2026-10-15 · Tamaño y centrado del logo IPS
+- Logo reducido a 160 px en escritorio y 120 px en móvil, centrado en su columna sin desplazamiento hacia la esquina. [[portada-chileatiende]].
+
+### 2026-10-15 · Acceso sobrio y posición del logo
+- Botón azul plano «Ver mis beneficios», sin sombra ni degradado; logo IPS alineado más arriba y a la derecha. Tres pruebas del portal OK. [[portada-chileatiende]].
+
+### 2026-10-15 · Invitación alineada e identidad IPS
+- Texto y botón principal alineados a la izquierda y logo `IPS.png` a la derecha, sin deformarlo. En móvil se apila. Tres pruebas del portal OK. [[portada-chileatiende]].
+
+### 2026-10-15 · Centrar invitación principal
+- Se retiran la columna y el botón lateral de trámites. Título, descripción y botón principal quedan centrados. Tres pruebas del portal OK. [[portada-chileatiende]].
+
+### 2026-10-15 · Retirar textos laterales de portada
+- Se eliminan el rótulo Trámites y servicios, la pregunta y su descripción del cuadro principal. Tres pruebas del portal OK. [[portada-chileatiende]].
+
+### 2026-10-15 · Invitación principal más grande
+- Se eliminan las etiquetas de Mi Gobierno y se amplían título, descripción, directorio y botón dentro del mismo cuadro. Botón azul con degradado y adaptación móvil. Tres pruebas del portal pasan. [[portada-chileatiende]].
+
+### 2026-10-15 · Simplificar línea de tiempo
+- Se retiran los textos explicativos de cada punto y el pie con advertencia/enlace. Permanecen etapas, fechas y estados; las fuentes siguen documentadas en [[mi-gobierno]].
+
+### 2026-10-15 · Línea de tiempo de beneficios
+- Tres etapas visuales por beneficio: postulación, revisión y resultado, con fechas y estado explícito. En móvil se apilan. Calendario FUAS 2027 verificado con Mineduc; PGU usa apertura calculada y fechas por confirmar. Elegibilidad o carga de documentos no implican envío ni aprobación. Nueve pruebas verifican navegación, documentos y estados sobre los 500 perfiles. [[mi-gobierno]].
+
+### 2026-10-15 · Centrado de la navegación
+- Se retira el padding de 8 px del texto del radio oculto que desplazaba el centro visual 4 px respecto de la línea activa. Ajuste en todas las opciones del portal y las subpestañas de Mi Gobierno. [[portada-chileatiende]].
+
+### 2026-10-15 · Posición del chat y esquinas
+- El chat arranca a la altura de la tarjeta PGU y acompaña el desplazamiento centrado en escritorio, limitado al listado. Bordes de 24 px y seguimiento desactivado en móvil/tablet. Chrome comprueba posición inicial, centro al desplazar, radio y ausencia de desbordamiento. [[mi-gobierno]].
+
+### 2026-10-15 · Recuperar diseño original del chat
+- Se compara con `46f0c76` y se restaura el estilo blanco con borde discreto y conversación de 240 px; se eliminan los estilos azules posteriores. Se mantiene su ubicación lateral en Beneficios y las dos subpestañas. [[mi-gobierno]].
+
 ### 2026-10-15 · Ayuda y documentos dentro de los requisitos
 - Se elimina la subpestaña Chatbot, conservando el asistente lateral. Cada requisito pendiente contiene ayuda con video y, cuando corresponde, carga complementaria de documentos fuera de los antecedentes compartidos. Los adjuntos existentes se reutilizan; no se aprueba ningún requisito por subir un archivo. Ocho pruebas y Chrome escritorio/móvil validan navegación, ayuda incrustada y acceso a carga. [[mi-gobierno]].
 

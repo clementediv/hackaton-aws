@@ -32,3 +32,7 @@ La **ruta personalizada** sigue cubriendo jubilación y PGU. Los accesos general
 Ruff check/format OK en los módulos y test nuevos (`portal.py`, `chatbot.py`, `test_portal.py`); el lint histórico completo de la app sigue pendiente. Chrome headless mostró el layout en 1440 px y 390 px; en móvil el ancho de contenido coincide con el viewport, sin desbordamiento horizontal. No se modifican reglas normativas ni el dataset.
 
 Ejecutar: `uv run --group app streamlit run src/app/app.py --server.address localhost`. Preview local: `http://localhost:8501`.
+
+- 15-10: banner con chat de texto visible sin bot?n previo; t?tulo ?Prueba nuestro asistente de inteligencia artificial? e invitaci?n a preguntas frecuentes. Rotaci?n detenida al mostrar el chat; consulta contin?a en Ayuda. Cuatro pruebas del portal y verificador de 500 perfiles OK. [[portal-ayuda-tramites]].
+
+- 15-10: Banner del asistente con t?tulo principal ?Prueba el asistente de inteligencia artificial?, dise?o neutro centrado, campo de texto redondeado, env?o con flecha y preguntas frecuentes como sugerencias. Cuatro pruebas del portal OK. [[portal-ayuda-tramites]].

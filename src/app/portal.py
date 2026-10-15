@@ -4,6 +4,7 @@ import base64
 import unicodedata
 from html import escape
 from pathlib import Path
+from time import monotonic
 from urllib.parse import quote
 
 import streamlit as st
@@ -37,8 +38,7 @@ SERVICES = (
 
 
 CITIZEN_SECTIONS = ["Inicio", "Mi Gobierno", "Ayuda para tus trámites"]
-# All back-office tools live under a single portal entry.
-OFFICE_SECTIONS = ["Vista ejecutivo"]
+# Back-office tools are reached from the demonstration sidebar.
 EXECUTIVE_SECTIONS = [
     "Mapa de calor y campañas",
     "Detectar e invitar",
@@ -56,11 +56,13 @@ def render_header() -> str:
     if previous in EXECUTIVE_SECTIONS and previous != "Atención del caso":
         st.session_state["executive_section"] = previous
         st.session_state["portal_section"] = "Vista ejecutivo"
+    if st.session_state.get("portal_section") == "Vista ejecutivo":
+        _open_executive()
     if st.session_state.get("portal_section") in ("Trámites", "Mi ruta"):
         st.session_state["portal_section"] = "Inicio"
     logo = base64.b64encode(LOGO.read_bytes()).decode("ascii")
     with st.container(key="portal_header"):
-        brand, search, utilities = st.columns([1.2, 2.2, 1.8], vertical_alignment="center")
+        brand, search, utilities = st.columns([1.2, 2.8, 1.2], vertical_alignment="center")
         brand.markdown(
             f'<a href="{BASE_URL}" target="_blank" rel="noopener noreferrer">'
             f'<img class="portal-logo" alt="ChileAtiende" '
@@ -70,23 +72,27 @@ def render_header() -> str:
         with search:
             render_search()
         with utilities:
-            network, account = st.columns([1, 1.1], vertical_alignment="center")
-            network.link_button("Red de atención", BASE_URL + "/ayuda", use_container_width=True)
-            account.button(
-                "Mi Gobierno",
-                key="header_government",
-                on_click=open_section,
-                args=("Mi Gobierno",),
-                use_container_width=True,
-            )
-    return st.radio(
+            st.link_button("Red de atención", BASE_URL + "/ayuda", use_container_width=True)
+    selected = st.radio(
         "Secciones del portal",
-        CITIZEN_SECTIONS + OFFICE_SECTIONS,
+        CITIZEN_SECTIONS,
         index=0,
         horizontal=True,
         label_visibility="collapsed",
         key="portal_section",
+        on_change=_leave_executive,
     )
+    st.sidebar.button("Vista ejecutivo", key="open_executive", on_click=_open_executive)
+    return "Vista ejecutivo" if st.session_state.get("portal_executive") else selected or "Inicio"
+
+
+def _open_executive() -> None:
+    st.session_state["portal_executive"] = True
+    st.session_state["portal_section"] = None
+
+
+def _leave_executive() -> None:
+    st.session_state.pop("portal_executive", None)
 
 
 def hero(section: str) -> None:
@@ -161,42 +167,89 @@ def render_discovery() -> None:
     styles = (assets / "official-home.css").read_text(encoding="utf-8")
     content = (assets / "official-home.html").read_text(encoding="utf-8")
     content = content.split("</section>", 1)[1]
-    with st.container(border=True, key="home_government"):
-        invitation, directory = st.columns([2.4, 1], gap="large")
-        with invitation:
-            st.markdown(
-                '<div class="home-government"><span class="agent-label">CONOCE MI GOBIERNO</span>'
-                "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
-                "<p>Descubre cuáles podrían corresponderte según tu situación. "
-                "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
-                "en un solo lugar.</p>"
-                "</div>",
-                unsafe_allow_html=True,
-            )
-            st.button(
-                "Descubrir mis beneficios →",
-                type="primary",
-                on_click=open_section,
-                args=("Mi Gobierno",),
-                key="home_government_access",
-            )
-            st.caption("Tus datos · Tus documentos · Tu ruta de beneficios")
-        with directory:
-            st.markdown(
-                '<div class="home-directory"><span class="agent-label">'
-                "TRÁMITES Y SERVICIOS</span><h3>¿Buscas algo en particular?</h3>"
-                "<p>Encuentra certificados, pensiones y otros servicios del Estado.</p></div>",
-                unsafe_allow_html=True,
-            )
-            st.link_button(
-                "Ver trámites y beneficios →",
-                BASE_URL + "/temas",
-                use_container_width=True,
-            )
+    _render_home_banner()
     st.html(f'<style>{styles}</style><div class="official-home">{content}</div>')
 
 
+def _queue_home_question(question: str) -> None:
+    st.session_state["portal_pending_question"] = question
+    st.session_state["portal_next_section"] = "Ayuda para tus trámites"
+    st.rerun(scope="app")
+
+
+@st.fragment(run_every="5s")
+def _render_home_banner() -> None:
+    now = monotonic()
+    previous = st.session_state.setdefault("home_banner_last_rotation", now)
+    slide = st.session_state.setdefault("home_banner_slide", "Beneficios")
+    if not st.session_state.get("home_banner_chat_open") and now - previous >= 5:
+        st.session_state["home_banner_slide"] = (
+            "Asistente IA" if slide == "Beneficios" else "Beneficios"
+        )
+        st.session_state["home_banner_last_rotation"] = now
+    with st.container(border=True, key="home_government"):
+        active = st.session_state["home_banner_slide"]
+        slide_key = "assistant" if active == "Asistente IA" else "benefits"
+        with st.container(key=f"home_slide_{slide_key}"):
+            if active == "Asistente IA":
+                _render_home_assistant()
+            else:
+                _render_home_benefits()
+
+
+def _render_home_benefits() -> None:
+    with st.container(key="home_government_invitation"):
+        st.markdown(
+            '<div class="home-government">'
+            "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
+            "<p>Descubre cuáles podrían corresponderte según tu situación. "
+            "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
+            "en un solo lugar.</p>"
+            "</div>",
+            unsafe_allow_html=True,
+        )
+        if st.button(
+            "Ver mis beneficios",
+            type="primary",
+            key="home_government_access",
+        ):
+            st.session_state["portal_next_section"] = "Mi Gobierno"
+            st.rerun(scope="app")
+
+
+def _render_home_assistant() -> None:
+    st.markdown(
+        '<div class="home-government home-assistant-intro">'
+        "<h1>Prueba el asistente de inteligencia artificial</h1>"
+        "<p>Resuelve preguntas frecuentes sobre tr?mites y beneficios.</p></div>",
+        unsafe_allow_html=True,
+    )
+    st.session_state["home_banner_chat_open"] = True
+    with st.container(key="home_chat_preview"):
+        with st.form("home_agent_question", border=False):
+            question = st.text_input(
+                "Escribe tu pregunta",
+                key="home_agent_question_text",
+                placeholder="Pregunta lo que necesites?",
+                label_visibility="collapsed",
+                max_chars=2000,
+            )
+            if st.form_submit_button("Enviar", type="primary", icon=":material/arrow_upward:"):
+                if question.strip():
+                    _queue_home_question(question.strip())
+                else:
+                    st.warning("Escribe una pregunta para continuar.")
+    with st.container(key="home_chat_suggestions"):
+        examples = st.columns(2)
+        for index, question in enumerate(("?Qu? es la PGU?", "?Qu? documentos necesito?")):
+            if examples[index].button(
+                question, key=f"home_example_{index}", use_container_width=True
+            ):
+                _queue_home_question(question)
+
+
 def open_section(section: str) -> None:
+    _leave_executive()
     st.session_state["portal_section"] = section
 
 

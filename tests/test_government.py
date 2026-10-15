@@ -21,6 +21,31 @@ def test_pgu_actions_respect_all_dataset_results():
         assert not any(step.tramite == "Jubilación" for step in route)
 
 
+def test_timeline_does_not_turn_eligibility_or_calendar_into_an_approval():
+    from datetime import date
+
+    for profile in cargar_perfiles().values():
+        diagnosis = rules.diagnosticar(profile)
+        first, review, result = government.benefit_timeline("pgu", diagnosis)["steps"]
+        if diagnosis.pgu.resultado == rules.ELEGIBLE:
+            assert first["status"] == "Todo listo para postular"
+            assert review["status"] == "Aún no inicia"
+            assert result["status"] == "Sin resultado todavía"
+        if diagnosis.pgu.resultado == rules.ANTECEDENTE_FALTANTE:
+            assert first["status"] == "Faltan datos"
+        assert (result["status"] == "Beneficio vigente") == (
+            diagnosis.pgu.resultado == rules.YA_RECIBE
+        )
+    for benefit in ("fuas", "gratuidad", "becas"):
+        first, review, result = government.benefit_timeline(benefit)["steps"]
+        assert first["date"] == "1 al 22 de octubre de 2026"
+        assert review["status"] == "Aún no inicia"
+        assert result["date"] == "10 de marzo de 2027"
+        assert result["status"] == "Sin resultado todavía"
+        closed = government.benefit_timeline(benefit, reference=date(2026, 10, 23))
+        assert "ya cerró" in closed["steps"][0]["detail"]
+
+
 def test_personal_data_requires_consent_and_uploads_do_not_change_eligibility(
     tmp_path, monkeypatch
 ):
@@ -63,7 +88,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     monkeypatch.setattr(ui_config, "DB_PATH", tmp_path / "gov-ui.db")
     monkeypatch.setattr(ui_config, "BEDROCK_MODEL_ID", "")
     app = AppTest.from_file(str(app_dir / "app.py"), default_timeout=30).run()
-    app.button(key="header_government").click().run()
+    app.radio(key="portal_section").set_value("Mi Gobierno").run()
     assert not app.exception
     assert len(app.chat_input) == 0
     demo_run = app.selectbox(key="gov_demo_example").value
@@ -94,11 +119,19 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     run = app.session_state["government_person"]
     assert app.session_state[f"government_view_{run}"] == "Beneficios"
     assert len(app.chat_input) == 1
+    assert any(section.label == "Preguntas frecuentes" for section in app.expander)
+    app.button(key=f"q-{run}-2").click().run()
+    assert not app.exception
+    assert any(
+        message["texto"] == "¿Qué documentos necesito?"
+        for message in app.session_state[f"chat-{run}"]
+    )
     assert any(item.placeholder == "Pregúntale al asistente de trámites" for item in app.chat_input)
     app.radio(key=f"government_view_{run}").set_value("Beneficios").run()
     cards = [element.value for element in app.markdown if "gov-requirement-card" in element.value]
     assert any("ready" in card and "Listo" in card for card in cards)
     assert any("pending" in card and "Faltan datos" in card for card in cards)
+    assert len([item for item in app.markdown if 'class="gov-timeline"' in item.value]) == 4
     assert not any(item.label == "Profesión" for item in app.text_input)
     assert len([button for button in app.button if button.label == "Ver datos faltantes"]) == 3
     app.button(key="gov_check_fuas").click().run()

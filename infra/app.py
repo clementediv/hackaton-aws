@@ -1,6 +1,7 @@
 """CDK entry point: `npx cdk deploy --profile hackaton` from infra/."""
 
 import aws_cdk as cdk
+from chat_stack import ChatStack
 from proactivo_stack import ProactivoStack
 
 app = cdk.App()
@@ -10,4 +11,5 @@ ProactivoStack(
     env=cdk.Environment(region="us-east-1"),
     description="Detección proactiva de beneficios: DynamoDB Streams, Lambda y SES (demo).",
 )
+ChatStack(app, "ChileAtiendeChat", env=cdk.Environment(region="us-east-1"))
 app.synth()
