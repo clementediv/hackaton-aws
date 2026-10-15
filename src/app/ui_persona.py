@@ -318,8 +318,15 @@ PREGUNTAS = ["¿Qué es la PGU?", "¿Cuánto recibiría?", "¿Qué documentos ne
 
 def _asistente(d, run, canal, ctx, *, sidebar=False):
     with st.container(border=True):
-        st.markdown("#### Asistente de ayuda")
-        st.caption("Tu chatbot para entender el trámite y encontrar el próximo paso.")
+        if sidebar:
+            st.markdown(
+                '<div class="gov-assistant-intro"><h4>Asistente de IA</h4>'
+                '<p>Tu próximo paso, con tus antecedentes.</p></div>',
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown("#### Asistente de ayuda")
+            st.caption("Tu chatbot para entender el trámite y encontrar el próximo paso.")
         clave = f"chat-{run}"
         saludo = {"rol": "assistant", "texto": asistente.explicar_resumen(ctx)}
         if sidebar and ctx["autorizado"]:
@@ -367,20 +374,30 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
                         preguntar(q)
                         st.rerun()
 
-        mensajes = st.container(height=240 if sidebar else 360, border=not sidebar)
+        mensajes = st.container(height=300 if sidebar else 360, border=not sidebar)
         for i, m in enumerate(hist):
             target = mensajes.container(key=f"gov_chat_{m['rol']}_{i}") if sidebar else mensajes
             avatar = None if sidebar else ("🧭" if m["rol"] == "assistant" else "🙂")
             target.chat_message(m["rol"], avatar=avatar).write(m["texto"])
-        preguntas_rapidas()
-        if q := st.chat_input("Pregúntale al asistente de trámites"):
+        if not sidebar:
+            preguntas_rapidas()
+        placeholder = "Describe lo que necesitas" if sidebar else "Pregúntale al asistente de trámites"
+        if q := st.chat_input(placeholder):
             preguntar(q)
             st.rerun()
+        if sidebar:
+            preguntas_rapidas()
         from voice import voice_input
 
         latest_reply = next((m["texto"] for m in reversed(hist) if m["rol"] == "assistant"), "")
-        if spoken := voice_input(key=f"voice_person_{run}", reply=latest_reply,
-                                 message_id=str(len(hist))):
+        if sidebar:
+            with st.expander("Opciones de voz", expanded=False):
+                spoken = voice_input(key=f"voice_person_{run}", reply=latest_reply,
+                                     message_id=str(len(hist)))
+        else:
+            spoken = voice_input(key=f"voice_person_{run}", reply=latest_reply,
+                                 message_id=str(len(hist)))
+        if spoken:
             preguntar(spoken)
             st.rerun()
 

@@ -169,3 +169,27 @@
 
 /* Streamlit assigns stHtml a pixel width before card padding is applied. */
 :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) [data-testid="stHtml"]:has(.gov-timeline){width:100%!important;max-width:100%;min-width:0;box-sizing:border-box}
+
+/* Personal assistant uses the same conversation surfaces as the public AI chat. */
+.gov-assistant-intro{text-align:center;padding:8px 0 12px}
+.gov-assistant-intro:before{content:"";display:block;width:48px;height:4px;margin:0 auto 16px;border-radius:2px;background:linear-gradient(to right,#0f69b4 50%,#eb3c46 50%)}
+.st-key-gov_assistant .gov-assistant-intro h4{font:400 26px/1.2 Roboto,Arial,sans-serif;letter-spacing:-.7px;color:#0d4d82;margin:0 0 10px;padding:0}
+.gov-assistant-intro p{font:400 14px/1.6 Roboto,Arial,sans-serif;color:#60798e;margin:0}
+.st-key-gov_assistant{background:#fff;min-width:0}
+.st-key-gov_assistant [data-testid="stChatMessage"]{background:transparent;gap:10px;padding:14px 0;color:#34536e;border-radius:0}
+.st-key-gov_assistant [data-testid="stChatMessage"] p{font:400 14px/1.8 Roboto,Arial,sans-serif;overflow-wrap:anywhere}
+.st-key-gov_assistant [data-testid="stChatMessageAvatarAssistant"]{background:#0f69b4;color:#fff}
+.st-key-gov_assistant [class*="st-key-gov_chat_user_"]{width:fit-content!important;max-width:92%;margin:8px 0;align-self:flex-end}
+.st-key-gov_assistant [class*="st-key-gov_chat_user_"] [data-testid="stChatMessage"]{background:#e5f0fc;color:#0d4d82;border:1px solid #d5e4f2;border-radius:22px 22px 6px 22px;padding:10px 14px}
+.st-key-gov_assistant [data-testid="stChatMessageAvatarUser"]{display:none}
+.st-key-gov_assistant [data-testid="stElementContainer"],.st-key-gov_assistant [data-testid="stMarkdown"],.st-key-gov_assistant [data-testid="stMarkdownContainer"]{width:100%!important;min-width:0;max-width:100%;box-sizing:border-box}
+.st-key-gov_assistant [data-testid="stChatInput"]{width:100%!important;box-sizing:border-box;border:1px solid #c6d9ea;background:#fff;border-radius:32px;padding:8px 12px;box-shadow:0 8px 24px #0d4d820d}
+.st-key-gov_assistant [data-testid="stChatInput"]:focus-within{border-color:#0f69b4;box-shadow:0 0 0 3px #0f69b410}
+.st-key-gov_assistant [data-testid="stChatInput"] [data-baseweb="textarea"]{background:transparent;border:0!important;box-shadow:none!important;width:100%!important;min-width:0}
+.st-key-gov_assistant [data-testid="stChatInput"] textarea{box-sizing:border-box;width:100%!important;min-width:0;max-width:100%;font:400 14px/24px Roboto,Arial,sans-serif;min-height:48px;padding:12px 44px 12px 8px!important;color:#143e5c}
+.st-key-gov_assistant [data-testid="stChatInput"] div:has(>[data-testid="stChatInputSubmitButton"]){top:0;bottom:0;height:auto;align-items:center}
+.st-key-gov_assistant [data-testid="stChatInputSubmitButton"]{width:36px;min-width:36px;height:36px;min-height:36px;padding:6px;background:#0f69b4;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.st-key-gov_assistant .st-key-assistant_quick_questions button{border:1px solid #d5e4f2!important;background:#fff!important;color:#34536e!important;min-height:36px!important;border-radius:20px!important}
+.st-key-gov_assistant .st-key-assistant_quick_questions button:hover{background:#edf4fb!important;border-color:#0f69b4!important}
+.st-key-gov_assistant [data-testid="stExpander"]{border-color:#e2eaf1;border-radius:16px}
+@media(min-width:1051px){.st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page)>[data-testid="stVerticalBlockBorderWrapper"]{top:16px}}

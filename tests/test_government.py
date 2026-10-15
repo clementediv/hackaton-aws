@@ -126,7 +126,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
         message["texto"] == "¿Qué documentos necesito?"
         for message in app.session_state[f"chat-{run}"]
     )
-    assert any(item.placeholder == "Pregúntale al asistente de trámites" for item in app.chat_input)
+    assert any(item.placeholder == "Describe lo que necesitas" for item in app.chat_input)
     app.radio(key=f"government_view_{run}").set_value("Beneficios").run()
     cards = [element.value for element in app.markdown if "gov-requirement-card" in element.value]
     assert any("ready" in card and "Listo" in card for card in cards)

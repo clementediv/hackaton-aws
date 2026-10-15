@@ -38,3 +38,5 @@ Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hiz
 - 15-10: Micrófono compacto junto a enviar en el campo del chat público, sin botón de texto ni interruptor separado. Dictado conserva revisión y descarte; modo estándar de Mi Gobierno conserva lectura optativa. Chromium verifica posición 1440/390 y dictado simulado → revisión → descarte. Siete pruebas de chat/voz pasan.
 
 - 15-10: Banner del asistente adaptado al chat actual: fondo blanco, Roboto, texto introductorio, respuesta con avatar, consulta redondeada y envío con icono. Conserva ejemplos animados con aparición progresiva de palabras y alternativa sin movimiento. Cinco pruebas del portal pasan; Chromium verifica 1440/390 sin desborde y centrado del campo.
+
+- 15-10: Asistente de Mi Gobierno alineado visualmente con el chat IA: encabezado Roboto centrado y franja institucional, mensajes personales azules, campo redondeado con envío centrado, preguntas debajo y voz en panel desplegable. Mantiene consentimiento, contexto personal e historial. Diez pruebas de Mi Gobierno/voz/UI pasan. Chromium verifica 1440/390 sin desborde y coincidencia vertical del campo y envío.
