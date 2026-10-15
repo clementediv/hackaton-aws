@@ -136,6 +136,8 @@ class ProactivoStack(Stack):
         detector.add_event_source(
             sources.DynamoEventSource(
                 people,
+                # Records written while a new mapping starts are skipped; the daily
+                # reconcile (`scripts/proactivo.py revisar`) catches them up.
                 starting_position=lambda_.StartingPosition.LATEST,
                 batch_size=25,
                 bisect_batch_on_error=True,
