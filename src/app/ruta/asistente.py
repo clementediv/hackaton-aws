@@ -79,7 +79,7 @@ def _template_stream(text):
     """Progressive display for the offline template mode."""
     for word in re.findall(r"\S+\s*", text):
         yield word
-        time.sleep(0.02)
+        time.sleep(0.08)
 
 
 def _peso(n: int | float | None) -> str:

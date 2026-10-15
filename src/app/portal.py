@@ -1,6 +1,8 @@
 """ChileAtiende portal shell and the MVP help section."""
 
 import base64
+import re
+import time
 import unicodedata
 from html import escape
 from pathlib import Path
@@ -247,7 +249,12 @@ def render_chat_page() -> None:
                         try:
                             for chunk in chunks:
                                 parts.append(chunk)
-                                yield chunk
+                                if engine == "bedrock":
+                                    for word in re.findall(r"\s+|\S+\s*", chunk):
+                                        yield word
+                                        time.sleep(0.08)
+                                else:
+                                    yield chunk
                         except Exception:
                             notice = "\n\nLa respuesta se interrumpió. Puedes volver a preguntar."
                             parts.append(notice)
