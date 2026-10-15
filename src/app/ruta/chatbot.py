@@ -8,7 +8,7 @@ from src.agent.tools import ToolRegistry
 from src.contracts import Authorization, Case, Channel, Message, MessageRole
 
 from . import config
-from .conversation import CHAT_STYLE, ConversationalClient
+from .conversation import CHAT_STYLE, ConversationalClient, friendly_sources
 
 
 def answer(question: str, context: dict, history: list[dict], *, client=None) -> str:
@@ -52,7 +52,7 @@ def answer(question: str, context: dict, history: list[dict], *, client=None) ->
         tools=registry,
         reference_date=config.FECHA_REFERENCIA,
     )
-    return agent.run_turn(case, question).text
+    return friendly_sources(agent.run_turn(case, question).text)
 
 
 def answer_general(
@@ -127,7 +127,7 @@ def answer_general(
         raise ValueError("Bedrock devolvió una respuesta vacía")
     if "https://" not in text:
         text += f"\n\nFuente: {config.FUENTE_PGU}"
-    return text
+    return friendly_sources(text)
 
 
 def _stream_general(client, messages, options):

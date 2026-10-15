@@ -192,6 +192,7 @@ def _queue_home_question(question: str) -> None:
 
 
 def render_chat_page() -> None:
+    from chat_feedback import TYPING_HTML, scroll_chat
     from ruta.asistente import responder_publico, _template_stream
     from ruta import casos
     from ruta.datos import cargar_perfiles
@@ -240,7 +241,10 @@ def render_chat_page() -> None:
                 st.chat_message("user").write(pending)
             with st.container(key=f"public_message_assistant_{index + 1}"):
                 with st.chat_message("assistant"):
-                    with st.spinner("Preparando tu respuesta…"):
+                    response = st.empty()
+                    response.markdown(TYPING_HTML, unsafe_allow_html=True)
+                    scroll_chat(".st-key-public_chat", f"sent:{index}:{pending}")
+                    try:
                         personal = is_personal_pgu_question(
                             pending, pgu_context=bool(history and history[-1].get("scope") == "personal")
                         )
@@ -250,6 +254,9 @@ def render_chat_page() -> None:
                         else:
                             public_history = [m for m in history if m.get("scope") != "personal"]
                             chunks, engine = responder_publico(pending, public_history, stream=True)
+                    except Exception:
+                        response.empty()
+                        raise
                     parts = []
 
                     def visible_chunks():
@@ -267,6 +274,7 @@ def render_chat_page() -> None:
                             parts.append(notice)
                             yield notice
 
+                    response.empty()
                     st.write_stream(visible_chunks())
             history.extend([
                 {"rol": "user", "texto": pending, "scope": "personal" if personal else "public"},
@@ -274,6 +282,7 @@ def render_chat_page() -> None:
                  "scope": "personal" if personal else "public"},
             ])
             st.session_state["public_chat_engine"] = engine
+        scroll_chat(".st-key-public_chat", f"received:{history!r}")
     if history:
         if history[-1].get("scope") == "personal":
             with st.container(key="public_chat_pgu_action"):

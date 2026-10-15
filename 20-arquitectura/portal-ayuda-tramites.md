@@ -132,3 +132,39 @@ de lectura.
 - 15-10: Control de dictado más discreto: botón de ícono con tooltip, etiqueta accesible y ayuda desplegable «Cómo usar el micrófono». Durante el dictado se muestra «Detener dictado». Se conserva revisión antes del envío.
 
 - 15-10: Beneficios alineados visualmente con el asistente público: Roboto, títulos livianos, tarjetas blancas, bordes discretos y botones azules redondeados; línea de tiempo con menos recuadros. Banner de beneficios centrado y simplificado.
+
+## Respuesta estándar de orientación · 15-10
+
+Por instrucción del usuario, el cortafuegos usa BOUNDARY_REPLY, un texto único,
+educado y orientativo que explica beneficios/trámites, requisitos, documentos,
+próximos pasos y consentimiento para revisar antecedentes. Se aplica antes de
+Bedrock a insultos sin consulta, ruido reconocible y solicitudes ajenas al propósito,
+en ambos chats y con o sin autorización. Se conserva la ayuda para consultas reales
+aunque incluyan una grosería. El prompt solicita el mismo texto para otros casos
+fuera de alcance reconocidos por el modelo.
+
+Esta instrucción reemplaza la variación de respuestas del cortafuegos de
+[[0017-conversacion-y-voz-del-navegador]]; la conversación legítima conserva su estilo
+natural. 49 pruebas enfocadas verifican texto idéntico entre turnos y chats, ausencia
+de llamadas al modelo para el cortafuegos y consultas legítimas sin bloqueo.
+
+Las referencias del chat se presentan como «Si quieres saber más, puedes revisar…»,
+con enlaces clicables, en respuestas del modelo y respaldos locales. Se conservan
+las aclaraciones de información no verificada. El formato también se normaliza
+si el modelo devuelve «Fuente» o «Fuente de orientación del MVP». 57 pruebas
+enfocadas pasan, incluyendo preservación de enlaces y normalización idempotente.
+
+## Desplazamiento y espera del chat · 15-10
+
+Ambos chats muestran la pregunta antes de invocar al agente. Durante la espera,
+la burbuja del asistente muestra tres puntos azules con desfase de animación en ola,
+etiquetados para lectores de pantalla. Movimiento reducido deja los puntos estáticos.
+Al enviar y recibir se desplazan los contenedores de conversación hasta el final;
+la observación del layout se desconecta tras asentarse para permitir leer mensajes
+anteriores. Dictado, preguntas rápidas y preguntas que vienen de portada comparten
+el mismo recorrido. Se conservan el historial y las reglas de consentimiento.
+
+Verificación reproducible sin AWS: `uv run --with playwright python scripts/verificar_chat_scroll.py`.
+El script levanta una app aislada con respuesta demorada y comprueba envío inmediato,
+puntos escalonados, retirada del indicador y scroll de envío/respuesta en ambos chats
+a 390 y 1440 px, además de permitir desplazamiento manual posterior.

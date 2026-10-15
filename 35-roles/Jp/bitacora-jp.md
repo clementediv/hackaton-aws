@@ -42,3 +42,5 @@ Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hiz
 - 15-10: Asistente de Mi Gobierno alineado visualmente con el chat IA: encabezado Roboto centrado y franja institucional, mensajes personales azules, campo redondeado con envío centrado, preguntas debajo y voz en panel desplegable. Mantiene consentimiento, contexto personal e historial. Diez pruebas de Mi Gobierno/voz/UI pasan. Chromium verifica 1440/390 sin desborde y coincidencia vertical del campo y envío.
 
 - 15-10: Beneficios alineados visualmente con el asistente público: Roboto, títulos livianos, tarjetas blancas, bordes discretos y botones azules redondeados; línea de tiempo con menos recuadros. Banner de beneficios centrado y simplificado.
+
+- 15-10: Integración con `origin/main` sobre `269d4aa`: conserva cambios visuales, presentación breve, streaming y consulta personal PGU; incorpora cortafuegos, referencias amigables y espera/desplazamiento de ambos chats. Conflictos resueltos preservando ambos aportes. Validación: 277 pruebas pasan, 2 omitidas por dependencias opcionales, 8 evals excluidas; verificador de 500 perfiles TODO OK.

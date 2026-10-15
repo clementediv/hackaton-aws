@@ -12,13 +12,15 @@ import unicodedata
 
 from . import config
 from . import reglas as R
-from .conversation import clarification, social_fallback
+from .conversation import boundary_reply, clarification, friendly_sources, social_fallback
 from .fechas import fmt
 from .rutas import Paso
 
 
 def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
     """General orientation without reading profiles or authorized personal routes."""
+    if boundary := boundary_reply(pregunta):
+        return (_template_stream(boundary) if stream else boundary), "plantillas"
     source = f"[ChileAtiende]({config.FUENTES['chileatiende']})"
     topics = {
         "pgu": (
@@ -91,6 +93,7 @@ def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
             return answer_general(pregunta, **options), "bedrock"
         except Exception:
             pass
+    fallback = friendly_sources(fallback)
     return (_template_stream(fallback) if stream else fallback), "plantillas"
 
 
@@ -374,13 +377,15 @@ def _respaldo(pregunta, ctx, historial):
             reply = clarification(historial)
     if "https://" not in reply:
         reply += f"\n\nFuente de orientación: {config.FUENTES['chileatiende']}"
-    return reply
+    return friendly_sources(reply)
 
 
 def responder(
     pregunta: str, ctx: dict, historial: list[dict], *, public_history: list[dict] | None = None
 ) -> tuple[str, str]:
     """Devuelve (respuesta, motor) donde motor es 'bedrock' o 'plantillas'."""
+    if boundary := boundary_reply(pregunta):
+        return boundary, "plantillas"
     # A revoked consent must not forward previously authorized chat to the LLM.
     if not ctx["autorizado"]:
         # A personal question must get the consent step, never an invented evaluation.
