@@ -193,7 +193,7 @@ def _chatbot_page(d, authorized: bool) -> None:
         context = asistente.construir_contexto(
             d, route, states, proximo_paso(route, states), authorized
         )
-        ui_persona._asistente(d, d.run, CANAL, context, sidebar=True, message_height=420)
+        ui_persona._asistente(d, d.run, CANAL, context, sidebar=True)
 
 
 def _personal_page(d, profile) -> None:

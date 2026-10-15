@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Recuperar diseño original del chat
+- Se compara con `46f0c76` y se restaura el estilo blanco con borde discreto y conversación de 240 px; se eliminan los estilos azules posteriores. Se mantiene su ubicación lateral en Beneficios y las dos subpestañas. [[mi-gobierno]].
+
 ### 2026-10-15 · Ayuda y documentos dentro de los requisitos
 - Se elimina la subpestaña Chatbot, conservando el asistente lateral. Cada requisito pendiente contiene ayuda con video y, cuando corresponde, carga complementaria de documentos fuera de los antecedentes compartidos. Los adjuntos existentes se reutilizan; no se aprueba ningún requisito por subir un archivo. Ocho pruebas y Chrome escritorio/móvil validan navegación, ayuda incrustada y acceso a carga. [[mi-gobierno]].
 
