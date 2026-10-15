@@ -1,4 +1,8 @@
-from src.app import voice
+import pytest
+
+pytest.importorskip("streamlit")
+
+from src.app import voice  # noqa: E402
 
 
 def test_voice_submit_is_consumed_once_and_blank_input_is_not_sent(monkeypatch):

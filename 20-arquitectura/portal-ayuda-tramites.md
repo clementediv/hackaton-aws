@@ -99,3 +99,7 @@ manual en el dispositivo. Capturas locales en /tmp/chat-voice-review.png y
 Prueba de interfaz completa: una transcripción simulada se envió una sola vez
 mediante el componente Streamlit y recibió respuesta real de Bedrock. Prueba
 adicional de Mi Gobierno verifica reinicio de memoria general y lectura al revocar.
+
+Integración final con portal ejecutivo: 234 pruebas correctas, dos omitidas por
+dependencias opcionales y ocho evals excluidas. Verificador 500 perfiles TODO OK.
+Los cinco fallos históricos de UI quedaron resueltos por el aporte remoto.

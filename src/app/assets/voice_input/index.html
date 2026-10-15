@@ -75,7 +75,7 @@ window.addEventListener("message",event=>{
  enabled=!event.data.disabled;$("mic").disabled=!enabled||!Speech;
  const args=event.data.args||{};replyText=args.reply_text||"";currentSpeechId=args.speech_id||"";
  $("listen").hidden=!replyText;$("listen").disabled=!synthesis||listening;
- if(!args.read_aloud){stopReading();lastSpeechId=""}
+ if(!replyText||!args.read_aloud){stopReading();lastSpeechId=""}
  else if(replyText&&currentSpeechId!==lastSpeechId)speakReply();
  if(!Speech)status("Tu navegador no admite dictado. Puedes escribir tu mensaje.");resize();
 });
