@@ -1,0 +1,8 @@
+{
+  "app": "uv run --group infra python app.py",
+  "context": {
+    "email": "curibeo@utem.cl",
+    "espera_email_min": 5,
+    "espera_sms_min": 5
+  }
+}

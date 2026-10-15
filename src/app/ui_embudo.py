@@ -1,6 +1,9 @@
 """Visual test harness for the same persistent backend used by the CLI."""
 
 import json
+import os
+from pathlib import Path
+from uuid import uuid4
 
 import pandas as pd
 import streamlit as st
@@ -26,6 +29,38 @@ EVENT_LABELS = {
     "opened": "Abrió correo (sin inicio)",
     "answered": "Respondió al contacto",
 }
+
+
+LAB_SCENARIOS = {
+    "Sin respuestas · mapa de campañas": "funnel-demo-rm.db",
+    "Embudo con respuestas": "funnel-demo-contacto-ejemplo.db",
+}
+
+
+def render_campaign_lab(profiles):
+    """Scenario picker over separate demo databases; shared by the lab and the app tab."""
+    override = os.getenv("FUNNEL_DEMO_DB")
+    filename = LAB_SCENARIOS["Embudo con respuestas"]
+    if not override:
+        scenario = st.selectbox(
+            "Ejemplo precargado",
+            list(LAB_SCENARIOS),
+            key="lab_scenario",
+            on_change=lambda: st.session_state.pop("funnel_demo_path", None),
+        )
+        filename = LAB_SCENARIOS[scenario]
+        if scenario.startswith("Sin respuestas"):
+            st.info(
+                "Este ejemplo omite respuestas para mostrar el mapa: "
+                "los pendientes no son contactos efectivos."
+            )
+    default_path = Path(override or Path(__file__).resolve().parent / filename)
+    if st.button("Nueva simulación (conservar la anterior)", key="lab_new_simulation"):
+        st.session_state["funnel_demo_path"] = str(
+            default_path.with_name(f"funnel-demo-{uuid4().hex[:8]}.db")
+        )
+        st.rerun()
+    render_funnel(profiles, st.session_state.get("funnel_demo_path", default_path))
 
 
 def render_funnel(profiles, db_path=None):

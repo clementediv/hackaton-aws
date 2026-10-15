@@ -8,6 +8,34 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Conversación y presentación del asistente (Codex)
+- Corregida la repetición del resumen ante «hola»: saludos/agradecimientos con respuesta breve y preguntas no reconocidas solicitan aclaración. Mi Gobierno inicia con bienvenida breve y distingue mensajes de persona (burbuja gris a la derecha) y asistente (fondo blanco); conserva campo debajo e historial.
+- Siete regresiones nuevas (saludos con/sin autorización y consulta no reconocida). 153 pruebas pasan excluyendo la suite proactiva no versionada, verificador de 500 perfiles OK. Chrome 1440/390 px valida saludo sin duplicación de diagnóstico y sin desbordamiento. [[mi-gobierno]]. Commit «Mejorar la conversación y presentación del asistente».
+
+### 2026-10-15 · Campo debajo de una conversación más corta (Codex)
+- Corrección solicitada: entrada debajo del historial; altura del chat en Mi Gobierno de 420 a 240 px para evitar espacio vacío. Retirado el aviso del 101/sucursal del asistente compartido. Verificador de 500 perfiles OK. [[mi-gobierno]]. Commit «Acercar la entrada al chat y retirar aviso de atención».
+- 146 pruebas pasan (`pytest tests --ignore=tests/test_proactivo.py`); se excluye únicamente la suite nueva no versionada del aporte proactivo, ajeno a este cambio.
+
+### 2026-10-15 · Campo de consulta arriba (Codex)
+- El campo para preguntar queda debajo del título y la descripción del asistente de Mi Gobierno, antes del historial, tanto en Beneficios como en la guía PGU. Se conserva el envío y registro de preguntas. Verificador de 500 perfiles OK. [[mi-gobierno]]. Commit «Subir el campo de consulta del asistente».
+- Cuatro pruebas de UI afectadas OK. Suite completa: 163 pasan y una falla en el orden de eventos de `tests/test_proactivo.py::test_no_answer_escalates_email_sms_field` (archivo nuevo no versionado de otro aporte); no se modifica ese módulo.
+
+### 2026-10-15 · Sin preguntas frecuentes en Mi Gobierno (Codex)
+- Por solicitud del usuario se retiró el desplegable del asistente en Beneficios y guía PGU; quedan la conversación y el campo para escribir. Cuatro pruebas de UI/integración OK. [[mi-gobierno]]. Commit «Quitar preguntas frecuentes de Mi Gobierno».
+
+### 2026-10-15 · Asistente de Mi Gobierno (Codex)
+- Panel ampliado al 40% del espacio entre columnas, conversación de 420 px antes de las sugerencias, preguntas frecuentes desplegables con botones en una columna. Beneficios y guía PGU comparten presentación; hasta 1050 px se apila a todo el ancho.
+- Chrome 1440/900/390 px sin desbordamiento horizontal; pregunta rápida y acceso a guía OK. 146 pruebas y verificador de 500 perfiles OK. [[mi-gobierno]]. Commit «Ordenar y ampliar el asistente de Mi Gobierno».
+
+### 2026-10-15 · Vista ejecutivo unificada (Codex)
+- Una única entrada principal «Vista ejecutivo» reúne mapa/campañas, detección/invitaciones, ficha, atención del caso y medición mediante selector interno. Se reutilizan las vistas existentes y solo se ejecuta la elegida.
+- Actualizados los recorridos de UI para acceder a la ficha y recorrer las cinco herramientas; 146 pruebas y verificador de 500 perfiles OK. [[ficha-beneficiario]]. Commit «Unificar herramientas de gestión en Vista ejecutivo».
+
+### 2026-10-15 · Ficha del beneficiario y fuente única de contacto (Claude)
+- Mi Gobierno armaba email y teléfono por su cuenta y no coincidía con el colador. Ahora todo lee `ruta.ficha.contact_for`: el contacto del colador si la persona está en la campaña y, si no, la capa sintética. Si falta un canal, se muestra «Sin información».
+- Formato legible y ficticio en la capa: `nombre.apellido@example.com` y `+56 9 0000 xxxx`; se mantienen la semilla y los canales vacíos. Se regeneró `data/synthetic/contacto.csv`.
+- Nueva vista «Ficha del beneficiario»: alerta, identidad, contacto, consentimiento, evaluación, ruta, documentos (solo con autorización), colador e historial. 145 pruebas y verificador OK. [[ficha-beneficiario]]
+
 ### 2026-10-15 · Board: seguimiento por etapa y entrega de emails
 - A pedido de Clemente, agregado el flujo completo sin respuesta: email 7 días → hasta tres llamadas en cinco días → trabajo 7 días → cola presencial; saltos por falta de datos y salida al responder/aceptar o declinar.
 - Registrados como pendientes los estados reales de entrega/rebote/apertura/respuesta y la política ante rebotes. Se distingue seguimiento de contacto de acompañamiento del trámite; la demo no confirma entregas reales. [[board-clemente]] · [[0012-detener-contacto-confirmado]].

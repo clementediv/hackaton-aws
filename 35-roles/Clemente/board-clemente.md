@@ -15,6 +15,7 @@ entorno: Claude Code + Codex
 Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de [[_equipo]].
 
 ## En curso
+- [ ] Detección proactiva en AWS (DynamoDB Streams + Lambda + SES): código y tests listos en `claude/deteccion-proactiva`; falta desplegar (credenciales vencidas) · [[deteccion-proactiva-aws]]
 
 ## Por hacer
 ### Validar con los mentores
@@ -50,7 +51,6 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 ### Acompañamiento y back-office
 - [ ] Checklist de documentos (pendiente, recibido, validado) guiado por el asistente
 - [ ] Derivación al ejecutivo con un resumen del caso
-- [ ] Ficha del beneficiario: datos con fuente, consentimientos, historial del colador, documentos y estado de las solicitudes
 
 ### Unificación y calidad
 - [ ] Instrumentar KPI de próximo paso válido dentro del plazo (meta usuario ≥75%): definir evidencia/paso/plazo; contacto e inicio no lo sustituyen
@@ -67,6 +67,13 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Chat con bienvenida breve, burbujas de persona diferenciadas y saludos sin repetir diagnóstico; preguntas no reconocidas piden aclaración. 153 pruebas, verificador y Chrome OK · commit «Mejorar la conversación y presentación del asistente» · [[mi-gobierno]].
+- [x] Campo para preguntar debajo del chat de Mi Gobierno, con historial reducido a 240 px y sin aviso del 101/sucursal · commit «Acercar la entrada al chat y retirar aviso de atención» · [[mi-gobierno]].
+- [x] Campo para preguntar justo debajo del encabezado del asistente de Mi Gobierno, antes del historial · commit «Subir el campo de consulta del asistente» · [[mi-gobierno]].
+- [x] Retirar las preguntas frecuentes del asistente de Mi Gobierno; conversación y campo de escritura conservados. Cuatro pruebas de UI/integración OK · commit «Quitar preguntas frecuentes de Mi Gobierno» · [[mi-gobierno]].
+- [x] Asistente de Mi Gobierno más amplio, conversación primero y preguntas frecuentes desplegables; apilado en pantallas estrechas. Chrome 1440/900/390 px, 146 pruebas y verificador OK · commit «Ordenar y ampliar el asistente de Mi Gobierno» · [[mi-gobierno]].
+- [x] Reunir mapa, detección, ficha, atención y medición bajo «Vista ejecutivo», con selector interno y verificación de UI · commit «Unificar herramientas de gestión en Vista ejecutivo» · [[ficha-beneficiario]].
+- [x] Ficha del beneficiario en la app y fuente única de contacto para Mi Gobierno, colador y ficha · [[ficha-beneficiario]]
 - [x] Contacto confirmado detiene canales posteriores; responded/accepted separados de inicio, barra por personas y tabla de intentos, ejemplos con/sin respuestas y meta 75% sin falsos resultados — `0642159`, 136 tests · [[0012-detener-contacto-confirmado]]
 - [x] Área propuesta sobre el heatmap por máxima cobertura espacial, radio ajustable, jornadas por capacidad y descargas JSON/GeoJSON — `66dbea8`, 126 tests · [[heatmap-campanas-simulado]]
 - [x] Calor distribuido por persona, direcciones/coordenadas ficticias dentro de su comuna, puntos inspeccionables y compatibilidad con escenarios anteriores — `643a888`, 113 tests · [[heatmap-campanas-simulado]]

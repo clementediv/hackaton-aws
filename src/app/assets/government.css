@@ -5,6 +5,18 @@
 .st-key-government_login_card,.gov-login-example{box-sizing:border-box;max-width:100%}.gov-login-example{width:100%;overflow-wrap:anywhere}
 @media(max-width:700px){.st-key-government_login{padding:24px 0}.gov-login-intro{padding-right:0}.gov-login-intro h1{font-size:32px}.gov-login-intro p{font-size:15px}.st-key-government_login_card{padding:20px}}
 .gov-eyebrow{font-size:11px;font-weight:700;letter-spacing:1.7px;color:#587184}
+/* Give the help conversation room, including on tablets and small laptops. */
+.st-key-gov_assistant h4{font:500 22px/1.35 Roboto,Arial,sans-serif;color:#143550;padding:0 0 8px}
+.st-key-gov_assistant [data-testid="stChatMessage"]{padding:10px 0;gap:10px;background:transparent}
+.st-key-gov_assistant [class*="st-key-gov_chat_user_"]{align-self:flex-end;max-width:90%}
+.st-key-gov_assistant [class*="st-key-gov_chat_user_"] [data-testid="stChatMessage"]{padding:10px 14px;background:#f1f3f5;border-radius:18px}
+.st-key-gov_assistant [data-testid="stChatMessage"] p{line-height:1.65;overflow-wrap:anywhere}
+.st-key-gov_assistant [data-testid="stChatInput"]{border-radius:24px}
+.st-key-gov_assistant button{min-height:44px;text-align:left}
+@media(max-width:1050px){
+  :is(.st-key-gov_benefits_layout,.st-key-gov_journey_layout) [data-testid="stHorizontalBlock"]:has(.st-key-gov_assistant){flex-direction:column;gap:24px}
+  :is(.st-key-gov_benefits_layout,.st-key-gov_journey_layout) [data-testid="stHorizontalBlock"]:has(.st-key-gov_assistant)>[data-testid="stColumn"]{width:100%!important;flex:1 1 auto!important;min-width:0!important}
+}
 .gov-welcome h1{font:400 40px/1.25 "Roboto Slab",Georgia,serif;color:#143550;margin:10px 0 12px;letter-spacing:-1px}
 .gov-welcome h1{padding:0!important}
 [data-testid="stTabs"] [aria-selected="true"]{color:#0f69b4}

@@ -7,9 +7,9 @@ import streamlit as st
 import ui_persona
 from ruta import asistente, casos, config, demo_auth, government
 from ruta import reglas as rules
-from ruta.contacto import generate_contacts
 from ruta.datos import cargar_perfiles
 from ruta.fechas import fmt
+from ruta.ficha import contact_for
 from ruta.rutas import estado_pasos, generar_ruta, proximo_paso
 
 CANAL = "Web ChileAtiende"
@@ -153,20 +153,21 @@ def render(diags) -> None:
 
 
 def _benefits_page(d, authorized: bool) -> None:
-    benefits, chat = st.columns([2.4, 1], gap="large")
+    layout = st.container(key="gov_benefits_layout")
+    benefits, chat = layout.columns([1.5, 1], gap="large")
     with benefits:
         if authorized:
             _benefits(d)
         else:
             _consent(d)
-    with chat:
+    with chat, st.container(key="gov_assistant"):
         case = casos.obtener_caso(d.run)
         route = generar_ruta(d)
         states = estado_pasos(route, case["completados"])
         context = asistente.construir_contexto(
             d, route, states, proximo_paso(route, states), authorized
         )
-        ui_persona._asistente(d, d.run, CANAL, context)
+        ui_persona._asistente(d, d.run, CANAL, context, sidebar=True)
 
 
 def _personal_page(d, profile) -> None:
@@ -349,15 +350,15 @@ def _identity(d, profile, authorized: bool = False) -> None:
 
 
 def _contact_details(d, profile) -> None:
-    contact = generate_contacts({d.run: profile}, territory="metropolitana")[d.run]
-    rc = profile["registro_civil"]
-    email = f"{d.nombre.split()[0].lower()}.{rc['apellido_paterno'].lower()}@example.com"
+    # Same source as the funnel and the record, so a missing channel shows here too.
+    contact, _ = contact_for(d.run, profile)
+    missing = "Sin información"
     fields = (
-        ("Dirección", contact.address),
-        ("Comuna", contact.commune),
-        ("Región", contact.region),
-        ("Correo electrónico", email),
-        ("Teléfono", "+56 9 0000 0000"),
+        ("Dirección", contact.address or missing),
+        ("Comuna", contact.commune or missing),
+        ("Región", contact.region or missing),
+        ("Correo electrónico", contact.email or missing),
+        ("Teléfono", contact.phone or missing),
     )
     html = "".join(
         f'<div class="gov-id-row"><span>{escape(label)}</span><b>{escape(value)}</b></div>'
@@ -628,7 +629,8 @@ def _journey(d, case, benefit) -> None:
         completed / len(route) if route else 0,
         text=f"{completed} de {len(route)} pasos completados",
     )
-    main, chat = st.columns([2, 1], gap="large")
+    layout = st.container(key="gov_journey_layout")
+    main, chat = layout.columns([1.5, 1], gap="large")
     with main:
         for index, step in enumerate(route, 1):
             state = states[step.id]
@@ -661,6 +663,6 @@ def _journey(d, case, benefit) -> None:
                     if st.button("Ya completé este paso", key=f"gov_step_{d.run}_{step.id}"):
                         casos.completar_paso(d.run, step.id, CANAL, step.titulo)
                         st.rerun()
-    with chat:
+    with chat, st.container(key="gov_assistant"):
         context = asistente.construir_contexto(d, route, states, next_step, True)
-        ui_persona._asistente(d, d.run, CANAL, context)
+        ui_persona._asistente(d, d.run, CANAL, context, sidebar=True)

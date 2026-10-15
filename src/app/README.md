@@ -25,6 +25,7 @@ IA generativa (opcional): define `BEDROCK_MODEL_ID` (por ejemplo `us.anthropic.c
 
 ## Vistas
 - Acceso Mi Gobierno: usa el RUN sintético mostrado en la pantalla y la clave ficticia `demo2026`. No ingreses tu ClaveÚnica real. El acceso abre el perfil correspondiente y la autorización de antecedentes se concede por separado.
+- **Vista ejecutivo**: entrada única para Mapa de calor y campañas, Detectar e invitar, Ficha del beneficiario, Atención del caso y Medición. El selector interno abre una herramienta a la vez. Ver [[ficha-beneficiario]].
 - **Mi Gobierno**: espacio personal separado de Inicio, con consentimiento, identidad, situación económica, adjuntos locales y evaluación PGU. «Cobrar beneficio» abre la guía; el organismo resuelve y paga. Becas y otros apoyos aún no se evalúan. Ver [[mi-gobierno]].
 - Portada: réplica visual basada en el HTML y los estilos públicos de ChileAtiende del 15-10-2026, con fuentes e imágenes locales. Abre en Inicio y conserva Ayuda para tus trámites / Mi ruta. Los destacados no se actualizan automáticamente. Ver [[portada-chileatiende]].
 - Embudo de contacto: `uv run --group app streamlit run src/app/demo_embudo.py --server.port 8502 --server.address localhost`. Backend sin web: `uv run python scripts/colador_backend.py --db src/app/funnel-demo.db init --simulate` y `advance --days 7 --simulate`. Guía completa en [[backend-embudo-contacto]]. No se hacen envíos reales.

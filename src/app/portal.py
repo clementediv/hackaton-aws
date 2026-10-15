@@ -36,8 +36,25 @@ SERVICES = (
 )
 
 
+CITIZEN_SECTIONS = ["Inicio", "Mi Gobierno", "Ayuda para tus trámites"]
+# All back-office tools live under a single portal entry.
+OFFICE_SECTIONS = ["Vista ejecutivo"]
+EXECUTIVE_SECTIONS = [
+    "Mapa de calor y campañas",
+    "Detectar e invitar",
+    "Ficha del beneficiario",
+    "Atención del caso",
+    "Medición",
+]
+
+
 def render_header() -> str:
     st.markdown(CSS, unsafe_allow_html=True)
+    # Preserve the destination of sessions opened before the tools were grouped.
+    previous = st.session_state.get("portal_section")
+    if previous in EXECUTIVE_SECTIONS and previous != "Atención del caso":
+        st.session_state["executive_section"] = previous
+        st.session_state["portal_section"] = "Vista ejecutivo"
     if st.session_state.get("portal_section") in ("Trámites", "Mi ruta"):
         st.session_state["portal_section"] = "Inicio"
     logo = base64.b64encode(LOGO.read_bytes()).decode("ascii")
@@ -63,7 +80,7 @@ def render_header() -> str:
             )
     return st.radio(
         "Secciones del portal",
-        ["Inicio", "Mi Gobierno", "Ayuda para tus trámites"],
+        CITIZEN_SECTIONS + OFFICE_SECTIONS,
         index=0,
         horizontal=True,
         label_visibility="collapsed",
@@ -91,7 +108,7 @@ def hero(section: str) -> None:
         else "No tienes que hacerlo a solas. Te ayudamos a entender qué necesitas, "
         "ordenar tus pasos y continuar tu trámite, por el canal que prefieras."
     )
-    if section not in ("Inicio", "Mi Gobierno"):
+    if section == "Ayuda para tus trámites":
         st.markdown(
             f'<section class="portal-hero"><h1>{title}</h1><p>{subtitle}</p></section>',
             unsafe_allow_html=True,

@@ -4,6 +4,7 @@
 - Sin él, responde con plantillas a partir del mismo contexto estructurado.
 En ambos casos solo usa hechos calculados por el motor de reglas: no decide ni inventa.
 """
+import re
 import unicodedata
 
 from . import config
@@ -58,6 +59,12 @@ def _norm(t: str) -> str:
 
 def _plantilla(pregunta: str, ctx: dict) -> str:
     q = _norm(pregunta)
+    greeting = re.sub(r"[^\w\s]", "", q).strip()
+    if greeting in {"hola", "hola que tal", "hola como estas", "buenas", "buenos dias", "buenas tardes", "buenas noches"}:
+        return (f"¡Hola, {ctx['nombre']}! ¿En qué te ayudo hoy? "
+                "Puedes contarme tu duda o decirme qué parte del trámite quieres revisar.")
+    if greeting in {"gracias", "muchas gracias", "ok gracias"}:
+        return "¡De nada! Si te queda alguna duda sobre el trámite, cuéntame."
     h = ctx["hitos"]
     if not ctx["autorizado"]:
         return (f"Hola {ctx['nombre']}. Según tu fecha de nacimiento, tu edad legal de vejez es a los "
@@ -104,7 +111,8 @@ def _plantilla(pregunta: str, ctx: dict) -> str:
     if any(k in q for k in ("cumplo", "puedo", "requisito", "corresponde", "falta")):
         lineas = [f"• {r['requisito']}: {r['estado'].replace('_', ' ')}. {r['detalle']}" for r in pgu["requisitos"]]
         return ("Esto es lo que vemos en tus antecedentes (orientación, no resolución):\n" + "\n".join(lineas) + "\n" + pgu["motivo"] + cierre)
-    return explicar_resumen(ctx)
+    return ("¿Qué te gustaría revisar? Puedo ayudarte con los requisitos, el monto orientativo, "
+            "los documentos o los pasos de tu trámite. Cuéntame un poco más para orientarte.")
 
 
 def explicar_resumen(ctx: dict) -> str:

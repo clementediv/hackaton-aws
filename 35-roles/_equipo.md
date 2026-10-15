@@ -73,6 +73,6 @@ flowchart LR
 | 2. Colador | Contacto confirmado detiene escalamiento; personas, intentos, respuestas e inicio separados. Backend, reloj, simulaciones y mapa ([[backend-embudo-contacto]], [[0012-detener-contacto-confirmado]]) | Transportes/visitas reales; instrumentar KPI próximo paso en plazo (meta usuario ≥75%) |
 | 3–6. Invitar → ruta | App de Johann (SQLite, reglas, rutas) y, en paralelo, contratos, perfil y agente CLI | Unificar los dos motores ([[revision-aporte-johann]]): estados `futuro` y `excluido`, repositorio e historial |
 | 7. Acompañar | Portal estilo ChileAtiende con chatbot conectado al agente ([[portal-ayuda-tramites]]) | Checklist de documentos y guía del trámite paso a paso |
-| 8. Derivar | Vista del ejecutivo con requisitos, fuentes e historial | Resumen de derivación, historial del colador y alerta |
+| 8. Derivar | Vista del ejecutivo y **ficha del beneficiario** con identidad, contacto, consentimiento, evaluación, ruta, documentos, colador y alerta ([[ficha-beneficiario]]) | Resumen de derivación redactado por el asistente |
 | 9. Seguir | Vista de medición con los KPI del PPT | Estado de la solicitud hasta la resolución del organismo |
 | Heatmap y alerta | Mapa RM con ubicaciones ficticias, ranking, umbral 5 y área de campaña calculada por cobertura espacial, radio/capacidad y exportación GeoJSON ([[heatmap-campanas-simulado]]) | Territorios reales, autorización de domicilios, sede/rutas, agenda/despacho y alerta/CESFAM |

@@ -1,501 +1,501 @@
-run,email,phone,employer,region,province,commune,synthetic
-100000001-5,persona.100000001-5@example.com,SIM-TEL-100000001-5,Empleador ficticio 16,Biobío,Concepción,Concepción,True
-100000002-3,persona.100000002-3@example.com,,Empleador ficticio 3,La Araucanía,Cautín,Temuco,True
-100000003-1,,SIM-TEL-100000003-1,,Tarapacá,Iquique,Iquique,True
-100000004-K,persona.100000004-K@example.com,SIM-TEL-100000004-K,,Metropolitana de Santiago,Santiago,Santiago,True
-100000005-8,persona.100000005-8@example.com,SIM-TEL-100000005-8,Empleador ficticio 14,La Araucanía,Cautín,Temuco,True
-100000006-6,persona.100000006-6@example.com,SIM-TEL-100000006-6,,Metropolitana de Santiago,Santiago,Santiago,True
-100000007-4,persona.100000007-4@example.com,SIM-TEL-100000007-4,Empleador ficticio 1,Los Lagos,Llanquihue,Puerto Montt,True
-100000008-2,persona.100000008-2@example.com,,,Metropolitana de Santiago,Santiago,Santiago,True
-100000009-0,persona.100000009-0@example.com,SIM-TEL-100000009-0,,Tarapacá,Iquique,Iquique,True
-100000010-4,persona.100000010-4@example.com,,Empleador ficticio 15,Tarapacá,Iquique,Iquique,True
-100000011-2,persona.100000011-2@example.com,SIM-TEL-100000011-2,,Tarapacá,Iquique,Iquique,True
-100000012-0,persona.100000012-0@example.com,SIM-TEL-100000012-0,,Los Lagos,Llanquihue,Puerto Montt,True
-100000013-9,persona.100000013-9@example.com,SIM-TEL-100000013-9,Empleador ficticio 8,La Araucanía,Cautín,Temuco,True
-100000014-7,persona.100000014-7@example.com,SIM-TEL-100000014-7,,Tarapacá,Iquique,Iquique,True
-100000015-5,persona.100000015-5@example.com,SIM-TEL-100000015-5,,Tarapacá,Iquique,Iquique,True
-100000016-3,persona.100000016-3@example.com,SIM-TEL-100000016-3,Empleador ficticio 6,Tarapacá,Iquique,Iquique,True
-100000017-1,persona.100000017-1@example.com,SIM-TEL-100000017-1,,Biobío,Concepción,Concepción,True
-100000018-K,persona.100000018-K@example.com,SIM-TEL-100000018-K,Empleador ficticio 13,Tarapacá,Iquique,Iquique,True
-100000019-8,persona.100000019-8@example.com,SIM-TEL-100000019-8,Empleador ficticio 10,Biobío,Concepción,Concepción,True
-100000020-1,persona.100000020-1@example.com,SIM-TEL-100000020-1,,La Araucanía,Cautín,Temuco,True
-100000021-K,persona.100000021-K@example.com,SIM-TEL-100000021-K,,Los Lagos,Llanquihue,Puerto Montt,True
-100000022-8,persona.100000022-8@example.com,SIM-TEL-100000022-8,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True
-100000023-6,persona.100000023-6@example.com,SIM-TEL-100000023-6,Empleador ficticio 10,Los Lagos,Llanquihue,Puerto Montt,True
-100000024-4,persona.100000024-4@example.com,SIM-TEL-100000024-4,,Valparaíso,Valparaíso,Valparaíso,True
-100000025-2,,SIM-TEL-100000025-2,Empleador ficticio 9,Metropolitana de Santiago,Santiago,Santiago,True
-100000026-0,,SIM-TEL-100000026-0,Empleador ficticio 8,Los Lagos,Llanquihue,Puerto Montt,True
-100000027-9,persona.100000027-9@example.com,SIM-TEL-100000027-9,,Tarapacá,Iquique,Iquique,True
-100000028-7,persona.100000028-7@example.com,SIM-TEL-100000028-7,,Metropolitana de Santiago,Santiago,Santiago,True
-100000029-5,persona.100000029-5@example.com,SIM-TEL-100000029-5,,Biobío,Concepción,Concepción,True
-100000030-9,persona.100000030-9@example.com,SIM-TEL-100000030-9,,Biobío,Concepción,Concepción,True
-100000031-7,persona.100000031-7@example.com,SIM-TEL-100000031-7,,Biobío,Concepción,Concepción,True
-100000032-5,persona.100000032-5@example.com,SIM-TEL-100000032-5,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True
-100000033-3,persona.100000033-3@example.com,SIM-TEL-100000033-3,,Los Lagos,Llanquihue,Puerto Montt,True
-100000034-1,persona.100000034-1@example.com,SIM-TEL-100000034-1,Empleador ficticio 14,Tarapacá,Iquique,Iquique,True
-100000035-K,persona.100000035-K@example.com,SIM-TEL-100000035-K,Empleador ficticio 8,Metropolitana de Santiago,Santiago,Santiago,True
-100000036-8,persona.100000036-8@example.com,SIM-TEL-100000036-8,,Tarapacá,Iquique,Iquique,True
-100000037-6,persona.100000037-6@example.com,SIM-TEL-100000037-6,Empleador ficticio 1,Los Lagos,Llanquihue,Puerto Montt,True
-100000038-4,persona.100000038-4@example.com,SIM-TEL-100000038-4,Empleador ficticio 17,La Araucanía,Cautín,Temuco,True
-100000039-2,persona.100000039-2@example.com,SIM-TEL-100000039-2,,Valparaíso,Valparaíso,Valparaíso,True
-100000040-6,persona.100000040-6@example.com,SIM-TEL-100000040-6,Empleador ficticio 17,La Araucanía,Cautín,Temuco,True
-100000041-4,persona.100000041-4@example.com,SIM-TEL-100000041-4,Empleador ficticio 1,Tarapacá,Iquique,Iquique,True
-100000042-2,persona.100000042-2@example.com,SIM-TEL-100000042-2,Empleador ficticio 19,La Araucanía,Cautín,Temuco,True
-100000043-0,persona.100000043-0@example.com,SIM-TEL-100000043-0,Empleador ficticio 3,La Araucanía,Cautín,Temuco,True
-100000044-9,persona.100000044-9@example.com,SIM-TEL-100000044-9,,Metropolitana de Santiago,Santiago,Santiago,True
-100000045-7,persona.100000045-7@example.com,SIM-TEL-100000045-7,Empleador ficticio 13,Los Lagos,Llanquihue,Puerto Montt,True
-100000046-5,persona.100000046-5@example.com,SIM-TEL-100000046-5,,Metropolitana de Santiago,Santiago,Santiago,True
-100000047-3,,SIM-TEL-100000047-3,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True
-100000048-1,persona.100000048-1@example.com,SIM-TEL-100000048-1,,Biobío,Concepción,Concepción,True
-100000049-K,persona.100000049-K@example.com,SIM-TEL-100000049-K,,La Araucanía,Cautín,Temuco,True
-100000050-3,persona.100000050-3@example.com,SIM-TEL-100000050-3,,Los Lagos,Llanquihue,Puerto Montt,True
-100000051-1,persona.100000051-1@example.com,SIM-TEL-100000051-1,,La Araucanía,Cautín,Temuco,True
-100000052-K,persona.100000052-K@example.com,SIM-TEL-100000052-K,,Biobío,Concepción,Concepción,True
-100000053-8,persona.100000053-8@example.com,SIM-TEL-100000053-8,Empleador ficticio 4,Tarapacá,Iquique,Iquique,True
-100000054-6,persona.100000054-6@example.com,SIM-TEL-100000054-6,,Los Lagos,Llanquihue,Puerto Montt,True
-100000055-4,persona.100000055-4@example.com,SIM-TEL-100000055-4,Empleador ficticio 10,Tarapacá,Iquique,Iquique,True
-100000056-2,,SIM-TEL-100000056-2,Empleador ficticio 12,Biobío,Concepción,Concepción,True
-100000057-0,persona.100000057-0@example.com,SIM-TEL-100000057-0,Empleador ficticio 1,Metropolitana de Santiago,Santiago,Santiago,True
-100000058-9,persona.100000058-9@example.com,SIM-TEL-100000058-9,Empleador ficticio 10,La Araucanía,Cautín,Temuco,True
-100000059-7,persona.100000059-7@example.com,SIM-TEL-100000059-7,Empleador ficticio 15,Tarapacá,Iquique,Iquique,True
-100000060-0,persona.100000060-0@example.com,SIM-TEL-100000060-0,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True
-100000061-9,persona.100000061-9@example.com,SIM-TEL-100000061-9,Empleador ficticio 9,Los Lagos,Llanquihue,Puerto Montt,True
-100000062-7,persona.100000062-7@example.com,SIM-TEL-100000062-7,,Valparaíso,Valparaíso,Valparaíso,True
-100000063-5,,SIM-TEL-100000063-5,Empleador ficticio 7,Los Lagos,Llanquihue,Puerto Montt,True
-100000064-3,persona.100000064-3@example.com,SIM-TEL-100000064-3,,Valparaíso,Valparaíso,Valparaíso,True
-100000065-1,persona.100000065-1@example.com,SIM-TEL-100000065-1,Empleador ficticio 19,Los Lagos,Llanquihue,Puerto Montt,True
-100000066-K,persona.100000066-K@example.com,SIM-TEL-100000066-K,Empleador ficticio 8,Metropolitana de Santiago,Santiago,Santiago,True
-100000067-8,persona.100000067-8@example.com,SIM-TEL-100000067-8,,Tarapacá,Iquique,Iquique,True
-100000068-6,persona.100000068-6@example.com,SIM-TEL-100000068-6,,Valparaíso,Valparaíso,Valparaíso,True
-100000069-4,persona.100000069-4@example.com,SIM-TEL-100000069-4,Empleador ficticio 1,Biobío,Concepción,Concepción,True
-100000070-8,persona.100000070-8@example.com,SIM-TEL-100000070-8,Empleador ficticio 12,Valparaíso,Valparaíso,Valparaíso,True
-100000071-6,persona.100000071-6@example.com,SIM-TEL-100000071-6,,Valparaíso,Valparaíso,Valparaíso,True
-100000072-4,persona.100000072-4@example.com,SIM-TEL-100000072-4,Empleador ficticio 17,La Araucanía,Cautín,Temuco,True
-100000073-2,persona.100000073-2@example.com,SIM-TEL-100000073-2,,Metropolitana de Santiago,Santiago,Santiago,True
-100000074-0,,SIM-TEL-100000074-0,Empleador ficticio 13,Biobío,Concepción,Concepción,True
-100000075-9,persona.100000075-9@example.com,SIM-TEL-100000075-9,Empleador ficticio 9,Tarapacá,Iquique,Iquique,True
-100000076-7,persona.100000076-7@example.com,SIM-TEL-100000076-7,Empleador ficticio 13,Los Lagos,Llanquihue,Puerto Montt,True
-100000077-5,persona.100000077-5@example.com,SIM-TEL-100000077-5,Empleador ficticio 4,Valparaíso,Valparaíso,Valparaíso,True
-100000078-3,persona.100000078-3@example.com,,,Biobío,Concepción,Concepción,True
-100000079-1,persona.100000079-1@example.com,,Empleador ficticio 17,Biobío,Concepción,Concepción,True
-100000080-5,,,,Valparaíso,Valparaíso,Valparaíso,True
-100000081-3,,SIM-TEL-100000081-3,,La Araucanía,Cautín,Temuco,True
-100000082-1,persona.100000082-1@example.com,SIM-TEL-100000082-1,Empleador ficticio 10,Biobío,Concepción,Concepción,True
-100000083-K,persona.100000083-K@example.com,SIM-TEL-100000083-K,Empleador ficticio 2,Tarapacá,Iquique,Iquique,True
-100000084-8,persona.100000084-8@example.com,,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True
-100000085-6,persona.100000085-6@example.com,SIM-TEL-100000085-6,Empleador ficticio 11,Metropolitana de Santiago,Santiago,Santiago,True
-100000086-4,persona.100000086-4@example.com,SIM-TEL-100000086-4,Empleador ficticio 10,La Araucanía,Cautín,Temuco,True
-100000087-2,persona.100000087-2@example.com,,Empleador ficticio 12,Valparaíso,Valparaíso,Valparaíso,True
-100000088-0,,SIM-TEL-100000088-0,Empleador ficticio 16,Tarapacá,Iquique,Iquique,True
-100000089-9,persona.100000089-9@example.com,SIM-TEL-100000089-9,,Biobío,Concepción,Concepción,True
-100000090-2,,SIM-TEL-100000090-2,,Los Lagos,Llanquihue,Puerto Montt,True
-100000091-0,persona.100000091-0@example.com,SIM-TEL-100000091-0,Empleador ficticio 12,Los Lagos,Llanquihue,Puerto Montt,True
-100000092-9,,SIM-TEL-100000092-9,Empleador ficticio 16,Metropolitana de Santiago,Santiago,Santiago,True
-100000093-7,,SIM-TEL-100000093-7,Empleador ficticio 14,La Araucanía,Cautín,Temuco,True
-100000094-5,persona.100000094-5@example.com,SIM-TEL-100000094-5,,Metropolitana de Santiago,Santiago,Santiago,True
-100000095-3,,SIM-TEL-100000095-3,,Valparaíso,Valparaíso,Valparaíso,True
-100000096-1,persona.100000096-1@example.com,SIM-TEL-100000096-1,Empleador ficticio 15,Los Lagos,Llanquihue,Puerto Montt,True
-100000097-K,persona.100000097-K@example.com,,Empleador ficticio 6,Valparaíso,Valparaíso,Valparaíso,True
-100000098-8,persona.100000098-8@example.com,SIM-TEL-100000098-8,,Biobío,Concepción,Concepción,True
-100000099-6,persona.100000099-6@example.com,SIM-TEL-100000099-6,,La Araucanía,Cautín,Temuco,True
-100000100-3,persona.100000100-3@example.com,SIM-TEL-100000100-3,,Los Lagos,Llanquihue,Puerto Montt,True
-100000101-1,persona.100000101-1@example.com,SIM-TEL-100000101-1,Empleador ficticio 13,Metropolitana de Santiago,Santiago,Santiago,True
-100000102-K,persona.100000102-K@example.com,SIM-TEL-100000102-K,Empleador ficticio 8,La Araucanía,Cautín,Temuco,True
-100000103-8,persona.100000103-8@example.com,SIM-TEL-100000103-8,,Biobío,Concepción,Concepción,True
-100000104-6,persona.100000104-6@example.com,SIM-TEL-100000104-6,,Biobío,Concepción,Concepción,True
-100000105-4,persona.100000105-4@example.com,SIM-TEL-100000105-4,Empleador ficticio 9,Tarapacá,Iquique,Iquique,True
-100000106-2,persona.100000106-2@example.com,SIM-TEL-100000106-2,,Metropolitana de Santiago,Santiago,Santiago,True
-100000107-0,,SIM-TEL-100000107-0,Empleador ficticio 10,Valparaíso,Valparaíso,Valparaíso,True
-100000108-9,persona.100000108-9@example.com,SIM-TEL-100000108-9,,Metropolitana de Santiago,Santiago,Santiago,True
-100000109-7,persona.100000109-7@example.com,SIM-TEL-100000109-7,Empleador ficticio 4,Biobío,Concepción,Concepción,True
-100000110-0,persona.100000110-0@example.com,SIM-TEL-100000110-0,Empleador ficticio 2,La Araucanía,Cautín,Temuco,True
-100000111-9,persona.100000111-9@example.com,,,Tarapacá,Iquique,Iquique,True
-100000112-7,persona.100000112-7@example.com,SIM-TEL-100000112-7,,Los Lagos,Llanquihue,Puerto Montt,True
-100000113-5,,SIM-TEL-100000113-5,Empleador ficticio 17,Tarapacá,Iquique,Iquique,True
-100000114-3,persona.100000114-3@example.com,SIM-TEL-100000114-3,,Los Lagos,Llanquihue,Puerto Montt,True
-100000115-1,persona.100000115-1@example.com,SIM-TEL-100000115-1,Empleador ficticio 15,Metropolitana de Santiago,Santiago,Santiago,True
-100000116-K,persona.100000116-K@example.com,SIM-TEL-100000116-K,Empleador ficticio 10,Metropolitana de Santiago,Santiago,Santiago,True
-100000117-8,persona.100000117-8@example.com,SIM-TEL-100000117-8,Empleador ficticio 18,Metropolitana de Santiago,Santiago,Santiago,True
-100000118-6,persona.100000118-6@example.com,SIM-TEL-100000118-6,,La Araucanía,Cautín,Temuco,True
-100000119-4,persona.100000119-4@example.com,SIM-TEL-100000119-4,Empleador ficticio 10,Valparaíso,Valparaíso,Valparaíso,True
-100000120-8,,SIM-TEL-100000120-8,Empleador ficticio 4,Los Lagos,Llanquihue,Puerto Montt,True
-100000121-6,persona.100000121-6@example.com,,Empleador ficticio 12,Metropolitana de Santiago,Santiago,Santiago,True
-100000122-4,persona.100000122-4@example.com,SIM-TEL-100000122-4,,Biobío,Concepción,Concepción,True
-100000123-2,persona.100000123-2@example.com,SIM-TEL-100000123-2,Empleador ficticio 10,Biobío,Concepción,Concepción,True
-100000124-0,persona.100000124-0@example.com,,Empleador ficticio 4,Valparaíso,Valparaíso,Valparaíso,True
-100000125-9,persona.100000125-9@example.com,SIM-TEL-100000125-9,Empleador ficticio 16,Metropolitana de Santiago,Santiago,Santiago,True
-100000126-7,persona.100000126-7@example.com,SIM-TEL-100000126-7,,Biobío,Concepción,Concepción,True
-100000127-5,persona.100000127-5@example.com,SIM-TEL-100000127-5,,Tarapacá,Iquique,Iquique,True
-100000128-3,persona.100000128-3@example.com,SIM-TEL-100000128-3,,Los Lagos,Llanquihue,Puerto Montt,True
-100000129-1,persona.100000129-1@example.com,SIM-TEL-100000129-1,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True
-100000130-5,persona.100000130-5@example.com,SIM-TEL-100000130-5,Empleador ficticio 5,Tarapacá,Iquique,Iquique,True
-100000131-3,persona.100000131-3@example.com,SIM-TEL-100000131-3,Empleador ficticio 4,Valparaíso,Valparaíso,Valparaíso,True
-100000132-1,persona.100000132-1@example.com,SIM-TEL-100000132-1,,La Araucanía,Cautín,Temuco,True
-100000133-K,persona.100000133-K@example.com,SIM-TEL-100000133-K,Empleador ficticio 5,Biobío,Concepción,Concepción,True
-100000134-8,persona.100000134-8@example.com,SIM-TEL-100000134-8,,Valparaíso,Valparaíso,Valparaíso,True
-100000135-6,persona.100000135-6@example.com,SIM-TEL-100000135-6,,Valparaíso,Valparaíso,Valparaíso,True
-100000136-4,persona.100000136-4@example.com,SIM-TEL-100000136-4,,Valparaíso,Valparaíso,Valparaíso,True
-100000137-2,persona.100000137-2@example.com,SIM-TEL-100000137-2,Empleador ficticio 14,La Araucanía,Cautín,Temuco,True
-100000138-0,,SIM-TEL-100000138-0,,Metropolitana de Santiago,Santiago,Santiago,True
-100000139-9,persona.100000139-9@example.com,SIM-TEL-100000139-9,,Metropolitana de Santiago,Santiago,Santiago,True
-100000140-2,persona.100000140-2@example.com,SIM-TEL-100000140-2,,Metropolitana de Santiago,Santiago,Santiago,True
-100000141-0,persona.100000141-0@example.com,SIM-TEL-100000141-0,Empleador ficticio 7,Tarapacá,Iquique,Iquique,True
-100000142-9,persona.100000142-9@example.com,SIM-TEL-100000142-9,Empleador ficticio 16,Biobío,Concepción,Concepción,True
-100000143-7,,SIM-TEL-100000143-7,,Tarapacá,Iquique,Iquique,True
-100000144-5,persona.100000144-5@example.com,SIM-TEL-100000144-5,Empleador ficticio 10,Biobío,Concepción,Concepción,True
-100000145-3,persona.100000145-3@example.com,SIM-TEL-100000145-3,Empleador ficticio 3,Biobío,Concepción,Concepción,True
-100000146-1,persona.100000146-1@example.com,SIM-TEL-100000146-1,Empleador ficticio 12,Metropolitana de Santiago,Santiago,Santiago,True
-100000147-K,persona.100000147-K@example.com,SIM-TEL-100000147-K,Empleador ficticio 17,Valparaíso,Valparaíso,Valparaíso,True
-100000148-8,persona.100000148-8@example.com,SIM-TEL-100000148-8,Empleador ficticio 19,Metropolitana de Santiago,Santiago,Santiago,True
-100000149-6,persona.100000149-6@example.com,SIM-TEL-100000149-6,Empleador ficticio 11,Tarapacá,Iquique,Iquique,True
-100000150-K,persona.100000150-K@example.com,,Empleador ficticio 16,Biobío,Concepción,Concepción,True
-100000151-8,persona.100000151-8@example.com,SIM-TEL-100000151-8,,La Araucanía,Cautín,Temuco,True
-100000152-6,persona.100000152-6@example.com,,,Biobío,Concepción,Concepción,True
-100000153-4,persona.100000153-4@example.com,SIM-TEL-100000153-4,Empleador ficticio 18,Tarapacá,Iquique,Iquique,True
-100000154-2,,SIM-TEL-100000154-2,Empleador ficticio 13,Tarapacá,Iquique,Iquique,True
-100000155-0,,SIM-TEL-100000155-0,Empleador ficticio 13,Los Lagos,Llanquihue,Puerto Montt,True
-100000156-9,persona.100000156-9@example.com,SIM-TEL-100000156-9,,Valparaíso,Valparaíso,Valparaíso,True
-100000157-7,,,Empleador ficticio 13,Valparaíso,Valparaíso,Valparaíso,True
-100000158-5,persona.100000158-5@example.com,SIM-TEL-100000158-5,,Biobío,Concepción,Concepción,True
-100000159-3,,SIM-TEL-100000159-3,,La Araucanía,Cautín,Temuco,True
-100000160-7,persona.100000160-7@example.com,,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True
-100000161-5,,SIM-TEL-100000161-5,Empleador ficticio 8,Biobío,Concepción,Concepción,True
-100000162-3,persona.100000162-3@example.com,SIM-TEL-100000162-3,,Metropolitana de Santiago,Santiago,Santiago,True
-100000163-1,persona.100000163-1@example.com,SIM-TEL-100000163-1,Empleador ficticio 6,La Araucanía,Cautín,Temuco,True
-100000164-K,,SIM-TEL-100000164-K,,La Araucanía,Cautín,Temuco,True
-100000165-8,persona.100000165-8@example.com,,,Los Lagos,Llanquihue,Puerto Montt,True
-100000166-6,persona.100000166-6@example.com,SIM-TEL-100000166-6,Empleador ficticio 16,La Araucanía,Cautín,Temuco,True
-100000167-4,persona.100000167-4@example.com,SIM-TEL-100000167-4,,Valparaíso,Valparaíso,Valparaíso,True
-100000168-2,persona.100000168-2@example.com,SIM-TEL-100000168-2,Empleador ficticio 17,Biobío,Concepción,Concepción,True
-100000169-0,persona.100000169-0@example.com,,Empleador ficticio 5,Biobío,Concepción,Concepción,True
-100000170-4,persona.100000170-4@example.com,SIM-TEL-100000170-4,Empleador ficticio 7,Valparaíso,Valparaíso,Valparaíso,True
-100000171-2,persona.100000171-2@example.com,SIM-TEL-100000171-2,Empleador ficticio 15,Los Lagos,Llanquihue,Puerto Montt,True
-100000172-0,,SIM-TEL-100000172-0,Empleador ficticio 14,Biobío,Concepción,Concepción,True
-100000173-9,persona.100000173-9@example.com,SIM-TEL-100000173-9,,Tarapacá,Iquique,Iquique,True
-100000174-7,persona.100000174-7@example.com,,,Metropolitana de Santiago,Santiago,Santiago,True
-100000175-5,persona.100000175-5@example.com,SIM-TEL-100000175-5,Empleador ficticio 12,Biobío,Concepción,Concepción,True
-100000176-3,,SIM-TEL-100000176-3,,Tarapacá,Iquique,Iquique,True
-100000177-1,persona.100000177-1@example.com,SIM-TEL-100000177-1,Empleador ficticio 8,Los Lagos,Llanquihue,Puerto Montt,True
-100000178-K,persona.100000178-K@example.com,SIM-TEL-100000178-K,Empleador ficticio 14,Metropolitana de Santiago,Santiago,Santiago,True
-100000179-8,persona.100000179-8@example.com,SIM-TEL-100000179-8,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True
-100000180-1,persona.100000180-1@example.com,SIM-TEL-100000180-1,,Tarapacá,Iquique,Iquique,True
-100000181-K,persona.100000181-K@example.com,SIM-TEL-100000181-K,Empleador ficticio 16,La Araucanía,Cautín,Temuco,True
-100000182-8,persona.100000182-8@example.com,SIM-TEL-100000182-8,,La Araucanía,Cautín,Temuco,True
-100000183-6,persona.100000183-6@example.com,SIM-TEL-100000183-6,Empleador ficticio 17,La Araucanía,Cautín,Temuco,True
-100000184-4,persona.100000184-4@example.com,SIM-TEL-100000184-4,Empleador ficticio 15,Metropolitana de Santiago,Santiago,Santiago,True
-100000185-2,persona.100000185-2@example.com,SIM-TEL-100000185-2,,Valparaíso,Valparaíso,Valparaíso,True
-100000186-0,persona.100000186-0@example.com,,Empleador ficticio 16,La Araucanía,Cautín,Temuco,True
-100000187-9,persona.100000187-9@example.com,SIM-TEL-100000187-9,,Valparaíso,Valparaíso,Valparaíso,True
-100000188-7,persona.100000188-7@example.com,SIM-TEL-100000188-7,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True
-100000189-5,persona.100000189-5@example.com,,,Metropolitana de Santiago,Santiago,Santiago,True
-100000190-9,persona.100000190-9@example.com,SIM-TEL-100000190-9,,La Araucanía,Cautín,Temuco,True
-100000191-7,persona.100000191-7@example.com,SIM-TEL-100000191-7,Empleador ficticio 12,Metropolitana de Santiago,Santiago,Santiago,True
-100000192-5,persona.100000192-5@example.com,SIM-TEL-100000192-5,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True
-100000193-3,persona.100000193-3@example.com,SIM-TEL-100000193-3,,Tarapacá,Iquique,Iquique,True
-100000194-1,persona.100000194-1@example.com,SIM-TEL-100000194-1,Empleador ficticio 18,Metropolitana de Santiago,Santiago,Santiago,True
-100000195-K,persona.100000195-K@example.com,SIM-TEL-100000195-K,Empleador ficticio 10,Tarapacá,Iquique,Iquique,True
-100000196-8,persona.100000196-8@example.com,SIM-TEL-100000196-8,Empleador ficticio 10,Tarapacá,Iquique,Iquique,True
-100000197-6,persona.100000197-6@example.com,SIM-TEL-100000197-6,,Metropolitana de Santiago,Santiago,Santiago,True
-100000198-4,persona.100000198-4@example.com,SIM-TEL-100000198-4,,Tarapacá,Iquique,Iquique,True
-100000199-2,persona.100000199-2@example.com,SIM-TEL-100000199-2,Empleador ficticio 5,La Araucanía,Cautín,Temuco,True
-100000200-K,,SIM-TEL-100000200-K,Empleador ficticio 4,Biobío,Concepción,Concepción,True
-100000201-8,persona.100000201-8@example.com,SIM-TEL-100000201-8,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True
-100000202-6,persona.100000202-6@example.com,,Empleador ficticio 9,Los Lagos,Llanquihue,Puerto Montt,True
-100000203-4,,SIM-TEL-100000203-4,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True
-100000204-2,persona.100000204-2@example.com,SIM-TEL-100000204-2,Empleador ficticio 9,Los Lagos,Llanquihue,Puerto Montt,True
-100000205-0,persona.100000205-0@example.com,SIM-TEL-100000205-0,,Biobío,Concepción,Concepción,True
-100000206-9,persona.100000206-9@example.com,SIM-TEL-100000206-9,,La Araucanía,Cautín,Temuco,True
-100000207-7,persona.100000207-7@example.com,SIM-TEL-100000207-7,Empleador ficticio 9,Valparaíso,Valparaíso,Valparaíso,True
-100000208-5,persona.100000208-5@example.com,SIM-TEL-100000208-5,,Los Lagos,Llanquihue,Puerto Montt,True
-100000209-3,persona.100000209-3@example.com,,,Biobío,Concepción,Concepción,True
-100000210-7,persona.100000210-7@example.com,SIM-TEL-100000210-7,,La Araucanía,Cautín,Temuco,True
-100000211-5,persona.100000211-5@example.com,SIM-TEL-100000211-5,Empleador ficticio 1,La Araucanía,Cautín,Temuco,True
-100000212-3,,SIM-TEL-100000212-3,Empleador ficticio 8,Biobío,Concepción,Concepción,True
-100000213-1,persona.100000213-1@example.com,SIM-TEL-100000213-1,,Metropolitana de Santiago,Santiago,Santiago,True
-100000214-K,persona.100000214-K@example.com,SIM-TEL-100000214-K,,Los Lagos,Llanquihue,Puerto Montt,True
-100000215-8,persona.100000215-8@example.com,SIM-TEL-100000215-8,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True
-100000216-6,persona.100000216-6@example.com,SIM-TEL-100000216-6,Empleador ficticio 9,Metropolitana de Santiago,Santiago,Santiago,True
-100000217-4,persona.100000217-4@example.com,SIM-TEL-100000217-4,,Tarapacá,Iquique,Iquique,True
-100000218-2,persona.100000218-2@example.com,SIM-TEL-100000218-2,Empleador ficticio 6,Tarapacá,Iquique,Iquique,True
-100000219-0,persona.100000219-0@example.com,SIM-TEL-100000219-0,,Tarapacá,Iquique,Iquique,True
-100000220-4,persona.100000220-4@example.com,SIM-TEL-100000220-4,,Tarapacá,Iquique,Iquique,True
-100000221-2,persona.100000221-2@example.com,SIM-TEL-100000221-2,,Biobío,Concepción,Concepción,True
-100000222-0,persona.100000222-0@example.com,SIM-TEL-100000222-0,Empleador ficticio 17,Tarapacá,Iquique,Iquique,True
-100000223-9,,SIM-TEL-100000223-9,Empleador ficticio 8,La Araucanía,Cautín,Temuco,True
-100000224-7,persona.100000224-7@example.com,SIM-TEL-100000224-7,Empleador ficticio 8,Valparaíso,Valparaíso,Valparaíso,True
-100000225-5,persona.100000225-5@example.com,SIM-TEL-100000225-5,Empleador ficticio 1,Valparaíso,Valparaíso,Valparaíso,True
-100000226-3,persona.100000226-3@example.com,SIM-TEL-100000226-3,Empleador ficticio 9,Biobío,Concepción,Concepción,True
-100000227-1,,SIM-TEL-100000227-1,,La Araucanía,Cautín,Temuco,True
-100000228-K,persona.100000228-K@example.com,,Empleador ficticio 16,Biobío,Concepción,Concepción,True
-100000229-8,,SIM-TEL-100000229-8,,Tarapacá,Iquique,Iquique,True
-100000230-1,persona.100000230-1@example.com,SIM-TEL-100000230-1,Empleador ficticio 11,Metropolitana de Santiago,Santiago,Santiago,True
-100000231-K,persona.100000231-K@example.com,SIM-TEL-100000231-K,Empleador ficticio 18,Biobío,Concepción,Concepción,True
-100000232-8,persona.100000232-8@example.com,SIM-TEL-100000232-8,,Valparaíso,Valparaíso,Valparaíso,True
-100000233-6,,SIM-TEL-100000233-6,,Valparaíso,Valparaíso,Valparaíso,True
-100000234-4,persona.100000234-4@example.com,SIM-TEL-100000234-4,Empleador ficticio 19,Valparaíso,Valparaíso,Valparaíso,True
-100000235-2,persona.100000235-2@example.com,SIM-TEL-100000235-2,Empleador ficticio 14,Los Lagos,Llanquihue,Puerto Montt,True
-100000236-0,,SIM-TEL-100000236-0,Empleador ficticio 10,Los Lagos,Llanquihue,Puerto Montt,True
-100000237-9,persona.100000237-9@example.com,,Empleador ficticio 15,Metropolitana de Santiago,Santiago,Santiago,True
-100000238-7,persona.100000238-7@example.com,SIM-TEL-100000238-7,Empleador ficticio 10,Tarapacá,Iquique,Iquique,True
-100000239-5,persona.100000239-5@example.com,,,Tarapacá,Iquique,Iquique,True
-100000240-9,persona.100000240-9@example.com,SIM-TEL-100000240-9,Empleador ficticio 12,Biobío,Concepción,Concepción,True
-100000241-7,persona.100000241-7@example.com,SIM-TEL-100000241-7,,Metropolitana de Santiago,Santiago,Santiago,True
-100000242-5,,SIM-TEL-100000242-5,,Valparaíso,Valparaíso,Valparaíso,True
-100000243-3,persona.100000243-3@example.com,SIM-TEL-100000243-3,Empleador ficticio 14,Tarapacá,Iquique,Iquique,True
-100000244-1,persona.100000244-1@example.com,SIM-TEL-100000244-1,Empleador ficticio 18,Biobío,Concepción,Concepción,True
-100000245-K,persona.100000245-K@example.com,,,Los Lagos,Llanquihue,Puerto Montt,True
-100000246-8,,SIM-TEL-100000246-8,Empleador ficticio 19,La Araucanía,Cautín,Temuco,True
-100000247-6,persona.100000247-6@example.com,SIM-TEL-100000247-6,Empleador ficticio 2,Tarapacá,Iquique,Iquique,True
-100000248-4,persona.100000248-4@example.com,SIM-TEL-100000248-4,Empleador ficticio 13,Valparaíso,Valparaíso,Valparaíso,True
-100000249-2,persona.100000249-2@example.com,SIM-TEL-100000249-2,Empleador ficticio 12,Tarapacá,Iquique,Iquique,True
-100000250-6,persona.100000250-6@example.com,SIM-TEL-100000250-6,,Biobío,Concepción,Concepción,True
-100000251-4,,SIM-TEL-100000251-4,Empleador ficticio 5,Valparaíso,Valparaíso,Valparaíso,True
-100000252-2,persona.100000252-2@example.com,SIM-TEL-100000252-2,Empleador ficticio 9,Tarapacá,Iquique,Iquique,True
-100000253-0,,SIM-TEL-100000253-0,Empleador ficticio 11,Tarapacá,Iquique,Iquique,True
-100000254-9,persona.100000254-9@example.com,SIM-TEL-100000254-9,,Valparaíso,Valparaíso,Valparaíso,True
-100000255-7,persona.100000255-7@example.com,SIM-TEL-100000255-7,Empleador ficticio 1,Los Lagos,Llanquihue,Puerto Montt,True
-100000256-5,,SIM-TEL-100000256-5,Empleador ficticio 2,Tarapacá,Iquique,Iquique,True
-100000257-3,persona.100000257-3@example.com,,Empleador ficticio 5,Tarapacá,Iquique,Iquique,True
-100000258-1,persona.100000258-1@example.com,SIM-TEL-100000258-1,,Metropolitana de Santiago,Santiago,Santiago,True
-100000259-K,persona.100000259-K@example.com,SIM-TEL-100000259-K,Empleador ficticio 17,Valparaíso,Valparaíso,Valparaíso,True
-100000260-3,,SIM-TEL-100000260-3,Empleador ficticio 7,La Araucanía,Cautín,Temuco,True
-100000261-1,persona.100000261-1@example.com,SIM-TEL-100000261-1,,Biobío,Concepción,Concepción,True
-100000262-K,,SIM-TEL-100000262-K,Empleador ficticio 18,Los Lagos,Llanquihue,Puerto Montt,True
-100000263-8,,SIM-TEL-100000263-8,,Los Lagos,Llanquihue,Puerto Montt,True
-100000264-6,persona.100000264-6@example.com,SIM-TEL-100000264-6,,Biobío,Concepción,Concepción,True
-100000265-4,persona.100000265-4@example.com,,Empleador ficticio 19,Los Lagos,Llanquihue,Puerto Montt,True
-100000266-2,,SIM-TEL-100000266-2,Empleador ficticio 7,Metropolitana de Santiago,Santiago,Santiago,True
-100000267-0,persona.100000267-0@example.com,SIM-TEL-100000267-0,,Metropolitana de Santiago,Santiago,Santiago,True
-100000268-9,persona.100000268-9@example.com,SIM-TEL-100000268-9,,Tarapacá,Iquique,Iquique,True
-100000269-7,persona.100000269-7@example.com,,,Valparaíso,Valparaíso,Valparaíso,True
-100000270-0,persona.100000270-0@example.com,SIM-TEL-100000270-0,Empleador ficticio 10,Los Lagos,Llanquihue,Puerto Montt,True
-100000271-9,persona.100000271-9@example.com,,,Tarapacá,Iquique,Iquique,True
-100000272-7,,SIM-TEL-100000272-7,,Tarapacá,Iquique,Iquique,True
-100000273-5,persona.100000273-5@example.com,SIM-TEL-100000273-5,Empleador ficticio 18,Los Lagos,Llanquihue,Puerto Montt,True
-100000274-3,persona.100000274-3@example.com,,,Biobío,Concepción,Concepción,True
-100000275-1,persona.100000275-1@example.com,SIM-TEL-100000275-1,Empleador ficticio 4,Tarapacá,Iquique,Iquique,True
-100000276-K,persona.100000276-K@example.com,SIM-TEL-100000276-K,Empleador ficticio 3,Los Lagos,Llanquihue,Puerto Montt,True
-100000277-8,persona.100000277-8@example.com,SIM-TEL-100000277-8,,La Araucanía,Cautín,Temuco,True
-100000278-6,persona.100000278-6@example.com,SIM-TEL-100000278-6,Empleador ficticio 3,Tarapacá,Iquique,Iquique,True
-100000279-4,,SIM-TEL-100000279-4,,La Araucanía,Cautín,Temuco,True
-100000280-8,persona.100000280-8@example.com,SIM-TEL-100000280-8,Empleador ficticio 15,Tarapacá,Iquique,Iquique,True
-100000281-6,persona.100000281-6@example.com,SIM-TEL-100000281-6,Empleador ficticio 10,Biobío,Concepción,Concepción,True
-100000282-4,persona.100000282-4@example.com,SIM-TEL-100000282-4,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True
-100000283-2,persona.100000283-2@example.com,SIM-TEL-100000283-2,Empleador ficticio 16,Los Lagos,Llanquihue,Puerto Montt,True
-100000284-0,persona.100000284-0@example.com,SIM-TEL-100000284-0,,Valparaíso,Valparaíso,Valparaíso,True
-100000285-9,persona.100000285-9@example.com,SIM-TEL-100000285-9,,Tarapacá,Iquique,Iquique,True
-100000286-7,persona.100000286-7@example.com,SIM-TEL-100000286-7,,Tarapacá,Iquique,Iquique,True
-100000287-5,persona.100000287-5@example.com,SIM-TEL-100000287-5,Empleador ficticio 4,Metropolitana de Santiago,Santiago,Santiago,True
-100000288-3,persona.100000288-3@example.com,,Empleador ficticio 8,La Araucanía,Cautín,Temuco,True
-100000289-1,persona.100000289-1@example.com,SIM-TEL-100000289-1,,Los Lagos,Llanquihue,Puerto Montt,True
-100000290-5,persona.100000290-5@example.com,SIM-TEL-100000290-5,,Tarapacá,Iquique,Iquique,True
-100000291-3,persona.100000291-3@example.com,SIM-TEL-100000291-3,,Biobío,Concepción,Concepción,True
-100000292-1,persona.100000292-1@example.com,SIM-TEL-100000292-1,Empleador ficticio 13,Biobío,Concepción,Concepción,True
-100000293-K,persona.100000293-K@example.com,SIM-TEL-100000293-K,,Los Lagos,Llanquihue,Puerto Montt,True
-100000294-8,persona.100000294-8@example.com,SIM-TEL-100000294-8,Empleador ficticio 4,Los Lagos,Llanquihue,Puerto Montt,True
-100000295-6,persona.100000295-6@example.com,SIM-TEL-100000295-6,,Biobío,Concepción,Concepción,True
-100000296-4,persona.100000296-4@example.com,SIM-TEL-100000296-4,Empleador ficticio 4,Los Lagos,Llanquihue,Puerto Montt,True
-100000297-2,persona.100000297-2@example.com,SIM-TEL-100000297-2,,Valparaíso,Valparaíso,Valparaíso,True
-100000298-0,persona.100000298-0@example.com,SIM-TEL-100000298-0,,Los Lagos,Llanquihue,Puerto Montt,True
-100000299-9,persona.100000299-9@example.com,SIM-TEL-100000299-9,Empleador ficticio 3,Valparaíso,Valparaíso,Valparaíso,True
-100000300-6,,SIM-TEL-100000300-6,Empleador ficticio 11,Tarapacá,Iquique,Iquique,True
-100000301-4,persona.100000301-4@example.com,SIM-TEL-100000301-4,,Metropolitana de Santiago,Santiago,Santiago,True
-100000302-2,persona.100000302-2@example.com,SIM-TEL-100000302-2,,Metropolitana de Santiago,Santiago,Santiago,True
-100000303-0,,SIM-TEL-100000303-0,,Valparaíso,Valparaíso,Valparaíso,True
-100000304-9,persona.100000304-9@example.com,SIM-TEL-100000304-9,Empleador ficticio 13,La Araucanía,Cautín,Temuco,True
-100000305-7,persona.100000305-7@example.com,SIM-TEL-100000305-7,Empleador ficticio 17,Valparaíso,Valparaíso,Valparaíso,True
-100000306-5,persona.100000306-5@example.com,SIM-TEL-100000306-5,,Biobío,Concepción,Concepción,True
-100000307-3,,SIM-TEL-100000307-3,,Biobío,Concepción,Concepción,True
-100000308-1,persona.100000308-1@example.com,SIM-TEL-100000308-1,,Biobío,Concepción,Concepción,True
-100000309-K,persona.100000309-K@example.com,SIM-TEL-100000309-K,Empleador ficticio 16,La Araucanía,Cautín,Temuco,True
-100000310-3,persona.100000310-3@example.com,SIM-TEL-100000310-3,,Tarapacá,Iquique,Iquique,True
-100000311-1,persona.100000311-1@example.com,SIM-TEL-100000311-1,,La Araucanía,Cautín,Temuco,True
-100000312-K,,,Empleador ficticio 9,Biobío,Concepción,Concepción,True
-100000313-8,,SIM-TEL-100000313-8,,Los Lagos,Llanquihue,Puerto Montt,True
-100000314-6,persona.100000314-6@example.com,SIM-TEL-100000314-6,,Valparaíso,Valparaíso,Valparaíso,True
-100000315-4,,SIM-TEL-100000315-4,,Biobío,Concepción,Concepción,True
-100000316-2,persona.100000316-2@example.com,SIM-TEL-100000316-2,Empleador ficticio 7,Biobío,Concepción,Concepción,True
-100000317-0,persona.100000317-0@example.com,SIM-TEL-100000317-0,Empleador ficticio 5,Los Lagos,Llanquihue,Puerto Montt,True
-100000318-9,persona.100000318-9@example.com,SIM-TEL-100000318-9,Empleador ficticio 12,Tarapacá,Iquique,Iquique,True
-100000319-7,,SIM-TEL-100000319-7,,La Araucanía,Cautín,Temuco,True
-100000320-0,persona.100000320-0@example.com,SIM-TEL-100000320-0,,La Araucanía,Cautín,Temuco,True
-100000321-9,persona.100000321-9@example.com,SIM-TEL-100000321-9,,Valparaíso,Valparaíso,Valparaíso,True
-100000322-7,persona.100000322-7@example.com,SIM-TEL-100000322-7,Empleador ficticio 4,La Araucanía,Cautín,Temuco,True
-100000323-5,persona.100000323-5@example.com,SIM-TEL-100000323-5,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True
-100000324-3,,SIM-TEL-100000324-3,,Valparaíso,Valparaíso,Valparaíso,True
-100000325-1,persona.100000325-1@example.com,SIM-TEL-100000325-1,Empleador ficticio 6,Metropolitana de Santiago,Santiago,Santiago,True
-100000326-K,persona.100000326-K@example.com,SIM-TEL-100000326-K,,Biobío,Concepción,Concepción,True
-100000327-8,persona.100000327-8@example.com,SIM-TEL-100000327-8,,La Araucanía,Cautín,Temuco,True
-100000328-6,,SIM-TEL-100000328-6,,Biobío,Concepción,Concepción,True
-100000329-4,persona.100000329-4@example.com,SIM-TEL-100000329-4,,Tarapacá,Iquique,Iquique,True
-100000330-8,persona.100000330-8@example.com,SIM-TEL-100000330-8,Empleador ficticio 9,Metropolitana de Santiago,Santiago,Santiago,True
-100000331-6,persona.100000331-6@example.com,SIM-TEL-100000331-6,,La Araucanía,Cautín,Temuco,True
-100000332-4,persona.100000332-4@example.com,SIM-TEL-100000332-4,Empleador ficticio 3,Los Lagos,Llanquihue,Puerto Montt,True
-100000333-2,persona.100000333-2@example.com,SIM-TEL-100000333-2,,Tarapacá,Iquique,Iquique,True
-100000334-0,persona.100000334-0@example.com,SIM-TEL-100000334-0,,La Araucanía,Cautín,Temuco,True
-100000335-9,persona.100000335-9@example.com,SIM-TEL-100000335-9,Empleador ficticio 17,Metropolitana de Santiago,Santiago,Santiago,True
-100000336-7,persona.100000336-7@example.com,SIM-TEL-100000336-7,,Los Lagos,Llanquihue,Puerto Montt,True
-100000337-5,persona.100000337-5@example.com,SIM-TEL-100000337-5,Empleador ficticio 5,Valparaíso,Valparaíso,Valparaíso,True
-100000338-3,persona.100000338-3@example.com,SIM-TEL-100000338-3,Empleador ficticio 11,Tarapacá,Iquique,Iquique,True
-100000339-1,persona.100000339-1@example.com,SIM-TEL-100000339-1,Empleador ficticio 2,Biobío,Concepción,Concepción,True
-100000340-5,persona.100000340-5@example.com,SIM-TEL-100000340-5,,Valparaíso,Valparaíso,Valparaíso,True
-100000341-3,persona.100000341-3@example.com,SIM-TEL-100000341-3,,Tarapacá,Iquique,Iquique,True
-100000342-1,persona.100000342-1@example.com,,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True
-100000343-K,persona.100000343-K@example.com,SIM-TEL-100000343-K,,Los Lagos,Llanquihue,Puerto Montt,True
-100000344-8,,SIM-TEL-100000344-8,,La Araucanía,Cautín,Temuco,True
-100000345-6,persona.100000345-6@example.com,,Empleador ficticio 11,Valparaíso,Valparaíso,Valparaíso,True
-100000346-4,persona.100000346-4@example.com,SIM-TEL-100000346-4,Empleador ficticio 1,Tarapacá,Iquique,Iquique,True
-100000347-2,persona.100000347-2@example.com,SIM-TEL-100000347-2,Empleador ficticio 15,Tarapacá,Iquique,Iquique,True
-100000348-0,,SIM-TEL-100000348-0,,Metropolitana de Santiago,Santiago,Santiago,True
-100000349-9,,,Empleador ficticio 3,Los Lagos,Llanquihue,Puerto Montt,True
-100000350-2,persona.100000350-2@example.com,SIM-TEL-100000350-2,Empleador ficticio 8,Biobío,Concepción,Concepción,True
-100000351-0,persona.100000351-0@example.com,SIM-TEL-100000351-0,Empleador ficticio 10,Valparaíso,Valparaíso,Valparaíso,True
-100000352-9,persona.100000352-9@example.com,SIM-TEL-100000352-9,Empleador ficticio 11,Metropolitana de Santiago,Santiago,Santiago,True
-100000353-7,persona.100000353-7@example.com,SIM-TEL-100000353-7,,Valparaíso,Valparaíso,Valparaíso,True
-100000354-5,persona.100000354-5@example.com,SIM-TEL-100000354-5,,Biobío,Concepción,Concepción,True
-100000355-3,persona.100000355-3@example.com,SIM-TEL-100000355-3,Empleador ficticio 10,Tarapacá,Iquique,Iquique,True
-100000356-1,,SIM-TEL-100000356-1,,Biobío,Concepción,Concepción,True
-100000357-K,persona.100000357-K@example.com,SIM-TEL-100000357-K,Empleador ficticio 16,Biobío,Concepción,Concepción,True
-100000358-8,persona.100000358-8@example.com,SIM-TEL-100000358-8,Empleador ficticio 5,Biobío,Concepción,Concepción,True
-100000359-6,persona.100000359-6@example.com,SIM-TEL-100000359-6,,Metropolitana de Santiago,Santiago,Santiago,True
-100000360-K,persona.100000360-K@example.com,SIM-TEL-100000360-K,Empleador ficticio 8,La Araucanía,Cautín,Temuco,True
-100000361-8,persona.100000361-8@example.com,SIM-TEL-100000361-8,,La Araucanía,Cautín,Temuco,True
-100000362-6,persona.100000362-6@example.com,SIM-TEL-100000362-6,Empleador ficticio 17,Biobío,Concepción,Concepción,True
-100000363-4,persona.100000363-4@example.com,SIM-TEL-100000363-4,Empleador ficticio 4,Tarapacá,Iquique,Iquique,True
-100000364-2,persona.100000364-2@example.com,SIM-TEL-100000364-2,,Valparaíso,Valparaíso,Valparaíso,True
-100000365-0,persona.100000365-0@example.com,SIM-TEL-100000365-0,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True
-100000366-9,persona.100000366-9@example.com,SIM-TEL-100000366-9,Empleador ficticio 9,Metropolitana de Santiago,Santiago,Santiago,True
-100000367-7,persona.100000367-7@example.com,SIM-TEL-100000367-7,Empleador ficticio 13,Biobío,Concepción,Concepción,True
-100000368-5,persona.100000368-5@example.com,SIM-TEL-100000368-5,,Los Lagos,Llanquihue,Puerto Montt,True
-100000369-3,,,,Tarapacá,Iquique,Iquique,True
-100000370-7,persona.100000370-7@example.com,SIM-TEL-100000370-7,Empleador ficticio 8,Biobío,Concepción,Concepción,True
-100000371-5,,SIM-TEL-100000371-5,,Tarapacá,Iquique,Iquique,True
-100000372-3,persona.100000372-3@example.com,SIM-TEL-100000372-3,,Los Lagos,Llanquihue,Puerto Montt,True
-100000373-1,persona.100000373-1@example.com,SIM-TEL-100000373-1,,Tarapacá,Iquique,Iquique,True
-100000374-K,persona.100000374-K@example.com,SIM-TEL-100000374-K,,La Araucanía,Cautín,Temuco,True
-100000375-8,,SIM-TEL-100000375-8,Empleador ficticio 4,Tarapacá,Iquique,Iquique,True
-100000376-6,persona.100000376-6@example.com,SIM-TEL-100000376-6,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True
-100000377-4,,SIM-TEL-100000377-4,Empleador ficticio 2,Metropolitana de Santiago,Santiago,Santiago,True
-100000378-2,persona.100000378-2@example.com,SIM-TEL-100000378-2,Empleador ficticio 15,Biobío,Concepción,Concepción,True
-100000379-0,persona.100000379-0@example.com,SIM-TEL-100000379-0,Empleador ficticio 6,Metropolitana de Santiago,Santiago,Santiago,True
-100000380-4,persona.100000380-4@example.com,SIM-TEL-100000380-4,,Los Lagos,Llanquihue,Puerto Montt,True
-100000381-2,persona.100000381-2@example.com,SIM-TEL-100000381-2,Empleador ficticio 5,La Araucanía,Cautín,Temuco,True
-100000382-0,persona.100000382-0@example.com,SIM-TEL-100000382-0,Empleador ficticio 12,Los Lagos,Llanquihue,Puerto Montt,True
-100000383-9,persona.100000383-9@example.com,SIM-TEL-100000383-9,Empleador ficticio 17,Metropolitana de Santiago,Santiago,Santiago,True
-100000384-7,persona.100000384-7@example.com,,,Metropolitana de Santiago,Santiago,Santiago,True
-100000385-5,persona.100000385-5@example.com,SIM-TEL-100000385-5,Empleador ficticio 12,Tarapacá,Iquique,Iquique,True
-100000386-3,persona.100000386-3@example.com,SIM-TEL-100000386-3,Empleador ficticio 18,La Araucanía,Cautín,Temuco,True
-100000387-1,persona.100000387-1@example.com,SIM-TEL-100000387-1,,Metropolitana de Santiago,Santiago,Santiago,True
-100000388-K,persona.100000388-K@example.com,SIM-TEL-100000388-K,,Tarapacá,Iquique,Iquique,True
-100000389-8,persona.100000389-8@example.com,SIM-TEL-100000389-8,,Metropolitana de Santiago,Santiago,Santiago,True
-100000390-1,persona.100000390-1@example.com,SIM-TEL-100000390-1,Empleador ficticio 15,Los Lagos,Llanquihue,Puerto Montt,True
-100000391-K,persona.100000391-K@example.com,SIM-TEL-100000391-K,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True
-100000392-8,persona.100000392-8@example.com,SIM-TEL-100000392-8,,Los Lagos,Llanquihue,Puerto Montt,True
-100000393-6,persona.100000393-6@example.com,,Empleador ficticio 5,Los Lagos,Llanquihue,Puerto Montt,True
-100000394-4,persona.100000394-4@example.com,SIM-TEL-100000394-4,,Biobío,Concepción,Concepción,True
-100000395-2,,SIM-TEL-100000395-2,,Los Lagos,Llanquihue,Puerto Montt,True
-100000396-0,persona.100000396-0@example.com,SIM-TEL-100000396-0,Empleador ficticio 16,Biobío,Concepción,Concepción,True
-100000397-9,,SIM-TEL-100000397-9,Empleador ficticio 17,Metropolitana de Santiago,Santiago,Santiago,True
-100000398-7,persona.100000398-7@example.com,SIM-TEL-100000398-7,Empleador ficticio 4,Valparaíso,Valparaíso,Valparaíso,True
-100000399-5,persona.100000399-5@example.com,SIM-TEL-100000399-5,Empleador ficticio 3,Biobío,Concepción,Concepción,True
-100000400-2,persona.100000400-2@example.com,SIM-TEL-100000400-2,,Tarapacá,Iquique,Iquique,True
-100000401-0,persona.100000401-0@example.com,SIM-TEL-100000401-0,Empleador ficticio 10,Valparaíso,Valparaíso,Valparaíso,True
-100000402-9,persona.100000402-9@example.com,SIM-TEL-100000402-9,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True
-100000403-7,persona.100000403-7@example.com,SIM-TEL-100000403-7,Empleador ficticio 5,Valparaíso,Valparaíso,Valparaíso,True
-100000404-5,persona.100000404-5@example.com,SIM-TEL-100000404-5,,Tarapacá,Iquique,Iquique,True
-100000405-3,persona.100000405-3@example.com,SIM-TEL-100000405-3,,Valparaíso,Valparaíso,Valparaíso,True
-100000406-1,persona.100000406-1@example.com,SIM-TEL-100000406-1,Empleador ficticio 7,La Araucanía,Cautín,Temuco,True
-100000407-K,persona.100000407-K@example.com,SIM-TEL-100000407-K,,Tarapacá,Iquique,Iquique,True
-100000408-8,persona.100000408-8@example.com,SIM-TEL-100000408-8,,Los Lagos,Llanquihue,Puerto Montt,True
-100000409-6,persona.100000409-6@example.com,SIM-TEL-100000409-6,Empleador ficticio 13,La Araucanía,Cautín,Temuco,True
-100000410-K,persona.100000410-K@example.com,SIM-TEL-100000410-K,Empleador ficticio 3,Los Lagos,Llanquihue,Puerto Montt,True
-100000411-8,persona.100000411-8@example.com,SIM-TEL-100000411-8,,La Araucanía,Cautín,Temuco,True
-100000412-6,persona.100000412-6@example.com,,,Tarapacá,Iquique,Iquique,True
-100000413-4,persona.100000413-4@example.com,SIM-TEL-100000413-4,Empleador ficticio 19,Valparaíso,Valparaíso,Valparaíso,True
-100000414-2,persona.100000414-2@example.com,SIM-TEL-100000414-2,Empleador ficticio 6,Metropolitana de Santiago,Santiago,Santiago,True
-100000415-0,persona.100000415-0@example.com,SIM-TEL-100000415-0,Empleador ficticio 18,Valparaíso,Valparaíso,Valparaíso,True
-100000416-9,persona.100000416-9@example.com,SIM-TEL-100000416-9,,La Araucanía,Cautín,Temuco,True
-100000417-7,,SIM-TEL-100000417-7,,Metropolitana de Santiago,Santiago,Santiago,True
-100000418-5,persona.100000418-5@example.com,SIM-TEL-100000418-5,,Metropolitana de Santiago,Santiago,Santiago,True
-100000419-3,persona.100000419-3@example.com,,Empleador ficticio 7,Biobío,Concepción,Concepción,True
-100000420-7,persona.100000420-7@example.com,SIM-TEL-100000420-7,Empleador ficticio 1,Metropolitana de Santiago,Santiago,Santiago,True
-100000421-5,persona.100000421-5@example.com,SIM-TEL-100000421-5,Empleador ficticio 13,Metropolitana de Santiago,Santiago,Santiago,True
-100000422-3,persona.100000422-3@example.com,SIM-TEL-100000422-3,,Tarapacá,Iquique,Iquique,True
-100000423-1,persona.100000423-1@example.com,,Empleador ficticio 11,La Araucanía,Cautín,Temuco,True
-100000424-K,persona.100000424-K@example.com,SIM-TEL-100000424-K,Empleador ficticio 12,Metropolitana de Santiago,Santiago,Santiago,True
-100000425-8,persona.100000425-8@example.com,,Empleador ficticio 3,La Araucanía,Cautín,Temuco,True
-100000426-6,persona.100000426-6@example.com,SIM-TEL-100000426-6,Empleador ficticio 9,Valparaíso,Valparaíso,Valparaíso,True
-100000427-4,persona.100000427-4@example.com,SIM-TEL-100000427-4,,Metropolitana de Santiago,Santiago,Santiago,True
-100000428-2,,SIM-TEL-100000428-2,,La Araucanía,Cautín,Temuco,True
-100000429-0,,,,Los Lagos,Llanquihue,Puerto Montt,True
-100000430-4,persona.100000430-4@example.com,SIM-TEL-100000430-4,Empleador ficticio 16,Biobío,Concepción,Concepción,True
-100000431-2,,SIM-TEL-100000431-2,Empleador ficticio 14,La Araucanía,Cautín,Temuco,True
-100000432-0,,SIM-TEL-100000432-0,Empleador ficticio 2,Tarapacá,Iquique,Iquique,True
-100000433-9,persona.100000433-9@example.com,SIM-TEL-100000433-9,Empleador ficticio 12,Valparaíso,Valparaíso,Valparaíso,True
-100000434-7,persona.100000434-7@example.com,SIM-TEL-100000434-7,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True
-100000435-5,persona.100000435-5@example.com,SIM-TEL-100000435-5,,Tarapacá,Iquique,Iquique,True
-100000436-3,,SIM-TEL-100000436-3,Empleador ficticio 1,Tarapacá,Iquique,Iquique,True
-100000437-1,persona.100000437-1@example.com,,Empleador ficticio 1,Tarapacá,Iquique,Iquique,True
-100000438-K,persona.100000438-K@example.com,SIM-TEL-100000438-K,,La Araucanía,Cautín,Temuco,True
-100000439-8,,SIM-TEL-100000439-8,,Tarapacá,Iquique,Iquique,True
-100000440-1,persona.100000440-1@example.com,SIM-TEL-100000440-1,Empleador ficticio 8,Biobío,Concepción,Concepción,True
-100000441-K,,SIM-TEL-100000441-K,,Tarapacá,Iquique,Iquique,True
-100000442-8,persona.100000442-8@example.com,SIM-TEL-100000442-8,Empleador ficticio 4,Biobío,Concepción,Concepción,True
-100000443-6,persona.100000443-6@example.com,SIM-TEL-100000443-6,Empleador ficticio 14,Tarapacá,Iquique,Iquique,True
-100000444-4,persona.100000444-4@example.com,,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True
-100000445-2,persona.100000445-2@example.com,SIM-TEL-100000445-2,,Biobío,Concepción,Concepción,True
-100000446-0,persona.100000446-0@example.com,,Empleador ficticio 18,Biobío,Concepción,Concepción,True
-100000447-9,persona.100000447-9@example.com,SIM-TEL-100000447-9,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True
-100000448-7,,SIM-TEL-100000448-7,Empleador ficticio 17,Tarapacá,Iquique,Iquique,True
-100000449-5,persona.100000449-5@example.com,SIM-TEL-100000449-5,Empleador ficticio 4,Biobío,Concepción,Concepción,True
-100000450-9,persona.100000450-9@example.com,SIM-TEL-100000450-9,Empleador ficticio 3,Biobío,Concepción,Concepción,True
-100000451-7,persona.100000451-7@example.com,SIM-TEL-100000451-7,Empleador ficticio 9,Los Lagos,Llanquihue,Puerto Montt,True
-100000452-5,,SIM-TEL-100000452-5,Empleador ficticio 2,Tarapacá,Iquique,Iquique,True
-100000453-3,persona.100000453-3@example.com,SIM-TEL-100000453-3,Empleador ficticio 14,Metropolitana de Santiago,Santiago,Santiago,True
-100000454-1,persona.100000454-1@example.com,SIM-TEL-100000454-1,Empleador ficticio 7,Tarapacá,Iquique,Iquique,True
-100000455-K,persona.100000455-K@example.com,SIM-TEL-100000455-K,,La Araucanía,Cautín,Temuco,True
-100000456-8,persona.100000456-8@example.com,SIM-TEL-100000456-8,Empleador ficticio 6,Tarapacá,Iquique,Iquique,True
-100000457-6,persona.100000457-6@example.com,SIM-TEL-100000457-6,Empleador ficticio 11,Biobío,Concepción,Concepción,True
-100000458-4,persona.100000458-4@example.com,SIM-TEL-100000458-4,,Metropolitana de Santiago,Santiago,Santiago,True
-100000459-2,persona.100000459-2@example.com,SIM-TEL-100000459-2,Empleador ficticio 12,Valparaíso,Valparaíso,Valparaíso,True
-100000460-6,persona.100000460-6@example.com,,,Los Lagos,Llanquihue,Puerto Montt,True
-100000461-4,persona.100000461-4@example.com,SIM-TEL-100000461-4,Empleador ficticio 19,Metropolitana de Santiago,Santiago,Santiago,True
-100000462-2,persona.100000462-2@example.com,SIM-TEL-100000462-2,Empleador ficticio 7,Tarapacá,Iquique,Iquique,True
-100000463-0,,SIM-TEL-100000463-0,,Los Lagos,Llanquihue,Puerto Montt,True
-100000464-9,persona.100000464-9@example.com,,,Tarapacá,Iquique,Iquique,True
-100000465-7,persona.100000465-7@example.com,SIM-TEL-100000465-7,Empleador ficticio 16,Los Lagos,Llanquihue,Puerto Montt,True
-100000466-5,,SIM-TEL-100000466-5,Empleador ficticio 2,Metropolitana de Santiago,Santiago,Santiago,True
-100000467-3,persona.100000467-3@example.com,SIM-TEL-100000467-3,Empleador ficticio 8,Valparaíso,Valparaíso,Valparaíso,True
-100000468-1,persona.100000468-1@example.com,SIM-TEL-100000468-1,,Metropolitana de Santiago,Santiago,Santiago,True
-100000469-K,persona.100000469-K@example.com,SIM-TEL-100000469-K,Empleador ficticio 7,Biobío,Concepción,Concepción,True
-100000470-3,persona.100000470-3@example.com,SIM-TEL-100000470-3,,Biobío,Concepción,Concepción,True
-100000471-1,persona.100000471-1@example.com,SIM-TEL-100000471-1,Empleador ficticio 11,La Araucanía,Cautín,Temuco,True
-100000472-K,,SIM-TEL-100000472-K,,La Araucanía,Cautín,Temuco,True
-100000473-8,persona.100000473-8@example.com,SIM-TEL-100000473-8,,Tarapacá,Iquique,Iquique,True
-100000474-6,,SIM-TEL-100000474-6,,Los Lagos,Llanquihue,Puerto Montt,True
-100000475-4,persona.100000475-4@example.com,SIM-TEL-100000475-4,Empleador ficticio 10,Valparaíso,Valparaíso,Valparaíso,True
-100000476-2,persona.100000476-2@example.com,SIM-TEL-100000476-2,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True
-100000477-0,persona.100000477-0@example.com,SIM-TEL-100000477-0,Empleador ficticio 7,Valparaíso,Valparaíso,Valparaíso,True
-100000478-9,persona.100000478-9@example.com,SIM-TEL-100000478-9,Empleador ficticio 18,La Araucanía,Cautín,Temuco,True
-100000479-7,persona.100000479-7@example.com,SIM-TEL-100000479-7,,Valparaíso,Valparaíso,Valparaíso,True
-100000480-0,,SIM-TEL-100000480-0,Empleador ficticio 5,La Araucanía,Cautín,Temuco,True
-100000481-9,persona.100000481-9@example.com,SIM-TEL-100000481-9,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True
-100000482-7,persona.100000482-7@example.com,SIM-TEL-100000482-7,,Biobío,Concepción,Concepción,True
-100000483-5,persona.100000483-5@example.com,SIM-TEL-100000483-5,,La Araucanía,Cautín,Temuco,True
-100000484-3,persona.100000484-3@example.com,,,Metropolitana de Santiago,Santiago,Santiago,True
-100000485-1,persona.100000485-1@example.com,SIM-TEL-100000485-1,Empleador ficticio 15,La Araucanía,Cautín,Temuco,True
-100000486-K,persona.100000486-K@example.com,SIM-TEL-100000486-K,Empleador ficticio 17,Metropolitana de Santiago,Santiago,Santiago,True
-100000487-8,persona.100000487-8@example.com,SIM-TEL-100000487-8,Empleador ficticio 15,Los Lagos,Llanquihue,Puerto Montt,True
-100000488-6,persona.100000488-6@example.com,SIM-TEL-100000488-6,Empleador ficticio 18,Biobío,Concepción,Concepción,True
-100000489-4,,SIM-TEL-100000489-4,,Metropolitana de Santiago,Santiago,Santiago,True
-100000490-8,persona.100000490-8@example.com,SIM-TEL-100000490-8,,La Araucanía,Cautín,Temuco,True
-100000491-6,persona.100000491-6@example.com,SIM-TEL-100000491-6,,Valparaíso,Valparaíso,Valparaíso,True
-100000492-4,persona.100000492-4@example.com,SIM-TEL-100000492-4,Empleador ficticio 8,Metropolitana de Santiago,Santiago,Santiago,True
-100000493-2,persona.100000493-2@example.com,SIM-TEL-100000493-2,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True
-100000494-0,persona.100000494-0@example.com,,Empleador ficticio 14,Los Lagos,Llanquihue,Puerto Montt,True
-100000495-9,persona.100000495-9@example.com,SIM-TEL-100000495-9,,Tarapacá,Iquique,Iquique,True
-100000496-7,persona.100000496-7@example.com,SIM-TEL-100000496-7,Empleador ficticio 12,Tarapacá,Iquique,Iquique,True
-100000497-5,persona.100000497-5@example.com,SIM-TEL-100000497-5,,Metropolitana de Santiago,Santiago,Santiago,True
-100000498-3,persona.100000498-3@example.com,SIM-TEL-100000498-3,,Tarapacá,Iquique,Iquique,True
-100000499-1,persona.100000499-1@example.com,SIM-TEL-100000499-1,Empleador ficticio 2,Metropolitana de Santiago,Santiago,Santiago,True
-100000500-9,persona.100000500-9@example.com,SIM-TEL-100000500-9,Empleador ficticio 12,Valparaíso,Valparaíso,Valparaíso,True
+run,email,phone,employer,region,province,commune,synthetic,address,latitude,longitude,location_source
+100000001-5,luis.torres@example.com,+56 9 0000 0001,Empleador ficticio 16,Biobío,Concepción,Concepción,True,,,,
+100000002-3,carmen.castro@example.com,,Empleador ficticio 3,La Araucanía,Cautín,Temuco,True,,,,
+100000003-1,,+56 9 0000 0003,,Tarapacá,Iquique,Iquique,True,,,,
+100000004-K,valentina.alvarez@example.com,+56 9 0000 0004,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000005-8,sergio.ramirez@example.com,+56 9 0000 0005,Empleador ficticio 14,La Araucanía,Cautín,Temuco,True,,,,
+100000006-6,diego.tapia@example.com,+56 9 0000 0006,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000007-4,sergio.castillo@example.com,+56 9 0000 0007,Empleador ficticio 1,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000008-2,felipe.flores@example.com,,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000009-0,ana.vergara@example.com,+56 9 0000 0009,,Tarapacá,Iquique,Iquique,True,,,,
+100000010-4,raul.rodriguez@example.com,,Empleador ficticio 15,Tarapacá,Iquique,Iquique,True,,,,
+100000011-2,sebastian.silva@example.com,+56 9 0000 0011,,Tarapacá,Iquique,Iquique,True,,,,
+100000012-0,claudia.soto@example.com,+56 9 0000 0012,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000013-9,pablo.sepulveda@example.com,+56 9 0000 0013,Empleador ficticio 8,La Araucanía,Cautín,Temuco,True,,,,
+100000014-7,isabel.fuentes@example.com,+56 9 0000 0014,,Tarapacá,Iquique,Iquique,True,,,,
+100000015-5,camila.silva@example.com,+56 9 0000 0015,,Tarapacá,Iquique,Iquique,True,,,,
+100000016-3,sergio.soto@example.com,+56 9 0000 0016,Empleador ficticio 6,Tarapacá,Iquique,Iquique,True,,,,
+100000017-1,francisca.rivera@example.com,+56 9 0000 0017,,Biobío,Concepción,Concepción,True,,,,
+100000018-K,eduardo.reyes@example.com,+56 9 0000 0018,Empleador ficticio 13,Tarapacá,Iquique,Iquique,True,,,,
+100000019-8,carmen.carrasco@example.com,+56 9 0000 0019,Empleador ficticio 10,Biobío,Concepción,Concepción,True,,,,
+100000020-1,manuel.castillo@example.com,+56 9 0000 0020,,La Araucanía,Cautín,Temuco,True,,,,
+100000021-K,elena.nunez@example.com,+56 9 0000 0021,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000022-8,jose.munoz@example.com,+56 9 0000 0022,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000023-6,carmen.martinez@example.com,+56 9 0000 0023,Empleador ficticio 10,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000024-4,valentina.fuentes@example.com,+56 9 0000 0024,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000025-2,,+56 9 0000 0025,Empleador ficticio 9,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000026-0,,+56 9 0000 0026,Empleador ficticio 8,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000027-9,isabel.espinoza@example.com,+56 9 0000 0027,,Tarapacá,Iquique,Iquique,True,,,,
+100000028-7,gonzalo.araya@example.com,+56 9 0000 0028,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000029-5,valentina.vergara@example.com,+56 9 0000 0029,,Biobío,Concepción,Concepción,True,,,,
+100000030-9,camila.silva@example.com,+56 9 0000 0030,,Biobío,Concepción,Concepción,True,,,,
+100000031-7,patricio.vasquez@example.com,+56 9 0000 0031,,Biobío,Concepción,Concepción,True,,,,
+100000032-5,gloria.cortes@example.com,+56 9 0000 0032,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000033-3,cecilia.fuentes@example.com,+56 9 0000 0033,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000034-1,hector.valenzuela@example.com,+56 9 0000 0034,Empleador ficticio 14,Tarapacá,Iquique,Iquique,True,,,,
+100000035-K,teresa.nunez@example.com,+56 9 0000 0035,Empleador ficticio 8,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000036-8,javiera.tapia@example.com,+56 9 0000 0036,,Tarapacá,Iquique,Iquique,True,,,,
+100000037-6,ines.herrera@example.com,+56 9 0000 0037,Empleador ficticio 1,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000038-4,manuel.sanchez@example.com,+56 9 0000 0038,Empleador ficticio 17,La Araucanía,Cautín,Temuco,True,,,,
+100000039-2,sonia.figueroa@example.com,+56 9 0000 0039,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000040-6,camila.flores@example.com,+56 9 0000 0040,Empleador ficticio 17,La Araucanía,Cautín,Temuco,True,,,,
+100000041-4,paula.carrasco@example.com,+56 9 0000 0041,Empleador ficticio 1,Tarapacá,Iquique,Iquique,True,,,,
+100000042-2,luisa.flores@example.com,+56 9 0000 0042,Empleador ficticio 19,La Araucanía,Cautín,Temuco,True,,,,
+100000043-0,ignacio.contreras@example.com,+56 9 0000 0043,Empleador ficticio 3,La Araucanía,Cautín,Temuco,True,,,,
+100000044-9,ignacio.nunez@example.com,+56 9 0000 0044,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000045-7,juan.reyes@example.com,+56 9 0000 0045,Empleador ficticio 13,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000046-5,carlos.carrasco@example.com,+56 9 0000 0046,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000047-3,,+56 9 0000 0047,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000048-1,eduardo.fernandez@example.com,+56 9 0000 0048,,Biobío,Concepción,Concepción,True,,,,
+100000049-K,silvia.soto@example.com,+56 9 0000 0049,,La Araucanía,Cautín,Temuco,True,,,,
+100000050-3,victor.rojas@example.com,+56 9 0000 0050,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000051-1,tomas.fuentes@example.com,+56 9 0000 0051,,La Araucanía,Cautín,Temuco,True,,,,
+100000052-K,elena.pizarro@example.com,+56 9 0000 0052,,Biobío,Concepción,Concepción,True,,,,
+100000053-8,beatriz.nunez@example.com,+56 9 0000 0053,Empleador ficticio 4,Tarapacá,Iquique,Iquique,True,,,,
+100000054-6,maria.cortes@example.com,+56 9 0000 0054,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000055-4,raul.flores@example.com,+56 9 0000 0055,Empleador ficticio 10,Tarapacá,Iquique,Iquique,True,,,,
+100000056-2,,+56 9 0000 0056,Empleador ficticio 12,Biobío,Concepción,Concepción,True,,,,
+100000057-0,veronica.gonzalez@example.com,+56 9 0000 0057,Empleador ficticio 1,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000058-9,diego.rivera@example.com,+56 9 0000 0058,Empleador ficticio 10,La Araucanía,Cautín,Temuco,True,,,,
+100000059-7,francisca.fernandez@example.com,+56 9 0000 0059,Empleador ficticio 15,Tarapacá,Iquique,Iquique,True,,,,
+100000060-0,monica.jara@example.com,+56 9 0000 0060,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000061-9,ricardo.araya@example.com,+56 9 0000 0061,Empleador ficticio 9,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000062-7,gonzalo.rodriguez@example.com,+56 9 0000 0062,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000063-5,,+56 9 0000 0063,Empleador ficticio 7,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000064-3,monica.espinoza@example.com,+56 9 0000 0064,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000065-1,daniela.araya@example.com,+56 9 0000 0065,Empleador ficticio 19,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000066-K,matias.rojas@example.com,+56 9 0000 0066,Empleador ficticio 8,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000067-8,carlos.fernandez@example.com,+56 9 0000 0067,,Tarapacá,Iquique,Iquique,True,,,,
+100000068-6,jose.sanchez@example.com,+56 9 0000 0068,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000069-4,teresa.hernandez@example.com,+56 9 0000 0069,Empleador ficticio 1,Biobío,Concepción,Concepción,True,,,,
+100000070-8,elena.vasquez@example.com,+56 9 0000 0070,Empleador ficticio 12,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000071-6,patricio.tapia@example.com,+56 9 0000 0071,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000072-4,sonia.herrera@example.com,+56 9 0000 0072,Empleador ficticio 17,La Araucanía,Cautín,Temuco,True,,,,
+100000073-2,luisa.perez@example.com,+56 9 0000 0073,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000074-0,,+56 9 0000 0074,Empleador ficticio 13,Biobío,Concepción,Concepción,True,,,,
+100000075-9,paula.torres@example.com,+56 9 0000 0075,Empleador ficticio 9,Tarapacá,Iquique,Iquique,True,,,,
+100000076-7,cristian.tapia@example.com,+56 9 0000 0076,Empleador ficticio 13,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000077-5,constanza.morales@example.com,+56 9 0000 0077,Empleador ficticio 4,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000078-3,gloria.reyes@example.com,,,Biobío,Concepción,Concepción,True,,,,
+100000079-1,constanza.ramirez@example.com,,Empleador ficticio 17,Biobío,Concepción,Concepción,True,,,,
+100000080-5,,,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000081-3,,+56 9 0000 0081,,La Araucanía,Cautín,Temuco,True,,,,
+100000082-1,claudia.gutierrez@example.com,+56 9 0000 0082,Empleador ficticio 10,Biobío,Concepción,Concepción,True,,,,
+100000083-K,ana.morales@example.com,+56 9 0000 0083,Empleador ficticio 2,Tarapacá,Iquique,Iquique,True,,,,
+100000084-8,lorena.ramirez@example.com,,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000085-6,marcela.contreras@example.com,+56 9 0000 0085,Empleador ficticio 11,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000086-4,beatriz.gomez@example.com,+56 9 0000 0086,Empleador ficticio 10,La Araucanía,Cautín,Temuco,True,,,,
+100000087-2,olga.pizarro@example.com,,Empleador ficticio 12,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000088-0,,+56 9 0000 0088,Empleador ficticio 16,Tarapacá,Iquique,Iquique,True,,,,
+100000089-9,maria.rojas@example.com,+56 9 0000 0089,,Biobío,Concepción,Concepción,True,,,,
+100000090-2,,+56 9 0000 0090,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000091-0,manuel.soto@example.com,+56 9 0000 0091,Empleador ficticio 12,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000092-9,,+56 9 0000 0092,Empleador ficticio 16,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000093-7,,+56 9 0000 0093,Empleador ficticio 14,La Araucanía,Cautín,Temuco,True,,,,
+100000094-5,paula.figueroa@example.com,+56 9 0000 0094,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000095-3,,+56 9 0000 0095,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000096-1,paula.munoz@example.com,+56 9 0000 0096,Empleador ficticio 15,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000097-K,constanza.lopez@example.com,,Empleador ficticio 6,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000098-8,carlos.reyes@example.com,+56 9 0000 0098,,Biobío,Concepción,Concepción,True,,,,
+100000099-6,juan.cortes@example.com,+56 9 0000 0099,,La Araucanía,Cautín,Temuco,True,,,,
+100000100-3,fernanda.hernandez@example.com,+56 9 0000 0100,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000101-1,patricio.rojas@example.com,+56 9 0000 0101,Empleador ficticio 13,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000102-K,sonia.contreras@example.com,+56 9 0000 0102,Empleador ficticio 8,La Araucanía,Cautín,Temuco,True,,,,
+100000103-8,cecilia.tapia@example.com,+56 9 0000 0103,,Biobío,Concepción,Concepción,True,,,,
+100000104-6,marcela.araya@example.com,+56 9 0000 0104,,Biobío,Concepción,Concepción,True,,,,
+100000105-4,rosa.martinez@example.com,+56 9 0000 0105,Empleador ficticio 9,Tarapacá,Iquique,Iquique,True,,,,
+100000106-2,sebastian.silva@example.com,+56 9 0000 0106,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000107-0,,+56 9 0000 0107,Empleador ficticio 10,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000108-9,diego.tapia@example.com,+56 9 0000 0108,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000109-7,patricia.munoz@example.com,+56 9 0000 0109,Empleador ficticio 4,Biobío,Concepción,Concepción,True,,,,
+100000110-0,alejandro.vasquez@example.com,+56 9 0000 0110,Empleador ficticio 2,La Araucanía,Cautín,Temuco,True,,,,
+100000111-9,silvia.torres@example.com,,,Tarapacá,Iquique,Iquique,True,,,,
+100000112-7,mario.hernandez@example.com,+56 9 0000 0112,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000113-5,,+56 9 0000 0113,Empleador ficticio 17,Tarapacá,Iquique,Iquique,True,,,,
+100000114-3,patricio.fuentes@example.com,+56 9 0000 0114,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000115-1,francisco.jara@example.com,+56 9 0000 0115,Empleador ficticio 15,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000116-K,ines.sepulveda@example.com,+56 9 0000 0116,Empleador ficticio 10,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000117-8,sebastian.alvarez@example.com,+56 9 0000 0117,Empleador ficticio 18,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000118-6,camila.silva@example.com,+56 9 0000 0118,,La Araucanía,Cautín,Temuco,True,,,,
+100000119-4,luis.martinez@example.com,+56 9 0000 0119,Empleador ficticio 10,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000120-8,,+56 9 0000 0120,Empleador ficticio 4,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000121-6,isabel.silva@example.com,,Empleador ficticio 12,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000122-4,jorge.jara@example.com,+56 9 0000 0122,,Biobío,Concepción,Concepción,True,,,,
+100000123-2,rosa.munoz@example.com,+56 9 0000 0123,Empleador ficticio 10,Biobío,Concepción,Concepción,True,,,,
+100000124-0,eduardo.munoz@example.com,,Empleador ficticio 4,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000125-9,cecilia.lopez@example.com,+56 9 0000 0125,Empleador ficticio 16,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000126-7,raul.sepulveda@example.com,+56 9 0000 0126,,Biobío,Concepción,Concepción,True,,,,
+100000127-5,silvia.rodriguez@example.com,+56 9 0000 0127,,Tarapacá,Iquique,Iquique,True,,,,
+100000128-3,ignacio.tapia@example.com,+56 9 0000 0128,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000129-1,valentina.torres@example.com,+56 9 0000 0129,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000130-5,luis.ramirez@example.com,+56 9 0000 0130,Empleador ficticio 5,Tarapacá,Iquique,Iquique,True,,,,
+100000131-3,hugo.ramirez@example.com,+56 9 0000 0131,Empleador ficticio 4,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000132-1,gonzalo.martinez@example.com,+56 9 0000 0132,,La Araucanía,Cautín,Temuco,True,,,,
+100000133-K,carmen.figueroa@example.com,+56 9 0000 0133,Empleador ficticio 5,Biobío,Concepción,Concepción,True,,,,
+100000134-8,matias.munoz@example.com,+56 9 0000 0134,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000135-6,luisa.lopez@example.com,+56 9 0000 0135,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000136-4,eduardo.rodriguez@example.com,+56 9 0000 0136,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000137-2,daniela.gonzalez@example.com,+56 9 0000 0137,Empleador ficticio 14,La Araucanía,Cautín,Temuco,True,,,,
+100000138-0,,+56 9 0000 0138,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000139-9,cristian.fuentes@example.com,+56 9 0000 0139,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000140-2,luis.castillo@example.com,+56 9 0000 0140,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000141-0,carmen.gutierrez@example.com,+56 9 0000 0141,Empleador ficticio 7,Tarapacá,Iquique,Iquique,True,,,,
+100000142-9,pedro.pizarro@example.com,+56 9 0000 0142,Empleador ficticio 16,Biobío,Concepción,Concepción,True,,,,
+100000143-7,,+56 9 0000 0143,,Tarapacá,Iquique,Iquique,True,,,,
+100000144-5,gonzalo.fernandez@example.com,+56 9 0000 0144,Empleador ficticio 10,Biobío,Concepción,Concepción,True,,,,
+100000145-3,daniela.reyes@example.com,+56 9 0000 0145,Empleador ficticio 3,Biobío,Concepción,Concepción,True,,,,
+100000146-1,sergio.cortes@example.com,+56 9 0000 0146,Empleador ficticio 12,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000147-K,claudia.tapia@example.com,+56 9 0000 0147,Empleador ficticio 17,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000148-8,raul.rodriguez@example.com,+56 9 0000 0148,Empleador ficticio 19,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000149-6,daniela.gutierrez@example.com,+56 9 0000 0149,Empleador ficticio 11,Tarapacá,Iquique,Iquique,True,,,,
+100000150-K,claudia.fuentes@example.com,,Empleador ficticio 16,Biobío,Concepción,Concepción,True,,,,
+100000151-8,veronica.nunez@example.com,+56 9 0000 0151,,La Araucanía,Cautín,Temuco,True,,,,
+100000152-6,marcela.gomez@example.com,,,Biobío,Concepción,Concepción,True,,,,
+100000153-4,manuel.sanchez@example.com,+56 9 0000 0153,Empleador ficticio 18,Tarapacá,Iquique,Iquique,True,,,,
+100000154-2,,+56 9 0000 0154,Empleador ficticio 13,Tarapacá,Iquique,Iquique,True,,,,
+100000155-0,,+56 9 0000 0155,Empleador ficticio 13,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000156-9,lorena.munoz@example.com,+56 9 0000 0156,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000157-7,,,Empleador ficticio 13,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000158-5,carlos.herrera@example.com,+56 9 0000 0158,,Biobío,Concepción,Concepción,True,,,,
+100000159-3,,+56 9 0000 0159,,La Araucanía,Cautín,Temuco,True,,,,
+100000160-7,ana.alvarez@example.com,,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000161-5,,+56 9 0000 0161,Empleador ficticio 8,Biobío,Concepción,Concepción,True,,,,
+100000162-3,margarita.sanchez@example.com,+56 9 0000 0162,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000163-1,manuel.vasquez@example.com,+56 9 0000 0163,Empleador ficticio 6,La Araucanía,Cautín,Temuco,True,,,,
+100000164-K,,+56 9 0000 0164,,La Araucanía,Cautín,Temuco,True,,,,
+100000165-8,diego.tapia@example.com,,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000166-6,rodrigo.valenzuela@example.com,+56 9 0000 0166,Empleador ficticio 16,La Araucanía,Cautín,Temuco,True,,,,
+100000167-4,constanza.rojas@example.com,+56 9 0000 0167,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000168-2,hugo.tapia@example.com,+56 9 0000 0168,Empleador ficticio 17,Biobío,Concepción,Concepción,True,,,,
+100000169-0,valentina.sepulveda@example.com,,Empleador ficticio 5,Biobío,Concepción,Concepción,True,,,,
+100000170-4,francisca.hernandez@example.com,+56 9 0000 0170,Empleador ficticio 7,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000171-2,matias.rivera@example.com,+56 9 0000 0171,Empleador ficticio 15,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000172-0,,+56 9 0000 0172,Empleador ficticio 14,Biobío,Concepción,Concepción,True,,,,
+100000173-9,daniela.espinoza@example.com,+56 9 0000 0173,,Tarapacá,Iquique,Iquique,True,,,,
+100000174-7,cristian.hernandez@example.com,,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000175-5,cecilia.alvarez@example.com,+56 9 0000 0175,Empleador ficticio 12,Biobío,Concepción,Concepción,True,,,,
+100000176-3,,+56 9 0000 0176,,Tarapacá,Iquique,Iquique,True,,,,
+100000177-1,ana.figueroa@example.com,+56 9 0000 0177,Empleador ficticio 8,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000178-K,diego.munoz@example.com,+56 9 0000 0178,Empleador ficticio 14,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000179-8,sonia.flores@example.com,+56 9 0000 0179,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True,,,,
+100000180-1,javiera.tapia@example.com,+56 9 0000 0180,,Tarapacá,Iquique,Iquique,True,,,,
+100000181-K,olga.vasquez@example.com,+56 9 0000 0181,Empleador ficticio 16,La Araucanía,Cautín,Temuco,True,,,,
+100000182-8,cecilia.fernandez@example.com,+56 9 0000 0182,,La Araucanía,Cautín,Temuco,True,,,,
+100000183-6,eduardo.fuentes@example.com,+56 9 0000 0183,Empleador ficticio 17,La Araucanía,Cautín,Temuco,True,,,,
+100000184-4,constanza.rodriguez@example.com,+56 9 0000 0184,Empleador ficticio 15,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000185-2,lorena.pizarro@example.com,+56 9 0000 0185,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000186-0,gonzalo.rodriguez@example.com,,Empleador ficticio 16,La Araucanía,Cautín,Temuco,True,,,,
+100000187-9,ignacio.silva@example.com,+56 9 0000 0187,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000188-7,andres.araya@example.com,+56 9 0000 0188,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000189-5,felipe.torres@example.com,,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000190-9,diego.gomez@example.com,+56 9 0000 0190,,La Araucanía,Cautín,Temuco,True,,,,
+100000191-7,victor.carrasco@example.com,+56 9 0000 0191,Empleador ficticio 12,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000192-5,marcela.gomez@example.com,+56 9 0000 0192,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000193-3,manuel.hernandez@example.com,+56 9 0000 0193,,Tarapacá,Iquique,Iquique,True,,,,
+100000194-1,carlos.alvarez@example.com,+56 9 0000 0194,Empleador ficticio 18,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000195-K,patricio.morales@example.com,+56 9 0000 0195,Empleador ficticio 10,Tarapacá,Iquique,Iquique,True,,,,
+100000196-8,luisa.vergara@example.com,+56 9 0000 0196,Empleador ficticio 10,Tarapacá,Iquique,Iquique,True,,,,
+100000197-6,francisco.rodriguez@example.com,+56 9 0000 0197,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000198-4,luis.contreras@example.com,+56 9 0000 0198,,Tarapacá,Iquique,Iquique,True,,,,
+100000199-2,ignacio.pizarro@example.com,+56 9 0000 0199,Empleador ficticio 5,La Araucanía,Cautín,Temuco,True,,,,
+100000200-K,,+56 9 0000 0200,Empleador ficticio 4,Biobío,Concepción,Concepción,True,,,,
+100000201-8,pedro.espinoza@example.com,+56 9 0000 0201,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000202-6,hector.sepulveda@example.com,,Empleador ficticio 9,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000203-4,,+56 9 0000 0203,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000204-2,mario.fernandez@example.com,+56 9 0000 0204,Empleador ficticio 9,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000205-0,ignacio.rodriguez@example.com,+56 9 0000 0205,,Biobío,Concepción,Concepción,True,,,,
+100000206-9,sergio.figueroa@example.com,+56 9 0000 0206,,La Araucanía,Cautín,Temuco,True,,,,
+100000207-7,diego.reyes@example.com,+56 9 0000 0207,Empleador ficticio 9,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000208-5,luisa.jara@example.com,+56 9 0000 0208,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000209-3,victor.morales@example.com,,,Biobío,Concepción,Concepción,True,,,,
+100000210-7,luisa.hernandez@example.com,+56 9 0000 0210,,La Araucanía,Cautín,Temuco,True,,,,
+100000211-5,marcela.ramirez@example.com,+56 9 0000 0211,Empleador ficticio 1,La Araucanía,Cautín,Temuco,True,,,,
+100000212-3,,+56 9 0000 0212,Empleador ficticio 8,Biobío,Concepción,Concepción,True,,,,
+100000213-1,lorena.torres@example.com,+56 9 0000 0213,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000214-K,javiera.jara@example.com,+56 9 0000 0214,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000215-8,isabel.rivera@example.com,+56 9 0000 0215,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True,,,,
+100000216-6,sebastian.cortes@example.com,+56 9 0000 0216,Empleador ficticio 9,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000217-4,hugo.martinez@example.com,+56 9 0000 0217,,Tarapacá,Iquique,Iquique,True,,,,
+100000218-2,elena.contreras@example.com,+56 9 0000 0218,Empleador ficticio 6,Tarapacá,Iquique,Iquique,True,,,,
+100000219-0,raul.morales@example.com,+56 9 0000 0219,,Tarapacá,Iquique,Iquique,True,,,,
+100000220-4,rodrigo.contreras@example.com,+56 9 0000 0220,,Tarapacá,Iquique,Iquique,True,,,,
+100000221-2,teresa.castro@example.com,+56 9 0000 0221,,Biobío,Concepción,Concepción,True,,,,
+100000222-0,carlos.castro@example.com,+56 9 0000 0222,Empleador ficticio 17,Tarapacá,Iquique,Iquique,True,,,,
+100000223-9,,+56 9 0000 0223,Empleador ficticio 8,La Araucanía,Cautín,Temuco,True,,,,
+100000224-7,sonia.martinez@example.com,+56 9 0000 0224,Empleador ficticio 8,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000225-5,daniela.hernandez@example.com,+56 9 0000 0225,Empleador ficticio 1,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000226-3,ana.cortes@example.com,+56 9 0000 0226,Empleador ficticio 9,Biobío,Concepción,Concepción,True,,,,
+100000227-1,,+56 9 0000 0227,,La Araucanía,Cautín,Temuco,True,,,,
+100000228-K,sonia.vasquez@example.com,,Empleador ficticio 16,Biobío,Concepción,Concepción,True,,,,
+100000229-8,,+56 9 0000 0229,,Tarapacá,Iquique,Iquique,True,,,,
+100000230-1,paula.valenzuela@example.com,+56 9 0000 0230,Empleador ficticio 11,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000231-K,margarita.vergara@example.com,+56 9 0000 0231,Empleador ficticio 18,Biobío,Concepción,Concepción,True,,,,
+100000232-8,monica.gomez@example.com,+56 9 0000 0232,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000233-6,,+56 9 0000 0233,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000234-4,francisco.herrera@example.com,+56 9 0000 0234,Empleador ficticio 19,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000235-2,sonia.sanchez@example.com,+56 9 0000 0235,Empleador ficticio 14,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000236-0,,+56 9 0000 0236,Empleador ficticio 10,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000237-9,mario.herrera@example.com,,Empleador ficticio 15,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000238-7,victor.fuentes@example.com,+56 9 0000 0238,Empleador ficticio 10,Tarapacá,Iquique,Iquique,True,,,,
+100000239-5,ines.morales@example.com,,,Tarapacá,Iquique,Iquique,True,,,,
+100000240-9,victor.torres@example.com,+56 9 0000 0240,Empleador ficticio 12,Biobío,Concepción,Concepción,True,,,,
+100000241-7,gloria.alvarez@example.com,+56 9 0000 0241,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000242-5,,+56 9 0000 0242,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000243-3,lorena.valenzuela@example.com,+56 9 0000 0243,Empleador ficticio 14,Tarapacá,Iquique,Iquique,True,,,,
+100000244-1,teresa.sanchez@example.com,+56 9 0000 0244,Empleador ficticio 18,Biobío,Concepción,Concepción,True,,,,
+100000245-K,ignacio.sanchez@example.com,,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000246-8,,+56 9 0000 0246,Empleador ficticio 19,La Araucanía,Cautín,Temuco,True,,,,
+100000247-6,mario.lopez@example.com,+56 9 0000 0247,Empleador ficticio 2,Tarapacá,Iquique,Iquique,True,,,,
+100000248-4,lorena.espinoza@example.com,+56 9 0000 0248,Empleador ficticio 13,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000249-2,manuel.valenzuela@example.com,+56 9 0000 0249,Empleador ficticio 12,Tarapacá,Iquique,Iquique,True,,,,
+100000250-6,jose.diaz@example.com,+56 9 0000 0250,,Biobío,Concepción,Concepción,True,,,,
+100000251-4,,+56 9 0000 0251,Empleador ficticio 5,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000252-2,fernanda.tapia@example.com,+56 9 0000 0252,Empleador ficticio 9,Tarapacá,Iquique,Iquique,True,,,,
+100000253-0,,+56 9 0000 0253,Empleador ficticio 11,Tarapacá,Iquique,Iquique,True,,,,
+100000254-9,alejandro.jara@example.com,+56 9 0000 0254,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000255-7,maria.hernandez@example.com,+56 9 0000 0255,Empleador ficticio 1,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000256-5,,+56 9 0000 0256,Empleador ficticio 2,Tarapacá,Iquique,Iquique,True,,,,
+100000257-3,beatriz.castro@example.com,,Empleador ficticio 5,Tarapacá,Iquique,Iquique,True,,,,
+100000258-1,valentina.martinez@example.com,+56 9 0000 0258,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000259-K,ana.martinez@example.com,+56 9 0000 0259,Empleador ficticio 17,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000260-3,,+56 9 0000 0260,Empleador ficticio 7,La Araucanía,Cautín,Temuco,True,,,,
+100000261-1,ricardo.herrera@example.com,+56 9 0000 0261,,Biobío,Concepción,Concepción,True,,,,
+100000262-K,,+56 9 0000 0262,Empleador ficticio 18,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000263-8,,+56 9 0000 0263,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000264-6,rodrigo.morales@example.com,+56 9 0000 0264,,Biobío,Concepción,Concepción,True,,,,
+100000265-4,victor.sanchez@example.com,,Empleador ficticio 19,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000266-2,,+56 9 0000 0266,Empleador ficticio 7,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000267-0,cristian.reyes@example.com,+56 9 0000 0267,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000268-9,monica.ramirez@example.com,+56 9 0000 0268,,Tarapacá,Iquique,Iquique,True,,,,
+100000269-7,raul.ramirez@example.com,,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000270-0,cristian.pizarro@example.com,+56 9 0000 0270,Empleador ficticio 10,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000271-9,marcela.gonzalez@example.com,,,Tarapacá,Iquique,Iquique,True,,,,
+100000272-7,,+56 9 0000 0272,,Tarapacá,Iquique,Iquique,True,,,,
+100000273-5,camila.rojas@example.com,+56 9 0000 0273,Empleador ficticio 18,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000274-3,patricia.fernandez@example.com,,,Biobío,Concepción,Concepción,True,,,,
+100000275-1,patricio.cortes@example.com,+56 9 0000 0275,Empleador ficticio 4,Tarapacá,Iquique,Iquique,True,,,,
+100000276-K,rosa.flores@example.com,+56 9 0000 0276,Empleador ficticio 3,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000277-8,camila.flores@example.com,+56 9 0000 0277,,La Araucanía,Cautín,Temuco,True,,,,
+100000278-6,eduardo.cortes@example.com,+56 9 0000 0278,Empleador ficticio 3,Tarapacá,Iquique,Iquique,True,,,,
+100000279-4,,+56 9 0000 0279,,La Araucanía,Cautín,Temuco,True,,,,
+100000280-8,jose.pizarro@example.com,+56 9 0000 0280,Empleador ficticio 15,Tarapacá,Iquique,Iquique,True,,,,
+100000281-6,francisca.perez@example.com,+56 9 0000 0281,Empleador ficticio 10,Biobío,Concepción,Concepción,True,,,,
+100000282-4,sergio.rodriguez@example.com,+56 9 0000 0282,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True,,,,
+100000283-2,hugo.sepulveda@example.com,+56 9 0000 0283,Empleador ficticio 16,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000284-0,oscar.rivera@example.com,+56 9 0000 0284,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000285-9,rodrigo.reyes@example.com,+56 9 0000 0285,,Tarapacá,Iquique,Iquique,True,,,,
+100000286-7,teresa.valenzuela@example.com,+56 9 0000 0286,,Tarapacá,Iquique,Iquique,True,,,,
+100000287-5,francisco.fernandez@example.com,+56 9 0000 0287,Empleador ficticio 4,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000288-3,carmen.torres@example.com,,Empleador ficticio 8,La Araucanía,Cautín,Temuco,True,,,,
+100000289-1,daniela.contreras@example.com,+56 9 0000 0289,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000290-5,claudia.gomez@example.com,+56 9 0000 0290,,Tarapacá,Iquique,Iquique,True,,,,
+100000291-3,ricardo.fuentes@example.com,+56 9 0000 0291,,Biobío,Concepción,Concepción,True,,,,
+100000292-1,mario.figueroa@example.com,+56 9 0000 0292,Empleador ficticio 13,Biobío,Concepción,Concepción,True,,,,
+100000293-K,gloria.pizarro@example.com,+56 9 0000 0293,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000294-8,fernanda.perez@example.com,+56 9 0000 0294,Empleador ficticio 4,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000295-6,beatriz.silva@example.com,+56 9 0000 0295,,Biobío,Concepción,Concepción,True,,,,
+100000296-4,eduardo.gomez@example.com,+56 9 0000 0296,Empleador ficticio 4,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000297-2,olga.cortes@example.com,+56 9 0000 0297,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000298-0,constanza.torres@example.com,+56 9 0000 0298,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000299-9,lorena.araya@example.com,+56 9 0000 0299,Empleador ficticio 3,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000300-6,,+56 9 0000 0300,Empleador ficticio 11,Tarapacá,Iquique,Iquique,True,,,,
+100000301-4,diego.ramirez@example.com,+56 9 0000 0301,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000302-2,teresa.lopez@example.com,+56 9 0000 0302,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000303-0,,+56 9 0000 0303,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000304-9,claudia.rivera@example.com,+56 9 0000 0304,Empleador ficticio 13,La Araucanía,Cautín,Temuco,True,,,,
+100000305-7,alejandro.rivera@example.com,+56 9 0000 0305,Empleador ficticio 17,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000306-5,isabel.morales@example.com,+56 9 0000 0306,,Biobío,Concepción,Concepción,True,,,,
+100000307-3,,+56 9 0000 0307,,Biobío,Concepción,Concepción,True,,,,
+100000308-1,oscar.herrera@example.com,+56 9 0000 0308,,Biobío,Concepción,Concepción,True,,,,
+100000309-K,veronica.silva@example.com,+56 9 0000 0309,Empleador ficticio 16,La Araucanía,Cautín,Temuco,True,,,,
+100000310-3,juan.reyes@example.com,+56 9 0000 0310,,Tarapacá,Iquique,Iquique,True,,,,
+100000311-1,alejandro.cortes@example.com,+56 9 0000 0311,,La Araucanía,Cautín,Temuco,True,,,,
+100000312-K,,,Empleador ficticio 9,Biobío,Concepción,Concepción,True,,,,
+100000313-8,,+56 9 0000 0313,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000314-6,matias.valenzuela@example.com,+56 9 0000 0314,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000315-4,,+56 9 0000 0315,,Biobío,Concepción,Concepción,True,,,,
+100000316-2,ines.ramirez@example.com,+56 9 0000 0316,Empleador ficticio 7,Biobío,Concepción,Concepción,True,,,,
+100000317-0,monica.jara@example.com,+56 9 0000 0317,Empleador ficticio 5,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000318-9,ines.diaz@example.com,+56 9 0000 0318,Empleador ficticio 12,Tarapacá,Iquique,Iquique,True,,,,
+100000319-7,,+56 9 0000 0319,,La Araucanía,Cautín,Temuco,True,,,,
+100000320-0,sebastian.fernandez@example.com,+56 9 0000 0320,,La Araucanía,Cautín,Temuco,True,,,,
+100000321-9,monica.araya@example.com,+56 9 0000 0321,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000322-7,silvia.herrera@example.com,+56 9 0000 0322,Empleador ficticio 4,La Araucanía,Cautín,Temuco,True,,,,
+100000323-5,carmen.carrasco@example.com,+56 9 0000 0323,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000324-3,,+56 9 0000 0324,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000325-1,constanza.sepulveda@example.com,+56 9 0000 0325,Empleador ficticio 6,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000326-K,francisco.rojas@example.com,+56 9 0000 0326,,Biobío,Concepción,Concepción,True,,,,
+100000327-8,hugo.soto@example.com,+56 9 0000 0327,,La Araucanía,Cautín,Temuco,True,,,,
+100000328-6,,+56 9 0000 0328,,Biobío,Concepción,Concepción,True,,,,
+100000329-4,ana.castillo@example.com,+56 9 0000 0329,,Tarapacá,Iquique,Iquique,True,,,,
+100000330-8,jorge.pizarro@example.com,+56 9 0000 0330,Empleador ficticio 9,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000331-6,pablo.gonzalez@example.com,+56 9 0000 0331,,La Araucanía,Cautín,Temuco,True,,,,
+100000332-4,jorge.vergara@example.com,+56 9 0000 0332,Empleador ficticio 3,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000333-2,pedro.figueroa@example.com,+56 9 0000 0333,,Tarapacá,Iquique,Iquique,True,,,,
+100000334-0,camila.fernandez@example.com,+56 9 0000 0334,,La Araucanía,Cautín,Temuco,True,,,,
+100000335-9,ines.contreras@example.com,+56 9 0000 0335,Empleador ficticio 17,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000336-7,juan.fernandez@example.com,+56 9 0000 0336,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000337-5,paula.perez@example.com,+56 9 0000 0337,Empleador ficticio 5,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000338-3,andres.rivera@example.com,+56 9 0000 0338,Empleador ficticio 11,Tarapacá,Iquique,Iquique,True,,,,
+100000339-1,francisco.diaz@example.com,+56 9 0000 0339,Empleador ficticio 2,Biobío,Concepción,Concepción,True,,,,
+100000340-5,carlos.vergara@example.com,+56 9 0000 0340,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000341-3,isabel.alvarez@example.com,+56 9 0000 0341,,Tarapacá,Iquique,Iquique,True,,,,
+100000342-1,sonia.martinez@example.com,,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000343-K,veronica.cortes@example.com,+56 9 0000 0343,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000344-8,,+56 9 0000 0344,,La Araucanía,Cautín,Temuco,True,,,,
+100000345-6,olga.tapia@example.com,,Empleador ficticio 11,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000346-4,cristian.ramirez@example.com,+56 9 0000 0346,Empleador ficticio 1,Tarapacá,Iquique,Iquique,True,,,,
+100000347-2,monica.castro@example.com,+56 9 0000 0347,Empleador ficticio 15,Tarapacá,Iquique,Iquique,True,,,,
+100000348-0,,+56 9 0000 0348,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000349-9,,,Empleador ficticio 3,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000350-2,felipe.alvarez@example.com,+56 9 0000 0350,Empleador ficticio 8,Biobío,Concepción,Concepción,True,,,,
+100000351-0,sebastian.castillo@example.com,+56 9 0000 0351,Empleador ficticio 10,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000352-9,patricia.figueroa@example.com,+56 9 0000 0352,Empleador ficticio 11,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000353-7,ana.lopez@example.com,+56 9 0000 0353,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000354-5,claudia.fernandez@example.com,+56 9 0000 0354,,Biobío,Concepción,Concepción,True,,,,
+100000355-3,teresa.espinoza@example.com,+56 9 0000 0355,Empleador ficticio 10,Tarapacá,Iquique,Iquique,True,,,,
+100000356-1,,+56 9 0000 0356,,Biobío,Concepción,Concepción,True,,,,
+100000357-K,sonia.rojas@example.com,+56 9 0000 0357,Empleador ficticio 16,Biobío,Concepción,Concepción,True,,,,
+100000358-8,raul.cortes@example.com,+56 9 0000 0358,Empleador ficticio 5,Biobío,Concepción,Concepción,True,,,,
+100000359-6,jorge.espinoza@example.com,+56 9 0000 0359,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000360-K,luis.hernandez@example.com,+56 9 0000 0360,Empleador ficticio 8,La Araucanía,Cautín,Temuco,True,,,,
+100000361-8,beatriz.diaz@example.com,+56 9 0000 0361,,La Araucanía,Cautín,Temuco,True,,,,
+100000362-6,gonzalo.herrera@example.com,+56 9 0000 0362,Empleador ficticio 17,Biobío,Concepción,Concepción,True,,,,
+100000363-4,valentina.silva@example.com,+56 9 0000 0363,Empleador ficticio 4,Tarapacá,Iquique,Iquique,True,,,,
+100000364-2,veronica.vasquez@example.com,+56 9 0000 0364,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000365-0,cecilia.fuentes@example.com,+56 9 0000 0365,Empleador ficticio 17,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000366-9,ricardo.martinez@example.com,+56 9 0000 0366,Empleador ficticio 9,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000367-7,francisca.perez@example.com,+56 9 0000 0367,Empleador ficticio 13,Biobío,Concepción,Concepción,True,,,,
+100000368-5,maria.valenzuela@example.com,+56 9 0000 0368,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000369-3,,,,Tarapacá,Iquique,Iquique,True,,,,
+100000370-7,beatriz.torres@example.com,+56 9 0000 0370,Empleador ficticio 8,Biobío,Concepción,Concepción,True,,,,
+100000371-5,,+56 9 0000 0371,,Tarapacá,Iquique,Iquique,True,,,,
+100000372-3,daniela.pizarro@example.com,+56 9 0000 0372,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000373-1,juan.gomez@example.com,+56 9 0000 0373,,Tarapacá,Iquique,Iquique,True,,,,
+100000374-K,carlos.herrera@example.com,+56 9 0000 0374,,La Araucanía,Cautín,Temuco,True,,,,
+100000375-8,,+56 9 0000 0375,Empleador ficticio 4,Tarapacá,Iquique,Iquique,True,,,,
+100000376-6,cristian.tapia@example.com,+56 9 0000 0376,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True,,,,
+100000377-4,,+56 9 0000 0377,Empleador ficticio 2,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000378-2,patricia.reyes@example.com,+56 9 0000 0378,Empleador ficticio 15,Biobío,Concepción,Concepción,True,,,,
+100000379-0,luisa.gonzalez@example.com,+56 9 0000 0379,Empleador ficticio 6,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000380-4,elena.valenzuela@example.com,+56 9 0000 0380,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000381-2,constanza.martinez@example.com,+56 9 0000 0381,Empleador ficticio 5,La Araucanía,Cautín,Temuco,True,,,,
+100000382-0,monica.diaz@example.com,+56 9 0000 0382,Empleador ficticio 12,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000383-9,eduardo.herrera@example.com,+56 9 0000 0383,Empleador ficticio 17,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000384-7,luis.tapia@example.com,,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000385-5,patricia.sanchez@example.com,+56 9 0000 0385,Empleador ficticio 12,Tarapacá,Iquique,Iquique,True,,,,
+100000386-3,constanza.tapia@example.com,+56 9 0000 0386,Empleador ficticio 18,La Araucanía,Cautín,Temuco,True,,,,
+100000387-1,maria.fernandez@example.com,+56 9 0000 0387,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000388-K,felipe.castillo@example.com,+56 9 0000 0388,,Tarapacá,Iquique,Iquique,True,,,,
+100000389-8,margarita.jara@example.com,+56 9 0000 0389,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000390-1,francisco.valenzuela@example.com,+56 9 0000 0390,Empleador ficticio 15,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000391-K,jose.tapia@example.com,+56 9 0000 0391,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True,,,,
+100000392-8,eduardo.reyes@example.com,+56 9 0000 0392,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000393-6,cecilia.diaz@example.com,,Empleador ficticio 5,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000394-4,sergio.reyes@example.com,+56 9 0000 0394,,Biobío,Concepción,Concepción,True,,,,
+100000395-2,,+56 9 0000 0395,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000396-0,margarita.carrasco@example.com,+56 9 0000 0396,Empleador ficticio 16,Biobío,Concepción,Concepción,True,,,,
+100000397-9,,+56 9 0000 0397,Empleador ficticio 17,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000398-7,lorena.reyes@example.com,+56 9 0000 0398,Empleador ficticio 4,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000399-5,mario.morales@example.com,+56 9 0000 0399,Empleador ficticio 3,Biobío,Concepción,Concepción,True,,,,
+100000400-2,lorena.gonzalez@example.com,+56 9 0000 0400,,Tarapacá,Iquique,Iquique,True,,,,
+100000401-0,tomas.figueroa@example.com,+56 9 0000 0401,Empleador ficticio 10,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000402-9,raul.araya@example.com,+56 9 0000 0402,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000403-7,margarita.soto@example.com,+56 9 0000 0403,Empleador ficticio 5,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000404-5,eduardo.vasquez@example.com,+56 9 0000 0404,,Tarapacá,Iquique,Iquique,True,,,,
+100000405-3,pablo.rodriguez@example.com,+56 9 0000 0405,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000406-1,sebastian.herrera@example.com,+56 9 0000 0406,Empleador ficticio 7,La Araucanía,Cautín,Temuco,True,,,,
+100000407-K,elena.castillo@example.com,+56 9 0000 0407,,Tarapacá,Iquique,Iquique,True,,,,
+100000408-8,maria.sepulveda@example.com,+56 9 0000 0408,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000409-6,isabel.sanchez@example.com,+56 9 0000 0409,Empleador ficticio 13,La Araucanía,Cautín,Temuco,True,,,,
+100000410-K,silvia.herrera@example.com,+56 9 0000 0410,Empleador ficticio 3,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000411-8,valentina.cortes@example.com,+56 9 0000 0411,,La Araucanía,Cautín,Temuco,True,,,,
+100000412-6,javiera.sanchez@example.com,,,Tarapacá,Iquique,Iquique,True,,,,
+100000413-4,ines.figueroa@example.com,+56 9 0000 0413,Empleador ficticio 19,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000414-2,claudia.castro@example.com,+56 9 0000 0414,Empleador ficticio 6,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000415-0,victor.gutierrez@example.com,+56 9 0000 0415,Empleador ficticio 18,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000416-9,mario.martinez@example.com,+56 9 0000 0416,,La Araucanía,Cautín,Temuco,True,,,,
+100000417-7,,+56 9 0000 0417,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000418-5,luis.rodriguez@example.com,+56 9 0000 0418,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000419-3,oscar.martinez@example.com,,Empleador ficticio 7,Biobío,Concepción,Concepción,True,,,,
+100000420-7,monica.espinoza@example.com,+56 9 0000 0420,Empleador ficticio 1,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000421-5,pedro.morales@example.com,+56 9 0000 0421,Empleador ficticio 13,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000422-3,raul.soto@example.com,+56 9 0000 0422,,Tarapacá,Iquique,Iquique,True,,,,
+100000423-1,mario.sanchez@example.com,,Empleador ficticio 11,La Araucanía,Cautín,Temuco,True,,,,
+100000424-K,ricardo.sepulveda@example.com,+56 9 0000 0424,Empleador ficticio 12,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000425-8,jorge.sepulveda@example.com,,Empleador ficticio 3,La Araucanía,Cautín,Temuco,True,,,,
+100000426-6,patricia.vasquez@example.com,+56 9 0000 0426,Empleador ficticio 9,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000427-4,carmen.rodriguez@example.com,+56 9 0000 0427,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000428-2,,+56 9 0000 0428,,La Araucanía,Cautín,Temuco,True,,,,
+100000429-0,,,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000430-4,javiera.rodriguez@example.com,+56 9 0000 0430,Empleador ficticio 16,Biobío,Concepción,Concepción,True,,,,
+100000431-2,,+56 9 0000 0431,Empleador ficticio 14,La Araucanía,Cautín,Temuco,True,,,,
+100000432-0,,+56 9 0000 0432,Empleador ficticio 2,Tarapacá,Iquique,Iquique,True,,,,
+100000433-9,paula.vergara@example.com,+56 9 0000 0433,Empleador ficticio 12,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000434-7,victor.castro@example.com,+56 9 0000 0434,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000435-5,hugo.munoz@example.com,+56 9 0000 0435,,Tarapacá,Iquique,Iquique,True,,,,
+100000436-3,,+56 9 0000 0436,Empleador ficticio 1,Tarapacá,Iquique,Iquique,True,,,,
+100000437-1,mario.hernandez@example.com,,Empleador ficticio 1,Tarapacá,Iquique,Iquique,True,,,,
+100000438-K,daniela.cortes@example.com,+56 9 0000 0438,,La Araucanía,Cautín,Temuco,True,,,,
+100000439-8,,+56 9 0000 0439,,Tarapacá,Iquique,Iquique,True,,,,
+100000440-1,daniela.gomez@example.com,+56 9 0000 0440,Empleador ficticio 8,Biobío,Concepción,Concepción,True,,,,
+100000441-K,,+56 9 0000 0441,,Tarapacá,Iquique,Iquique,True,,,,
+100000442-8,juan.reyes@example.com,+56 9 0000 0442,Empleador ficticio 4,Biobío,Concepción,Concepción,True,,,,
+100000443-6,rosa.sanchez@example.com,+56 9 0000 0443,Empleador ficticio 14,Tarapacá,Iquique,Iquique,True,,,,
+100000444-4,beatriz.gonzalez@example.com,,Empleador ficticio 2,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000445-2,paula.silva@example.com,+56 9 0000 0445,,Biobío,Concepción,Concepción,True,,,,
+100000446-0,gloria.perez@example.com,,Empleador ficticio 18,Biobío,Concepción,Concepción,True,,,,
+100000447-9,silvia.castillo@example.com,+56 9 0000 0447,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True,,,,
+100000448-7,,+56 9 0000 0448,Empleador ficticio 17,Tarapacá,Iquique,Iquique,True,,,,
+100000449-5,jorge.torres@example.com,+56 9 0000 0449,Empleador ficticio 4,Biobío,Concepción,Concepción,True,,,,
+100000450-9,gloria.contreras@example.com,+56 9 0000 0450,Empleador ficticio 3,Biobío,Concepción,Concepción,True,,,,
+100000451-7,oscar.contreras@example.com,+56 9 0000 0451,Empleador ficticio 9,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000452-5,,+56 9 0000 0452,Empleador ficticio 2,Tarapacá,Iquique,Iquique,True,,,,
+100000453-3,tomas.tapia@example.com,+56 9 0000 0453,Empleador ficticio 14,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000454-1,claudia.jara@example.com,+56 9 0000 0454,Empleador ficticio 7,Tarapacá,Iquique,Iquique,True,,,,
+100000455-K,patricio.pizarro@example.com,+56 9 0000 0455,,La Araucanía,Cautín,Temuco,True,,,,
+100000456-8,sebastian.ramirez@example.com,+56 9 0000 0456,Empleador ficticio 6,Tarapacá,Iquique,Iquique,True,,,,
+100000457-6,patricio.alvarez@example.com,+56 9 0000 0457,Empleador ficticio 11,Biobío,Concepción,Concepción,True,,,,
+100000458-4,rosa.jara@example.com,+56 9 0000 0458,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000459-2,margarita.herrera@example.com,+56 9 0000 0459,Empleador ficticio 12,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000460-6,carlos.contreras@example.com,,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000461-4,jose.rodriguez@example.com,+56 9 0000 0461,Empleador ficticio 19,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000462-2,isabel.ramirez@example.com,+56 9 0000 0462,Empleador ficticio 7,Tarapacá,Iquique,Iquique,True,,,,
+100000463-0,,+56 9 0000 0463,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000464-9,paula.carrasco@example.com,,,Tarapacá,Iquique,Iquique,True,,,,
+100000465-7,francisca.vasquez@example.com,+56 9 0000 0465,Empleador ficticio 16,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000466-5,,+56 9 0000 0466,Empleador ficticio 2,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000467-3,juan.gomez@example.com,+56 9 0000 0467,Empleador ficticio 8,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000468-1,daniela.diaz@example.com,+56 9 0000 0468,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000469-K,paula.castro@example.com,+56 9 0000 0469,Empleador ficticio 7,Biobío,Concepción,Concepción,True,,,,
+100000470-3,teresa.torres@example.com,+56 9 0000 0470,,Biobío,Concepción,Concepción,True,,,,
+100000471-1,camila.soto@example.com,+56 9 0000 0471,Empleador ficticio 11,La Araucanía,Cautín,Temuco,True,,,,
+100000472-K,,+56 9 0000 0472,,La Araucanía,Cautín,Temuco,True,,,,
+100000473-8,rosa.soto@example.com,+56 9 0000 0473,,Tarapacá,Iquique,Iquique,True,,,,
+100000474-6,,+56 9 0000 0474,,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000475-4,cecilia.castro@example.com,+56 9 0000 0475,Empleador ficticio 10,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000476-2,camila.alvarez@example.com,+56 9 0000 0476,Empleador ficticio 12,La Araucanía,Cautín,Temuco,True,,,,
+100000477-0,claudia.soto@example.com,+56 9 0000 0477,Empleador ficticio 7,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000478-9,carlos.rivera@example.com,+56 9 0000 0478,Empleador ficticio 18,La Araucanía,Cautín,Temuco,True,,,,
+100000479-7,ines.ramirez@example.com,+56 9 0000 0479,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000480-0,,+56 9 0000 0480,Empleador ficticio 5,La Araucanía,Cautín,Temuco,True,,,,
+100000481-9,pablo.ramirez@example.com,+56 9 0000 0481,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000482-7,ines.vergara@example.com,+56 9 0000 0482,,Biobío,Concepción,Concepción,True,,,,
+100000483-5,diego.pizarro@example.com,+56 9 0000 0483,,La Araucanía,Cautín,Temuco,True,,,,
+100000484-3,hector.fuentes@example.com,,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000485-1,paula.torres@example.com,+56 9 0000 0485,Empleador ficticio 15,La Araucanía,Cautín,Temuco,True,,,,
+100000486-K,daniela.espinoza@example.com,+56 9 0000 0486,Empleador ficticio 17,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000487-8,matias.rojas@example.com,+56 9 0000 0487,Empleador ficticio 15,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000488-6,jose.torres@example.com,+56 9 0000 0488,Empleador ficticio 18,Biobío,Concepción,Concepción,True,,,,
+100000489-4,,+56 9 0000 0489,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000490-8,francisca.pizarro@example.com,+56 9 0000 0490,,La Araucanía,Cautín,Temuco,True,,,,
+100000491-6,juan.vergara@example.com,+56 9 0000 0491,,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000492-4,carmen.rivera@example.com,+56 9 0000 0492,Empleador ficticio 8,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000493-2,juan.valenzuela@example.com,+56 9 0000 0493,Empleador ficticio 2,Valparaíso,Valparaíso,Valparaíso,True,,,,
+100000494-0,margarita.vergara@example.com,,Empleador ficticio 14,Los Lagos,Llanquihue,Puerto Montt,True,,,,
+100000495-9,ana.hernandez@example.com,+56 9 0000 0495,,Tarapacá,Iquique,Iquique,True,,,,
+100000496-7,cecilia.alvarez@example.com,+56 9 0000 0496,Empleador ficticio 12,Tarapacá,Iquique,Iquique,True,,,,
+100000497-5,fernanda.nunez@example.com,+56 9 0000 0497,,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000498-3,jorge.silva@example.com,+56 9 0000 0498,,Tarapacá,Iquique,Iquique,True,,,,
+100000499-1,mario.silva@example.com,+56 9 0000 0499,Empleador ficticio 2,Metropolitana de Santiago,Santiago,Santiago,True,,,,
+100000500-9,victor.gomez@example.com,+56 9 0000 0500,Empleador ficticio 12,Valparaíso,Valparaíso,Valparaíso,True,,,,

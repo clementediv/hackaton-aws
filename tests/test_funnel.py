@@ -200,7 +200,7 @@ def test_contact_csv_is_reproducible_non_contactable_and_not_overwritten(tmp_pat
     assert contacts == generate_contacts(dict(reversed(list(profiles.items()))))
     assert all(contact.synthetic for contact in contacts.values())
     assert all(not c.email or c.email.endswith("@example.com") for c in contacts.values())
-    assert all(not c.phone or c.phone.startswith("SIM-TEL-") for c in contacts.values())
+    assert all(not c.phone or c.phone.startswith("+56 9 0000 ") for c in contacts.values())
     assert all(
         not c.employer
         for run, c in contacts.items()

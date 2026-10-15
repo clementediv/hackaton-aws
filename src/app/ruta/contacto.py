@@ -3,6 +3,7 @@
 import csv
 import hashlib
 import random
+import unicodedata
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -51,6 +52,29 @@ class Contact:
     location_source: str = ""
 
 
+FICTITIOUS_PHONE_PREFIX = "+56 9 0000 "
+
+
+def _ascii_token(text: str) -> str:
+    plain = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
+    return "".join(ch for ch in plain.split()[0].lower() if ch.isalnum()) if plain.split() else ""
+
+
+def demo_email(profile: dict, run: str) -> str:
+    """Readable fictitious address on the reserved example.com domain."""
+    civil = profile.get("registro_civil") or {}
+    name = _ascii_token(civil.get("nombres", ""))
+    surname = _ascii_token(civil.get("apellido_paterno", ""))
+    local = ".".join(part for part in (name, surname) if part) or f"persona.{run}"
+    return f"{local}@example.com"
+
+
+def demo_phone(run: str) -> str:
+    """Readable fictitious mobile; the 0000 block marks it as non-contactable demo data."""
+    digits = "".join(ch for ch in run.split("-")[0] if ch.isdigit())
+    return f"{FICTITIOUS_PHONE_PREFIX}{digits[-4:].rjust(4, '0')}"
+
+
 def generate_contacts(
     profiles: dict[str, dict], seed: int = 20261008, *, territory="national"
 ) -> dict[str, Contact]:
@@ -73,8 +97,8 @@ def generate_contacts(
             location_details = simulated_location(run, location[2], seed)
         contacts[run] = Contact(
             run=run,
-            email=f"persona.{run}@example.com" if rng.random() >= 0.15 else "",
-            phone=f"SIM-TEL-{run}" if rng.random() >= 0.1 else "",
+            email=demo_email(profile, run) if rng.random() >= 0.15 else "",
+            phone=demo_phone(run) if rng.random() >= 0.1 else "",
             employer=f"Empleador ficticio {rng.randrange(1, 20)}" if works else "",
             region=location[0],
             province=location[1],

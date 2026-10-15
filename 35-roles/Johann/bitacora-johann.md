@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Integración del acceso · 8af4ca9
+- Merge con `296d0da`: conserva el acceso de demostración y las mejoras remotas del chat, ficha/contacto y detección proactiva. Conflictos de README/bitácora resueltos conservando ambos aportes. 173 pruebas, verificador de 500 perfiles y recorrido Chrome OK.
+
 ### 2026-10-15 · Acceso personalizado de demostración
 - Descubrir mis beneficios y Mi Gobierno muestran un acceso RUN/clave ficticia. Se verifica el dígito y que el RUN exista en el dataset; la sesión queda vinculada a ese perfil y puede cerrarse. No se registra la clave ni se envía a servicios externos.
 - Modo demostración confirmado por el usuario. No hay autenticación real de ClaveÚnica ni consulta de registros reales; entrar no otorga consentimiento para los antecedentes. [[mi-gobierno]].
