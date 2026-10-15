@@ -10,6 +10,8 @@ import streamlit as st
 
 BASE_URL = "https://www.chileatiende.gob.cl"
 LOGO = Path(__file__).resolve().parent / "assets/logo-chileatiende.svg"
+# Shown under the logo, as in the emails sent by the proactive detection.
+INSTITUTION = "Instituto de Previsión Social"
 
 
 def _portal_styles() -> str:
@@ -66,9 +68,10 @@ def render_header() -> str:
     with st.container(key="portal_header"):
         brand, search, utilities = st.columns([1.2, 2.8, 1.2], vertical_alignment="center")
         brand.markdown(
-            f'<a href="{BASE_URL}" target="_blank" rel="noopener noreferrer">'
-            f'<img class="portal-logo" alt="ChileAtiende" '
-            f'src="data:image/svg+xml;base64,{logo}"></a>',
+            f'<div class="portal-brand"><a href="{BASE_URL}" target="_blank" '
+            f'rel="noopener noreferrer"><img class="portal-logo" alt="ChileAtiende" '
+            f'src="data:image/svg+xml;base64,{logo}"></a>'
+            f'<span class="portal-institution">{INSTITUTION}</span></div>',
             unsafe_allow_html=True,
         )
         with search:

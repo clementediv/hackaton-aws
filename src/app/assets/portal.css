@@ -179,3 +179,7 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .st-key-public_chat{max-width:820px;margin:32px auto 0}
 .st-key-public_chat h1{color:#0d4d82;font-size:32px}
 .st-key-public_chat [data-testid="stChatMessage"]{border-radius:16px;margin:10px 0}
+/* Institution under the ChileAtiende logo (same style as the emails) */
+.portal-brand {display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.portal-institution {font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;color:#0d4d82;letter-spacing:.2px;line-height:1.2;white-space:nowrap}
+@media(max-width:700px){.portal-institution{font-size:12px;white-space:normal}}
