@@ -8,6 +8,10 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Acotar Mi Gobierno al MVP · commit «Retirar botón de cobro del MVP de Mi Gobierno»
+- Retirado «Cobrar beneficio» de la tarjeta PGU elegible, por solicitud de Clemente. Situación, requisitos, calendario y chat conservados; los estados que requieren preparación/antecedentes mantienen sus acciones.
+- Prueba de sesión/consentimiento/documentos/revocación actualizada para verificar ausencia del botón y ausencia de pasos completados automáticamente. 24 pruebas de UI/integración y verificador de 500 perfiles OK; localhost 8505 actualizado. [[mi-gobierno]].
+
 ### 2026-10-15 · Acceso ficticio de ejecutivos · commit «Agregar acceso ficticio para ejecutivos y asistentes sociales»
 - Implementación `dc0e849`. Cierre: 225 pruebas OK, una omitida por dependencia opcional de trazas y ocho evals Bedrock excluidas; lint de archivos cambiados y verificador de 500 perfiles OK. Localhost 8505 actualizado.
 - Login con correo y clave para ejecutiva/asistente social ficticios; credenciales visibles en la pantalla para la demo. Misma línea visual del acceso ciudadano. Sesión propia, sin alterar consentimiento ni historial de Mi Gobierno.

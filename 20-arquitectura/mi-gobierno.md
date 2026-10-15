@@ -1,5 +1,7 @@
 # Mi Gobierno
 
+Alcance MVP ajustado por Clemente: se retira el botón «Cobrar beneficio» de la tarjeta PGU cuando el resultado orientativo es elegible. La tarjeta conserva situación, monto estimado, calendario, requisitos y chat; no ofrece una acción de cobro. Las acciones de preparación y antecedentes de otros estados permanecen disponibles. Verificación del flujo de sesión, consentimiento, documentos y revocación en `tests/test_government.py`.
+
 El bloque introductorio del acceso se sube otros 18 px (padding superior de 12 px). El campo se etiqueta «ClaveÚnica» y su placeholder es «Ingresa tu clave»; el desplegable «Probar con otro perfil ficticio» permanece debajo. El mecanismo de acceso sigue usando las credenciales sintéticas existentes.
 
 El formulario de acceso retira el subtítulo de demostración, el recuadro «Prueba el portal» con RUN/clave y su nota inferior. Los campos centran verticalmente texto y placeholder en 48 px. El campo de clave conserva su nombre de demostración y el selector de perfiles de prueba sigue en el desplegable separado.
