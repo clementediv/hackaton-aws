@@ -56,7 +56,8 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .portal-private {background:#fff;color:#0f69b4!important}
 .st-key-home_government{padding:48px 40px;border-radius:18px!important;background:linear-gradient(120deg,#edf5fa,#f8fafb);border:1px solid #deebf3!important;margin-top:16px}
 .home-government h1{font-family:"Roboto Slab",Georgia,serif;font-size:44px;line-height:1.25;letter-spacing:-.7px;color:#163e59;margin:0 0 24px}
-.home-government p{font-size:19px;line-height:1.75;color:#536e81;max-width:640px;margin-bottom:28px}
+.home-government{text-align:center}.home-government p{font-size:19px;line-height:1.75;color:#536e81;max-width:720px;margin:0 auto 28px}
+.st-key-home_government_invitation [data-testid="stButton"]{display:flex;justify-content:center}
 .home-directory{padding-top:10px}.home-directory h3{font-family:"Roboto Slab",Georgia,serif;font-size:26px;color:#244e6c;margin:20px 0}.home-directory p{font-size:17px;line-height:1.75;color:#6c8292}
 .st-key-home_government [data-testid="stLinkButton"] a{min-height:52px;border-radius:10px}.st-key-home_government [data-testid="stLinkButton"] a p{font-size:16px}
 .st-key-home_government [data-testid="stBaseButton-primary"]{background:linear-gradient(110deg,#0f69b4,#124d7c);color:#fff;border:0;border-radius:14px;padding:18px 30px;min-height:68px;min-width:min(360px,100%);max-width:100%;box-shadow:0 7px 18px #0f69b42b;transition:background .15s,box-shadow .15s}

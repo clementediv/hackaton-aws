@@ -35,6 +35,7 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Invitación principal centrada en una columna y sin botón lateral de trámites. Tres pruebas del portal OK. [[portada-chileatiende]].
 - Retirados los tres textos del directorio lateral de la invitación principal. Enlace al catálogo conservado. [[portada-chileatiende]].
 - Recuadro principal simplificado y ampliado: sin etiquetas accesorias, tipografía mayor y botón azul destacado. Tres pruebas del portal OK. [[portada-chileatiende]].
 - Línea de tiempo simplificada: solo etapas, fechas y estados, sin párrafos inferiores ni pie explicativo. [[mi-gobierno]].

@@ -1,5 +1,7 @@
 # Portada basada en ChileAtiende
 
+La invitación principal ocupa una sola columna centrada: título, descripción y botón «Descubrir mis beneficios». Se elimina el botón lateral «Ver trámites y beneficios» y la columna que lo contenía.
+
 Se retiran también los tres textos del directorio lateral: «TRÁMITES Y SERVICIOS», «¿Buscas algo en particular?» y su descripción. El enlace al catálogo se conserva.
 
 La invitación principal conserva el mismo recuadro y retira «CONOCE MI GOBIERNO» y «Tus datos · Tus documentos · Tu ruta de beneficios». Título de 44 px y descripción de 19 px, con botón principal de 68 px de alto, texto de 20 px y degradado azul dentro de la paleta. El directorio lateral también amplía tipografía y controles. En móvil se ajusta el título a 32 px y el botón ocupa el ancho disponible. El aviso sobre elegibilidad/resolución y el enlace de fechas ya no se renderizan en las líneas de tiempo.

@@ -4,6 +4,9 @@ integrante: Johann
 ---
 # Bitácora de Johann
 
+### 2026-10-15 · Centrar invitación principal
+- Se retiran la columna y el botón lateral de trámites. Título, descripción y botón principal quedan centrados. Tres pruebas del portal OK. [[portada-chileatiende]].
+
 ### 2026-10-15 · Retirar textos laterales de portada
 - Se eliminan el rótulo Trámites y servicios, la pregunta y su descripción del cuadro principal. Tres pruebas del portal OK. [[portada-chileatiende]].
 

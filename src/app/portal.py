@@ -161,8 +161,7 @@ def render_discovery() -> None:
     content = (assets / "official-home.html").read_text(encoding="utf-8")
     content = content.split("</section>", 1)[1]
     with st.container(border=True, key="home_government"):
-        invitation, directory = st.columns([2.4, 1], gap="large")
-        with invitation:
+        with st.container(key="home_government_invitation"):
             st.markdown(
                 '<div class="home-government">'
                 "<h1>Hay beneficios que podrían<br>hacer tu día a día más fácil.</h1>"
@@ -178,12 +177,6 @@ def render_discovery() -> None:
                 on_click=open_section,
                 args=("Mi Gobierno",),
                 key="home_government_access",
-            )
-        with directory:
-            st.link_button(
-                "Ver trámites y beneficios →",
-                BASE_URL + "/temas",
-                use_container_width=True,
             )
     st.html(f'<style>{styles}</style><div class="official-home">{content}</div>')
 
