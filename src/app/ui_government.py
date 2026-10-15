@@ -97,7 +97,7 @@ def _login(diags) -> None:
             st.markdown("### Ingresa a Mi Gobierno")
             with st.form("gov_login_form"):
                 st.text_input(
-                    "RUN", placeholder="Ej.: " + sample_run, key="gov_login_rut", max_chars=16
+                    "RUN", placeholder="Ej: " + sample_run, key="gov_login_rut", max_chars=16
                 )
                 st.text_input(
                     "ClaveÚnica",
@@ -168,6 +168,8 @@ def _benefits_page(d, authorized: bool) -> None:
     with st.container(key="gov_benefits_layout"):
         benefits, chat = st.columns([2.15, 1], gap="large")
         with benefits:
+            st.markdown("### Te acompañamos paso a paso")
+            st.caption("Revisa tu situación, prepara tus antecedentes y continúa con el próximo paso. El asistente te acompaña durante todo el recorrido.")
             if authorized:
                 _benefits(d)
             else:
@@ -527,11 +529,10 @@ def _benefit_timeline(benefit: str, diagnosis=None) -> None:
             f'<span class="gov-timeline-state">{escape(step["status"])}</span>'
             "</div></li>"
         )
-    st.markdown(
-        '<section class="gov-timeline" aria-label="Etapas de tu beneficio">'
+    st.html(
+        '<div class="gov-timeline" role="region" aria-label="Etapas de tu beneficio">'
         '<p class="gov-timeline-heading">Tu beneficio, paso a paso</p>'
-        '<ol class="gov-timeline-track">' + "".join(items) + "</ol></section>",
-        unsafe_allow_html=True,
+        '<ol class="gov-timeline-track">' + "".join(items) + "</ol></div>",
     )
 
 
@@ -770,6 +771,16 @@ def _document_slot(run: str, kind: str, document: dict | None, namespace: str) -
 
 
 def _journey(d, case, benefit) -> None:
+    with st.container(key="gov_journey_layout"):
+        steps, chat = st.columns([2.15, 1], gap="large")
+        with steps:
+            _journey_steps(d, case, benefit)
+            ui_persona._historial(case)
+        with chat:
+            _chatbot_page(d, authorized=True)
+
+
+def _journey_steps(d, case, benefit) -> None:
     st.button("← Volver a Mi Gobierno", on_click=_set_route, args=(d.run, None))
     _, _, allowed = government.pgu_action(d)
     if benefit != "PGU" or not allowed:
@@ -787,6 +798,11 @@ def _journey(d, case, benefit) -> None:
         completed / len(route) if route else 0,
         text=f"{completed} de {len(route)} pasos completados",
     )
+    if next_step:
+        st.success(f"Tu próximo paso: **{next_step.titulo}**")
+        st.write("Avancemos de a uno. Abre el paso destacado, revisa lo que necesitas y pregunta al asistente si tienes dudas. Tu avance queda guardado para continuar donde quedaste.")
+    elif route and completed == len(route):
+        st.success("Completaste tu ruta de acompañamiento. Puedes revisar tus pasos y volver al asistente cuando lo necesites.")
     for index, step in enumerate(route, 1):
         state = states[step.id]
         labels = {

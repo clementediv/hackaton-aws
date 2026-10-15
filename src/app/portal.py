@@ -37,7 +37,7 @@ SERVICES = (
 )
 
 
-CITIZEN_SECTIONS = ["Inicio", "Mi Gobierno", "Ayuda para tus trámites"]
+CITIZEN_SECTIONS = ["Inicio", "Mi Gobierno"]
 # Back-office tools are reached from the demonstration sidebar.
 EXECUTIVE_SECTIONS = [
     "Mapa de calor y campañas",
@@ -57,8 +57,8 @@ def render_header() -> str:
         st.session_state["portal_section"] = "Vista ejecutivo"
     if st.session_state.get("portal_section") == "Vista ejecutivo":
         _open_executive()
-    if st.session_state.get("portal_section") in ("Trámites", "Mi ruta"):
-        st.session_state["portal_section"] = "Inicio"
+    if st.session_state.get("portal_section") in ("Trámites", "Mi ruta", "Ayuda para tus trámites"):
+        st.session_state["portal_section"] = "Mi Gobierno"
     logo = base64.b64encode(LOGO.read_bytes()).decode("ascii")
     with st.container(key="portal_header"):
         brand, search, utilities = st.columns([1.2, 2.8, 1.2], vertical_alignment="center")
@@ -99,24 +99,6 @@ def hero(section: str) -> None:
         st.markdown(
             f'<div class="portal-breadcrumb"><a href="{BASE_URL}">Inicio</a>'
             f" &nbsp;›&nbsp; {escape(section)}</div>",
-            unsafe_allow_html=True,
-        )
-    title = (
-        "Encuentra beneficios y servicios del Estado de manera cercana y fácil"
-        if section == "Inicio"
-        else "Encuentra tu trámite"
-        if section == "Trámites"
-        else "Ayuda para todos tus trámites"
-    )
-    subtitle = (
-        "Encuentra información oficial y recibe orientación para dar tu próximo paso."
-        if section == "Inicio"
-        else "No tienes que hacerlo a solas. Te ayudamos a entender qué necesitas, "
-        "ordenar tus pasos y continuar tu trámite, por el canal que prefieras."
-    )
-    if section == "Ayuda para tus trámites":
-        st.markdown(
-            f'<section class="portal-hero"><h1>{title}</h1><p>{subtitle}</p></section>',
             unsafe_allow_html=True,
         )
     if text := st.session_state.get("portal_query"):
@@ -172,7 +154,7 @@ def render_discovery() -> None:
 
 def _queue_home_question(question: str) -> None:
     st.session_state["portal_pending_question"] = question
-    st.session_state["portal_next_section"] = "Ayuda para tus trámites"
+    st.session_state["portal_next_section"] = "Mi Gobierno"
     st.rerun(scope="app")
 
 
@@ -270,41 +252,7 @@ def render_directory() -> None:
             st.link_button("Ver requisitos y dónde realizarlo ↗", BASE_URL + path)
     st.link_button("Ver todos los servicios del Estado ↗", BASE_URL + "/temas")
     st.button(
-        "Necesito ayuda para elegir", on_click=open_section, args=("Ayuda para tus trámites",)
-    )
-
-
-def render_help_intro() -> None:
-    st.markdown(
-        '<h2 class="portal-section">Un próximo paso claro, en un solo lugar</h2>',
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        '<p class="portal-help-note">Cuéntanos qué necesitas, prepara tus antecedentes y '
-        "retoma donde quedaste. El asistente de ayuda te acompaña durante el recorrido.</p>",
-        unsafe_allow_html=True,
-    )
-    for col, title, description in zip(
-        st.columns(3),
-        ["1. Entiende tu situación", "2. Prepara tu trámite", "3. Continúa acompañado"],
-        [
-            "Revisamos contigo qué sabes y qué falta, con tu autorización.",
-            "Encuentra documentos, pasos y fechas en tu ruta personalizada.",
-            "Pregunta al asistente o continúa con un ejecutivo sin empezar de nuevo.",
-        ],
-        strict=True,
-    ):
-        col.markdown(
-            f'<article class="portal-card"><h3>{title}</h3><p>{description}</p></article>',
-            unsafe_allow_html=True,
-        )
-    st.caption(
-        "Prototipo del hackatón · La ruta personalizada de este MVP cubre jubilación y PGU. "
-        "Los demás trámites se consultan en el portal oficial. Datos de demostración sintéticos."
-    )
-    st.markdown(
-        '<h2 class="portal-section">Tu acompañamiento: jubilación y PGU</h2>',
-        unsafe_allow_html=True,
+        "Necesito ayuda para elegir", on_click=open_section, args=("Mi Gobierno",)
     )
 
 
