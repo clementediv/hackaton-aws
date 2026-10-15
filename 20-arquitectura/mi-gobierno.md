@@ -1,5 +1,9 @@
 # Mi Gobierno
 
+Cada beneficio incorpora una línea de tiempo antes de desplegar requisitos: Postulación, En revisión y Resultado, con fechas, estados escritos y marcadores numerados. Horizontal en escritorio y vertical hasta 700 px. Verde indica antecedentes listos; amarillo, faltantes; gris, etapas futuras. No se infieren envíos ni resoluciones por completar pasos locales o subir archivos. Si el registro sintético indica PGU vigente, el resultado lo refleja sin inventar una fecha de resolución.
+
+Las fechas de educación corresponden al primer periodo FUAS 2027: postulación del 1 al 22 de octubre de 2026, nivel socioeconómico el 17 de diciembre, preselección el 15 de enero de 2027 y asignación el 10 de marzo. [Calendario oficial Mineduc consultado el 15-10-2026](https://postulacion.beneficiosestudiantiles.cl/fuas/index.php). Fuera de la ventana se indica que cerró y se remite a nuevas fechas; no se reutiliza como calendario de otro año. PGU muestra disponibilidad anual o apertura personal calculada, y fechas de revisión/resolución por confirmar. [Fuente oficial PGU](https://www.ventanillaunicasocial.gob.cl/ficha/95/pension-garantizada-universal). No hay integración de seguimiento oficial de solicitudes; los hitos futuros se muestran pendientes.
+
 El chat lateral comienza alineado con la tarjeta PGU (52 px después del encabezado del listado). En escritorio acompaña el desplazamiento con posición sticky y se mantiene centrado verticalmente mientras queda contenido de Beneficios. La tarjeta tiene esquinas de 24 px. En pantallas de hasta 1050 px se desactiva el seguimiento y se conserva la distribución apilada. Verificado en Chrome: alineación inicial, centro al desplazar, borde y móvil sin desbordamiento.
 
 ## Acceso de demostración

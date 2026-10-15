@@ -441,6 +441,7 @@ def _benefits(d) -> None:
                 on_click=_set_route,
                 args=(d.run, "PGU"),
             )
+        _benefit_timeline("pgu", d)
         with st.expander("Ver requisitos y detalles"):
             ready = d.pgu.resultado == rules.ELEGIBLE
             _requirement_card(
@@ -493,6 +494,7 @@ def _pending_benefit(run: str, option: dict) -> None:
                 "Ver datos faltantes", key=f"gov_check_{option['id']}", use_container_width=True
             ):
                 st.session_state[state_key] = not st.session_state.get(state_key, False)
+        _benefit_timeline(option["id"])
         with st.expander(
             "Ver requisitos y adjuntar documentos", expanded=bool(st.session_state.get(state_key))
         ):
@@ -514,6 +516,35 @@ def _pending_benefit(run: str, option: dict) -> None:
                 "Los datos deben verificarse con Mineduc antes de confirmar si corresponden."
             )
             st.link_button("Revisar en Mineduc ↗", option["source"])
+
+
+def _benefit_timeline(benefit: str, diagnosis=None) -> None:
+    timeline = government.benefit_timeline(benefit, diagnosis)
+    items = []
+    for index, step in enumerate(timeline["steps"], 1):
+        tone = step["tone"]
+        marker = "✓" if tone == "ready" else str(index)
+        current = ' aria-current="step"' if index == 1 and benefit != "pgu" else ""
+        if index == 1 and diagnosis and diagnosis.pgu.resultado != rules.YA_RECIBE:
+            current = ' aria-current="step"'
+        items.append(
+            f'<li class="gov-timeline-step {tone}"{current}>'
+            f'<span class="gov-timeline-marker" aria-hidden="true">{marker}</span>'
+            '<div class="gov-timeline-content">'
+            f"<h4>{index}. {escape(step['title'])}</h4>"
+            f'<p class="gov-timeline-date">{escape(step["date"])}</p>'
+            f'<span class="gov-timeline-state">{escape(step["status"])}</span>'
+            f'<p class="gov-timeline-detail">{escape(step["detail"])}</p></div></li>'
+        )
+    st.markdown(
+        '<section class="gov-timeline" aria-label="Etapas de tu beneficio">'
+        '<p class="gov-timeline-heading">Tu beneficio, paso a paso</p>'
+        '<ol class="gov-timeline-track">' + "".join(items) + "</ol>"
+        f'<p class="gov-timeline-note">{escape(timeline["note"])} '
+        f'<a href="{escape(timeline["source"])}" target="_blank" rel="noopener noreferrer">'
+        "Ver fechas oficiales ↗</a></p></section>",
+        unsafe_allow_html=True,
+    )
 
 
 def _requirement_card(

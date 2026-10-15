@@ -35,6 +35,7 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Línea de tiempo por beneficio con postulación, revisión y resultado antes de los requisitos. Estados accesibles, calendario oficial FUAS y fechas PGU sin inventar resolución. Nueve pruebas de flujo/modelo OK. [[mi-gobierno]].
 - Navegación del portal y subpestañas centradas al retirar el espacio reservado al radio oculto. [[portada-chileatiende]].
 - Chat alineado con PGU al inicio y seguimiento centrado al desplazar en escritorio; bordes de 24 px y móvil apilado. Recorrido Chrome verificado. [[mi-gobierno]].
 - Diseño del chat restaurado a la versión previa a separarlo en pestaña (`46f0c76`): tarjeta blanca, borde discreto e historial de 240 px; continúa a la derecha de Beneficios. [[mi-gobierno]].
