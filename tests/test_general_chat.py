@@ -127,3 +127,32 @@ def test_general_followup_is_not_limited_to_fixed_keywords(monkeypatch):
     )
     assert engine == "bedrock"
     assert text == "Explicación pertinente"
+
+
+@pytest.mark.parametrize("question", [
+    "Hola", "¿Quién eres?", "¿Qué puedes hacer?", "¿Cómo me puedes ayudar?",
+    "¿Eres una IA?", "¿Me puedes ayudar con trámites?",
+])
+def test_public_assistant_explains_identity_and_actual_capabilities(monkeypatch, question):
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "")
+    reply, engine = asistente.responder_publico(question, [])
+    assert engine == "plantillas"
+    assert "asistente de inteligencia artificial de ChileAtiende" in reply
+    assert "paso a paso" in reply
+    assert "documentos o antecedentes te faltan" in reply
+    assert "Mi Gobierno" in reply
+    assert "autoriza" in reply
+    assert "evaluación personalizada disponible es la de PGU" in reply
+    assert "aprobación final corresponde al organismo" in reply
+
+
+def test_bedrock_receives_assistant_identity_and_benefit_limits():
+    class Client:
+        def converse(self, messages, **options):
+            instructions = options["system"][1]["text"]
+            assert "asistente de inteligencia artificial de ChileAtiende" in instructions
+            assert "solo la evaluación personalizada de PGU" in instructions
+            assert "Mi Gobierno y autorizar antecedentes" in instructions
+            return {"output": {"message": {"content": [{"text": "Soy el asistente de IA."}]}}}
+
+    assert "asistente de IA" in chatbot.answer_general("¿Quién eres?", client=Client())

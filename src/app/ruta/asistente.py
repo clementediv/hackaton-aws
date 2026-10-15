@@ -41,9 +41,28 @@ def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
             source,
         ),
     }
+    introduction = (
+        "Soy el asistente de inteligencia artificial de ChileAtiende. "
+        "Puedo guiarte paso a paso para hacer trámites, explicarte los requisitos "
+        "de los beneficios y ayudarte a identificar qué documentos o antecedentes te faltan. "
+        "Para revisar si podrías optar a un beneficio según tu situación, ingresa a Mi Gobierno "
+        "y autoriza la consulta de tus antecedentes. Por ahora, la evaluación personalizada "
+        "disponible es la de PGU: muestra si cumples los requisitos evaluados o qué falta "
+        "para continuar; la aprobación final corresponde al organismo responsable. "
+        "¿Qué trámite o beneficio quieres revisar?"
+    )
     question = _norm(pregunta)
-    if question.strip(" ¡!¿?.") in {"hola", "buenas", "buenos dias"}:
-        fallback = "Hola. ¿En qué te ayudo? Puedes preguntarme por PGU, documentos, becas o cómo comenzar tu ruta."
+    identity_question = any(phrase in question for phrase in (
+        "quien eres", "que eres", "que haces", "que puedes hacer", "que puede hacer",
+        "para que sirves", "para que sirve", "como me puedes ayudar", "como puedes ayudar",
+        "en que me puedes ayudar", "eres una ia", "eres un asistente", "eres una inteligencia",
+        "eres inteligencia artificial", "presentate", "tu funcion", "tus funciones",
+        "ayudas con tramites", "ayudar con tramites",
+    ))
+    if identity_question:
+        fallback = introduction
+    elif question.strip(" ¡!¿?.") in {"hola", "buenas", "buenos dias"}:
+        fallback = "Hola. " + introduction
     elif "gracias" in question:
         fallback = "¡De nada! Puedes seguir preguntándome aquí cuando lo necesites."
     else:
@@ -55,7 +74,7 @@ def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
             topics[topic]
             if topic
             else (
-                "Puedo orientarte sobre PGU, documentos y beneficios estudiantiles. Cuéntame qué trámite necesitas. Para revisar beneficios personalizados, continúa en Mi Gobierno.",
+                introduction,
                 source,
             )
         )
