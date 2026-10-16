@@ -430,7 +430,7 @@ def _benefits(d) -> None:
     tone = "ready" if d.pgu.resultado == rules.ELEGIBLE else "pending"
     if d.pgu.resultado in (rules.NO_ELEGIBLE, rules.FUTURO):
         tone = "unavailable"
-    with st.container(border=True, key="gov_pgu"):
+    with st.container(border=False, key="gov_pgu"):
         info, control = st.columns([4, 1.3], vertical_alignment="center")
         with info:
             st.markdown(

@@ -230,3 +230,8 @@
 
 .st-key-personal_chat_placeholder_animation{display:none}
 .st-key-personal_chat_composer textarea::placeholder{color:#60798e;opacity:1}
+
+/* PGU keeps one frame around its timeline, without a surrounding card. */
+.st-key-gov_benefits_layout .st-key-gov_pgu{border:0!important;border-radius:0!important;background:transparent;padding:0;box-shadow:none}
+.st-key-gov_benefits_layout .st-key-gov_pgu .gov-timeline{background:#f7f9fb;border:1px solid #e0e7ee;border-radius:12px;padding:14px;margin:14px 0 16px}
+@media(max-width:700px){.st-key-gov_benefits_layout .st-key-gov_pgu{padding:0}.st-key-gov_benefits_layout .st-key-gov_pgu .gov-timeline{padding:12px}}
