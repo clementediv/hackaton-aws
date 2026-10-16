@@ -50,6 +50,7 @@ EXECUTIVE_SECTIONS = [
     "Detectar e invitar",
     "Ficha del beneficiario",
     "Contactos AWS",
+    "Punto CESFAM",
     "Atención del caso",
     "Medición",
 ]

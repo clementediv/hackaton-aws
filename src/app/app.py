@@ -8,6 +8,7 @@ import pandas as pd
 import portal
 import streamlit as st
 import ui_aws
+import ui_cesfam
 import ui_ejecutivos
 import ui_ficha
 import ui_government
@@ -108,20 +109,34 @@ def vista_ejecutivo(diags):
     demo = casos_demo(diags)
     vivos = sorted((d for d in diags.values() if d.vivo), key=lambda d: (not d.invitar, -d.hitos.edad))
     opciones = {f"{d.run} · {d.nombre} · {d.hitos.edad} años · {d.segmento}": d.run for d in vivos}
+    etiqueta = {r: o for o, r in opciones.items()}
+
+    # Derivaciones (CESFAM): «Atender» abre el caso derivado en esta misma vista.
+    ejecutivo = st.session_state.get("staff_authenticated_user", "ejecutivo")
+    if atendido := ui_cesfam.render_inbox(ejecutivo, st.session_state.get("atencion_canal", config.CANALES[0])):
+        if atendido in etiqueta:
+            st.session_state["atencion_atajo"] = "(elegir persona)"
+            st.session_state["atencion_persona"] = etiqueta[atendido]
+        else:
+            st.session_state["atencion_aviso"] = f"{atendido} no está en el dataset de la app: revise su detalle en Contactos AWS."
+        st.rerun()
+    if aviso := st.session_state.pop("atencion_aviso", None):
+        st.warning(aviso)
 
     col1, col2 = st.columns([2, 1])
-    atajo = col1.selectbox("Casos de demo", ["(elegir persona)"] + list(demo))
-    canal = col2.selectbox("Canal desde el que atiende", config.CANALES,
+    atajo = col1.selectbox("Casos de demo", ["(elegir persona)"] + list(demo), key="atencion_atajo")
+    canal = col2.selectbox("Canal desde el que atiende", config.CANALES, key="atencion_canal",
                            help="Cambia el canal para mostrar que el caso conserva su contexto.")
     if atajo != "(elegir persona)":
         run = demo[atajo]
     else:
-        run = opciones[st.selectbox("Persona", list(opciones))]
+        run = opciones[st.selectbox("Persona", list(opciones), key="atencion_persona")]
     d = diags[run]
     caso = casos.obtener_caso(run)
 
     st.subheader(f"{d.nombre} · {d.hitos.edad} años")
     st.caption(f"RUN {run} · Segmento: {d.segmento}")
+    ui_cesfam.render_case_referral(run)
 
     # --- Paso 2: invitación ---------------------------------------------
     with st.container(border=True):
@@ -280,6 +295,7 @@ def vista_oficina(diags):
         "Detectar e invitar": vista_panel,
         "Ficha del beneficiario": ui_ficha.render,
         "Contactos AWS": ui_aws.render,
+        "Punto CESFAM": ui_cesfam.render,
         "Atención del caso": vista_ejecutivo,
         "Medición": vista_kpis,
     }
