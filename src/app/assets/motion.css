@@ -95,6 +95,67 @@
     }
   }
 }
+/* Homepage: stagger the introduction, then reveal discovery surfaces on scroll.
+   The carousel keeps its own timeline; never animate its panel wrappers here. */
+@keyframes home-enter {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes home-accent {
+  from { opacity: 0; transform: scaleX(.65); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .home-assistant-intro::before {
+    animation: home-accent 650ms cubic-bezier(.22,1,.36,1) backwards;
+  }
+  .home-assistant-intro h1,
+  .home-assistant-intro > p,
+  .st-key-home_chat_preview {
+    animation: home-enter 620ms cubic-bezier(.22,1,.36,1) backwards;
+  }
+  .home-assistant-intro h1 { animation-delay: 60ms; }
+  .home-assistant-intro > p { animation-delay: 140ms; }
+  .st-key-home_chat_preview { animation-delay: 220ms; }
+  .official-home section > .container > .pb-5,
+  .official-home section > .container > .columns > .column {
+    animation: home-enter 580ms cubic-bezier(.22,1,.36,1) backwards;
+  }
+  .official-home section > .container > .columns > .column:nth-child(2) {
+    animation-delay: 70ms;
+  }
+  .official-home section > .container > .columns > .column:nth-child(3) {
+    animation-delay: 140ms;
+  }
+  .official-home section > .container > .columns > .column:nth-child(4) {
+    animation-delay: 210ms;
+  }
+  .official-home .card-link { animation: none; }
+  .official-home :is(.card-link, .move-icon-hover, a.button) {
+    transition: transform 220ms cubic-bezier(.22,1,.36,1),
+                box-shadow 220ms ease, color 180ms ease;
+  }
+  .official-home .move-icon-hover i {
+    transition: transform 220ms cubic-bezier(.22,1,.36,1);
+  }
+  .official-home a:focus-visible {
+    outline: 2px solid #0f69b4;
+    outline-offset: 4px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .official-home :is(.card-link, a.button):hover { transform: translateY(-3px); }
+    .official-home .move-icon-hover:hover i { transform: translateX(4px); }
+    .official-home :is(.card-link, a.button):active { transform: translateY(0); }
+  }
+  @supports (animation-timeline: view()) {
+    .official-home section > .container > .pb-5,
+    .official-home section > .container > .columns > .column {
+      animation: home-enter 1s cubic-bezier(.22,1,.36,1) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 22%;
+    }
+  }
+}
 /* Covers local styles too, including the rotating homepage examples. */
 @media (prefers-reduced-motion: reduce) {
   .stApp *, .stApp *::before, .stApp *::after {
