@@ -3,9 +3,11 @@ tipo: arquitectura
 estado: aceptada
 reto: "[[ChileAtiende-a-tiempo]]"
 fecha: 2026-10-14
-revision: 2026-10-15 (estado real del código y detección proactiva en AWS)
+revision: 2026-10-16 (navegación vigente y verificación local del proyecto)
 ---
 # Arquitectura — ChileAtiende a tiempo
+
+Verificación local del proyecto y comandos vigentes: [[verificacion-proyecto-2026-10-16]].
 
 **Material de presentación actualizado el 16-10:** [[presentacion-servicios-aws]] incluye arquitectura SVG/PNG/HTML, recorrido de la página vigente (Inicio, Mi Gobierno, Asistente de IA y Vista ejecutivo) y aportes de los cinco integrantes, tras revisar todas las ramas remotas. Los cambios de interfaz hasta `912b025` y la conciliación documental de Bruno (`d06e521`) no agregan servicios AWS ni completan la migración del frontend a la API.
 
@@ -115,7 +117,7 @@ flowchart TB
 
   subgraph APP["App de demostración · Streamlit (src/app) · local"]
     direction LR
-    CIU["Ciudadano<br/>Inicio · Mi Gobierno ·<br/>Ayuda para tus trámites"]
+    CIU["Ciudadano<br/>Inicio · Mi Gobierno ·<br/>Asistente de IA"]
     EJE["Ejecutivo<br/>Mapa y campañas · Detectar e invitar ·<br/>Ficha · Contactos AWS · Atención · Medición"]
     CIU & EJE --> MOT["Motor ruta/<br/>reglas · rutas · casos ·<br/>colador · campañas"]
     MOT --> SQL[("SQLite<br/>casos.db · funnel-*.db")]
@@ -133,7 +135,7 @@ flowchart TB
 ## Componentes
 | # | Componente | Dónde | Estado |
 |---|---|---|---|
-| 1 | **Portal ciudadano** | `src/app/app.py`, `portal.py`, `ui_persona.py`, `ui_government.py` | Hecho (Streamlit local): Inicio, Mi Gobierno, Ayuda para tus trámites |
+| 1 | **Portal ciudadano** | `src/app/app.py`, `portal.py`, `ui_persona.py`, `ui_government.py` | Hecho (Streamlit local): Inicio, Mi Gobierno, Asistente de IA |
 | 2 | **Herramientas del ejecutivo** | `ui_campanas.py`, `ui_embudo.py`, `ui_ficha.py`, `ui_aws.py`, `app.py` | Hecho: mapa de calor y campañas, detectar e invitar, ficha, **contactos AWS**, atención del caso, medición |
 | 3 | **Motor de reglas PGU y rutas (app)** | `src/app/ruta/reglas.py`, `rutas.py` | Hecho; verificado con `verificar.py` sobre los 500 perfiles |
 | 4 | **Colador de contacto (app)** | `src/app/ruta/colador.py` | Hecho en simulación con reloj; contacto confirmado detiene los canales |

@@ -19,26 +19,20 @@ python -m venv .venv
 ```
 Lee `perfiles.json` desde `data/raw/dataset_A_participantes/` en la raíz del repo. Se puede cambiar con la variable `DATA_DIR`.
 
-La app no tiene login: es para demo local. `--server.address localhost` evita exponerla en la red.
+Mi Gobierno y Vista ejecutivo tienen accesos ficticios para demo local; no implementan identidad de producción. El consentimiento de antecedentes se solicita por separado. `--server.address localhost` limita el acceso a este equipo.
 
 IA generativa (opcional): define `BEDROCK_MODEL_ID` (por ejemplo `us.anthropic.claude-sonnet-5`) junto con `AWS_PROFILE=hackaton` y `AWS_REGION=us-east-1`. Sin ella, el asistente responde con plantillas a partir del mismo contexto.
 
 El chatbot consulta una base local de fuentes oficiales de Ventanilla Única Social, ChileAtiende y organismos relacionados. Recupera secciones pertinentes con URLs y fechas, conserva el tema para preguntas de seguimiento y mantiene la evaluación personal en código. Cobertura, actualización y verificaciones en [[contexto-chatbot-oficial]] (`knowledge/contexto-chatbot-oficial.md`).
 
 ## Vistas
-- **Chat público (`/chat`)**: el banner de Inicio abre una conversación dedicada y conserva la primera pregunta. Permite seguir preguntando y comenzar una nueva conversación. Da orientación general sin consultar perfiles personales; usa Bedrock si está configurado y respuestas predefinidas con fuentes como alternativa. El historial dura la sesión. Verificación en navegador: enviar desde el banner, continuar con una segunda pregunta, abrir `/chat` directamente y volver a Inicio.
-- **Contactos AWS** (Vista ejecutivo): lee en solo lectura lo que la detección proactiva desplegada en AWS detectó, envió y registró (`ca-contactos`, `ca-historial`), con métricas, filtros e historial por persona; la ficha del beneficiario muestra lo mismo para su RUN. Usa el perfil `hackaton` de `.env`; si las credenciales vencen, la vista lo avisa. Ver [[deteccion-proactiva-aws]].
-- El acompañamiento ciudadano se concentra en **Mi Gobierno**: autorización, beneficios, ruta PGU con próximo paso destacado, avance guardado, historial y asistente junto a los pasos. La antigua sección de ayuda ya no aparece en la navegación; sus accesos llevan a Mi Gobierno. Ver [[mi-gobierno]].
-- Acceso Mi Gobierno: usa el RUN sintético mostrado en la pantalla y la clave ficticia `demo2026`. No ingreses tu ClaveÚnica real. El acceso abre el perfil correspondiente y la autorización de antecedentes se concede por separado.
-- **Vista ejecutivo**: entrada única para Mapa de calor y campañas, Detectar e invitar, Ficha del beneficiario, Atención del caso y Medición. El selector interno abre una herramienta a la vez. Ver [[ficha-beneficiario]].
-- **Mi Gobierno**: espacio personal separado de Inicio, con consentimiento, identidad, situación económica, adjuntos locales y evaluación PGU. «Cobrar beneficio» abre la guía; el organismo resuelve y paga. Becas y otros apoyos aún no se evalúan. Ver [[mi-gobierno]].
-- Portada: réplica visual basada en el HTML y los estilos públicos de ChileAtiende del 15-10-2026, con fuentes e imágenes locales. Abre en Inicio y conserva Ayuda para tus trámites / Mi ruta. Los destacados no se actualizan automáticamente. Ver [[portada-chileatiende]].
-- Embudo de contacto: `uv run --group app streamlit run src/app/demo_embudo.py --server.port 8502 --server.address localhost`. Backend sin web: `uv run python scripts/colador_backend.py --db src/app/funnel-demo.db init --simulate` y `advance --days 7 --simulate`. Guía completa en [[backend-embudo-contacto]]. No se hacen envíos reales.
-- Portal inspirado en `https://www.chileatiende.gob.cl/`: Inicio, Ayuda para tus trámites (entrada del MVP) y Mi ruta. Buscador y enlaces al portal oficial. Chatbot integrado con el agente compartido cuando se configura Bedrock; sin configuración responde por plantillas. Ver [[portal-ayuda-tramites]].
-- **Ruta de la persona**: guía ciudadana paso a paso (invitación → autorización → tu situación → tu ruta) con asistente.
-- **Vista ejecutivo**: el mismo caso con requisitos, fuentes e historial, para sucursal o call center.
-- **Detectar e invitar**: segmentos sobre los 500 perfiles y campaña de invitación simulada.
-- **Medición**: KPIs del PPT sobre los casos de la demo.
+
+- **Inicio:** portada inspirada en ChileAtiende con estilos, fuentes e imágenes locales, banner de beneficios/asistente y navegación. Los destacados no se actualizan automáticamente. Animaciones con alternativa de movimiento reducido. Ver [[portada-chileatiende]].
+- **Asistente de IA (`/chat`):** conversación desde la pestaña o el banner, historial y reinicio. Orientación general con fuentes, Bedrock opcional y respaldo local. La consulta personal PGU requiere sesión y consentimiento; el historial personal se separa del público. Texto progresivo, espera animada y dictado revisable/lectura opcional mediante el navegador. Ver [[portal-ayuda-tramites]].
+- **Mi Gobierno:** acceso con el RUN sintético mostrado y clave ficticia `demo2026`. Beneficios y Datos personales reúnen consentimiento, identidad, documentos, evaluación PGU, etapas, progreso declarado y asistente. No se presenta ni se cobra un beneficio desde la demo; el organismo resuelve. Becas y otros apoyos todavía no tienen evaluación personal integrada. Los accesos antiguos de ayuda llevan aquí. Ver [[mi-gobierno]].
+- **Vista ejecutivo:** acceso de demo separado, con credenciales visibles en el formulario. Reúne seguimiento, mapa de campañas, detección/invitaciones, ficha, atención, trazabilidad y medición. Un contacto o inicio no equivale al KPI de próximo paso válido en plazo, que sigue pendiente de instrumentación. Ver [[portal-ejecutivos]], [[ficha-beneficiario]] y [[trazabilidad-casos]].
+- **Contactos AWS:** herramienta del ejecutivo para leer `ca-contactos` y `ca-historial`; también alimenta la ficha. Consulta en solo lectura con las credenciales configuradas y muestra un aviso si faltan o vencen. No sincroniza todavía los cambios de SQLite con DynamoDB. Ver [[deteccion-proactiva-aws]].
+- **Laboratorio de embudo:** `uv run --group app streamlit run src/app/demo_embudo.py --server.port 8502 --server.address localhost`. CLI: `uv run python scripts/colador_backend.py --db src/app/funnel-demo.db init --simulate` y `advance --days 7 --simulate`. Este laboratorio no hace envíos reales; el flujo SES pertenece al stack AWS separado. Ver [[backend-embudo-contacto]].
 
 ## Estructura
 | Archivo | Rol (paso del PPT) |

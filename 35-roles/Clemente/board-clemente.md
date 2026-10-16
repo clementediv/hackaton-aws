@@ -59,7 +59,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - [ ] Contratos: canales de contacto, `ContactAttempt`, `AlertLevel`, `DocumentItem`, `RequestStatus`
 - [ ] Prompt: sin una evaluación disponible, no explicar requisitos de memoria
 - [ ] `normalize_run`: aceptar RUN sin guion
-- [ ] Lint de `src/app` (190 observaciones pendientes)
+- [ ] Lint global: 208 observaciones comprobadas el 16-10 (198 líneas largas, siete imports, dos lambdas y un import sin uso) · [[verificacion-proyecto-2026-10-16]]
 
 ### Demo
 - [ ] Guion de la demo: embudo del colador → heatmap → persona que llega con alerta → acompañamiento → ejecutivo
@@ -68,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Proyecto sincronizado: todas las ramas remotas incluidas, `main` local actualizada 136 commits hasta `912b025`, entorno congelado comprobado y README de raíz/app vigentes. 305 pruebas, 500 perfiles, 15 checks de conocimiento y localhost HTTP 200 OK; deuda de lint registrada · [[verificacion-proyecto-2026-10-16]].
 - [x] Revisadas e integradas todas las ramas remotas del equipo; historial de investigación de Bruno conciliado sin duplicar documento (`d06e521`). Presentación consolidada con tercera lámina de aportes, SVG/PNG/HTML y copia temporal actualizados. Sin cambios funcionales respecto de la última suite de 305 pruebas · [[presentacion-servicios-aws]].
 - [x] Presentación AWS actualizada al 16-10: arquitectura y recorrido vigente en SVG/PNG/HTML, explicación y guion; copia temporal del SVG abierto renovada. Cambios de página hasta `912b025` integrados (`ee1829e`), 305 pruebas y verificador de 500 perfiles OK · [[presentacion-servicios-aws]].
 - [x] Últimos pushes integrados hasta `5fc01c9`; verificación local: 282 pruebas, 15 de conocimiento, 500 perfiles y ambos chats en Chrome 390/1440 px OK. Tras alineación: 47 pruebas relacionadas OK. AWS real pendiente por ausencia de perfil en esta terminal; lint global heredado documentado. `f4dc140`, `2ffeca8`, integración `8c3686b` · [[verificacion-integracion-2026-10-15]].

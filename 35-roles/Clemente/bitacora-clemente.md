@@ -4,6 +4,11 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+### 2026-10-16 · Actualización completa del proyecto
+- Comprobadas todas las ramas remotas: ningún commit publicado nuevo. `main` local puesta al día por fast-forward (136 commits, `1b39d3d` → `912b025`), manteniendo activa `jp/ajustes-frontend`.
+- Sincronización `uv --frozen` de app/infra/api: 88 paquetes comprobados. Suite completa: 305 pasan, ocho evals excluidas y ninguna omisión; 500 perfiles y 15 checks de conocimiento OK. Localhost:8501 responde HTTP 200; copias de presentación idénticas.
+- README de raíz/app actualizado a los accesos y vistas actuales, sin botón de cobro ni instrucciones históricas de componentes pendientes. Ruff global registra 208 observaciones heredadas; no se modifica código ni dependencias. [[verificacion-proyecto-2026-10-16]].
+
 ### 2026-10-16 · Consolidación de aportes de todos · `d06e521`
 - `origin/main` no tenía nuevos cambios; inspeccionadas todas las ramas remotas. Único commit no incluido: `d9eb707` de Bruno, investigación idéntica a la ya incorporada salvo CRLF/LF. Merge add/add resuelto conservando el documento existente; todas las puntas remotas son antecesoras del checkout.
 - Presentación con aportes trazables de Johann, Clemente, Jonmor, Bruno y Jp; tercera lámina editable y exportaciones PNG/HTML. Renovada la copia temporal del archivo abierto. No se presentan propuestas de investigación como funciones existentes.
