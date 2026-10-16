@@ -115,3 +115,5 @@ Referencias consultadas el 15-10-2026:
 - 15-10: Tarjetas de beneficios con separacion de 36 px y borde suave de 1 px gris azulado; sombra reducida. Chromium verifica las cuatro tarjetas en escritorio y movil (1440/390 px). [[mi-gobierno]].
 
 - 15-10: Bordes de beneficios en azul suave #bfd6ec, manteniendo grosor de 1 px y separacion actual. Revision del diff OK. [[mi-gobierno]].
+
+- 15-10: Azul de bordes de beneficios mas visible (#82add3), conservando 1 px y separacion actual. Diff verificado. [[mi-gobierno]].
