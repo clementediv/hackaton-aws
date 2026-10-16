@@ -377,6 +377,9 @@ def test_stream_and_http_handlers(env, monkeypatch):
     assert "Su próximo paso" in page["body"]
     bad = handlers.on_http({"queryStringParameters": query | {"t": "x", "a": "acepto"}}, None)
     assert bad["statusCode"] == 400
+    for params in (None, {}, {"c": "", "b": "", "t": ""}):
+        empty = handlers.on_http({"queryStringParameters": params}, None)
+        assert empty["statusCode"] == 400 and "Enlace no válido" in empty["body"]
 
 
 def test_dataset_detection_respects_current_benefits(env):

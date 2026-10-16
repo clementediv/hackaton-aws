@@ -433,6 +433,9 @@ class Service:
     # -- answers ----------------------------------------------------------------
     def interact(self, run: str, benefit_id: str, token: str, action: str, via: str) -> dict:
         """Link in the email/SMS: abrir (pixel), ver (entered), acepto, rechazo."""
+        if not (run and benefit_id and token):
+            # DynamoDB rejects empty keys with a ValidationException (a 502 at the URL).
+            raise PermissionError("Enlace inválido o vencido.")
         contact = self.contact(run, benefit_id)
         if contact is None or not hmac.compare_digest(str(token), contact["token"]):
             raise PermissionError("Enlace inválido o vencido.")
