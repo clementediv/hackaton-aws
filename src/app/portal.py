@@ -331,7 +331,6 @@ def _render_home_benefits() -> None:
     with st.container(key="home_government_invitation"):
         st.markdown(
             '<div class="home-government home-benefits-intro">'
-            '<span class="home-benefit-category">EJEMPLO ILUSTRATIVO</span>'
             "<h1>Cumples todos los requisitos para la PGU</h1>"
             "<p>Tu beneficio, listo para cobrar.</p>"
             '<ul class="home-pgu-checklist" aria-label="Ejemplo ilustrativo de revisión PGU">'
@@ -344,7 +343,6 @@ def _render_home_benefits() -> None:
             '<li style="--check-index:3"><span class="home-pgu-check" aria-hidden="true">✓</span>'
             '<span>Pensión base</span></li>'
             '</ul>'
-            '<p class="home-benefit-note">Consulta tu revisión personal en Mi Gobierno. El IPS confirma el beneficio y su pago.</p>'
             "</div>",
             unsafe_allow_html=True,
         )
