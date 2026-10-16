@@ -202,6 +202,7 @@ def save_profile(run: str, data: dict) -> None:
             "profession",
             "occupation",
             "economic_activity",
+            "email",
         )
         if key in data
     }

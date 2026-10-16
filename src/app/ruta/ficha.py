@@ -7,10 +7,10 @@ Mi Gobierno, the funnel and the record therefore never show different channels.
 
 import json
 import sqlite3
-from dataclasses import asdict, dataclass, field, fields
+from dataclasses import asdict, dataclass, field, fields, replace
 from pathlib import Path
 
-from . import casos, config, government
+from . import casos, config, correo, government
 from . import reglas as rules
 from .colador import ACTIVE, STAGES
 from .contacto import Contact, generate_contacts
@@ -19,6 +19,7 @@ from .rutas import estado_pasos, generar_ruta, proximo_paso
 DEMO_TERRITORY = "metropolitana"
 SOURCE_FUNNEL = "Usado por el colador de contacto"
 SOURCE_LAYER = "Capa de contacto sintética"
+SOURCE_PERSON = "Correo declarado por la persona en Mi Gobierno"
 _CONTACT_FIELDS = {f.name for f in fields(Contact)}
 
 
@@ -65,12 +66,21 @@ def _funnel_rows(run: str, db_path: Path) -> tuple[sqlite3.Row | None, list[dict
 
 
 def contact_for(run: str, profile: dict, db_path: Path | None = None) -> tuple[Contact, str]:
-    """The single contact source: funnel snapshot first, synthetic layer otherwise."""
+    """The single contact source: funnel snapshot first, synthetic layer otherwise.
+
+    An email the person declared in Mi Gobierno replaces the address of either source.
+    """
     person, _ = _funnel_rows(run, Path(db_path or config.DB_PATH))
     if person is not None:
         stored = json.loads(person["contact"])
-        return Contact(**{k: v for k, v in stored.items() if k in _CONTACT_FIELDS}), SOURCE_FUNNEL
-    return generate_contacts({run: profile}, territory=DEMO_TERRITORY)[run], SOURCE_LAYER
+        contact = Contact(**{k: v for k, v in stored.items() if k in _CONTACT_FIELDS})
+        source = SOURCE_FUNNEL
+    else:
+        contact = generate_contacts({run: profile}, territory=DEMO_TERRITORY)[run]
+        source = SOURCE_LAYER
+    if declared := correo.saved_email(run):
+        return replace(contact, email=declared, synthetic=False), SOURCE_PERSON
+    return contact, source
 
 
 def alert_level(funnel: dict | None) -> dict:

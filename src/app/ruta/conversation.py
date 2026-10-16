@@ -20,6 +20,21 @@ ABUSE_PATTERN = re.compile(
     r"|\beres\s+(?:(?:un|una)\s+)?(?:basura|porqueria|desastre)\b"
 )
 
+# A question about what the assistant knows about the person must get a direct,
+# honest answer here, never a benefit excerpt pulled in by a coincidental keyword match.
+PRIVACY_REPLY = (
+    "No tengo guardado tu nombre ni otros datos personales en este chat público; "
+    "solo los reviso si tú autorizas la consulta en Mi Gobierno, y únicamente para "
+    "tu caso ahí. ¿En qué trámite o beneficio te ayudo?"
+)
+PRIVACY_PATTERN = re.compile(
+    r"como sabes (mi nombre|quien soy|mis datos)"
+    r"|de donde sacaste (mi nombre|mis datos)"
+    r"|quien te dio (mi nombre|mis datos)"
+    r"|como (conoces|obtuviste) (mi nombre|mis datos|mi informacion)"
+    r"|tienes (mis datos|mi informacion|acceso a mis datos)"
+)
+
 
 def friendly_sources(text):
     """Keep citations and verification notes, phrased as an invitation to read more."""
@@ -46,6 +61,8 @@ def boundary_reply(question):
     q = "".join(
         c for c in unicodedata.normalize("NFD", question.lower()) if unicodedata.category(c) != "Mn"
     )
+    if PRIVACY_PATTERN.search(q):
+        return PRIVACY_REPLY
     if re.search(
         r"\b(pgu|pension\w*|beneficio\w*|document\w*|requisito\w*|tramite\w*|"
         r"afp|rsh|scomp|jubilacion|beca\w*|gratuidad|autoriza\w*)\b",

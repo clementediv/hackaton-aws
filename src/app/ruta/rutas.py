@@ -3,7 +3,7 @@
 Pasos de tipo "persona" los completa la persona; los de tipo "organismo" solo
 cambian cuando el organismo reporta su estado (en el MVP se simula).
 """
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from datetime import date
 
 from . import config

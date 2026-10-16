@@ -65,14 +65,17 @@ def _plain(value):
     return value
 
 
-def resource():
-    """DynamoDB resource with the event profile (`AWS_PROFILE` in .env or env)."""
+def session() -> boto3.Session:
+    """Session with the event profile (`AWS_PROFILE` in .env or env)."""
     values = {**dotenv_values(ROOT / ".env"), **os.environ}
-    session = boto3.Session(
+    return boto3.Session(
         profile_name=(values.get("AWS_PROFILE") or "").strip() or None,
         region_name=(values.get("AWS_REGION") or "").strip() or "us-east-1",
     )
-    return session.resource("dynamodb")
+
+
+def resource():
+    return session().resource("dynamodb")
 
 
 def check(dynamodb=None) -> tuple[bool, str]:

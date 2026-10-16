@@ -14,14 +14,134 @@ from . import config
 from . import reglas as R
 from .conversation import boundary_reply, clarification, friendly_sources, social_fallback
 from .fechas import fmt
-from .knowledge import grounded_fallback
+from .knowledge import fuzzy_has, grounded_fallback, retrieve, tokens
 from .rutas import Paso
+
+_DOCUMENT_INTENT = re.compile(r"documento|certificado|papel|antecedente")
+_DOCUMENT_INTENT_WORDS = ("documento", "certificado", "papel", "antecedente")
+_DOCUMENT_NEED = re.compile(r"necesit|falta|requier|piden|debo (llevar|presentar|entregar)")
+_DOCUMENT_NEED_WORDS = ("necesito", "necesita", "falta", "requiero", "piden")
+_BENEFIT_ALIASES = {
+    "pgu": ("pgu", "pension garantizada"),
+    "fuas": ("fuas",),
+    "gratuidad": ("gratuidad",),
+    "becas": ("beca",),
+}
+_BENEFIT_LABELS = {
+    "pgu": "la PGU", "fuas": "el FUAS", "gratuidad": "la Gratuidad", "becas": "las becas",
+}
+
+
+_DOCUMENT_QUESTION_WORDS = {
+    "documento", "certificado", "papel", "antecedente",
+    "necesito", "falta", "faltan", "requiero", "piden", "llevar", "presentar", "entregar",
+    "papele",  # tokens() strips a trailing "s" blindly: "papeles" -> "papele"
+}
+
+
+def _detect_benefit(question: str) -> str | None:
+    """Exact alias first; a near-miss like "fuaz" or "gartuidad" still resolves."""
+    q = _norm(question)
+    exact = next(
+        (key for key, aliases in _BENEFIT_ALIASES.items() if any(a in q for a in aliases)), None
+    )
+    if exact:
+        return exact
+    return next(
+        (key for key, aliases in _BENEFIT_ALIASES.items() if fuzzy_has(q, *aliases)), None
+    )
+
+
+def _recent_benefit(history) -> str | None:
+    """The last benefit a person named, so a bare follow-up doesn't lose the topic."""
+    for message in reversed((history or [])[-6:]):
+        if message.get("rol") == "user" and (benefit := _detect_benefit(message["texto"])):
+            return benefit
+    return None
+
+
+def _detect_benefit_document_question(question: str, history=()) -> str | None:
+    """A benefit key, "ambiguous" when no benefit/trámite is named at all, or None."""
+    q = _norm(question)
+    has_intent = bool(_DOCUMENT_INTENT.search(q)) or fuzzy_has(q, *_DOCUMENT_INTENT_WORDS)
+    has_need = bool(_DOCUMENT_NEED.search(q)) or fuzzy_has(q, *_DOCUMENT_NEED_WORDS)
+    if not (has_intent and has_need):
+        return None
+    if benefit := _detect_benefit(question) or _recent_benefit(history):
+        return benefit
+    remaining = [t for t in tokens(question) if t not in _DOCUMENT_QUESTION_WORDS]
+    return "ambiguous" if not remaining else None
+
+
+def _benefit_source(benefit: str) -> str:
+    if benefit == "pgu":
+        return config.FUENTE_PGU
+    passages = retrieve(benefit, limit=1)
+    return passages[0].url if passages else config.FUENTES["chileatiende"]
+
+
+def _benefit_documents_reply(benefit: str) -> str:
+    # The required documents come from the same table Mi Gobierno uses to accept
+    # attachments, never guessed by the model.
+    from .government import BENEFIT_DOCUMENTS
+
+    docs = BENEFIT_DOCUMENTS[benefit]
+    return (
+        f"Para {_BENEFIT_LABELS[benefit]} normalmente se pide: {', '.join(docs)}. "
+        "Revisa los requisitos exactos en la fuente oficial y, si quieres que te diga "
+        "cuál de estos ya tienes y cuál te falta, entra a Mi Gobierno y autoriza la "
+        f"consulta de tus antecedentes.\n\nFuente: {_benefit_source(benefit)}."
+    )
+
+
+_LINK_INTENT = re.compile(r"\b(link|enlace|pagina|sitio web|sitio|url)\b")
+_LINK_INTENT_WORDS = ("link", "enlace", "pagina", "sitio", "url")
+
+
+def _detect_link_benefit(question: str, history=()) -> str | None:
+    q = _norm(question)
+    if not (_LINK_INTENT.search(q) or fuzzy_has(q, *_LINK_INTENT_WORDS)):
+        return None
+    return _detect_benefit(question) or _recent_benefit(history)
+
+
+_ATTACH_INTENT = re.compile(r"\b(adjunto|adjuntar|subo|subir|envio|enviar|mando|mandar)\b")
+_ATTACH_WORDS = ("adjunto", "adjuntar", "subo", "subir", "envio", "mando")
+_HOW_WHERE = re.compile(r"\b(como|donde)\b")
+ATTACH_REPLY = (
+    "Puedes adjuntarlo aquí mismo en el chat: cuando falte un antecedente, aparece el "
+    "botón «Adjuntar documento» debajo de la conversación — ahí arrastras o eliges el "
+    "archivo (PDF, JPG o PNG) y queda guardado en tus antecedentes de Mi Gobierno. "
+    "Necesitas haber autorizado la consulta de antecedentes en Mi Gobierno para que se guarde."
+)
+
+
+def _is_attach_question(question: str) -> bool:
+    q = _norm(question)
+    attach = bool(_ATTACH_INTENT.search(q)) or fuzzy_has(q, *_ATTACH_WORDS)
+    return attach and bool(_HOW_WHERE.search(q))
 
 
 def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
     """General orientation without reading profiles or authorized personal routes."""
     if boundary := boundary_reply(pregunta):
         return (_template_stream(boundary) if stream else boundary), "plantillas"
+    if _is_attach_question(pregunta):
+        fallback = friendly_sources(ATTACH_REPLY)
+        return (_template_stream(fallback) if stream else fallback), "plantillas"
+    if benefit := _detect_benefit_document_question(pregunta, historial):
+        fallback = friendly_sources(
+            "Los documentos dependen del beneficio. ¿Para cuál trámite o beneficio los "
+            "necesitas (por ejemplo PGU, FUAS, Gratuidad o Becas)?"
+            if benefit == "ambiguous"
+            else _benefit_documents_reply(benefit)
+        )
+        return (_template_stream(fallback) if stream else fallback), "plantillas"
+    if benefit := _detect_link_benefit(pregunta, historial):
+        fallback = friendly_sources(
+            f"El sitio oficial para {_BENEFIT_LABELS[benefit]} es: {_benefit_source(benefit)}."
+        )
+        return (_template_stream(fallback) if stream else fallback), "plantillas"
     source = f"[ChileAtiende]({config.FUENTES['chileatiende']})"
     topics = {
         "pgu": (
@@ -350,7 +470,13 @@ def _plantilla(pregunta: str, ctx: dict) -> str:
         return (
             f"Para «{p['paso']}»: {p['donde']}." if p else "Puedes consultar en ChileAtiende (101)."
         )
-    if any(k in q for k in ("cumplo", "puedo", "requisito", "corresponde", "falta")):
+    if any(
+        k in q
+        for k in (
+            "cumplo", "puedo", "podria", "requisito", "corresponde", "falta",
+            "obtener", "solicitar", "tramitar", "ayudame", "ayudarme",
+        )
+    ):
         lineas = [
             f"• {r['requisito']}: {r['estado'].replace('_', ' ')}. {r['detalle']}"
             for r in pgu["requisitos"]

@@ -31,7 +31,7 @@ def test_missing_pgu_information_is_requested_and_progress_uses_saved_steps():
     case = {"autorizacion": True, "completados": set()}
     text = review_pgu(run, case, lambda: profiles)
     assert "Antecedentes que faltan" in text
-    assert "Completa o adjunta" in text
+    assert "Adjúntalo aquí mismo" in text
     assert "0 de" in text
     assert "Próximo paso" in text
     assert "el IPS valida y resuelve" in text

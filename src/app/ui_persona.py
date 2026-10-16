@@ -9,7 +9,6 @@ from html import escape
 from pathlib import Path
 
 import streamlit as st
-
 from ruta import asistente, casos, config
 from ruta import reglas as R
 from ruta.fechas import fmt

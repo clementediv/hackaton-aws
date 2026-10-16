@@ -194,10 +194,10 @@ def _queue_home_question(question: str) -> None:
 def render_chat_page() -> None:
     st.session_state.pop("government_last_observed_view", None)
     from chat_feedback import TYPING_HTML, render_text_stream, scroll_chat
-    from ruta.asistente import WORD_DELAY_SECONDS, responder_publico, _template_stream
     from ruta import casos
+    from ruta.asistente import WORD_DELAY_SECONDS, _template_stream, responder_publico
     from ruta.datos import cargar_perfiles
-    from ruta.pgu_review import is_personal_pgu_question, review_pgu
+    from ruta.pgu_review import is_personal_pgu_question, recent_pgu_context, review_pgu
 
     if st.session_state.get("portal_next_section"):
         st.switch_page(st.session_state["portal_home_page"])
@@ -247,7 +247,7 @@ def render_chat_page() -> None:
                     response.markdown(TYPING_HTML, unsafe_allow_html=True)
                     try:
                         personal = is_personal_pgu_question(
-                            pending, pgu_context=bool(history and history[-1].get("scope") == "personal")
+                            pending, pgu_context=recent_pgu_context(history)
                         )
                         if personal:
                             chunks = _template_stream(review_pgu(run, case, cargar_perfiles))
@@ -284,8 +284,11 @@ def render_chat_page() -> None:
             st.session_state["public_chat_engine"] = engine
         scroll_chat(".st-key-public_chat", f"received:{history!r}")
     if history:
-        if history[-1].get("scope") == "personal":
+        last = history[-1]
+        if last.get("scope") == "personal":
             with st.container(key="public_chat_pgu_action"):
+                if run and case and case.get("autorizacion") and "Antecedentes que faltan" in last["texto"]:
+                    _render_chat_document_upload(run, history)
                 if st.button("Revisar o completar antecedentes en Mi Gobierno", key="chat_pgu_review"):
                     st.session_state["portal_next_section"] = "Mi Gobierno"
                     if run and case and case.get("autorizacion"):
@@ -303,6 +306,52 @@ def render_chat_page() -> None:
     if spoken:
         st.session_state["public_chat_pending"] = spoken
         st.rerun()
+
+
+def _render_chat_document_upload(run: str, history: list) -> None:
+    """Attach a missing PGU antecedente without leaving the chat; reuses Mi Gobierno's storage."""
+    from ruta import government
+
+    with st.popover("Adjuntar documento"):
+        st.caption(
+            "PDF, JPG o PNG · máximo 10 MB. Se guarda junto a tus antecedentes de Mi Gobierno; "
+            "adjuntarlo no confirma el requisito por sí solo. Demo: usa archivos ficticios."
+        )
+        kind = st.selectbox(
+            "Qué antecedente es", government.BENEFIT_DOCUMENTS["pgu"], key="chat_pgu_attach_kind"
+        )
+        with st.form("chat_pgu_attach_form", clear_on_submit=True):
+            upload = st.file_uploader(
+                "Arrastra o selecciona el archivo",
+                type=["pdf", "jpg", "jpeg", "png"],
+                key="chat_pgu_attach_file",
+            )
+            if st.form_submit_button("Enviar al chat"):
+                if upload is None:
+                    st.warning("Selecciona un archivo para continuar.")
+                else:
+                    try:
+                        government.save_document(run, kind, upload.name, upload.getvalue())
+                    except ValueError as error:
+                        st.error(str(error))
+                    else:
+                        history.extend([
+                            {
+                                "rol": "user",
+                                "texto": f"He adjuntado: {upload.name} ({kind})",
+                                "scope": "personal",
+                            },
+                            {
+                                "rol": "assistant",
+                                "texto": (
+                                    f"Recibí **{upload.name}** como {kind}; queda guardado en tus "
+                                    "antecedentes de Mi Gobierno. Adjuntarlo no confirma el "
+                                    "requisito por sí solo, el IPS lo valida. ¿Te falta algo más?"
+                                ),
+                                "scope": "personal",
+                            },
+                        ])
+                        st.rerun()
 
 
 def _render_public_chat_input() -> None:

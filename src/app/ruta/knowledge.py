@@ -24,7 +24,7 @@ STOP = set(
         "ellos en entre era es esa ese eso esta estas este estos estoy fue ha "
         "hace hacia hasta hay la las le les lo los mas me mi mis muy necesito "
         "nos o otra otro para pero por porque puedo que quien se segun ser si "
-        "sin sobre son su sus te tengo tiene tienen todo todos tu tus un una "
+        "sin sobre son soy su sus te tengo tiene tienen todo todos tu tus un una "
         "uno unos usted ustedes y ya yo hacer hago quiero saber favor podria "
         "buenas hola gracias tramite tramites beneficio beneficios"
     ).split()
@@ -53,6 +53,33 @@ def normalize(text: str) -> str:
     return "".join(
         c for c in unicodedata.normalize("NFD", text.lower()) if unicodedata.category(c) != "Mn"
     )
+
+
+def _levenshtein(a: str, b: str) -> int:
+    previous = list(range(len(b) + 1))
+    for i, char_a in enumerate(a, 1):
+        current = [i] + [0] * len(b)
+        for j, char_b in enumerate(b, 1):
+            current[j] = min(
+                previous[j] + 1, current[j - 1] + 1, previous[j - 1] + (char_a != char_b)
+            )
+        previous = current
+    return previous[-1]
+
+
+def fuzzy_has(text: str, *keywords: str) -> bool:
+    """Catch common typos (e.g. "nesesito", "fuaz") without matching unrelated words.
+
+    Tolerance scales with keyword length so short acronyms like "pgu" still require
+    an exact or near-exact hit.
+    """
+    words = re.findall(r"[a-z]+", normalize(text))
+    for keyword in keywords:
+        limit = 1 if len(keyword) <= 5 else 2
+        close_words = (word for word in words if abs(len(word) - len(keyword)) <= limit)
+        if any(_levenshtein(word, keyword) <= limit for word in close_words):
+            return True
+    return False
 
 
 def tokens(text: str, *, expand=False) -> list[str]:
@@ -180,7 +207,8 @@ class KnowledgeIndex:
                 score += idf * frequency * 2.2 / denominator * min(query[term], 1.5)
                 if term in self.titles[index]:
                     score += idf * 2.8
-                if term in self.headings[index]:
+                # A heading that just repeats the title adds no real signal over the title bonus.
+                if term in self.headings[index] and self.headings[index] != self.titles[index]:
                     score += idf * 0.6
             heading = normalize(passage.heading)
             if (
@@ -320,48 +348,99 @@ def context_for(question: str, history=(), *, budget=13_000) -> str:
     return "".join(blocks)
 
 
+STAGE_QUESTION = (
+    "¿Estás revisando si cumples los requisitos, reuniendo antecedentes para "
+    "solicitarlo, o ya lo solicitaste y quieres ver el estado de tu trámite?"
+)
+
+# Mirror the stages a ChileAtiende ficha already breaks itself into (ver
+# documents.jsonl, p.ej. "Conoce los requisitos" / "...solicítala" / "Accede al
+# estado de tu trámite"), para no repetir la pregunta de etapa si la persona ya la contestó.
+STAGE_PATTERNS = (
+    (
+        "estado",
+        re.compile(
+            r"estado de (mi |la )?(solicitud|tramite)|ya (lo |la )?(solicite|pedi|"
+            r"postule|envie|presente|hice)|como va mi (solicitud|tramite)"
+        ),
+    ),
+    ("requisitos", re.compile(r"requisito|cumplo|califico|puedo acceder|tengo derecho")),
+    (
+        "solicitar",
+        re.compile(
+            r"como (lo |la )?(saco|solicito|pido|tramito|obtengo|consigo)|quiero solicitar|"
+            r"no se como (sacarl|solicitarl|pedirl|tramitarl|obtenerl|conseguirl)|"
+            r"aun no (lo |la )?(he )?(pedido|solicitado)"
+        ),
+    ),
+)
+HEADING_PATTERNS = {
+    "estado": re.compile(r"estado"),
+    "requisitos": re.compile(r"requisit"),
+    "solicitar": re.compile(r"solicit"),
+}
+
+
+def _detect_stage(text: str) -> str | None:
+    # "komo": common informal k-for-c spelling in Chilean chat Spanish.
+    normalized = re.sub(r"\bkomo\b", "como", normalize(text))
+    return next((stage for stage, pattern in STAGE_PATTERNS if pattern.search(normalized)), None)
+
+
+def _history_stage(history) -> str | None:
+    for message in reversed(list(history)[-4:]):
+        if message.get("rol") != "user":
+            continue
+        if stage := _detect_stage(message["texto"]):
+            return stage
+    return None
+
+
+def _full_section_text(passage: Passage) -> str:
+    """Chunked text can start mid-sentence; look up the whole section for a clean excerpt."""
+    if not passage.chunk_index:
+        return passage.text
+    index = get_index()
+    for doc in index.documents if index else []:
+        if doc["url"] == passage.url:
+            return next(
+                (
+                    section["text"]
+                    for section in doc["sections"]
+                    if section["heading"] == passage.heading
+                ),
+                passage.text,
+            )
+    return passage.text
+
+
 def grounded_fallback(question: str, history=()) -> str | None:
-    """Show short attributed excerpts when the model is unavailable; no invented plan."""
-    passages = retrieve(question, history, limit=3)
+    """Point to the matching stage of the official guide; ask the stage instead
+
+    of dumping every section when the model is unavailable. No invented plan.
+    """
+    passages = retrieve(question, history, limit=6)
     if not passages:
         overview = catalog_overview(question)
         return overview or None
     first = passages[0]
-    parts = [f"Encontré orientación oficial sobre **{first.title}**."]
-    selected = [p for p in passages if p.url == first.url][:2]
-    for passage in selected:
-        # End at a complete sentence; don't turn an incomplete excerpt into a requirement.
-        text = passage.text
-        if passage.chunk_index:
-            index = get_index()
-            for doc in index.documents if index else []:
-                if doc["url"] == passage.url:
-                    text = next(
-                        (
-                            section["text"]
-                            for section in doc["sections"]
-                            if section["heading"] == passage.heading
-                        ),
-                        text,
-                    )
-                    break
-        sentences = re.split(r"(?<=[.!?])\s+", text)
-        excerpt = ""
-        for sentence in sentences:
-            if len(excerpt) + len(sentence) > 950:
-                break
-            excerpt += (" " if excerpt else "") + sentence
-        if not excerpt:
-            continue
-        parts.append(f"**{passage.heading}:** {excerpt}")
-    parts.append(
-        f"[Revisa los requisitos y pasos completos en {first.source}]({first.url}). "
-        f"Consulta de la fuente: {first.fetched_at[:10]}."
-    )
-    parts.append(
-        "¿Estás reuniendo los documentos o ya presentaste la solicitud? Así "
-        "podemos ubicar el próximo paso sin saltarnos etapas."
-    )
+    stage = _detect_stage(question) or _history_stage(history)
+    matching = None
+    if stage:
+        pattern = HEADING_PATTERNS[stage]
+        matching = next(
+            (p for p in passages if p.url == first.url and pattern.search(normalize(p.heading))),
+            None,
+        )
+    chosen = matching or first
+    sentences = re.split(r"(?<=[.!?])\s+", _full_section_text(chosen))
+    excerpt = sentences[0] if sentences and sentences[0] else chosen.text[:220]
+    parts = [
+        f"Sobre **{chosen.title}** — *{chosen.heading}*: {excerpt}",
+        f"[Revisa el detalle en {chosen.source}]({chosen.url}).",
+    ]
+    if not matching:
+        parts.append(STAGE_QUESTION)
     return "\n\n".join(parts)
 
 

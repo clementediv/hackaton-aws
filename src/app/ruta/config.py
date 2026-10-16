@@ -6,6 +6,7 @@ import os
 from datetime import date
 from pathlib import Path
 
+
 # --- Datos ---------------------------------------------------------------
 def _data_dir() -> Path:
     """DATA_DIR del entorno; si no, data/ del repo (src/app/ruta -> raíz); si no, la copia local de Johann."""
@@ -64,3 +65,7 @@ CANALES = ["Web ChileAtiende", "WhatsApp", "Call center 101", "Sucursal ChileAti
 # Si BEDROCK_MODEL_ID está vacío, el asistente usa respuestas basadas en plantillas.
 BEDROCK_MODEL_ID = os.getenv("BEDROCK_MODEL_ID", "")
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
+
+# Remitente SES del resumen de Mi Gobierno. Vacío o sin verificar: se envía desde la
+# misma casilla verificada del destinatario (válido en el sandbox de SES).
+SES_SENDER = os.getenv("REMITENTE", "")

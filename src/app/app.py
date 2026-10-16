@@ -5,20 +5,18 @@ Ejecutar:  .venv\\Scripts\\streamlit run app.py
 import json
 
 import pandas as pd
-import streamlit as st
-
-import ui_persona
-import ui_ejecutivos
-import ui_government
-import ui_ficha
-import ui_aws
-from ui_embudo import render_campaign_lab
 import portal
+import streamlit as st
+import ui_aws
+import ui_ejecutivos
+import ui_ficha
+import ui_government
 from ruta import asistente, casos, config
 from ruta import reglas as R
 from ruta.datos import cargar_perfiles
 from ruta.fechas import fmt
 from ruta.rutas import estado_pasos, generar_ruta, proximo_paso
+from ui_embudo import render_campaign_lab
 
 st.set_page_config(page_title="ChileAtiende · Mi Gobierno", page_icon="🧭", layout="wide",
                    initial_sidebar_state="collapsed")
