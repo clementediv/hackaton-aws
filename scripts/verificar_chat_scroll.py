@@ -75,6 +75,15 @@ def verify(page, mode):
         field.press("Enter")
         dots = page.locator(".chat-typing")
         dots.wait_for()
+        page.evaluate("""() => {
+          window.chatCursorDetected = false;
+          window.chatCursorObserver?.disconnect();
+          window.chatCursorObserver = new MutationObserver(() => {
+            const messages = [...document.querySelectorAll('[data-testid="stChatMessage"]')];
+            if (messages.some(e => e.textContent.includes('\u2595'))) window.chatCursorDetected = true;
+          });
+          window.chatCursorObserver.observe(document.body, {childList:true,subtree:true,characterData:true});
+        }""")
         assert dots.locator("span").count() == 3
         assert page.locator('[data-testid="stChatMessage"]').nth(0).is_visible()
         assert page.locator('[data-testid="stChatMessage"]').filter(has_text=question).count() == 1
@@ -93,6 +102,7 @@ def verify(page, mode):
             assert dots.evaluate(SCROLL_STATE)["remaining"] < 4
         page.get_by_text(f"Fin de respuesta: {question}", exact=False).wait_for()
         dots.wait_for(state="detached")
+        assert not page.evaluate("window.chatCursorDetected"), "Cursor visible durante la respuesta"
         page.wait_for_timeout(1400)
         last = page.locator('[data-testid="stChatMessage"]').last
         alignment = last.evaluate("""e => {

@@ -345,7 +345,7 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
         st.session_state[permiso_clave] = ctx["autorizado"]
         hist = st.session_state[clave]
 
-        from chat_feedback import TYPING_HTML, scroll_chat
+        from chat_feedback import TYPING_HTML, render_text_stream, scroll_chat
 
         def preguntar(q: str):
             user_target = (
@@ -365,7 +365,7 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
                 except Exception:
                     response.empty()
                     raise
-                response.write_stream(asistente._template_stream(resp))
+                render_text_stream(response, asistente._template_stream(resp))
             hist.extend([{"rol": "user", "texto": q}, {"rol": "assistant", "texto": resp}])
             scroll_chat(".st-key-assistant_messages", f"received:{hist!r}")
             casos.registrar_evento(run, canal, "consulta_asistente", {"pregunta": q, "motor": motor})

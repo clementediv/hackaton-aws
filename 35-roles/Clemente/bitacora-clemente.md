@@ -4,6 +4,8 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+- 15-10: Texto de ambos chats con pausa de 25 ms por palabra y actualización directa del placeholder sin cursor automático. Nueve pruebas enfocadas OK; prueba ajena al cambio discrepa en URL fuente PGU. [[mi-gobierno]]. Commit «Acelerar el texto y quitar el cursor del chat».
+
 - 15-10: Revisión del problema persistente en pantalla completa: el servidor 8501 conservaba el render Markdown anterior. Reiniciado con código vigente; captura y medición confirman centrado de requisitos PGU. Verificador de los 16 detalles exige HTML actualizado y comprueba tres anchos. [[mi-gobierno]]. Commit «Verificar detalles en la aplicación completa».
 
 - 15-10: Alineados los detalles de beneficios con Resultado de la revisión: st.html conserva el padding inferior que Markdown recortaba; ancho contenido y padding de acciones condicionado. Chromium a 390/900/1440 px verifica centros horizontales y verticales sin desviación. [[mi-gobierno]]. Commit «Alinear los recuadros de detalles de beneficios».

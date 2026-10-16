@@ -120,11 +120,14 @@ def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
     return (_template_stream(fallback) if stream else fallback), "plantillas"
 
 
+WORD_DELAY_SECONDS = 0.025
+
+
 def _template_stream(text):
     """Progressive display for the offline template mode."""
     for word in re.findall(r"\S+\s*", text):
         yield word
-        time.sleep(0.08)
+        time.sleep(WORD_DELAY_SECONDS)
 
 
 def _peso(n: int | float | None) -> str:

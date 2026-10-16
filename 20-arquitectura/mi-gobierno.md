@@ -1,5 +1,7 @@
 # Mi Gobierno
 
+Texto progresivo sin cursor: ambos chats usan `chat_feedback.render_text_stream` sobre el placeholder existente. Evita el símbolo automático de `write_stream` sin tocar caracteres del contenido ni las fuentes. Pausa artificial compartida de 25 ms por palabra (antes 80 ms); no modifica la latencia de Bedrock. Prueba de preservación exacta del texto y observador de cursor durante la prueba Chromium. Nueve pruebas enfocadas pasan; otra prueba existente de streaming discrepa en la URL de fuente PGU (ChileAtiende frente a Ventanilla Única).
+
 Verificación posterior del servidor real: el proceso local 8501 seguía usando el módulo anterior con Markdown; se reinició con el código vigente. `python scripts/verificar_detalles_pantalla.py` recorre acceso, consentimiento y detalles de todos los beneficios en la aplicación completa: exige `stHtml`, comprueba centrado del texto y captura pantalla a 390/900/1440 px. Así detecta también procesos que no recargaron el módulo actualizado.
 
 Los detalles y Resultado de la revisión usan `st.html` en el componente común: Markdown reducía 16 px el alto efectivo del recuadro interior sin borde y desplazaba el centro vertical 8 px. Contenedores con border-box y ancho contenido; el padding de acciones se aplica solo si hay popovers. `scripts/verificar_detalles_beneficios.py` mide texto y rectángulo reales en Streamlit a 390/900/1440 px, con centrado horizontal y vertical exacto en resumen y requisitos cumplidos/pendientes.
