@@ -4,6 +4,8 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+- 16-10: Cierre final del MVP repartido en el board: C1–C5 para Codex y M1–M5 para Claude. M1: demo estrella en vivo contra AWS (Jorge cumple 65 → email real → clic → aceptado). M2–M3: Punto CESFAM simulado y derivación al ejecutivo con resumen por código ([[cesfam-derivacion]]). M4: KPI de próximo paso dentro de un plazo de demo de 30 días sobre la cohorte con plazo cumplido ([[kpi-proximo-paso]]). Tests `test_derivaciones.py` (7) y `test_kpi.py` (8). Commits «Punto CESFAM simulado y derivación…» y «Medir el KPI de próximo paso dentro del plazo».
+
 - 15-10: Texto de ambos chats con pausa de 25 ms por palabra y actualización directa del placeholder sin cursor automático. Nueve pruebas enfocadas OK; prueba ajena al cambio discrepa en URL fuente PGU. [[mi-gobierno]]. Commit «Acelerar el texto y quitar el cursor del chat».
 
 - 15-10: Revisión del problema persistente en pantalla completa: el servidor 8501 conservaba el render Markdown anterior. Reiniciado con código vigente; captura y medición confirman centrado de requisitos PGU. Verificador de los 16 detalles exige HTML actualizado y comprueba tres anchos. [[mi-gobierno]]. Commit «Verificar detalles en la aplicación completa».
@@ -202,3 +204,9 @@ Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo
 - 16-10: Home con entrada escalonada de título, descripción y campo de consulta; secciones reveladas al hacer scroll y tarjetas/enlaces con respuesta suave al puntero. Reutiliza motion.css, mantiene el carrusel y desactiva efectos con movimiento reducido. Cinco pruebas del portal, Ruff y Chromium 390/1440 px (movimiento normal/reducido, teclado y ancho) OK. Verificador: `python scripts/verificar_animaciones_home.py`. [[portal-ayuda-tramites]]. Commit: Pulir animaciones del home.
 
 - 16-10: App conectada con la detección proactiva en AWS ([[app-aws-conectada]]): «Simular evento de vida» en Vista ejecutivo → Contactos AWS (cambia `ca-personas`; la Lambda detecta y envía el email), aviso AWS en Mi Gobierno con «Quiero orientación / No me interesa», y aceptar o declinar el acompañamiento en la app detiene el escalamiento en AWS con `Service.record_answer`. `CA_AWS=0` en `tests/conftest.py`. 14 tests de `test_aws_contactos.py` OK. Pendientes 4–7 del cierre del MVP dejados a Codex en [[board-clemente]].
+
+- 16-10 (Codex): C2-C4 implementados en `9541dad`: RUN sin guion, prompt sin requisitos/montos de memoria sin evaluación y revisión documental recibido/validado con migración, ejecutivo/fecha y evento. Reemplazar reinicia revisión; borrar vuelve a pendiente; no cambia elegibilidad. Tests específicos y verificador de 500 perfiles OK. Guion con Plan B y límites en [[guion-demo]]. C1 confirma ambos escenarios en :8502; consulta a Clemente pendiente antes de guardar su cambio local.
+
+- 16-10 (Codex, cierre C5): [[guion-demo]] incorpora CESFAM y KPI. Chromium :8501 verifica PDF ficticio recibido, validación del ejecutivo y mismo estado en Mi Gobierno, mapa, trazabilidad, derivación CESFAM de 100000002-3 y Atender, y Medición sin cohorte madura; cero excepciones visibles. Suite integrada: 340 passed, 1 skipped (trazas opcionales), 8 deselected (evals Bedrock). Verificador de 500 perfiles TODO OK. M1 fue ensayado por Claude; no se afirma un ensayo conectado con una sola persona. C1 conserva la consulta pendiente al usuario.
+
+- 16-10: Clemente autoriza commit y push del laboratorio. C1 cerrado en `cdc0a46`: reutiliza el componente compartido y conserva ambos escenarios. Verificado previamente en :8502 y en la suite integrada (340 pruebas); merge de origin/main sin novedades.

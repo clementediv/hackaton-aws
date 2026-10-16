@@ -17,7 +17,8 @@ SOURCE = "Campaña de seguimiento y registro de actividad de Mi Gobierno."
 LIMITATION = (
     "El avance es declarado por la persona y no acredita una solicitud presentada, "
     "un beneficio otorgado ni una resolución del organismo. El cumplimiento del próximo "
-    "paso válido dentro del plazo (meta ≥75%) aún no está medido."
+    "paso válido dentro del plazo requiere evidencia validada y una cohorte con "
+    "seguimiento suficiente."
 )
 
 

@@ -40,6 +40,8 @@ EVENT_LABELS = {
     "paso_reabierto": "Paso reabierto",
     "consulta_asistente": "Consultó al asistente",
     "tramite_iniciado": "Inició su trámite",
+    "derivacion": "Derivado a ChileAtiende",
+    "derivacion_atendida": "Derivación atendida por un ejecutivo",
 }
 CONFIRMED_CONTACT = {
     "colador_answered",
@@ -178,8 +180,8 @@ def kpi_evidence(people: list[dict], events: list[dict]) -> list[dict]:
             "Indicador": "Próximo paso válido dentro del plazo",
             "Meta": "Al menos 75%",
             "Evidencia que se guarda": (
-                "Fecha del contacto y fecha del paso completado; falta fijar el plazo por "
-                "trámite y que el organismo confirme que el paso es válido"
+                "Fecha del contacto y del paso completado, con plazo de demo de 30 días "
+                "(Medición); falta el plazo por trámite y que el organismo confirme el paso"
             ),
             "Registro": "Parcial",
             "Casos con evidencia (demo)": count(lambda ev: any(e["tipo"] in NEXT_STEP for e in ev)),

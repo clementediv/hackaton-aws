@@ -6,6 +6,13 @@ from src.agent.bedrock import BedrockClient, BedrockSettings
 from src.agent.prompts import SYSTEM_PROMPT, build_tool_config
 
 
+def test_missing_evaluation_does_not_allow_requirements_from_memory():
+    paragraph = SYSTEM_PROMPT.split("Sin una evaluación disponible")[1].split("\n\n")[0]
+    assert "no expliques requisitos ni\nmontos de memoria" in paragraph
+    assert "perfil, autorización o herramienta" in paragraph
+    assert "próximo paso" in paragraph
+
+
 def test_only_registered_handlers_are_exposed():
     config = build_tool_config(["consultar_perfil", "leer_caso", "consultar_perfil"])
     assert [entry["toolSpec"]["name"] for entry in config["tools"]] == [

@@ -4,10 +4,10 @@ import hashlib
 import json
 import sqlite3
 from contextlib import contextmanager
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 
-from . import casos, config
+from . import casos, config, staff_auth
 from . import reglas as rules
 from .rutas import generar_ruta
 
@@ -172,6 +172,14 @@ def _connection():
                 PRIMARY KEY (run, kind)
             );
         """)
+        # Serialize migrations so two Streamlit sessions cannot add the same column.
+        connection.execute("BEGIN IMMEDIATE")
+        columns = {
+            row["name"] for row in connection.execute("PRAGMA table_info(government_documents)")
+        }
+        for column in ("validated_by", "validated_at"):
+            if column not in columns:
+                connection.execute(f"ALTER TABLE government_documents ADD COLUMN {column} TEXT")
         yield connection
 
 
@@ -230,7 +238,8 @@ def save_document(run: str, kind: str, name: str, content: bytes) -> None:
     name = name.replace("\\", "/").rsplit("/", 1)[-1][:160]
     with _connection() as connection:
         connection.execute(
-            "INSERT OR REPLACE INTO government_documents VALUES (?,?,?,?,?,?)",
+            "INSERT OR REPLACE INTO government_documents "
+            "(run,kind,name,size,digest,content) VALUES (?,?,?,?,?,?)",
             (run, kind, name, len(content), hashlib.sha256(content).hexdigest(), content),
         )
 
@@ -241,10 +250,56 @@ def list_documents(run: str) -> list[dict]:
         return [
             dict(row)
             for row in connection.execute(
-                "SELECT kind,name,size,digest FROM government_documents WHERE run=? ORDER BY kind",
+                "SELECT kind,name,size,digest,validated_by,validated_at, "
+                "CASE WHEN validated_at IS NOT NULL THEN 'validado' ELSE 'recibido' END AS status "
+                "FROM government_documents WHERE run=? ORDER BY kind",
                 (run,),
             )
         ]
+
+
+def validate_document(run: str, kind: str, reviewer: str) -> None:
+    """Record a demo officer's review; never update eligibility or application status."""
+    _require_consent(run)
+    if reviewer not in staff_auth.DEMO_ACCOUNTS:
+        raise PermissionError("Se requiere una sesión de ejecutivo para validar documentos.")
+    with _connection() as connection:
+        row = connection.execute(
+            "SELECT digest,validated_at FROM government_documents WHERE run=? AND kind=?",
+            (run, kind),
+        ).fetchone()
+        if row is None:
+            raise ValueError("Adjunta el documento antes de validarlo.")
+        if row["validated_at"]:
+            return
+        timestamp = datetime.now(UTC).isoformat()
+        connection.execute(
+            "UPDATE government_documents SET validated_by=?,validated_at=? WHERE run=? AND kind=?",
+            (reviewer, timestamp, run, kind),
+        )
+        connection.execute(
+            "INSERT INTO eventos(run,fecha,canal,tipo,detalle) VALUES (?,?,?,?,?)",
+            (
+                run,
+                timestamp,
+                "Ejecutivo",
+                "documento_validado",
+                json.dumps(
+                    {"kind": kind, "reviewer": reviewer, "digest": row["digest"]},
+                    ensure_ascii=False,
+                ),
+            ),
+        )
+
+
+def document_status_label(document: dict | None) -> str:
+    if document is None:
+        return "Pendiente"
+    return (
+        "Validado por ChileAtiende"
+        if document["status"] == "validado"
+        else "Recibido · en revisión"
+    )
 
 
 def delete_document(run: str, kind: str) -> None:
