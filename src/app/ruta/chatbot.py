@@ -9,11 +9,13 @@ from src.contracts import Authorization, Case, Channel, Message, MessageRole
 
 from . import config
 from .conversation import CHAT_STYLE, ConversationalClient, friendly_sources
+from .knowledge import context_for
 
 
 def answer(question: str, context: dict, history: list[dict], *, client=None) -> str:
     if not context.get("autorizado"):
         raise PermissionError("El chatbot requiere autorización antes de leer tu ruta.")
+    public_support = context_for(question, history)
     now = datetime.now(UTC)
     case = Case(
         case_id=f"streamlit-{context['run']}",
@@ -42,20 +44,25 @@ def answer(question: str, context: dict, history: list[dict], *, client=None) ->
         lambda trusted, args: {
             "case_id": trusted.case.case_id,
             "context": context,
+            "public_guidance": public_support,
             "source": "Ruta determinista del MVP sobre dataset A sintético",
             "fuente_url": config.FUENTE_PGU,
             "sources_verified": False,
         },
     )
     agent = Agent(
-        client=ConversationalClient(client or BedrockClient.from_env()),
+        client=ConversationalClient(
+            client or BedrockClient.from_env(), public_context=public_support
+        ),
         tools=registry,
         reference_date=config.FECHA_REFERENCIA,
     )
     return friendly_sources(agent.run_turn(case, question).text)
 
 
-def answer_general(question: str, *, client=None, public_history=None, public_guidance="") -> str:
+def answer_general(
+    question: str, *, client=None, public_history=None, public_guidance="", stream=False
+):
     """Public guidance: only current question and public facts go to Bedrock.
 
     No Case, RUN, profile tools, context or previous conversation is supplied.
@@ -65,6 +72,17 @@ def answer_general(question: str, *, client=None, public_history=None, public_gu
     from src.agent.prompts import SYSTEM_PROMPT
 
     public_context = (
+        "Eres el asistente de inteligencia artificial de ChileAtiende. "
+        "Si preguntan quién eres, responde en un máximo de dos frases breves. "
+        "No incluyas consentimiento, evaluación ni límites de PGU en la presentación. "
+        "Cuando pregunten por un trámite concreto, explica que guías "
+        "paso a paso en trámites, explicas requisitos de beneficios y ayudas a identificar "
+        "documentos y antecedentes faltantes. Para revisar si una persona podría optar "
+        "a un beneficio, indica entrar a Mi Gobierno y autorizar antecedentes. "
+        "Actualmente solo la evaluación personalizada de PGU está implementada: "
+        "las reglas de código determinan el resultado preliminar y los antecedentes faltantes; "
+        "la decisión final es del organismo. No prometas evaluar otros beneficios. "
+        "Preséntate al saludar o cuando te lo pidan; no repitas tu presentación en cada turno. "
         "Modo de información general, sin acceso a antecedentes personales ni herramientas. "
         "Responde directamente a la pregunta en español sencillo y breve. "
         "No saludes de nuevo en cada respuesta ni repitas una invitación. "
@@ -78,6 +96,16 @@ def answer_general(question: str, *, client=None, public_history=None, public_gu
         f"Cita la fuente pertinente: PGU {config.FUENTE_PGU}; "
         f"pensiones {config.FUENTES['spensiones']}; RSH {config.FUENTES['rsh']}. "
         "No inventes requisitos, montos, trámites iniciados ni decisiones institucionales."
+    )
+    if retrieved_context := context_for(question, public_history or []):
+        public_context += "\n\n" + retrieved_context
+    fallback_source = next(
+        (
+            line.removeprefix("URL: ")
+            for line in retrieved_context.splitlines()
+            if line.startswith("URL: ")
+        ),
+        config.FUENTES["chileatiende"],
     )
     messages = []
     for message in (public_history or [])[-6:]:
@@ -99,16 +127,41 @@ def answer_general(question: str, *, client=None, public_history=None, public_gu
         messages.append({"role": "user", "content": [{"text": question}]})
     if public_guidance:
         public_context += " Orientación pública adicional con fuentes: " + public_guidance
-    result = (client if client is not None else BedrockClient.from_env()).converse(
-        messages,
-        system=[{"text": SYSTEM_PROMPT}, {"text": public_context}, {"text": CHAT_STYLE}],
-        inferenceConfig={"maxTokens": 600},
-    )
+    active_client = client if client is not None else BedrockClient.from_env()
+    options = {
+        "system": [{"text": SYSTEM_PROMPT}, {"text": public_context}, {"text": CHAT_STYLE}],
+        "inferenceConfig": {"maxTokens": 1000},
+    }
+    if stream:
+        return _stream_general(active_client, messages, options, fallback_source=fallback_source)
+    result = active_client.converse(messages, **options)
     text = "\n".join(
         c["text"] for c in result["output"]["message"]["content"] if "text" in c
     ).strip()
     if not text:
         raise ValueError("Bedrock devolvió una respuesta vacía")
     if "https://" not in text:
-        text += f"\n\nFuente: {config.FUENTE_PGU}"
+        text += f"\n\nFuente: {fallback_source}"
     return friendly_sources(text)
+
+
+def _stream_general(client, messages, options, *, fallback_source=None):
+    response = client.converse_stream(messages, **options)
+    events = response["stream"]
+    parts = []
+    try:
+        for event in events:
+            if any(key.endswith("Exception") for key in event):
+                raise RuntimeError("Se interrumpió la respuesta de Bedrock")
+            text = event.get("contentBlockDelta", {}).get("delta", {}).get("text", "")
+            if text:
+                parts.append(text)
+                yield text
+        if not "".join(parts).strip():
+            raise ValueError("Bedrock devolvió una respuesta vacía")
+        if "https://" not in "".join(parts):
+            yield f"\n\nFuente: {fallback_source or config.FUENTES['chileatiende']}"
+    finally:
+        close = getattr(events, "close", None)
+        if close:
+            close()

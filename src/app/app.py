@@ -294,6 +294,8 @@ def render_portal() -> None:
     section = portal.render_header()
     if section != "Mi Gobierno":
         st.session_state.pop("government_last_observed_view", None)
+    if section == "Asistente de IA":
+        st.switch_page(st.Page(portal.render_chat_page, title="Asistente ChileAtiende", url_path="chat"))
     portal.hero(section)
     with st.sidebar:
         st.title("Controles de demostración")

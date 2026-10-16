@@ -4,6 +4,14 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+- 15-10: Texto de ambos chats con pausa de 25 ms por palabra y actualización directa del placeholder sin cursor automático. Nueve pruebas enfocadas OK; prueba ajena al cambio discrepa en URL fuente PGU. [[mi-gobierno]]. Commit «Acelerar el texto y quitar el cursor del chat».
+
+- 15-10: Revisión del problema persistente en pantalla completa: el servidor 8501 conservaba el render Markdown anterior. Reiniciado con código vigente; captura y medición confirman centrado de requisitos PGU. Verificador de los 16 detalles exige HTML actualizado y comprueba tres anchos. [[mi-gobierno]]. Commit «Verificar detalles en la aplicación completa».
+
+- 15-10: Alineados los detalles de beneficios con Resultado de la revisión: st.html conserva el padding inferior que Markdown recortaba; ancho contenido y padding de acciones condicionado. Chromium a 390/900/1440 px verifica centros horizontales y verticales sin desviación. [[mi-gobierno]]. Commit «Alinear los recuadros de detalles de beneficios».
+
+- 15-10: Entradas de Mi Gobierno refinadas en motion.css: superficies con fade/desplazamiento breve, secuencia de beneficios y etapas, sin transform persistente; movimiento reducido respetado. Chromium con CSS real a 390/1440 px y cuatro pruebas funcionales OK. [[mi-gobierno]]. Commit «Pulir entradas animadas de Mi Gobierno».
+
 Una entrada por avance o commit relevante, la más reciente arriba. Así se puede seguir el historial de cada tarea sin leer todo `git log`.
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
@@ -158,3 +166,37 @@ Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo
 - 15-10: Chat publico con bienvenida centrada, encabezado compacto, mensajes de persona a la derecha y entrada fija redondeada; CSS separado y responsive. Reinicio local elimina importacion obsoleta de responder_publico. Prueba de UI de respuesta y nueva conversacion OK; Chromium verifica envio y anchos 1440/390 sin desborde. Referencia america.gov/chat no accesible desde navegador de consulta. [[portal-ayuda-tramites]].
 
 - 15-10: Pulido del chat publico: textarea contenido dentro del borde y sin padding que recorta lineas; burbuja de persona con altura suficiente para todo el texto. Chromium verifica banner, dos turnos, enlaces de fuentes y nueva conversacion a 390/900/1440 px. Cinco pruebas enfocadas OK. [[portal-ayuda-tramites]].
+
+- 15-10: Banner de beneficios reemplazado por pregunta sobre requisitos PGU, cuatro puntos ilustrativos de revision y checks secuenciales descendentes sincronizados con el ciclo de 16 segundos. CTA a revision personal en Mi Gobierno; no se afirma elegibilidad sin perfil. Chromium 1440/390 px y movimiento reducido OK; cinco pruebas del portal pasan. [[portal-ayuda-tramites]].
+
+- 15-10: Ejemplo del banner PGU en afirmativo: requisitos cumplidos y beneficio listo para cobrar. Etiqueta ilustrativa visible sobre el titulo; revision personal y confirmacion IPS indicadas al pie. Checklist animado conservado. Cinco pruebas del portal OK. [[portal-ayuda-tramites]].
+
+- 15-10: Retirados rotulo ilustrativo y nota inferior del banner PGU a pedido del usuario. Checklist con separacion de 1,1 s, entrada de 0,8 s y checks de 1,12 s. Indices definidos con nth-child en CSS porque el renderizador elimina atributos style del HTML. Chromium verifica retrasos y finalizacion; cinco pruebas del portal OK. [[portal-ayuda-tramites]].
+
+- 15-10: PGU sin marco exterior: contenedor Streamlit sin borde y CSS sin fondo/padding exterior; se conserva un solo recuadro para etapas. Chromium confirma borde exterior 0 px, interior 1 px y sin desborde a 1440/390 px. [[mi-gobierno]].
+
+- 15-10: Recuadro de etapas PGU mas amplio: borde azul de 2 px, padding 24 px en escritorio y 18 px en movil, titulo de 17 px. Marco exterior sigue retirado. Chromium verifica borde, padding y contencion a 1440/390 px. [[mi-gobierno]].
+
+- 15-10: Corregida interpretacion del marco PGU: un borde visible de 2 px envuelve titulo, monto, etapas y desplegable de requisitos; la linea de tiempo queda sin borde ni fondo propio. Chromium confirma contencion completa y sin doble marco a 1440/390 px. [[mi-gobierno]].
+
+- 15-10: FUAS, gratuidad y becas usan el mismo marco unico de PGU: borde exterior de 2 px, padding amplio y etapas sin marco propio; eliminado borde nativo adicional. Chromium verifica cuatro beneficios contenidos y sin doble marco a 1440/390 px. [[mi-gobierno]].
+
+- 15-10: Tarjetas de beneficios con separacion de 36 px y borde suave de 1 px gris azulado; sombra reducida. Chromium verifica las cuatro tarjetas en escritorio y movil (1440/390 px). [[mi-gobierno]].
+
+- 15-10: Bordes de beneficios en azul suave #bfd6ec, manteniendo grosor de 1 px y separacion actual. Revision del diff OK. [[mi-gobierno]].
+
+- 15-10: Azul de bordes de beneficios mas visible (#82add3), conservando 1 px y separacion actual. Diff verificado. [[mi-gobierno]].
+
+- 15-10: Asistente IA alineado con titulo PGU: encabezado general antes de ambas columnas, retirado padding fijo de 52 px y decoracion superior del asistente. Marco azul #82add3 de 1 px igual a beneficios y padding equivalente, sin borde duplicado. Chromium confirma diferencia vertical 0 px al inicio y movil sin desborde; cuatro pruebas Mi Gobierno pasan. [[mi-gobierno]].
+
+- 15-10: Respuesta del asistente personal alineada por arriba con avatar: flex-start, contenido sin padding/margen superior y primer bloque sin margen superior. Chromium sobre respuesta real confirma coordenada superior identica de avatar, contenido y primer parrafo. [[mi-gobierno]].
+
+- 15-10: Respuestas nuevas de ambos chats reutilizan directamente el placeholder de espera con write_stream; componente de scroll fuera del mensaje y sin contenedor adicional. Se elimina el espacio que diferenciaba la respuesta nueva del historial. Nueve pruebas funcionales pasan; verificador Chromium actualizado para Windows y alineaci?n de dos turnos a 390/1440 px. [[mi-gobierno]].
+
+- 15-10: Restaurado el s?mbolo original azul y rojo sobre Asistente de IA, retirando la regla CSS que lo ocultaba. Verificaci?n est?tica de visibilidad, dimensiones y colores OK; navegador no disponible (sin uv ni playwright). [[mi-gobierno]]. Commit ?Restaurar s?mbolo del asistente de Mi Gobierno?.
+
+- 15-10: Saludo inicial de Mi Gobierno mas arriba: margen superior de 20 a 0 px y padding superior de 18 a 0 px. Chromium verifica ambos espacios en 0 a 390/1440 px. [[mi-gobierno]]. Commit: Acercar saludo al titulo del asistente.
+
+- 15-10: Datos personales unificado con el estilo minimalista de Mi Gobierno: Roboto/Roboto Slab, identidad neutra, campos legibles, secciones con separadores y documentos con un solo marco. Consentimiento, adjuntos y formularios conservados. Cinco pruebas funcionales, Ruff y Chromium a 390/900/1440 px OK. Verificación reproducible: `python scripts/verificar_datos_personales.py`. [[mi-gobierno]]. Commit: Unificar el estilo de Datos personales.
+
+- 16-10: Home con entrada escalonada de título, descripción y campo de consulta; secciones reveladas al hacer scroll y tarjetas/enlaces con respuesta suave al puntero. Reutiliza motion.css, mantiene el carrusel y desactiva efectos con movimiento reducido. Cinco pruebas del portal, Ruff y Chromium 390/1440 px (movimiento normal/reducido, teclado y ancho) OK. Verificador: `python scripts/verificar_animaciones_home.py`. [[portal-ayuda-tramites]]. Commit: Pulir animaciones del home.

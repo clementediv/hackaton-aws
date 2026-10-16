@@ -47,6 +47,8 @@ class BedrockSettings:
 class ConverseRuntime(Protocol):
     def converse(self, **kwargs: Any) -> dict[str, Any]: ...
 
+    def converse_stream(self, **kwargs: Any) -> dict[str, Any]: ...
+
 
 @dataclass
 class BedrockClient:
@@ -68,3 +70,11 @@ class BedrockClient:
         if "modelId" in options:
             raise ValueError("Configure el modelo mediante BEDROCK_MODEL_ID.")
         return self.runtime.converse(modelId=self.settings.model_id, messages=messages, **options)
+
+    def converse_stream(self, messages: list[dict[str, Any]], **options: Any) -> dict[str, Any]:
+        """Forward incremental Converse output using the configured model."""
+        if "modelId" in options:
+            raise ValueError("Configure el modelo mediante BEDROCK_MODEL_ID.")
+        return self.runtime.converse_stream(
+            modelId=self.settings.model_id, messages=messages, **options
+        )

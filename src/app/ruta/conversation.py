@@ -7,9 +7,17 @@ BOUNDARY_REPLY = (
     "Estoy aquí para orientarte sobre beneficios y trámites, como la Pensión Garantizada "
     "Universal (PGU), sus requisitos, "
     "documentos y próximos pasos. La revisión de antecedentes personales se realiza "
-    "únicamente con tu autorización en Mi Gobierno. Por favor, cuéntame qué beneficio o trámite deseas "
+    "únicamente con tu autorización en Mi Gobierno. Por favor, cuéntame qué beneficio "
+    "o trámite deseas "
     "consultar para poder ayudarte."
     "\n\nSi quieres saber más, puedes revisar [ChileAtiende](https://www.chileatiende.gob.cl/)."
+)
+
+ABUSE_REPLY = "Si mi respuesta no te sirvió, dime qué estuvo mal y lo revisamos."
+ABUSE_PATTERN = re.compile(
+    r"\b(weon|huevon|weona|mierda|imerda|merda|mrd|puta|idiota|imbecil|inutil)\b"
+    r"|\bno sirves\b"
+    r"|\beres\s+(?:(?:un|una)\s+)?(?:basura|porqueria|desastre)\b"
 )
 
 
@@ -44,7 +52,8 @@ def boundary_reply(question):
         q,
     ):
         return None
-    abuse = re.search(r"\b(weon|huevon|weona|mierda|puta|idiota|imbecil|inutil)\b", q)
+    if ABUSE_PATTERN.search(q):
+        return ABUSE_REPLY
     off_topic = re.search(r"\b(futbol|mundial|messi|horoscopo|receta|chiste)\b", q)
     letters = re.sub(r"[^a-z]", "", q)
     noise = (
@@ -53,7 +62,7 @@ def boundary_reply(question):
         or len(letters) >= 5
         and not re.search(r"[aeiou]", letters)
     )
-    if abuse or "no sirves" in q or off_topic or noise:
+    if off_topic or noise:
         return BOUNDARY_REPLY
     return None
 
@@ -75,7 +84,11 @@ Presenta las referencias de forma natural: «Si quieres saber más, puedes revis
 [título](URL)». Evita encabezados como «Fuente de orientación» o listas de fuentes
 sin explicación. Conserva los enlaces y las advertencias de información no verificada.
 Mantén intactas las reglas de consentimiento, fuentes y decisiones institucionales.
-Para insultos sin consulta, texto ininteligible o solicitudes claramente fuera del
+Para insultos sin consulta, responde brevemente sin introducir beneficios ni requisitos:
+"""
+    + ABUSE_REPLY
+    + """
+Para texto ininteligible o solicitudes claramente fuera del
 propósito del chat, usa exactamente la siguiente respuesta estándar, sin variaciones:
 """
     + BOUNDARY_REPLY
@@ -83,11 +96,14 @@ propósito del chat, usa exactamente la siguiente respuesta estándar, sin varia
 
 
 class ConversationalClient:
-    def __init__(self, client):
+    def __init__(self, client, *, public_context=""):
         self.client = client
+        self.public_context = public_context
 
     def converse(self, messages, **options):
         options["system"] = [*options.get("system", []), {"text": CHAT_STYLE}]
+        if self.public_context:
+            options["system"].append({"text": self.public_context})
         return self.client.converse(messages, **options)
 
 
@@ -112,10 +128,7 @@ def social_fallback(question, history):
         return None
     if any(term in q for term in ("frustr", "estres", "no entiendo", "me da rabia", "harto")):
         return "Podemos ir con calma, de a una cosa. ¿Qué parte te está complicando más?"
-    if (
-        re.search(r"\b(weon|huevon|weona|mierda|puta|idiota|imbecil|inutil)\b", q)
-        or "no sirves" in q
-    ):
+    if ABUSE_PATTERN.search(q):
         replies = sum(m.get("rol") == "assistant" for m in history)
         return (
             "Si algo de mi respuesta no te sirvió, dime qué estuvo mal y lo revisamos.",

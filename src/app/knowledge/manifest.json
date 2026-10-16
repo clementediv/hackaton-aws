@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-10-16T02:12:57.124913+00:00",
+  "documents": 808,
+  "requested": 818,
+  "sources": {
+    "ChileAtiende": 231,
+    "Ventanilla Única Social": 572,
+    "portal.beneficiosestudiantiles.cl": 1,
+    "sence.gob.cl": 1,
+    "www.afc.cl": 1,
+    "www.minvu.gob.cl": 1,
+    "www.registrosocial.gob.cl": 1
+  },
+  "vus_sitemap_urls": 540,
+  "missing_urls": [
+    "https://claveunica.gob.cl",
+    "https://www.chileatiende.gob.cl/ayuda/atencion-telefonica",
+    "https://www.chileatiende.gob.cl/ayuda/sucursales",
+    "https://www.fonasa.cl/sites/fonasa/beneficiarios"
+  ],
+  "errors": [
+    {
+      "url": "https://claveunica.gob.cl",
+      "error": "insufficient_public_text"
+    },
+    {
+      "url": "https://www.chileatiende.gob.cl/ayuda/atencion-telefonica",
+      "error": "insufficient_public_text"
+    },
+    {
+      "url": "https://www.fonasa.cl/sites/fonasa/beneficiarios",
+      "error": "robots_disallowed"
+    },
+    {
+      "url": "https://www.chileatiende.gob.cl/ayuda/sucursales",
+      "error": "insufficient_public_text"
+    }
+  ],
+  "notice": "Public snapshot, not eligibility rules or confirmation of an open application period. Missing and blocked sources are listed explicitly.",
+  "vus_discovered_urls": 771,
+  "passages": 5429,
+  "coverage": {
+    "vus_primary_records": 408,
+    "vus_categories": 12,
+    "vus_help_pages": 147,
+    "vus_missing_urls": []
+  }
+}

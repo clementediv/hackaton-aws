@@ -1,7 +1,7 @@
 import pytest
 
 from src.app.ruta import asistente, config
-from src.app.ruta.conversation import BOUNDARY_REPLY, ConversationalClient
+from src.app.ruta.conversation import ABUSE_REPLY, BOUNDARY_REPLY, ConversationalClient
 
 
 @pytest.mark.parametrize("question", ["eres un idiota", "no sirves", "asdfghjkl", "???"])
@@ -11,7 +11,8 @@ def test_boundary_reply_is_standard_across_turns_without_fake_diagnosis(monkeypa
     first, _ = asistente.responder(question, ctx, [])
     history = [{"rol": "user", "texto": question}, {"rol": "assistant", "texto": first}]
     second, _ = asistente.responder(question, ctx, history)
-    assert first == second == BOUNDARY_REPLY
+    expected = ABUSE_REPLY if question in {"eres un idiota", "no sirves"} else BOUNDARY_REPLY
+    assert first == second == expected
     assert "fecha de nacimiento" not in first + second
     assert "necesito que autorices" not in first + second
 
@@ -81,8 +82,50 @@ def test_boundary_is_identical_in_both_chats_without_invoking_bedrock(
     monkeypatch.setattr(chatbot, "answer_general", forbidden)
     monkeypatch.setattr(asistente, "_bedrock", forbidden)
     context = {"autorizado": authorized}
-    assert asistente.responder(question, context, [])[0] == BOUNDARY_REPLY
-    assert asistente.responder_publico(question, [])[0] == BOUNDARY_REPLY
+    expected = ABUSE_REPLY if question == "eres un idiota" else BOUNDARY_REPLY
+    assert asistente.responder(question, context, [])[0] == expected
+    assert asistente.responder_publico(question, [])[0] == expected
+
+
+@pytest.mark.parametrize(
+    "question",
+    ["eres una imerda", "ERES UNA MIERDA!!!", "eres una merda", "eres una basura", "no sirves"],
+)
+@pytest.mark.parametrize("authorized", [False, True])
+@pytest.mark.parametrize("model", ["", "configured-model"])
+def test_abuse_never_retrieves_previous_benefit_or_invokes_model(
+    monkeypatch, question, authorized, model
+):
+    from src.app.ruta import chatbot
+
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", model)
+    monkeypatch.setattr(asistente, "WORD_DELAY_SECONDS", 0)
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("Un insulto sin consulta no debe buscar beneficios ni invocar el modelo")
+
+    monkeypatch.setattr(asistente, "grounded_fallback", forbidden)
+    monkeypatch.setattr(asistente, "_bedrock", forbidden)
+    monkeypatch.setattr(chatbot, "answer_general", forbidden)
+    history = [
+        {"rol": "user", "texto": "¿Qué es la PGU?"},
+        {"rol": "assistant", "texto": "La Pensión Garantizada Universal es un beneficio."},
+    ]
+    assert asistente.responder(question, {"autorizado": authorized}, history) == (
+        ABUSE_REPLY, "plantillas"
+    )
+    assert asistente.responder_publico(question, history) == (ABUSE_REPLY, "plantillas")
+    chunks, engine = asistente.responder_publico(question, history, stream=True)
+    assert engine == "plantillas"
+    assert "".join(chunks) == ABUSE_REPLY
+
+
+@pytest.mark.parametrize("question", ["Qué imerda es la PGU?", "Qué mierda es la PGU?"])
+def test_abuse_typo_does_not_block_a_real_benefit_question(monkeypatch, question):
+    monkeypatch.setattr(config, "BEDROCK_MODEL_ID", "")
+    reply, _ = asistente.responder_publico(question, [])
+    assert reply not in {ABUSE_REPLY, BOUNDARY_REPLY}
+    assert "Pensión Garantizada Universal" in reply
 
 
 def test_frustration_about_the_real_task_does_not_trigger_boundary(monkeypatch):

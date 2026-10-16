@@ -1,63 +1,166 @@
-/* Shared motion: short entrances and feedback, with no layout resizing. */
+/* Shared motion: short entrances and feedback, with no layout resizing.
+   Keep movement on individual surfaces: Streamlit reruns must not move the page. */
 @keyframes portal-enter {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes portal-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes government-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
 @media (prefers-reduced-motion: no-preference) {
-  :is(.st-key-government_login_card, .st-key-gov_pgu,
-      [class*="st-key-gov_benefit_"], .st-key-gov_chat_page) {
+  :is(.staff-hero, .staff-callout, .staff-plan,
+      .st-key-home_government_invitation, .public-chat-welcome) {
+    animation: portal-enter 360ms cubic-bezier(.2,.7,.3,1) both;
+  }
+  :is(.gov-timeline-step, .gov-requirement-card, .staff-stat, .staff-step,
+      .official-home .card-link) {
     animation: portal-enter 320ms cubic-bezier(.2,.7,.3,1) both;
   }
-  [class*="st-key-gov_benefit_"] { animation-duration: 400ms; }
-  .gov-timeline-step { animation: portal-enter 280ms ease-out both; }
-  .gov-timeline-step:nth-child(2) { animation-delay: 60ms; }
-  .gov-timeline-step:nth-child(3) { animation-delay: 120ms; }
-  [data-testid="stExpander"] details[open] > [data-testid="stExpanderDetails"] {
+  :is(.gov-timeline-step, .staff-stat, .staff-step):nth-child(2) { animation-delay: 50ms; }
+  :is(.gov-timeline-step, .staff-stat, .staff-step):nth-child(3) { animation-delay: 100ms; }
+  :is(.staff-stat, .staff-step):nth-child(4) { animation-delay: 150ms; }
+  .gov-document-state.ready {
+    animation: portal-reveal 240ms ease-out both;
+  }
+  [data-testid="stExpander"] details[open] > [data-testid="stExpanderDetails"],
+  [data-testid="stDialog"] [role="dialog"] {
     animation: portal-enter 200ms ease-out both;
   }
   :is(.st-key-gov_assistant, .st-key-agent_chat) [data-testid="stChatMessage"] {
     animation: portal-enter 220ms ease-out both;
   }
-  :is(.st-key-home_government, .st-key-government_login_card,
-      .st-key-gov_benefits_layout, .st-key-gov_subnav, .st-key-portal_header)
-      :is(button, [data-testid="stLinkButton"] a) {
-    transition: background-color 160ms ease, border-color 160ms ease,
-                box-shadow 160ms ease, transform 160ms ease;
+  /* Animate individual surfaces once on mount, never the sticky column or page.
+     Backwards fill covers the stagger; no retained transform after completion. */
+  :where(.gov-login-intro, .st-key-government_login_card, .st-key-gov_subnav,
+      .st-key-gov_benefits_layout > [data-testid="stElementContainer"]:has(.gov-simple-heading),
+      .st-key-gov_pgu, [class*="st-key-gov_benefit_"], .st-key-gov_assistant,
+      .st-key-gov_consent, .gov-identity,
+      .st-key-gov_personal_page [data-testid="stExpander"]) {
+    animation: government-enter 560ms cubic-bezier(.22,1,.36,1) backwards;
   }
-  .st-key-home_chat_preview {
+  .st-key-government_login_card { animation-delay: 90ms; }
+  .st-key-gov_pgu, .gov-identity { animation-delay: 70ms; }
+  .st-key-gov_assistant { animation-delay: 140ms; }
+  [class*="st-key-gov_benefit_"] { animation-delay: 140ms; }
+  .st-key-gov_benefit_gratuidad { animation-delay: 210ms; }
+  .st-key-gov_benefit_becas { animation-delay: 280ms; }
+  .st-key-gov_personal_page [data-testid="stExpander"] { animation-delay: 100ms; }
+  .st-key-gov_personal_page [data-testid="stExpander"] ~ [data-testid="stExpander"] {
+    animation-delay: 180ms;
+  }
+  :is(.st-key-gov_benefits_layout, .st-key-gov_journey_layout) .gov-timeline-step {
+    animation: government-enter 420ms cubic-bezier(.22,1,.36,1) backwards;
+    animation-delay: 140ms;
+  }
+  :is(.st-key-gov_benefits_layout, .st-key-gov_journey_layout) .gov-timeline-step:nth-child(2) {
+    animation-delay: 210ms;
+  }
+  :is(.st-key-gov_benefits_layout, .st-key-gov_journey_layout) .gov-timeline-step:nth-child(3) {
+    animation-delay: 280ms;
+  }
+  /* Public messages already have entrance motion in public-chat.css. */
+  .stApp :is(button, [data-testid="stLinkButton"] a),
+  :is(.st-key-portal_header, .st-key-gov_subnav, .st-key-staff_navigation)
+      label[data-baseweb="radio"] {
+    transition: background-color 160ms ease, border-color 160ms ease,
+                color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  }
+  :is(.st-key-home_chat_preview, [data-testid="stChatInput"],
+      [data-baseweb="input"], [data-baseweb="textarea"]) {
     transition: border-color 180ms ease, box-shadow 180ms ease;
   }
   .st-key-home_chat_preview:focus-within {
     border-color: #0f69b4;
     box-shadow: 0 0 0 3px #0f69b414, 0 6px 20px #0d4d820a;
   }
-  .official-home .card-link {
-    transition: box-shadow 180ms ease, transform 180ms ease;
+  :is(.official-home .card-link, .staff-stat, .gov-requirement-card,
+      .st-key-gov_pgu, [class*="st-key-gov_benefit_"]) {
+    transition: border-color 180ms ease, box-shadow 180ms ease;
   }
   @media (hover: hover) and (pointer: fine) {
-    .official-home .card-link:hover {
-      transform: translateY(-3px);
+    :is(.official-home .card-link, .staff-stat, .gov-requirement-card,
+        .st-key-gov_pgu, [class*="st-key-gov_benefit_"]):hover {
       box-shadow: 0 8px 22px #143e5c12;
     }
-    :is(.st-key-home_government, .st-key-government_login_card,
-        .st-key-gov_benefits_layout) button:not(:disabled):hover {
+    .stApp :is(button:not(:disabled), [data-testid="stLinkButton"] a):hover {
       transform: translateY(-1px);
-      box-shadow: 0 3px 9px #143e5c16;
     }
-    :is(.st-key-home_government, .st-key-government_login_card,
-        .st-key-gov_benefits_layout) button:not(:disabled):active {
+    .stApp :is(button:not(:disabled), [data-testid="stLinkButton"] a):active {
       transform: translateY(0);
-      box-shadow: none;
     }
   }
 }
+/* Homepage: stagger the introduction, then reveal discovery surfaces on scroll.
+   The carousel keeps its own timeline; never animate its panel wrappers here. */
+@keyframes home-enter {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes home-accent {
+  from { opacity: 0; transform: scaleX(.65); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .home-assistant-intro::before {
+    animation: home-accent 650ms cubic-bezier(.22,1,.36,1) backwards;
+  }
+  .home-assistant-intro h1,
+  .home-assistant-intro > p,
+  .st-key-home_chat_preview {
+    animation: home-enter 620ms cubic-bezier(.22,1,.36,1) backwards;
+  }
+  .home-assistant-intro h1 { animation-delay: 60ms; }
+  .home-assistant-intro > p { animation-delay: 140ms; }
+  .st-key-home_chat_preview { animation-delay: 220ms; }
+  .official-home section > .container > .pb-5,
+  .official-home section > .container > .columns > .column {
+    animation: home-enter 580ms cubic-bezier(.22,1,.36,1) backwards;
+  }
+  .official-home section > .container > .columns > .column:nth-child(2) {
+    animation-delay: 70ms;
+  }
+  .official-home section > .container > .columns > .column:nth-child(3) {
+    animation-delay: 140ms;
+  }
+  .official-home section > .container > .columns > .column:nth-child(4) {
+    animation-delay: 210ms;
+  }
+  .official-home .card-link { animation: none; }
+  .official-home :is(.card-link, .move-icon-hover, a.button) {
+    transition: transform 220ms cubic-bezier(.22,1,.36,1),
+                box-shadow 220ms ease, color 180ms ease;
+  }
+  .official-home .move-icon-hover i {
+    transition: transform 220ms cubic-bezier(.22,1,.36,1);
+  }
+  .official-home a:focus-visible {
+    outline: 2px solid #0f69b4;
+    outline-offset: 4px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .official-home :is(.card-link, a.button):hover { transform: translateY(-3px); }
+    .official-home .move-icon-hover:hover i { transform: translateX(4px); }
+    .official-home :is(.card-link, a.button):active { transform: translateY(0); }
+  }
+  @supports (animation-timeline: view()) {
+    .official-home section > .container > .pb-5,
+    .official-home section > .container > .columns > .column {
+      animation: home-enter 1s cubic-bezier(.22,1,.36,1) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 22%;
+    }
+  }
+}
+/* Covers local styles too, including the rotating homepage examples. */
 @media (prefers-reduced-motion: reduce) {
-  .official-home .card-link,
-  :is(.st-key-home_government, .st-key-government_login,
-      .st-key-gov_benefits_layout, .st-key-gov_subnav, .st-key-portal_header),
-  :is(.st-key-home_government, .st-key-government_login,
-      .st-key-gov_benefits_layout, .st-key-gov_subnav, .st-key-portal_header) * {
+  .stApp *, .stApp *::before, .stApp *::after {
     animation: none !important;
     transition: none !important;
+    scroll-behavior: auto !important;
   }
 }

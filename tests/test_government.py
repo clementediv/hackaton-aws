@@ -126,9 +126,9 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
         message["texto"] == "¿Qué documentos necesito?"
         for message in app.session_state[f"chat-{run}"]
     )
-    assert any(item.placeholder == "Pregúntale al asistente de trámites" for item in app.chat_input)
+    assert any(item.placeholder == "Describe lo que necesitas" for item in app.chat_input)
     app.radio(key=f"government_view_{run}").set_value("Beneficios").run()
-    cards = [element.value for element in app.markdown if "gov-requirement-card" in element.value]
+    cards = [element.proto.body for element in app.get("html") if "gov-requirement-card" in element.proto.body]
     assert any("ready" in card and "Listo" in card for card in cards)
     assert any("pending" in card and "Faltan datos" in card for card in cards)
     assert len([item for item in app.get("html") if 'class="gov-timeline"' in item.proto.body]) == 4
@@ -136,7 +136,7 @@ def test_government_consent_profile_steps_and_revocation(tmp_path, monkeypatch):
     assert len([button for button in app.button if button.label == "Ver datos faltantes"]) == 3
     app.button(key="gov_check_fuas").click().run()
     assert not app.exception
-    assert any("comprobante de inscripción" in element.value for element in app.markdown)
+    assert any("comprobante de inscripción" in element.proto.body for element in app.get("html"))
     assert not any(button.label == "Cobrar beneficio" for button in app.button)
     assert not any(button.key == "gov_pgu_action" for button in app.button)
     assert not any(element.value == "**Sistema de salud**" for element in app.markdown)

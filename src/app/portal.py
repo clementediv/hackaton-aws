@@ -1,6 +1,8 @@
 """ChileAtiende portal shell and the MVP help section."""
 
 import base64
+import re
+import time
 import unicodedata
 from html import escape
 from pathlib import Path
@@ -41,7 +43,7 @@ SERVICES = (
 )
 
 
-CITIZEN_SECTIONS = ["Inicio", "Mi Gobierno"]
+CITIZEN_SECTIONS = ["Inicio", "Mi Gobierno", "Asistente de IA"]
 # Back-office tools are reached from the demonstration sidebar.
 EXECUTIVE_SECTIONS = [
     "Mapa de calor y campañas",
@@ -53,7 +55,7 @@ EXECUTIVE_SECTIONS = [
 ]
 
 
-def render_header() -> str:
+def render_header(*, chat_page: bool = False) -> str:
     st.markdown(_portal_styles(), unsafe_allow_html=True)
     if st.query_params.get("vista") == "ejecutivos" and not st.session_state.get(
         "staff_deeplink_loaded"
@@ -90,11 +92,11 @@ def render_header() -> str:
     selected = st.radio(
         "Secciones del portal",
         CITIZEN_SECTIONS,
-        index=0,
+        index=2 if chat_page else 0,
         horizontal=True,
         label_visibility="collapsed",
-        key="portal_section",
-        on_change=_leave_executive,
+        key="chat_portal_section" if chat_page else "portal_section",
+        on_change=_navigate_from_chat if chat_page else _leave_executive,
     )
     st.sidebar.button("Vista ejecutivo", key="open_executive", on_click=_open_executive)
     if st.session_state.get("portal_staff_workspace"):
@@ -112,6 +114,12 @@ def _open_executive() -> None:
     st.session_state.pop("portal_staff_workspace", None)
     st.session_state["portal_executive"] = True
     st.session_state["portal_section"] = None
+
+
+def _navigate_from_chat() -> None:
+    section = st.session_state["chat_portal_section"]
+    if section != "Asistente de IA":
+        st.session_state["portal_next_section"] = section
 
 
 def _leave_executive() -> None:
@@ -185,10 +193,16 @@ def _queue_home_question(question: str) -> None:
 
 def render_chat_page() -> None:
     st.session_state.pop("government_last_observed_view", None)
-    from ruta.asistente import responder_publico
-    from chat_feedback import TYPING_HTML, scroll_chat
+    from chat_feedback import TYPING_HTML, render_text_stream, scroll_chat
+    from ruta.asistente import WORD_DELAY_SECONDS, responder_publico, _template_stream
+    from ruta import casos
+    from ruta.datos import cargar_perfiles
+    from ruta.pgu_review import is_personal_pgu_question, review_pgu
 
-    st.markdown(_portal_styles(), unsafe_allow_html=True)
+    if st.session_state.get("portal_next_section"):
+        st.switch_page(st.session_state["portal_home_page"])
+    st.session_state["chat_portal_section"] = "Asistente de IA"
+    render_header(chat_page=True)
     with st.container(key="public_chat_header"):
         brand, actions = st.columns([3, 1], vertical_alignment="center")
         with brand:
@@ -199,54 +213,113 @@ def render_chat_page() -> None:
                 st.session_state.pop("public_chat_pending", None)
                 st.session_state.pop("public_chat_engine", None)
                 st.rerun()
+    run = st.session_state.get("government_login_run")
+    case = casos.obtener_caso(run) if run else None
+    access = (run, bool(case and case.get("autorizacion")))
+    if st.session_state.get("public_chat_access") != access:
+        st.session_state["public_chat_history"] = [
+            m for m in st.session_state.get("public_chat_history", [])
+            if m.get("scope") != "personal"
+        ]
+        st.session_state["public_chat_access"] = access
     with st.container(key="public_chat"):
         history = st.session_state.setdefault("public_chat_history", [])
         pending = st.session_state.pop("public_chat_pending", None)
         if not history and not pending:
             st.markdown(
-                '<div class="public-chat-welcome"><span>ASISTENTE CHILEATIENDE</span>'
-                '<h1>¿En qué te podemos ayudar?</h1>'
-                '<p>Una conversación para encontrar tu próximo paso.</p></div>',
+                '<div class="public-chat-welcome">'
+                '<h2>Hola, ¿en qué te ayudamos?</h2>'
+                '<p>Encuentra tu próximo paso en trámites y beneficios del Estado.</p></div>',
                 unsafe_allow_html=True,
             )
+            _render_public_chat_input()
         for index, message in enumerate(history):
             with st.container(key=f"public_message_{message['rol']}_{index}"):
                 st.chat_message(message["rol"]).write(message["texto"])
         if pending:
-            with st.container(key=f"public_message_user_{len(history)}"):
+            index = len(history)
+            with st.container(key=f"public_message_user_{index}"):
                 st.chat_message("user").write(pending)
-            with st.chat_message("assistant"):
-                response = st.empty()
-                response.markdown(TYPING_HTML, unsafe_allow_html=True)
-                scroll_chat(".st-key-public_chat", f"sent:{len(history)}:{pending}")
-                try:
-                    answer, engine = responder_publico(pending, history)
-                except Exception:
-                    response.empty()
-                    raise
-                response.write(answer)
+            with st.container(key=f"public_message_assistant_{index + 1}"):
+                scroll_chat(".st-key-public_chat", f"sent:{index}:{pending}")
+                with st.chat_message("assistant"):
+                    response = st.empty()
+                    response.markdown(TYPING_HTML, unsafe_allow_html=True)
+                    try:
+                        personal = is_personal_pgu_question(
+                            pending, pgu_context=bool(history and history[-1].get("scope") == "personal")
+                        )
+                        if personal:
+                            chunks = _template_stream(review_pgu(run, case, cargar_perfiles))
+                            engine = "reglas"
+                        else:
+                            public_history = [m for m in history if m.get("scope") != "personal"]
+                            chunks, engine = responder_publico(pending, public_history, stream=True)
+                    except Exception:
+                        response.empty()
+                        raise
+                    parts = []
+
+                    def visible_chunks():
+                        try:
+                            for chunk in chunks:
+                                parts.append(chunk)
+                                if engine == "bedrock":
+                                    for word in re.findall(r"\s+|\S+\s*", chunk):
+                                        yield word
+                                        time.sleep(WORD_DELAY_SECONDS)
+                                else:
+                                    yield chunk
+                        except Exception:
+                            notice = "\n\nLa respuesta se interrumpió. Puedes volver a preguntar."
+                            parts.append(notice)
+                            yield notice
+
+                    render_text_stream(response, visible_chunks())
+            history.extend([
+                {"rol": "user", "texto": pending, "scope": "personal" if personal else "public"},
+                {"rol": "assistant", "texto": "".join(parts),
+                 "scope": "personal" if personal else "public"},
+            ])
             st.session_state["public_chat_engine"] = engine
-            history.extend([{"rol": "user", "texto": pending}, {"rol": "assistant", "texto": answer}])
         scroll_chat(".st-key-public_chat", f"received:{history!r}")
-        if st.session_state.get("public_chat_engine") == "plantillas" and history:
-            st.caption("Orientación con respuestas predefinidas y fuentes oficiales.")
-    if question := st.chat_input("Escribe tu pregunta sobre trámites o beneficios", max_chars=2000):
-        st.session_state["public_chat_pending"] = question
-        st.rerun()
+    if history:
+        if history[-1].get("scope") == "personal":
+            with st.container(key="public_chat_pgu_action"):
+                if st.button("Revisar o completar antecedentes en Mi Gobierno", key="chat_pgu_review"):
+                    st.session_state["portal_next_section"] = "Mi Gobierno"
+                    if run and case and case.get("autorizacion"):
+                        st.session_state[f"government_view_{run}"] = "Beneficios"
+                        st.session_state[f"government_route_{run}"] = "pgu"
+                    st.switch_page(st.session_state["portal_home_page"])
+        _render_public_chat_input()
     from voice import voice_input
 
     with st.container(key="public_chat_voice"):
         latest_reply = next((m["texto"] for m in reversed(history) if m["rol"] == "assistant"), "")
-        spoken = voice_input(key="voice_public_chat", reply=latest_reply, message_id=str(len(history)))
+        spoken = voice_input(
+            key="voice_public_chat", reply=latest_reply, message_id=str(len(history)), compact=True
+        )
     if spoken:
         st.session_state["public_chat_pending"] = spoken
         st.rerun()
-    with st.container(key="public_chat_notice"):
-        st.caption("Orientación general con fuentes oficiales. No compartas claves ni datos personales.")
+
+
+def _render_public_chat_input() -> None:
+    import streamlit.components.v1 as components
+
+    with st.container(key="public_chat_placeholder_animation"):
+        components.html(
+            (LOGO.parent / "chat-placeholder.html").read_text(encoding="utf-8"),
+            height=0,
+        )
+    if question := st.chat_input("Describe lo que necesitas", max_chars=2000, key="public_chat_input"):
+        st.session_state["public_chat_pending"] = question
+        st.rerun()
 
 
 def _render_home_banner() -> None:
-    with st.container(border=True, key="home_government"):
+    with st.container(border=False, key="home_government"):
         with st.container(key="home_slide_assistant"):
             _render_home_assistant()
         with st.container(key="home_slide_benefits"):
@@ -256,21 +329,24 @@ def _render_home_banner() -> None:
 def _render_home_benefits() -> None:
     with st.container(key="home_government_invitation"):
         st.markdown(
-            '<div class="home-government">'
-            "<h1>Cobra beneficios gratis del Estado</h1>"
-            "<p>Descubre cuáles podrían corresponderte según tu situación. "
-            "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
-            "en un solo lugar.</p>"
-            '<ul class="home-benefit-examples" aria-label="Ejemplos de beneficios">'
-            '<li>Pensión Garantizada Universal (PGU)</li>'
-            '<li>Gratuidad en educación superior</li>'
-            '<li>Becas de educación superior</li>'
+            '<div class="home-government home-benefits-intro">'
+            "<h1>Cumples todos los requisitos para la PGU</h1>"
+            "<p>Tu beneficio, listo para cobrar.</p>"
+            '<ul class="home-pgu-checklist" aria-label="Ejemplo ilustrativo de revisión PGU">'
+            '<li style="--check-index:0"><span class="home-pgu-check" aria-hidden="true">✓</span>'
+            '<span>Edad para solicitar la PGU</span></li>'
+            '<li style="--check-index:1"><span class="home-pgu-check" aria-hidden="true">✓</span>'
+            '<span>Antecedentes de ingresos</span></li>'
+            '<li style="--check-index:2"><span class="home-pgu-check" aria-hidden="true">✓</span>'
+            '<span>Residencia en Chile</span></li>'
+            '<li style="--check-index:3"><span class="home-pgu-check" aria-hidden="true">✓</span>'
+            '<span>Pensión base</span></li>'
             '</ul>'
             "</div>",
             unsafe_allow_html=True,
         )
         if st.button(
-            "Ver mis beneficios",
+            "Revisar mis requisitos",
             type="primary",
             key="home_government_access",
         ):
@@ -282,6 +358,7 @@ def _render_home_assistant() -> None:
     st.markdown(
         '<div class="home-government home-assistant-intro">'
         "<h1>Prueba el asistente de inteligencia artificial de ChileAtiende</h1>"
+        "<p>Encuentra tu próximo paso en trámites y beneficios del Estado.</p>"
         "</div>",
         unsafe_allow_html=True,
     )
@@ -294,7 +371,11 @@ def _render_home_assistant() -> None:
         f'<div class="home-answer-example" style="--example-index:{index}">'
         f'<div class="home-example-question">{escape(question)}</div>'
         '<div class="home-example-answer"><span>Asistente ChileAtiende</span>'
-        f'{escape(answer)}</div></div>'
+        '<div class="home-example-answer-text">'
+        + " ".join(
+            f'<span style="--word-index:{word_index}">{escape(word)}</span>'
+            for word_index, word in enumerate(answer.split())
+        ) + '</div></div></div>'
         for index, (question, answer) in enumerate(examples)
     )
     st.html(
@@ -307,7 +388,7 @@ def _render_home_assistant() -> None:
             question = text_column.text_input(
                 "Escribe tu pregunta",
                 key="home_agent_question_text",
-                placeholder="Pregunta lo que necesites",
+                placeholder="Describe lo que necesitas",
                 label_visibility="collapsed",
                 max_chars=2000,
             )

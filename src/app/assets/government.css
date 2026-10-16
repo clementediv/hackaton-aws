@@ -24,7 +24,7 @@
 .st-key-assistant_quick_questions [data-testid="stColumn"]{min-width:0!important;flex:1 1 0!important}
 .st-key-gov_assistant [data-testid="stVerticalBlockBorderWrapper"]{border-radius:24px!important}
 @media(min-width:1051px){
-  .st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page){align-self:stretch;padding-top:52px}
+  .st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page){align-self:stretch;padding-top:0}
   .st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page)>[data-testid="stVerticalBlockBorderWrapper"]{position:sticky;top:max(16px,calc(50vh - 243px));z-index:2}
 }
 @media(max-width:1050px){
@@ -128,8 +128,10 @@
 .gov-requirement-card strong{overflow-wrap:anywhere}
 .gov-requirement-card.ready{background:#edf8f1;border-color:#b8dfc7;color:#166145}
 .gov-requirement-card.pending{background:#fff8e8;border-color:#ead49a;color:#805b13}
-[class*="st-key-gov_requirement_"]:has(.gov-requirement-card){border:1px solid #b8dfc7;border-radius:12px;background:#edf8f1;margin:10px 0;overflow:hidden}
-[class*="st-key-gov_requirement_"]:has(.gov-requirement-card.pending){background:#fff8e8;border-color:#ead49a;padding-bottom:14px}
+[class*="st-key-gov_requirement_"]:has(.gov-requirement-card){box-sizing:border-box;border:1px solid #b8dfc7;border-radius:12px;background:#edf8f1;margin:10px 0;overflow:hidden}
+[class*="st-key-gov_requirement_"]:has(.gov-requirement-card.pending){background:#fff8e8;border-color:#ead49a}
+[class*="st-key-gov_requirement_"]:has([data-testid="stPopover"]){padding-bottom:14px}
+[class*="st-key-gov_requirement_"] [data-testid="stHtml"]{box-sizing:border-box;width:100%;min-width:0;max-width:100%}
 [class*="st-key-gov_requirement_"] .gov-requirement-card{border:0;margin:0}
 [class*="st-key-gov_requirement_"]>[data-testid="stVerticalBlock"]{gap:8px}
 [class*="st-key-gov_requirement_"] [data-testid="stCaptionContainer"], [class*="st-key-gov_requirement_"] [data-testid="stText"]{padding:0 16px}
@@ -169,3 +171,129 @@
 
 /* Streamlit assigns stHtml a pixel width before card padding is applied. */
 :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) [data-testid="stHtml"]:has(.gov-timeline){width:100%!important;max-width:100%;min-width:0;box-sizing:border-box}
+
+/* Personal assistant uses the same conversation surfaces as the public AI chat. */
+.gov-assistant-intro{text-align:center;padding:8px 0 12px}
+.gov-assistant-intro:before{content:"";display:block;width:48px;height:4px;margin:0 auto 16px;border-radius:2px;background:linear-gradient(to right,#0f69b4 50%,#eb3c46 50%)}
+.st-key-gov_assistant .gov-assistant-intro h4{font:400 26px/1.2 Roboto,Arial,sans-serif;letter-spacing:-.7px;color:#0d4d82;margin:0 0 10px;padding:0}
+.gov-assistant-intro p{font:400 14px/1.6 Roboto,Arial,sans-serif;color:#60798e;margin:0}
+.st-key-gov_assistant{background:#fff;min-width:0}
+.st-key-gov_assistant [data-testid="stChatMessage"]{background:transparent;gap:10px;padding:14px 0;color:#34536e;border-radius:0}
+.st-key-gov_assistant [data-testid="stChatMessage"] p{font:400 14px/1.8 Roboto,Arial,sans-serif;overflow-wrap:anywhere}
+.st-key-gov_assistant [data-testid="stChatMessageAvatarAssistant"]{background:#0f69b4;color:#fff}
+.st-key-gov_assistant [class*="st-key-gov_chat_user_"]{width:fit-content!important;max-width:92%;margin:8px 0;align-self:flex-end}
+.st-key-gov_assistant [class*="st-key-gov_chat_user_"] [data-testid="stChatMessage"]{background:#e5f0fc;color:#0d4d82;border:1px solid #d5e4f2;border-radius:22px 22px 6px 22px;padding:10px 14px}
+.st-key-gov_assistant [data-testid="stChatMessageAvatarUser"]{display:none}
+.st-key-gov_assistant [data-testid="stElementContainer"],.st-key-gov_assistant [data-testid="stMarkdown"],.st-key-gov_assistant [data-testid="stMarkdownContainer"]{width:100%!important;min-width:0;max-width:100%;box-sizing:border-box}
+.st-key-gov_assistant [data-testid="stChatInput"]{width:100%!important;box-sizing:border-box;border:1px solid #c6d9ea;background:#fff;border-radius:32px;padding:8px 12px;box-shadow:0 8px 24px #0d4d820d}
+.st-key-gov_assistant [data-testid="stChatInput"]:focus-within{border-color:#0f69b4;box-shadow:0 0 0 3px #0f69b410}
+.st-key-gov_assistant [data-testid="stChatInput"] [data-baseweb="textarea"]{background:transparent;border:0!important;box-shadow:none!important;width:100%!important;min-width:0}
+.st-key-gov_assistant [data-testid="stChatInput"] textarea{box-sizing:border-box;width:100%!important;min-width:0;max-width:100%;font:400 14px/24px Roboto,Arial,sans-serif;min-height:48px;padding:12px 44px 12px 8px!important;color:#143e5c}
+.st-key-gov_assistant [data-testid="stChatInput"] div:has(>[data-testid="stChatInputSubmitButton"]){top:0;bottom:0;height:auto;align-items:center}
+.st-key-gov_assistant [data-testid="stChatInputSubmitButton"]{width:36px;min-width:36px;height:36px;min-height:36px;padding:6px;background:#0f69b4;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.st-key-gov_assistant .st-key-assistant_quick_questions button{border:1px solid #d5e4f2!important;background:#fff!important;color:#34536e!important;min-height:36px!important;border-radius:20px!important}
+.st-key-gov_assistant .st-key-assistant_quick_questions button:hover{background:#edf4fb!important;border-color:#0f69b4!important}
+.st-key-gov_assistant [data-testid="stExpander"]{border-color:#e2eaf1;border-radius:16px}
+@media(min-width:1051px){.st-key-gov_benefits_layout [data-testid="stColumn"]:has(.st-key-gov_chat_page)>[data-testid="stVerticalBlockBorderWrapper"]{top:16px}}
+
+/* Benefits use the public assistant's quiet typography and white surfaces. */
+.st-key-gov_benefits_layout{font-family:Roboto,Arial,sans-serif;color:#34536e}
+.st-key-gov_benefits_layout .gov-simple-heading{font:400 clamp(26px,3.2vw,36px)/1.2 Roboto,Arial,sans-serif!important;letter-spacing:-1px;color:#0d4d82;margin-bottom:28px!important;text-wrap:balance}
+.st-key-gov_benefits_layout .gov-benefit-title{font:400 24px/1.3 Roboto,Arial,sans-serif!important;letter-spacing:-.5px;color:#0d4d82;margin:0 0 12px}
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]){background:#fff;border:1px solid #d5e4f2!important;border-radius:20px!important;padding:24px;box-shadow:none}
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) [data-testid="stCaptionContainer"]{color:#60798e;line-height:1.65}
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) button{border-radius:24px;min-height:44px;background:#fff;border-color:#c6d9ea;color:#0d4d82;box-shadow:none}
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) button:hover{background:#edf4fb;border-color:#0f69b4}
+.st-key-gov_benefits_layout .st-key-gov_pgu [data-testid="stBaseButton-primary"]{background:#0f69b4;color:#fff}
+.st-key-gov_benefits_layout .st-key-gov_pgu [data-testid="stBaseButton-primary"]:hover{background:#0d4d82}
+.st-key-gov_benefits_layout .gov-status{font:400 12px/1.5 Roboto,Arial,sans-serif;padding:5px 10px}
+.st-key-gov_benefits_layout .gov-timeline{background:#fff;border:0;border-top:1px solid #e5edf4;border-radius:0;padding:20px 0 0;margin-top:22px}
+.st-key-gov_benefits_layout .gov-timeline-heading{font:400 16px/1.5 Roboto,Arial,sans-serif!important;color:#34536e}
+.st-key-gov_benefits_layout .gov-timeline-content h4{font-weight:500!important}
+.st-key-gov_benefits_layout [data-testid="stExpander"]{border-color:#e5edf4;border-radius:12px;background:#fff}
+@media(max-width:700px){.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]){padding:18px}.st-key-gov_benefits_layout .gov-benefit-title{font-size:21px!important}}
+
+/* Bring the login introduction closer to the sign-in form on desktop. */
+@media(min-width:701px){.gov-login-intro{margin-left:clamp(24px,4vw,56px);width:calc(100% - clamp(24px,4vw,56px));box-sizing:border-box}}
+
+/* Inset the sign-in introduction while preserving the mobile layout. */
+@media(min-width:701px){.st-key-government_login .gov-login-intro{padding-left:clamp(24px,4vw,56px);box-sizing:border-box}}
+
+/* Match the public composer's inline dictation and send controls. */
+.st-key-gov_assistant [data-testid="stChatInput"] div:has(>.chat-composer-mic){display:flex;align-items:center;justify-content:center;width:80px;gap:4px;z-index:2}
+.st-key-gov_assistant [data-testid="stChatInput"] textarea{padding-right:88px!important}
+.st-key-gov_assistant .chat-composer-mic{width:36px;height:36px;min-width:36px;min-height:36px;padding:8px;border:0;border-radius:50%;box-shadow:none;text-align:center;transform:none}
+
+/* Center the initial greeting independently of the conversation messages. */
+.st-key-gov_assistant .st-key-gov_chat_assistant_welcome{max-width:320px;width:100%;margin:0 auto!important;align-self:center}
+.st-key-gov_assistant .st-key-gov_chat_assistant_welcome [data-testid="stChatMessageAvatarAssistant"]{display:none}
+.st-key-gov_assistant .st-key-gov_chat_assistant_welcome [data-testid="stChatMessage"]{justify-content:center;padding:0 12px 18px;box-sizing:border-box}
+.st-key-gov_assistant .st-key-gov_chat_assistant_welcome [data-testid="stMarkdownContainer"]{text-align:center}
+
+.st-key-personal_chat_placeholder_animation{display:none}
+.st-key-personal_chat_composer textarea::placeholder{color:#60798e;opacity:1}
+
+/* One shared frame encloses each benefit; timelines have no inner frame. */
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]){border:1px solid #82add3!important;border-radius:20px!important;background:#fff;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px #143e5c04}
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) .gov-timeline{width:100%;background:transparent;border:0;border-radius:0;padding:0;margin:24px 0;box-shadow:none}
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) .gov-timeline-heading{font-size:17px!important;margin-bottom:20px}
+@media(max-width:700px){.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]){padding:18px}.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) .gov-timeline{padding:0}}
+
+.st-key-gov_benefits_layout .st-key-gov_assistant{box-sizing:border-box;width:100%;max-width:100%;border:1px solid #82add3;border-radius:20px;padding:24px;box-shadow:0 2px 8px #143e5c04}
+.st-key-gov_benefits_layout .gov-assistant-intro{padding:0 0 12px}
+.st-key-gov_benefits_layout .st-key-gov_assistant .gov-assistant-intro h4{margin-top:0;line-height:1.4;font-size:18px}
+@media(max-width:700px){.st-key-gov_benefits_layout .st-key-gov_assistant{padding:18px}}
+
+/* Start reply text on the same row as its avatar. */
+.st-key-gov_assistant [data-testid="stChatMessage"]{align-items:flex-start}
+.st-key-gov_assistant [data-testid="stChatMessageContent"]{min-width:0;padding-top:0;margin-top:0}
+.st-key-gov_assistant [data-testid="stChatMessageContent"] [data-testid="stMarkdownContainer"]>:first-child{margin-top:0;padding-top:0}
+.st-key-gov_assistant [data-testid="stChatMessageAvatarAssistant"]{margin-top:0;flex-shrink:0}
+
+/* Personal data follows the portal typography and quiet, neutral surfaces. */
+.st-key-gov_personal_page{font-family:Roboto,Arial,sans-serif;color:#34536e;max-width:1120px;margin:0 auto;width:100%;min-width:0}
+.st-key-gov_personal_page :is([data-testid="stVerticalBlock"],[data-testid="stElementContainer"],[data-testid="stHorizontalBlock"],[data-testid="stMarkdown"],[data-testid="stForm"]){box-sizing:border-box;width:100%!important;max-width:100%;min-width:0}
+.st-key-gov_personal_page .gov-simple-heading{font-size:26px!important;font-weight:400!important;letter-spacing:-.4px}
+.st-key-gov_personal_page .gov-numbered-heading{font:400 18px/1.5 Roboto,Arial,sans-serif!important;color:#143e5c;margin:16px 0 0!important}
+.st-key-gov_personal_page .gov-identity{grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:32px;padding:20px 0 32px;margin:0 0 12px}
+.st-key-gov_personal_page .gov-identity-details{width:100%;max-width:none;align-self:start;padding-top:8px}
+.st-key-gov_personal_page .gov-identity-details h3{font:400 22px/1.4 Roboto,Arial,sans-serif!important;letter-spacing:-.3px}
+.st-key-gov_personal_page .gov-id-row{font:400 14px/1.6 Roboto,Arial,sans-serif;margin-top:16px;padding-top:16px;border-color:#e5edf3;gap:4px;min-width:0}
+.st-key-gov_personal_page .gov-id-row span{font-size:12px;color:#60798e}
+.st-key-gov_personal_page .gov-id-row b{font-weight:400;color:#34536e;overflow-wrap:anywhere}
+.st-key-gov_personal_page .gov-personal-grid{gap:0 24px}
+.st-key-gov_personal_page .gov-id-card{box-sizing:border-box;max-width:100%;padding:20px 20px 0;background:#f8fafc;border:1px solid #dce6ee;border-radius:12px;box-shadow:none;font-family:Roboto,Arial,sans-serif}
+.st-key-gov_personal_page .gov-id-card:before{display:none}
+.st-key-gov_personal_page .gov-id-card-top{grid-template-columns:88px minmax(0,1fr) auto;gap:12px;padding-bottom:20px}
+.st-key-gov_personal_page .gov-id-document-type{font-size:10px;font-weight:400;line-height:1.5;letter-spacing:0}
+.st-key-gov_personal_page .gov-id-country>span{font-size:12px;font-weight:500;letter-spacing:0;line-height:1.5}
+.st-key-gov_personal_page .gov-id-country>b{font-size:8px;letter-spacing:0;line-height:1.5;font-weight:400}
+.st-key-gov_personal_page .gov-id-demo{font-size:9px;font-weight:400;letter-spacing:0;border-color:#d2dee8;border-radius:4px;color:#60798e;padding:3px 6px}
+.st-key-gov_personal_page .gov-id-card-body{grid-template-columns:88px minmax(0,1fr);gap:16px;padding-bottom:20px}
+.st-key-gov_personal_page .gov-id-portrait{background:#e9eff4;color:#9aafbf;border-radius:8px}
+.st-key-gov_personal_page .gov-id-portrait svg{box-sizing:border-box;height:120px}
+.st-key-gov_personal_page .gov-id-portrait>span{font-size:7px;letter-spacing:0;line-height:1.5;background:transparent;color:#60798e}
+.st-key-gov_personal_page .gov-id-fields span{font-size:9px!important;line-height:1.5;letter-spacing:0;font-weight:400;color:#60798e}
+.st-key-gov_personal_page .gov-id-fields>b{font-size:14px;font-weight:400;text-transform:none;color:#34536e;margin-bottom:8px}
+.st-key-gov_personal_page .gov-id-fields .gov-id-pair{gap:12px;margin-top:8px}
+.st-key-gov_personal_page .gov-id-pair b{font-size:11px!important;color:#34536e;font-weight:400}
+.st-key-gov_personal_page .gov-signature-example{font:400 13px/1.5 Roboto,Arial,sans-serif!important;color:#34536e!important}
+.st-key-gov_personal_page [data-testid="stExpander"]{background:#fff;border:0;border-radius:0;box-shadow:none}
+.st-key-gov_personal_page [data-testid="stExpander"]>details{border:0;border-bottom:1px solid #e5edf3;border-radius:0;box-shadow:none}
+.st-key-gov_personal_page [data-testid="stExpander"] summary{padding:20px 0;min-height:48px}
+.st-key-gov_personal_page [data-testid="stExpander"] summary p{font:400 18px/1.5 Roboto,Arial,sans-serif;color:#143e5c}
+.st-key-gov_personal_page [data-testid="stExpanderDetails"]{padding:0 0 24px}
+.st-key-gov_personal_page :is(p,label,input,textarea,button,[data-baseweb="select"],[data-testid="stCaptionContainer"]){font-family:Roboto,Arial,sans-serif}
+.st-key-gov_personal_page [data-testid="stCaptionContainer"] p{font-size:13px;line-height:1.7;color:#60798e}
+.st-key-gov_personal_page h4{font:400 18px/1.5 Roboto,Arial,sans-serif;color:#143e5c;letter-spacing:0;padding:12px 0}
+.st-key-gov_personal_page [data-testid="stForm"]{padding:20px;border:1px solid #dce6ee;border-radius:12px;background:#fff}
+.st-key-gov_personal_page :is([data-baseweb="input"],[data-baseweb="textarea"],[data-baseweb="select"]>div){background:#f8fafc;border-color:#dce6ee;border-radius:8px}
+.st-key-gov_personal_page [class*="st-key-gov_document_slot_"],.st-key-gov_personal_page [class*="st-key-gov_document_slot_"]:has(.gov-document-state){box-sizing:border-box;min-height:172px;padding:20px;background:#fff!important;border:1px solid #dce6ee!important;border-radius:12px!important;box-shadow:none}
+.st-key-gov_personal_page .gov-document-title{align-items:flex-start;min-height:44px;gap:10px;font-size:14px;line-height:1.6}
+.st-key-gov_personal_page .gov-document-title>span{width:24px;height:28px;background:transparent;color:#60798e;font-size:20px}
+.st-key-gov_personal_page .gov-document-title b{font-weight:400}
+.st-key-gov_personal_page .gov-document-state{font:400 12px/1.6 Roboto,Arial,sans-serif;margin:12px 0;color:#60798e}
+.st-key-gov_personal_page .gov-document-state.ready{color:#166145}
+.st-key-gov_personal_page button{font-weight:400;border-radius:8px;min-height:40px;box-shadow:none}
+@media(max-width:900px){.st-key-gov_personal_page .gov-identity{grid-template-columns:1fr;gap:24px}.st-key-gov_personal_page .gov-id-card{max-width:440px}.st-key-gov_personal_page .gov-identity-details{padding-top:0}}
+@media(max-width:700px){.st-key-gov_personal_page .gov-simple-heading{font-size:24px!important}.st-key-gov_personal_page .gov-id-card{padding:16px 12px 0}.st-key-gov_personal_page .gov-id-card-top{grid-template-columns:64px minmax(0,1fr) auto;gap:8px}.st-key-gov_personal_page .gov-id-card-body{grid-template-columns:64px minmax(0,1fr);gap:12px}.st-key-gov_personal_page .gov-id-portrait svg{height:96px}.st-key-gov_personal_page .gov-id-country>span{font-size:10px}.st-key-gov_personal_page .gov-personal-grid{grid-template-columns:1fr}.st-key-gov_personal_page [data-testid="stForm"]{padding:16px}.st-key-gov_personal_page [data-testid="stExpander"] summary p{font-size:16px}}
