@@ -4,8 +4,9 @@ from functools import lru_cache
 from io import BytesIO
 
 from .campanas import MIN_GROUP_SIZE, metropolitan_locations, metropolitan_ranking
+from .despliegue import automatic_campaign_area
 
-MAP_SOURCE = "Límites comunales: BCN, comunas2017 (referencia). Ubicaciones sintéticas del MVP."
+MAP_SOURCE = "Cartografía de referencia: Biblioteca del Congreso Nacional, comunas2017."
 MAP_NOTE = (
     "Pendientes de atención en terreno, sin contacto confirmado. Solo comunas con "
     "al menos 5 casos. La intensidad representa cercanía relativa, no una tasa "
@@ -13,14 +14,24 @@ MAP_NOTE = (
 )
 
 
-def heatmap_data(state, people, profiles=None):
-    # Do not turn arbitrary or real addresses into invented map locations.
+def campaign_context(state, profiles=None, *, communes=None, staff=2):
+    """Shared campaign inputs and proposal for the two officer maps."""
+    people = list({p["run"]: p for p in state["people"]}.values())
     candidates = [
-        p for p in people if p.get("stage") == 4 and p.get("contact", {}).get("synthetic")
+        p
+        for p in people
+        if p.get("stage") == 4
+        and p.get("contact", {}).get("synthetic")
+        and (communes is None or p["contact"].get("commune") in communes)
     ]
     local = {**state, "people": candidates}
     rows = metropolitan_ranking(local, profiles or {}) if state.get("clock") else []
-    points = metropolitan_locations(local, rows) if rows else []
+    locations = metropolitan_locations(local, rows) if rows else []
+    return rows, locations, automatic_campaign_area(locations, staff=staff)
+
+
+def heatmap_data(state, people, profiles=None):
+    rows, points, _ = campaign_context({**state, "people": people}, profiles)
     return {
         "points": [{key: p[key] for key in ("latitude", "longitude", "weight")} for p in points],
         "communes": [{key: row[key] for key in ("commune", "people")} for row in rows],
@@ -142,7 +153,11 @@ def _render(points, labels):
         fontsize=10,
     )
     figure.text(
-        0.05, 0.025, "REGIÓN METROPOLITANA  /  UBICACIONES SIMULADAS", color="#91b0c4", fontsize=7
+        0.05,
+        0.025,
+        "REGIÓN METROPOLITANA  /  DISTRIBUCIÓN TERRITORIAL",
+        color="#91b0c4",
+        fontsize=7,
     )
     legend = figure.add_axes((0.70, 0.035, 0.24, 0.012))
     legend.imshow(

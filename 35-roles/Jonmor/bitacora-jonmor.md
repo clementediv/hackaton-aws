@@ -6,7 +6,14 @@ integrante: Jonmor
 
 Una entrada por avance o commit relevante, la más reciente arriba.
 
-Formato: `### 2026-10-16 · Plantilla editorial y heatmap del reporte · 1350606
+Formato: `### 2026-10-16 · Mapa compartido y redacción institucional
+
+Reportería web con el mismo PyDeck, capas, zoom y propuesta de Campañas en terreno.
+Contexto territorial y personal compartidos; filtros del informe conservados.
+PDF con lenguaje institucional y sin jerga MVP/simulación; nota «Datos de ejemplo»
+en el pie mantiene claridad sobre el origen. [[reporteria-institucional]].
+
+### 2026-10-16 · Plantilla editorial y heatmap del reporte · 1350606
 
 Portada azul oscuro, fondos, cabeceras y tres páginas: resumen, heatmap/avance y
 detalle territorial/fuentes. Mapa offline con cartografía BCN local y mismas reglas

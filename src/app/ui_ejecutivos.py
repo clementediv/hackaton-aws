@@ -8,10 +8,9 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 from ruta import config, staff_auth
-from ruta.campanas import metropolitan_locations, metropolitan_ranking
 from ruta.colador import Funnel
-from ruta.despliegue import automatic_campaign_area
 from ruta.ejecutivos import DEMO_DB, STATUS, case_rows, demo_snapshot, next_action
+from ruta.report_heatmap import campaign_context
 from ui_campanas import campaign_map
 
 ASSETS = Path(__file__).parent / "assets"
@@ -225,15 +224,13 @@ def _campaigns(state, profiles):
         "El mapa identifica sectores con personas sin contacto confirmado. "
         "La propuesta se prepara automáticamente para organizar un operativo cercano."
     )
-    rows = metropolitan_ranking(state, profiles)
-    locations = metropolitan_locations(state, rows)
     left, right = st.columns([2.8, 1], gap="large")
     with right:
         st.markdown("#### Tu próximo operativo")
         staff = st.number_input(
             "Personal disponible", min_value=1, max_value=20, value=2, key="staff_team"
         )
-        area = automatic_campaign_area(locations, staff=int(staff))
+        rows, locations, area = campaign_context(state, profiles, staff=int(staff))
         if area:
             info = area["properties"]
             communes = ", ".join(info["communes"])

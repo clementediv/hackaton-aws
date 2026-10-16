@@ -13,7 +13,7 @@ STATUSES = {
     "declined": "Declinó",
 }
 STAGES = ("Con alerta fechada", "Ingresaron", "Autorizaron", "Avance declarado")
-SOURCE = "Campaña local del portal de ejecutivos y registro de eventos de Mi Gobierno (SQLite)."
+SOURCE = "Campaña de seguimiento y registro de actividad de Mi Gobierno."
 LIMITATION = (
     "El avance es declarado por la persona y no acredita una solicitud presentada, "
     "un beneficio otorgado ni una resolución del organismo. El cumplimiento del próximo "

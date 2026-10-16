@@ -10,7 +10,8 @@ import streamlit as st
 from ruta import engagement, trazabilidad
 from ruta.institutional_pdf import generate_pdf
 from ruta.institutional_reports import build_report, commune_of
-from ruta.report_heatmap import render_heatmap
+from ruta.report_heatmap import campaign_context
+from ui_campanas import campaign_map
 
 ASSETS = Path(__file__).parent / "assets"
 
@@ -53,8 +54,7 @@ def render(state, db_file, *, demo=False, profiles=None):
         profiles=profiles,
     )
     cutoff = datetime.fromisoformat(data["cutoff"]).astimezone(ZoneInfo("America/Santiago"))
-    mode = "Escenario simulado" if demo else "Registros de la aplicación"
-    st.caption(f"{mode} · Datos sintéticos · Corte: {cutoff:%d/%m/%Y %H:%M} (Santiago)")
+    st.caption(f"Corte del reporte: {cutoff:%d/%m/%Y %H:%M} (Santiago)")
     st.html(
         '<div class="report-metrics">'
         + "".join(
@@ -89,11 +89,23 @@ def render(state, db_file, *, demo=False, profiles=None):
         for finding in data["findings"]:
             st.html(f'<div class="report-finding">{escape(finding)}</div>')
     st.markdown("#### Dónde concentrar la atención en terreno")
-    st.image(render_heatmap(data["heatmap"]), use_container_width=True)
-    st.caption(
-        f"{data['heatmap']['mapped']} ubicaciones simuladas publicables. " + data["heatmap"]["note"]
+    staff = st.number_input(
+        "Personal disponible", min_value=1, max_value=20, value=2, key="staff_team"
     )
-    st.caption(data["heatmap"]["source"])
+    rows, locations, area = campaign_context(state, profiles, communes=communes, staff=int(staff))
+    st.pydeck_chart(
+        campaign_map(rows, locations, show_totals=False, campaign_area=area),
+        use_container_width=True,
+        height=600,
+    )
+    st.html(
+        '<div class="staff-kpi"><b>Concentración de personas</b> &nbsp; Baja '
+        '<span style="display:inline-block;width:150px;height:9px;border-radius:8px;'
+        'background:linear-gradient(90deg,#38bdf8,#2dd4bf,#facc15,#fb923c,#f43f5e)"></span>'
+        " Alta &nbsp; · &nbsp; Contorno amarillo: área propuesta.</div>"
+    )
+    st.caption(f"{data['heatmap']['mapped']} ubicaciones representadas. " + data["heatmap"]["note"])
+    st.caption("© CARTO / OpenStreetMap · " + data["heatmap"]["source"])
     st.markdown("#### Distribución territorial")
     if data["territory"]:
         st.dataframe(
@@ -134,7 +146,7 @@ def render(state, db_file, *, demo=False, profiles=None):
     with st.expander("Fuentes y alcance del reporte"):
         st.write(data["source"])
         st.write(
-            "Las comunas y contactos provienen de la capa territorial sintética del MVP. "
+            "Origen de la información: conjunto de datos de ejemplo. "
             "El informe no incluye historiales AWS, nombres, RUN ni datos de contacto. "
             "La generación y descarga no envían el documento a ninguna institución."
         )

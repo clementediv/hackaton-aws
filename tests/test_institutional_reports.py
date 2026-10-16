@@ -92,14 +92,15 @@ def test_pdf_is_readable_and_preserves_scope_sources_and_no_personal_identifiers
     content = "\n".join(page.extract_text() for page in reader.pages)
     for expected in (
         "Municipalidad de prueba",
-        "ESCENARIO SIMULADO",
+        "Datos de ejemplo",
         "Alcance y fuentes",
-        "SQLite",
+        "Mi Gobierno",
         "no acredita",
         "Página 1",
     ):
         assert expected in content
     assert "RUN_PRIVADO" not in content and "NOMBRE_PRIVADO" not in content
+    assert all(label not in content.upper() for label in ("MVP", "PROTOTIPO", "SIMULADO"))
     assert "privado@example.com" not in content
     if communes is None:
         assert "Ñuñoa" in content and "Santiago" in content
@@ -145,7 +146,13 @@ def test_officer_can_filter_and_download_same_snapshot(tmp_path, monkeypatch):
     auth = importlib.import_module("ruta.staff_auth")
     app.text_input(key="staff_login_password").set_value(auth.DEMO_PASSWORD)
     next(b for b in app.button if b.label == "Ingresar como ejecutivo").click().run()
+    app.radio(key="staff_view").set_value("Campañas en terreno").run()
+    app.number_input(key="staff_team").set_value(3).run()
+    campaign_map = json.loads(app.get("deck_gl_json_chart")[0].proto.json)
     app.radio(key="staff_view").set_value("Reportería institucional").run()
+    assert app.number_input(key="staff_team").value == 3
+    report_map = json.loads(app.get("deck_gl_json_chart")[0].proto.json)
+    assert report_map == campaign_map
     assert not app.exception
     assert app.get("download_button") and captured[-1]["demo"]
     commune = app.multiselect(key="institutional_communes").options[0]
@@ -200,5 +207,5 @@ def test_heatmap_reuses_published_pending_groups_and_respects_commune_filter(tmp
     assert empty["heatmap"]["mapped"] == 0
     reader = PdfReader(BytesIO(generate_pdf(data)))
     assert len(reader.pages) == 3 and len(reader.pages[1].images) >= 1
-    assert "BCN" in reader.pages[1].extract_text()
+    assert "Biblioteca del Congreso Nacional" in reader.pages[1].extract_text()
     assert "Pendientes de atención en terreno" in reader.pages[1].extract_text()

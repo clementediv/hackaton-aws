@@ -15,7 +15,7 @@ entorno: Kiro IDE Pro
 Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, revisa el estado del pipeline en [[_equipo]] y los boards de los demás en [[_avance]] para no duplicar trabajo.
 
 ## En curso
-- Sin tareas activas.
+- Unificar mapa interactivo de reportería con Campañas en terreno y simplificar redacción institucional del PDF. [[reporteria-institucional]].
 
 ## Por hacer
 - Integrar Streamlit con la API cuando se amplíe el alcance; hoy conserva su adaptador local.

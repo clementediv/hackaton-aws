@@ -70,3 +70,24 @@ umbral, exclusión de casos terminales, ausencia de identificadores y mapa incru
 en el PDF. Revisión visual de las tres páginas y descarga real en Chromium.
 
 Cierre del rediseño `1350606`, integración `51d74c0`: **330 pruebas pasan**, dos omitidas y ocho evals excluidas; verificador de 500 perfiles TODO OK. PDF descargado desde Chromium con tres páginas, mapa incrustado, revisión visual y vista móvil/escritorio sin desborde. La rama sigue sin integrarse a `main`.
+
+## Mapa web compartido y lenguaje institucional · 16-10
+
+La vista web reemplaza la imagen estática por el mismo `campaign_map` de
+«Campañas en terreno»: PyDeck, CARTO Dark Matter, capas, parámetros de calor,
+zoom y propuesta amarilla idénticos. Ambos consumen `campaign_context` con
+los mismos casos y personal disponible. Sin filtros territoriales adicionales,
+el JSON completo del mapa es idéntico entre ambas pestañas (prueba UI).
+La reportería aplica sus comunas seleccionadas; el control de personal se
+conserva al cambiar entre las dos vistas. El fondo de calles requiere internet.
+
+El PDF conserva el mapa estático offline, basado en las mismas posiciones y reglas;
+no es una captura de los tiles remotos. La vista web atribuye CARTO/OpenStreetMap y BCN.
+
+Por solicitud del usuario, la redacción del documento pasa a institucional:
+sin «MVP», «prototipo», «escenario simulado» ni detalles de SQLite. Se mantienen
+fuentes, corte, alcance y límites del avance declarado. Una nota discreta
+«Datos de ejemplo» en el pie identifica el origen ficticio de los datos, sin
+presentarlos como registros de personas reales. También se simplifican los
+rótulos del mapa estático y de la vista de reportería. No cambia el origen de
+la campaña ni se elimina su aislamiento de la aplicación.

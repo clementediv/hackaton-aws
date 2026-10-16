@@ -14,3 +14,5 @@ Se conservan las definiciones de [[0018-trazabilidad-de-uso]]: contacto, inicio,
 La primera entrega no implementa permisos municipales/ministeriales ni despacho automatizado. Se mantiene el acceso del ejecutivo y se comparte un documento agregado. Rama `codex/reporteria-institucional`; integración a `main` pendiente de revisión del usuario. Detalles y pruebas en [[reporteria-institucional]].
 
 Ampliación solicitada el 16-10: plantilla editorial con fondos y heatmap offline en pantalla/PDF. Reutiliza las reglas y posiciones del mapa del ejecutivo (solo datos sintéticos, etapa 4 activa, mínimo cinco por comuna). Matplotlib/Agg renderiza contra la cartografía BCN local sin depender de tiles remotos. Leyenda relativa, fuente y ausencia de grupos explícitas; filtros comunes a los indicadores y al mapa.
+
+Ajuste de presentación 16-10: la reportería web usa el mismo mapa PyDeck y contexto de campaña que Campañas en terreno; el PDF mantiene su representación estática offline. Se retira jerga de desarrollo del documento y se concentra la identificación del origen ficticio en el pie «Datos de ejemplo». No cambia la evidencia ni se afirman resultados reales.

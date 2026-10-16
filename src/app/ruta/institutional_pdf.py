@@ -138,16 +138,15 @@ def generate_pdf(data):
         topMargin=27 * mm,
         bottomMargin=22 * mm,
         title="Reporte institucional · ChileAtiende a Tiempo",
-        author="ChileAtiende a Tiempo · Prototipo",
+        author="ChileAtiende a Tiempo",
     )
-    mode = "ESCENARIO SIMULADO" if data["demo"] else "REGISTROS LOCALES · DATOS SINTÉTICOS"
     story = [
         Spacer(1, 9 * mm),
         text("GESTIÓN TERRITORIAL  /  REPORTE INSTITUCIONAL", "CoverSmall"),
         Spacer(1, 5 * mm),
         Paragraph("Beneficios que llegan<br/>a tiempo.", styles["ReportCoverTitle"]),
         text(data["institution"], "CoverName"),
-        text(f"{data['audience']}  /  {mode}", "CoverSmall"),
+        text(f"Destinatario: {data['audience']}", "CoverSmall"),
         text(
             "Territorio: " + (", ".join(data["scope"]) or "Sin comunas seleccionadas"), "CoverSmall"
         ),
@@ -191,7 +190,7 @@ def generate_pdf(data):
         text("01  /  Inteligencia territorial", "Small"),
         text("Dónde concentrar la atención", "Heading"),
         text(
-            f"{data['heatmap']['mapped']} ubicaciones simuladas publicables · "
+            f"{data['heatmap']['mapped']} ubicaciones representadas · "
             "Pendientes de atención en terreno",
             "Subheading",
         ),
@@ -256,7 +255,7 @@ def generate_pdf(data):
                 text("Alcance y fuentes", "Subheading"),
                 text(data["source"], "Small"),
                 text(
-                    "Comunas y contactos de la capa territorial sintética del MVP. "
+                    "Cobertura territorial según la campaña y las comunas seleccionadas. "
                     "No incluye eventos AWS ni registros administrativos externos. "
                     "Contiene solo información sin nombres, RUN ni datos de contacto.",
                     "Small",
@@ -294,7 +293,7 @@ def generate_pdf(data):
         canvas.line(18 * mm, 17 * mm, 192 * mm, 17 * mm)
         canvas.setFillColor(colors.HexColor("#bfd3e2") if cover else MUTED)
         canvas.setFont("Helvetica", 8)
-        canvas.drawString(18 * mm, 12 * mm, "Prototipo con datos sintéticos · Uso de demostración")
+        canvas.drawString(18 * mm, 12 * mm, "ChileAtiende a Tiempo · Datos de ejemplo")
         canvas.drawRightString(192 * mm, 12 * mm, f"Página {doc.page}")
         canvas.restoreState()
 
