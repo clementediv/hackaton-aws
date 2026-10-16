@@ -7,13 +7,14 @@ En ambos casos solo usa hechos calculados por el motor de reglas: no decide ni i
 
 import re
 import time
-from itertools import chain
 import unicodedata
+from itertools import chain
 
 from . import config
 from . import reglas as R
 from .conversation import boundary_reply, clarification, friendly_sources, social_fallback
 from .fechas import fmt
+from .knowledge import grounded_fallback
 from .rutas import Paso
 
 
@@ -49,13 +50,30 @@ def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
         "Te ayudo con trámites, beneficios y los documentos que necesitas."
     )
     question = _norm(pregunta)
-    identity_question = any(phrase in question for phrase in (
-        "quien eres", "que eres", "que haces", "que puedes hacer", "que puede hacer",
-        "para que sirves", "para que sirve", "como me puedes ayudar", "como puedes ayudar",
-        "en que me puedes ayudar", "eres una ia", "eres un asistente", "eres una inteligencia",
-        "eres inteligencia artificial", "presentate", "tu funcion", "tus funciones",
-        "ayudas con tramites", "ayudar con tramites",
-    ))
+    identity_question = any(
+        phrase in question
+        for phrase in (
+            "quien eres",
+            "que eres",
+            "que haces",
+            "que puedes hacer",
+            "que puede hacer",
+            "para que sirves",
+            "para que sirve",
+            "como me puedes ayudar",
+            "como puedes ayudar",
+            "en que me puedes ayudar",
+            "eres una ia",
+            "eres un asistente",
+            "eres una inteligencia",
+            "eres inteligencia artificial",
+            "presentate",
+            "tu funcion",
+            "tus funciones",
+            "ayudas con tramites",
+            "ayudar con tramites",
+        )
+    )
     if identity_question:
         fallback = introduction
         return (_template_stream(fallback) if stream else fallback), "plantillas"
@@ -78,9 +96,14 @@ def responder_publico(pregunta: str, historial: list[dict], *, stream=False):
             )
         )
         fallback = f"{text}\n\nFuente: {citation}."
-    if (not identity_question and question.strip(" ¡!¿?.") not in {"hola", "buenas", "buenos dias"}
-            and (conversational := social_fallback(pregunta, historial))):
+    if (
+        not identity_question
+        and question.strip(" ¡!¿?.") not in {"hola", "buenas", "buenos dias"}
+        and (conversational := social_fallback(pregunta, historial))
+    ):
         fallback = conversational + f"\n\nFuente: {source}."
+    elif "gracias" not in question and (grounded := grounded_fallback(pregunta, historial)):
+        fallback = grounded
     if config.BEDROCK_MODEL_ID:
         try:
             from .chatbot import answer_general
@@ -374,7 +397,9 @@ def _respaldo(pregunta, ctx, historial):
     if reply is None:
         reply = _plantilla(pregunta, ctx)
         if reply.startswith(("¿Qué parte te gustaría entender?", "¿Qué te gustaría revisar?")):
-            reply = clarification(historial)
+            reply = (
+                grounded_fallback(pregunta, historial) if not _consulta_personal(pregunta) else None
+            ) or clarification(historial)
     if "https://" not in reply:
         reply += f"\n\nFuente de orientación: {config.FUENTES['chileatiende']}"
     return friendly_sources(reply)

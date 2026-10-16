@@ -83,11 +83,14 @@ propósito del chat, usa exactamente la siguiente respuesta estándar, sin varia
 
 
 class ConversationalClient:
-    def __init__(self, client):
+    def __init__(self, client, *, public_context=""):
         self.client = client
+        self.public_context = public_context
 
     def converse(self, messages, **options):
         options["system"] = [*options.get("system", []), {"text": CHAT_STYLE}]
+        if self.public_context:
+            options["system"].append({"text": self.public_context})
         return self.client.converse(messages, **options)
 
 

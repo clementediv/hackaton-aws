@@ -23,6 +23,8 @@ La app no tiene login: es para demo local. `--server.address localhost` evita ex
 
 IA generativa (opcional): define `BEDROCK_MODEL_ID` (por ejemplo `us.anthropic.claude-sonnet-5`) junto con `AWS_PROFILE=hackaton` y `AWS_REGION=us-east-1`. Sin ella, el asistente responde con plantillas a partir del mismo contexto.
 
+El chatbot consulta una base local de fuentes oficiales de Ventanilla Única Social, ChileAtiende y organismos relacionados. Recupera secciones pertinentes con URLs y fechas, conserva el tema para preguntas de seguimiento y mantiene la evaluación personal en código. Cobertura, actualización y verificaciones en [[contexto-chatbot-oficial]] (`knowledge/contexto-chatbot-oficial.md`).
+
 ## Vistas
 - **Chat público (`/chat`)**: el banner de Inicio abre una conversación dedicada y conserva la primera pregunta. Permite seguir preguntando y comenzar una nueva conversación. Da orientación general sin consultar perfiles personales; usa Bedrock si está configurado y respuestas predefinidas con fuentes como alternativa. El historial dura la sesión. Verificación en navegador: enviar desde el banner, continuar con una segunda pregunta, abrir `/chat` directamente y volver a Inicio.
 - **Contactos AWS** (Vista ejecutivo): lee en solo lectura lo que la detección proactiva desplegada en AWS detectó, envió y registró (`ca-contactos`, `ca-historial`), con métricas, filtros e historial por persona; la ficha del beneficiario muestra lo mismo para su RUN. Usa el perfil `hackaton` de `.env`; si las credenciales vencen, la vista lo avisa. Ver [[deteccion-proactiva-aws]].
