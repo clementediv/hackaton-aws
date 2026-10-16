@@ -68,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Respuesta del asistente personal alineada por arriba con avatar: flex-start, contenido sin padding/margen superior y primer bloque sin margen superior. Chromium sobre respuesta real confirma coordenada superior identica de avatar, contenido y primer parrafo. [[mi-gobierno]]. Commit ?Alinear respuestas con el avatar del asistente?.
 - [x] Asistente IA alineado con titulo PGU: encabezado general antes de ambas columnas, retirado padding fijo de 52 px y decoracion superior del asistente. Marco azul #82add3 de 1 px igual a beneficios y padding equivalente, sin borde duplicado. Chromium confirma diferencia vertical 0 px al inicio y movil sin desborde; cuatro pruebas Mi Gobierno pasan. [[mi-gobierno]]. Commit ?Alinear y enmarcar el asistente de Mi Gobierno?.
 - [x] Azul de bordes de beneficios mas visible (#82add3), manteniendo grosor y separacion; diff verificado ? commit ?Marcar mas el azul de los bordes de beneficios? ? [[mi-gobierno]].
 - [x] Bordes de beneficios en azul suave #bfd6ec, conservando 1 px y separacion; revision del diff OK ? commit ?Usar azul suave en los bordes de beneficios? ? [[mi-gobierno]].
