@@ -143,7 +143,7 @@ flowchart TB
 | 10 | **Contacto multicanal en AWS** | λ `ca-escalador`, `ca-respuesta`, SES | **Desplegado**: email real a casillas verificadas, SMS simulado, terreno; registra envío, apertura, clic y respuesta |
 | 11 | **Correos** | `src/proactivo/mensajes.py` | Hecho: marca ChileAtiende · Instituto de Previsión Social, registro formal, 1 botón, aviso de resultado aparente y montos referenciales |
 | 12 | **Infraestructura** | `infra/` (CDK, stack `ChileAtiendeProactivo`) | Desplegado; guía en `infra/README.md` |
-| 12b | **Lectura de AWS en la app** | `src/app/ruta/aws_contactos.py`, `ui_aws.py` | Hecho: métricas, filtros, tabla de contactos e historial por persona; también en la ficha. Si las credenciales vencen, avisa en vez de fallar |
+| 12b | **App conectada con AWS** | `src/app/ruta/aws_contactos.py`, `ui_aws.py` | Hecho: métricas, filtros, contactos e historial (también en la ficha); **simular evento de vida** desde la Vista ejecutivo; **Mi Gobierno muestra el aviso recibido** y responde por beneficio; aceptar o declinar el acompañamiento en la app **detiene el escalamiento en AWS** ([[app-aws-conectada]]). Si las credenciales vencen, avisa en vez de fallar |
 | 13 | **Alerta CESFAM** | — | Por hacer (base legal pendiente) |
 | 14 | **Simulador y medición del KPI ≥75%** | — | Por hacer |
 
@@ -165,7 +165,7 @@ flowchart TB
 La detección proactiva y los correos **no usan LLM**: son reglas y plantillas deterministas.
 
 ## Próximos pasos
-1. **Unificar datos:** la app ya **lee** `ca-contactos` y `ca-historial`; falta que el colador y los casos de la app escriban en DynamoDB en vez de SQLite.
+1. **Unificar datos:** la app ya lee `ca-contactos` y `ca-historial`, dispara eventos y registra respuestas en AWS ([[app-aws-conectada]]); falta que el colador y los casos de la app escriban en DynamoDB en vez de SQLite.
 2. **Unificar motores:** un solo motor PGU (app y AWS hoy tienen reglas equivalentes por separado) y exponerlo al agente como `evaluar_pgu` / `calcular_hitos`.
 3. **Verificar el catálogo** con las fichas oficiales: hoy solo la PGU está verificada; el umbral de «6 meses fuera de Chile» no está confirmado con el IPS.
 4. Alerta CESFAM, medición del KPI de próximo paso y simulador.
@@ -177,4 +177,5 @@ La detección proactiva y los correos **no usan LLM**: son reglas y plantillas d
 - [x] Frontend de la demo: Streamlit
 - [x] Envío de emails: **real con SES** solo a casillas verificadas (sandbox); SMS y llamadas **simulados** → [[deteccion-proactiva-aws]]
 - [ ] Base legal del contacto laboral, de la alerta CESFAM y uso de la marca ChileAtiende: confirmar con los mentores
-- [ ] Datos únicos entre la app y AWS (hoy: la app lee AWS, pero escribe en SQLite)
+- [x] Respuestas de la app sincronizadas con AWS (aceptar/declinar detiene el escalamiento) → [[app-aws-conectada]]
+- [ ] Datos únicos entre la app y AWS (hoy: casos y colador de la app siguen en SQLite)

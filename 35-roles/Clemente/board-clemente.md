@@ -18,6 +18,13 @@ Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de
 - [ ] Detección proactiva en AWS (DynamoDB Streams + Lambda + SES): desplegada el 15-10 en la cuenta del evento (stack `ChileAtiendeProactivo`), 618 contactos simulados cargados; falta verificar la casilla en SES y probar la demo estrella · [[deteccion-proactiva-aws]]
 
 ## Por hacer
+### Cierre del MVP — para Codex (16-10)
+Contexto: los puntos 1–3 del cierre ya están en `main` ([[app-aws-conectada]]). Antes de cada uno, mover a «En curso»; al terminar, a «Hecho» con el commit.
+- [x] **4. Tests del chat público rojos.** Resueltos por `6bf5ffe` («Hacer el chatbot público más robusto»): tras el merge del 16-10, la suite completa da 316 passed. Nada que hacer.
+- [ ] **5. `src/app/demo_embudo.py` con cambio local sin commitear** (quita los escenarios precargados del laboratorio del embudo; parece una versión vieja). Confirmar con Clemente antes de tocarlo: descartar (`git checkout -- src/app/demo_embudo.py`) o commitear. **Acepta:** `git status` limpio en ese archivo y el laboratorio de :8502 con escenarios.
+- [ ] **6. Guion de la demo** en `00-inbox/guion-demo.md` o `20-arquitectura/`: (a) Vista ejecutivo → Contactos AWS → «Simular evento de vida»: Jorge Demo (90000002-2) cumple 65 → llega el email real; (b) clic en el botón del email; (c) ficha del beneficiario con el historial AWS; (d) mapa de calor y campañas; (e) Mi Gobierno con el aviso y «Quiero orientación»; (f) Trazabilidad. Incluir tiempos, qué decir en cada paso y el plan B si AWS falla (la app avisa y sigue). Antes de cada ensayo: «Reiniciar contactos de esta persona». **Acepta:** guion probado una vez de punta a punta.
+- [ ] **7. Checklist previo a la demo** en el mismo guion: renovar claves `hackaton` (vencen ~6 h; `aws sts get-caller-identity --profile hackaton`), casilla SES verificada, una sola instancia de la app en :8501 (cerrar copias), datos demo cargados (`scripts/proactivo.py cargar --solo-demo`) y `scripts/proactivo.py resumen`. **Acepta:** lista con comandos copiables.
+
 ### Validar con los mentores
 - [ ] ¿Hay un dataset con email, teléfono, empleador y provincia (¿dataset B?)?
 - [ ] Base legal para la alerta en CESFAM y para el contacto a través del trabajo
@@ -53,7 +60,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - [ ] Derivación al ejecutivo con un resumen del caso
 
 ### Unificación y calidad
-- [ ] Sincronizar aceptación/rechazo de Mi Gobierno (SQLite) con contactos proactivos (DynamoDB): no son todavía el mismo estado compartido; preservar fin de escalamiento al responder
+- [x] Sincronizar aceptación/rechazo de la app con contactos proactivos (DynamoDB): hecho el 16-10 ([[app-aws-conectada]]); el resto del estado de casos sigue en SQLite
 - [ ] Instrumentar KPI de próximo paso válido dentro del plazo (meta usuario ≥75%): definir evidencia/paso/plazo; contacto e inicio no lo sustituyen
 - [ ] Unificar los dos motores (app de Johann y contratos/agente): estados `futuro` y `excluido`, repositorio e historial ([[revision-aporte-johann]]). Coordinar con Johann
 - [ ] Contratos: canales de contacto, `ContactAttempt`, `AlertLevel`, `DocumentItem`, `RequestStatus`
@@ -68,6 +75,8 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Cierre del MVP 1–3: simular evento de vida desde la Vista ejecutivo (la Lambda detecta y envía), aviso AWS en Mi Gobierno con respuesta por beneficio, y aceptar/declinar en la app detiene el escalamiento en AWS. Tests con moto y AppTest; `CA_AWS=0` en los tests. Commit «Conectar la app con la detección proactiva en AWS» · [[app-aws-conectada]].
+- [x] Enlace de respuesta incompleto devuelve 400 y no 502; desplegado en AWS — `8a6c26b` · [[deteccion-proactiva-aws]].
 - [x] Animaciones del home: entrada escalonada, revelado al hacer scroll y tarjetas con hover suave. Cinco pruebas, Ruff y Chromium 390/1440 px normal/reducido OK. [[portal-ayuda-tramites]]. Commit: Pulir animaciones del home.
 - [x] Texto de ambos chats más rápido (25 ms por palabra) y sin cursor automático; placeholder actualizado directamente, preservando formato y alineación. Nueve pruebas enfocadas y Chromium 390/1440 px OK; discrepancia previa de URL fuente PGU documentada. Commit «Acelerar el texto y quitar el cursor del chat». [[mi-gobierno]].
 - [x] Alineación validada en pantalla completa: servidor 8501 conservaba módulo anterior (Markdown). Reiniciado con código vigente; verificador exige HTML nuevo y centra los 16 detalles en tres anchos. Commit «Verificar detalles en la aplicación completa». [[mi-gobierno]].

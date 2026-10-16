@@ -20,6 +20,8 @@ from ui_embudo import render_campaign_lab
 
 st.set_page_config(page_title="ChileAtiende · Mi Gobierno", page_icon="🧭", layout="wide",
                    initial_sidebar_state="collapsed")
+# Aceptar o declinar el acompañamiento en la app también detiene el contacto en AWS.
+casos.al_responder_invitacion("aws", ui_aws.sync_answer)
 
 ICONO_REQ = {R.CUMPLE: "✅", R.NO_CUMPLE: "❌", R.FALTA: "⚠️", R.PENDIENTE: "⏳"}
 ICONO_PASO = {"completado": "✅", "disponible": "👉", "bloqueado": "🔒", "en_espera": "📅"}
