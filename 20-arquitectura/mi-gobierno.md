@@ -1,5 +1,11 @@
 # Mi Gobierno
 
+Texto progresivo sin cursor: ambos chats usan `chat_feedback.render_text_stream` sobre el placeholder existente. Evita el símbolo automático de `write_stream` sin tocar caracteres del contenido ni las fuentes. Pausa artificial compartida de 25 ms por palabra (antes 80 ms); no modifica la latencia de Bedrock. Prueba de preservación exacta del texto y observador de cursor durante la prueba Chromium. Nueve pruebas enfocadas pasan; otra prueba existente de streaming discrepa en la URL de fuente PGU (ChileAtiende frente a Ventanilla Única).
+
+Verificación posterior del servidor real: el proceso local 8501 seguía usando el módulo anterior con Markdown; se reinició con el código vigente. `python scripts/verificar_detalles_pantalla.py` recorre acceso, consentimiento y detalles de todos los beneficios en la aplicación completa: exige `stHtml`, comprueba centrado del texto y captura pantalla a 390/900/1440 px. Así detecta también procesos que no recargaron el módulo actualizado.
+
+Los detalles y Resultado de la revisión usan `st.html` en el componente común: Markdown reducía 16 px el alto efectivo del recuadro interior sin borde y desplazaba el centro vertical 8 px. Contenedores con border-box y ancho contenido; el padding de acciones se aplica solo si hay popovers. `scripts/verificar_detalles_beneficios.py` mide texto y rectángulo reales en Streamlit a 390/900/1440 px, con centrado horizontal y vertical exacto en resumen y requisitos cumplidos/pendientes.
+
 Las entradas visuales usan `government-enter`: opacidad y desplazamiento de 12 px durante 560 ms con desaceleración suave, tarjetas separadas por 70 ms y etapas por 70 ms. Se animan superficies individuales al montarse, sin transformar la página ni la columna sticky; el transform se libera al terminar. Cambiar contenido de un bloque existente no reinicia la entrada. `prefers-reduced-motion` desactiva los efectos. Comprobación Chromium del CSS: `scripts/verificar_animaciones_gobierno.py`, 390/1440 px, secuencia, final, actualización y movimiento reducido. Cuatro pruebas funcionales de Mi Gobierno pasan.
 
 Alcance MVP ajustado por Clemente: se retira el botón «Cobrar beneficio» de la tarjeta PGU cuando el resultado orientativo es elegible. La tarjeta conserva situación, monto estimado, calendario, requisitos y chat; no ofrece una acción de cobro. Las acciones de preparación y antecedentes de otros estados permanecen disponibles. Verificación del flujo de sesión, consentimiento, documentos y revocación en `tests/test_government.py`.
@@ -130,3 +136,9 @@ La respuesta nueva reemplaza directamente el indicador mediante `response.write_
 - 15-10: Restaurado el s?mbolo original azul y rojo sobre Asistente de IA, retirando la regla CSS que lo ocultaba. Verificaci?n est?tica de visibilidad, dimensiones y colores OK; navegador no disponible (sin uv ni playwright). [[mi-gobierno]]. Commit ?Restaurar s?mbolo del asistente de Mi Gobierno?.
 
 - 15-10: Saludo inicial de Mi Gobierno mas arriba: margen superior de 20 a 0 px y padding superior de 18 a 0 px. Chromium verifica ambos espacios en 0 a 390/1440 px. [[mi-gobierno]]. Commit: Acercar saludo al titulo del asistente.
+
+- 15-10: Corregido el asistente de Mi Gobierno: pregunta alineada a la derecha durante la espera y scroll limitado al historial sin arrastrar la pagina. Verificacion de navegador con respuesta demorada y nueve pruebas funcionales. [[mi-gobierno]].
+
+- 15-10: Datos personales unificado con el estilo minimalista de Mi Gobierno: Roboto/Roboto Slab, identidad neutra, campos legibles, secciones con separadores y documentos con un solo marco. Consentimiento, adjuntos y formularios conservados. Cinco pruebas funcionales, Ruff y Chromium a 390/900/1440 px OK. Verificación reproducible: `python scripts/verificar_datos_personales.py`. [[mi-gobierno]]. Commit: Unificar el estilo de Datos personales.
+
+- 15-10: Corregidos insultos con errores de escritura (por ejemplo, "eres una imerda"): respuesta breve antes de recuperar fuentes o invocar Bedrock, sin heredar PGU del historial. Mismo comportamiento en ambos chats, con y sin modelo y en streaming. Se conservan consultas reales con groserias. 43 pruebas de conversacion y Ruff OK; bateria ampliada: 64 pasan y dos fallos en enlaces de fuentes PGU ajenos al cambio. [[mi-gobierno]].

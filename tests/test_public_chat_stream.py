@@ -4,6 +4,21 @@ from src.agent.bedrock import BedrockClient, BedrockSettings
 from src.app.ruta import asistente, chatbot
 
 
+def test_progressive_render_preserves_text_without_adding_a_cursor():
+    from src.app.chat_feedback import render_text_stream
+
+    rendered = []
+
+    class Target:
+        def markdown(self, text):
+            rendered.append(text)
+
+    chunks = ["Hola. ", "Consulta la [fuente](https://example.com)."]
+    result = render_text_stream(Target(), iter(chunks))
+    assert rendered == [chunks[0], "".join(chunks)]
+    assert result == "".join(chunks)
+
+
 def test_stream_yields_first_fragment_before_consuming_the_answer(monkeypatch):
     source = "https://www.ventanillaunicasocial.gob.cl/ficha/95/pension-garantizada-universal"
     monkeypatch.setattr(

@@ -35,6 +35,8 @@ Este tablero registra avances e integración; no asigna tareas. La guía [[conte
 -
 
 ## Hecho
+- Insultos sin consulta, incluidas variantes como «eres una imerda», reciben una respuesta breve sin recuperar PGU del historial ni invocar Bedrock. Consultas legítimas con groserías conservadas. 43 pruebas de conversación y Ruff OK. [[mi-gobierno]].
+- Corregido el asistente de Mi Gobierno: pregunta alineada a la derecha durante la espera y scroll limitado al historial sin arrastrar la pagina. Verificacion de navegador con respuesta demorada y nueve pruebas funcionales. [[mi-gobierno]].
 - Introducción del acceso subida 18 px y campo simplificado a ClaveÚnica; selector de perfil ficticio conservado. [[mi-gobierno]].
 - Banner rotativo Beneficios/Asistente IA con pausa y prueba de consulta al chat existente; sin logo de esquina ni instrucciones inglesas en campos. Diez pruebas de flujo/modelo OK. [[portada-chileatiende]].
 - Acceso simplificado sin subtítulo ni recuadro de credenciales; texto y placeholder centrados verticalmente. [[mi-gobierno]].

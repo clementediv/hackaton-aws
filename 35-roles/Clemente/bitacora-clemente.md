@@ -4,6 +4,12 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+- 15-10: Texto de ambos chats con pausa de 25 ms por palabra y actualización directa del placeholder sin cursor automático. Nueve pruebas enfocadas OK; prueba ajena al cambio discrepa en URL fuente PGU. [[mi-gobierno]]. Commit «Acelerar el texto y quitar el cursor del chat».
+
+- 15-10: Revisión del problema persistente en pantalla completa: el servidor 8501 conservaba el render Markdown anterior. Reiniciado con código vigente; captura y medición confirman centrado de requisitos PGU. Verificador de los 16 detalles exige HTML actualizado y comprueba tres anchos. [[mi-gobierno]]. Commit «Verificar detalles en la aplicación completa».
+
+- 15-10: Alineados los detalles de beneficios con Resultado de la revisión: st.html conserva el padding inferior que Markdown recortaba; ancho contenido y padding de acciones condicionado. Chromium a 390/900/1440 px verifica centros horizontales y verticales sin desviación. [[mi-gobierno]]. Commit «Alinear los recuadros de detalles de beneficios».
+
 - 15-10: Entradas de Mi Gobierno refinadas en motion.css: superficies con fade/desplazamiento breve, secuencia de beneficios y etapas, sin transform persistente; movimiento reducido respetado. Chromium con CSS real a 390/1440 px y cuatro pruebas funcionales OK. [[mi-gobierno]]. Commit «Pulir entradas animadas de Mi Gobierno».
 
 Una entrada por avance o commit relevante, la más reciente arriba. Así se puede seguir el historial de cada tarea sin leer todo `git log`.
@@ -197,3 +203,7 @@ Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo
 - 15-10: Restaurado el s?mbolo original azul y rojo sobre Asistente de IA, retirando la regla CSS que lo ocultaba. Verificaci?n est?tica de visibilidad, dimensiones y colores OK; navegador no disponible (sin uv ni playwright). [[mi-gobierno]]. Commit ?Restaurar s?mbolo del asistente de Mi Gobierno?.
 
 - 15-10: Saludo inicial de Mi Gobierno mas arriba: margen superior de 20 a 0 px y padding superior de 18 a 0 px. Chromium verifica ambos espacios en 0 a 390/1440 px. [[mi-gobierno]]. Commit: Acercar saludo al titulo del asistente.
+
+- 15-10: Datos personales unificado con el estilo minimalista de Mi Gobierno: Roboto/Roboto Slab, identidad neutra, campos legibles, secciones con separadores y documentos con un solo marco. Consentimiento, adjuntos y formularios conservados. Cinco pruebas funcionales, Ruff y Chromium a 390/900/1440 px OK. Verificación reproducible: `python scripts/verificar_datos_personales.py`. [[mi-gobierno]]. Commit: Unificar el estilo de Datos personales.
+
+- 16-10: Home con entrada escalonada de título, descripción y campo de consulta; secciones reveladas al hacer scroll y tarjetas/enlaces con respuesta suave al puntero. Reutiliza motion.css, mantiene el carrusel y desactiva efectos con movimiento reducido. Cinco pruebas del portal, Ruff y Chromium 390/1440 px (movimiento normal/reducido, teclado y ancho) OK. Verificador: `python scripts/verificar_animaciones_home.py`. [[portal-ayuda-tramites]]. Commit: Pulir animaciones del home.

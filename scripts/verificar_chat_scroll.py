@@ -60,8 +60,7 @@ else:
 SCROLL_STATE = """e => {
   let node = e;
   while (node) {
-    if (/(auto|scroll)/.test(getComputedStyle(node).overflowY) &&
-        node.scrollHeight > node.clientHeight + 5) {
+    if (/(auto|scroll)/.test(getComputedStyle(node).overflowY)) {
       return {top: node.scrollTop, remaining: node.scrollHeight-node.clientHeight-node.scrollTop};
     }
     node = node.parentElement;
@@ -88,11 +87,24 @@ def verify(page, mode):
     for turn in range(2):
         page.get_by_test_id("stStatusWidget").wait_for(state="hidden")
         question = f"Consulta {turn}"
-        field = page.get_by_placeholder(prompt)
+        composer = page.locator(".st-key-gov_assistant") if mode == "Mi Gobierno" else page
+        field = composer.get_by_placeholder(prompt)
         field.fill(question)
+        page_scroll = """() => [...document.querySelectorAll('section')]
+            .reduce((sum, e) => sum + e.scrollTop, 0)"""
+        outer_scroll = page.evaluate(page_scroll)
         field.press("Enter")
         dots = page.locator(".chat-typing")
         dots.wait_for()
+        page.evaluate("""() => {
+          window.chatCursorDetected = false;
+          window.chatCursorObserver?.disconnect();
+          window.chatCursorObserver = new MutationObserver(() => {
+            const messages = [...document.querySelectorAll('[data-testid="stChatMessage"]')];
+            if (messages.some(e => e.textContent.includes('\u2595'))) window.chatCursorDetected = true;
+          });
+          window.chatCursorObserver.observe(document.body, {childList:true,subtree:true,characterData:true});
+        }""")
         assert dots.locator("span").count() == 3
         assert page.locator('[data-testid="stChatMessage"]').nth(0).is_visible()
         assert page.locator('[data-testid="stChatMessage"]').filter(has_text=question).count() == 1
@@ -100,10 +112,18 @@ def verify(page, mode):
             "els => els.map(e => getComputedStyle(e).animationDelay)"
         ) == ["0s", "0.16s", "0.32s"]
         page.wait_for_timeout(350)
+        if mode == "Mi Gobierno":
+            assert abs(page.evaluate(page_scroll) - outer_scroll) < 4
+            bubble = page.locator('[data-testid="stChatMessage"]').filter(has_text=question)
+            assert bubble.evaluate("""e => {
+                const wrapper = e.closest('[class*=st-key-gov_chat_user_]');
+                return wrapper && getComputedStyle(wrapper).alignSelf === 'flex-end';
+            }"""), "Pregunta sin alineacion derecha durante espera"
         if not alignment_only:
             wait_for_bottom(dots)
         page.get_by_text(f"Fin de respuesta: {question}", exact=False).wait_for()
         dots.wait_for(state="detached")
+        assert not page.evaluate("window.chatCursorDetected"), "Cursor visible durante la respuesta"
         page.wait_for_timeout(1400)
         last = page.locator('[data-testid="stChatMessage"]').last
         alignment = last.evaluate("""e => {

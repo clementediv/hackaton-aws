@@ -21,10 +21,13 @@
     if (!chat || !chat.querySelector('[data-testid="stChatMessage"]')) return;
     host.__chatScrollEvents[scope] = token;
     let node = chat;
-    while (node) {
+    // The personal assistant scrolls only its history; the public chat fills the page.
+    while (node && (scope !== ".st-key-assistant_messages" ||
+           (node !== doc.body && node !== doc.documentElement && !node.matches('[data-testid="stMain"], [data-testid="stAppViewContainer"], section.main')))) {
       const style = host.getComputedStyle(node);
-      if (/(auto|scroll)/.test(style.overflowY) && node.scrollHeight > node.clientHeight) {
+      if (/(auto|scroll)/.test(style.overflowY)) {
         node.scrollTo({top: node.scrollHeight, behavior: 'instant'});
+        if (scope === ".st-key-assistant_messages") break;
       }
       node = node.parentElement;
     }

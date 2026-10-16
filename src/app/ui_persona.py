@@ -345,12 +345,19 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
         st.session_state[permiso_clave] = ctx["autorizado"]
         hist = st.session_state[clave]
 
-        from chat_feedback import TYPING_HTML, scroll_chat
+        from chat_feedback import TYPING_HTML, render_text_stream, scroll_chat
 
         def preguntar(q: str):
-            mensajes.chat_message("user").write(q)
+            user_target = (
+                mensajes.container(key=f"gov_chat_user_{len(hist)}") if sidebar else mensajes
+            )
+            user_target.chat_message("user").write(q)
             scroll_chat(".st-key-assistant_messages", f"sent:{len(hist)}:{q}")
-            with mensajes.chat_message("assistant"):
+            assistant_target = (
+                mensajes.container(key=f"gov_chat_assistant_{len(hist) + 1}")
+                if sidebar else mensajes
+            )
+            with assistant_target.chat_message("assistant"):
                 response = st.empty()
                 response.markdown(TYPING_HTML, unsafe_allow_html=True)
                 try:
@@ -358,7 +365,7 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
                 except Exception:
                     response.empty()
                     raise
-                response.write_stream(asistente._template_stream(resp))
+                render_text_stream(response, asistente._template_stream(resp))
             hist.extend([{"rol": "user", "texto": q}, {"rol": "assistant", "texto": resp}])
             scroll_chat(".st-key-assistant_messages", f"received:{hist!r}")
             casos.registrar_evento(run, canal, "consulta_asistente", {"pregunta": q, "motor": motor})

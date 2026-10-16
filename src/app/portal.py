@@ -193,8 +193,8 @@ def _queue_home_question(question: str) -> None:
 
 def render_chat_page() -> None:
     st.session_state.pop("government_last_observed_view", None)
-    from chat_feedback import TYPING_HTML, scroll_chat
-    from ruta.asistente import responder_publico, _template_stream
+    from chat_feedback import TYPING_HTML, render_text_stream, scroll_chat
+    from ruta.asistente import WORD_DELAY_SECONDS, responder_publico, _template_stream
     from ruta import casos
     from ruta.datos import cargar_perfiles
     from ruta.pgu_review import is_personal_pgu_question, review_pgu
@@ -267,7 +267,7 @@ def render_chat_page() -> None:
                                 if engine == "bedrock":
                                     for word in re.findall(r"\s+|\S+\s*", chunk):
                                         yield word
-                                        time.sleep(0.08)
+                                        time.sleep(WORD_DELAY_SECONDS)
                                 else:
                                     yield chunk
                         except Exception:
@@ -275,7 +275,7 @@ def render_chat_page() -> None:
                             parts.append(notice)
                             yield notice
 
-                    response.write_stream(visible_chunks())
+                    render_text_stream(response, visible_chunks())
             history.extend([
                 {"rol": "user", "texto": pending, "scope": "personal" if personal else "public"},
                 {"rol": "assistant", "texto": "".join(parts),

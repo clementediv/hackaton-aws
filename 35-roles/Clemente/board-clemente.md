@@ -15,6 +15,7 @@ entorno: Claude Code + Codex
 Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de [[_equipo]].
 
 ## En curso
+- [ ] Actualizar material de presentación AWS con la página vigente: SVG, PNG, HTML y explicación; integrar cambios recientes · [[presentacion-servicios-aws]].
 - [ ] Detección proactiva en AWS (DynamoDB Streams + Lambda + SES): desplegada el 15-10 en la cuenta del evento (stack `ChileAtiendeProactivo`), 618 contactos simulados cargados; falta verificar la casilla en SES y probar la demo estrella · [[deteccion-proactiva-aws]]
 
 ## Por hacer
@@ -69,6 +70,11 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 
 ## Hecho
 - [x] Últimos pushes integrados hasta `5fc01c9`; verificación local: 282 pruebas, 15 de conocimiento, 500 perfiles y ambos chats en Chrome 390/1440 px OK. Tras alineación: 47 pruebas relacionadas OK. AWS real pendiente por ausencia de perfil en esta terminal; lint global heredado documentado. `f4dc140`, `2ffeca8`, integración `8c3686b` · [[verificacion-integracion-2026-10-15]].
+- [x] Animaciones del home: entrada escalonada, revelado al hacer scroll y tarjetas con hover suave. Cinco pruebas, Ruff y Chromium 390/1440 px normal/reducido OK. [[portal-ayuda-tramites]]. Commit: Pulir animaciones del home.
+- [x] Texto de ambos chats más rápido (25 ms por palabra) y sin cursor automático; placeholder actualizado directamente, preservando formato y alineación. Nueve pruebas enfocadas y Chromium 390/1440 px OK; discrepancia previa de URL fuente PGU documentada. Commit «Acelerar el texto y quitar el cursor del chat». [[mi-gobierno]].
+- [x] Alineación validada en pantalla completa: servidor 8501 conservaba módulo anterior (Markdown). Reiniciado con código vigente; verificador exige HTML nuevo y centra los 16 detalles en tres anchos. Commit «Verificar detalles en la aplicación completa». [[mi-gobierno]].
+- [x] Detalles de beneficios centrados como Resultado de la revisión: HTML nativo evita recorte inferior de Markdown; anchos contenidos y padding adicional solo con acciones. Chromium 390/900/1440 px confirma desviación horizontal/vertical de 0 px. Commit «Alinear los recuadros de detalles de beneficios». [[mi-gobierno]].
+- [x] Datos personales minimalista y fuentes del portal; identidad, documentos, contacto, trabajo y salud unificados. Cinco pruebas, Ruff y Chromium 390/900/1440 px OK. Commit: Unificar el estilo de Datos personales. [[mi-gobierno]].
 - [x] Entradas de Mi Gobierno suaves y escalonadas: beneficios, asistente, identidad y secciones; sin transform persistente y con movimiento reducido. Chromium 390/1440 px y cuatro pruebas OK. Commit «Pulir entradas animadas de Mi Gobierno». [[mi-gobierno]].
 - [x] Respuestas nuevas alineadas con el robot: placeholder reutilizado directamente y scroll fuera del mensaje en ambos chats. Nueve pruebas funcionales y Chromium a 390/1440 px con dos turnos por chat OK. Commit «Alinear respuestas nuevas con el robot». [[mi-gobierno]].
 - [x] Subir saludo inicial del asistente; Chromium 390/1440 px OK. [[mi-gobierno]]. Commit: Acercar saludo al titulo del asistente.

@@ -166,8 +166,9 @@ def render(diags) -> None:
             )
     if not case["autorizacion"]:
         if page == "Datos personales":
-            _identity(d, profile)
-            _consent(d)
+            with st.container(key="gov_personal_page"):
+                _identity(d, profile)
+                _consent(d)
         else:
             _benefits_page(d, authorized=False)
         return
@@ -213,15 +214,16 @@ def _chatbot_page(d, authorized: bool) -> None:
 
 
 def _personal_page(d, profile) -> None:
-    _identity(d, profile, authorized=True)
-    with st.expander("02. Domicilio y contacto"):
-        _contact_details(d, profile)
-    with st.expander("03. Documentos", expanded=True):
-        _documents(d)
-    with st.expander("04. Información laboral"):
-        _personal(d, profile)
-    with st.expander("05. Previsión y salud · Acceso restringido"):
-        _health_and_pension(d, profile)
+    with st.container(key="gov_personal_page"):
+        _identity(d, profile, authorized=True)
+        with st.expander("02. Domicilio y contacto"):
+            _contact_details(d, profile)
+        with st.expander("03. Documentos", expanded=True):
+            _documents(d)
+        with st.expander("04. Información laboral"):
+            _personal(d, profile)
+        with st.expander("05. Previsión y salud · Acceso restringido"):
+            _health_and_pension(d, profile)
 
 
 def _revoke(run: str) -> None:
@@ -574,13 +576,12 @@ def _requirement_card(
     icon = "✓" if ready else "!"
     kind = " gov-requirement-summary" if summary else ""
     with st.container(key=f"gov_requirement_{context}" if context else None):
-        st.markdown(
+        st.html(
             f'<div class="gov-requirement-card {tone}{kind}" role="group" '
             f'aria-label="{escape(title)}: {escape(status)}">'
             f'<span class="gov-requirement-icon" aria-hidden="true">{icon}</span>'
             f'<div><strong>{escape(title)}</strong><span class="gov-requirement-status">'
             f"{escape(status)}</span><p>{escape(detail)}</p></div></div>",
-            unsafe_allow_html=True,
         )
         if not ready and run:
             _requirement_support(run, context, kinds if allow_upload else (), source, video)
@@ -748,7 +749,7 @@ def _document_tiles(run: str, kinds, namespace: str) -> None:
 def _document_slot(run: str, kind: str, document: dict | None, namespace: str) -> None:
     index = government.DOCUMENT_TYPES.index(kind)
     context = f"{namespace}_{index}"
-    with st.container(border=True, key=f"gov_document_slot_{context}"):
+    with st.container(border=namespace != "personal", key=f"gov_document_slot_{context}"):
         st.markdown(
             '<div class="gov-document-title"><span aria-hidden="true">▤</span>'
             f"<b>{escape(kind)}</b></div>",

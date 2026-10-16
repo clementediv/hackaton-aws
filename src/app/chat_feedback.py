@@ -6,6 +6,16 @@ from pathlib import Path
 
 import streamlit.components.v1 as components
 
+
+def render_text_stream(target, chunks):
+    """Replace the waiting placeholder progressively without adding a cursor."""
+    parts = []
+    for chunk in chunks:
+        parts.append(chunk)
+        target.markdown("".join(parts))
+    return "".join(parts)
+
+
 TYPING_HTML = """
 <style>
 .chat-typing{display:flex;gap:6px;align-items:center;min-height:32px;padding:8px 2px}
