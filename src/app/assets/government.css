@@ -128,8 +128,10 @@
 .gov-requirement-card strong{overflow-wrap:anywhere}
 .gov-requirement-card.ready{background:#edf8f1;border-color:#b8dfc7;color:#166145}
 .gov-requirement-card.pending{background:#fff8e8;border-color:#ead49a;color:#805b13}
-[class*="st-key-gov_requirement_"]:has(.gov-requirement-card){border:1px solid #b8dfc7;border-radius:12px;background:#edf8f1;margin:10px 0;overflow:hidden}
-[class*="st-key-gov_requirement_"]:has(.gov-requirement-card.pending){background:#fff8e8;border-color:#ead49a;padding-bottom:14px}
+[class*="st-key-gov_requirement_"]:has(.gov-requirement-card){box-sizing:border-box;border:1px solid #b8dfc7;border-radius:12px;background:#edf8f1;margin:10px 0;overflow:hidden}
+[class*="st-key-gov_requirement_"]:has(.gov-requirement-card.pending){background:#fff8e8;border-color:#ead49a}
+[class*="st-key-gov_requirement_"]:has([data-testid="stPopover"]){padding-bottom:14px}
+[class*="st-key-gov_requirement_"] [data-testid="stHtml"]{box-sizing:border-box;width:100%;min-width:0;max-width:100%}
 [class*="st-key-gov_requirement_"] .gov-requirement-card{border:0;margin:0}
 [class*="st-key-gov_requirement_"]>[data-testid="stVerticalBlock"]{gap:8px}
 [class*="st-key-gov_requirement_"] [data-testid="stCaptionContainer"], [class*="st-key-gov_requirement_"] [data-testid="stText"]{padding:0 16px}

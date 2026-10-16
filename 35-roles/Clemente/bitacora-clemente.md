@@ -4,6 +4,8 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+- 15-10: Alineados los detalles de beneficios con Resultado de la revisión: st.html conserva el padding inferior que Markdown recortaba; ancho contenido y padding de acciones condicionado. Chromium a 390/900/1440 px verifica centros horizontales y verticales sin desviación. [[mi-gobierno]]. Commit «Alinear los recuadros de detalles de beneficios».
+
 - 15-10: Entradas de Mi Gobierno refinadas en motion.css: superficies con fade/desplazamiento breve, secuencia de beneficios y etapas, sin transform persistente; movimiento reducido respetado. Chromium con CSS real a 390/1440 px y cuatro pruebas funcionales OK. [[mi-gobierno]]. Commit «Pulir entradas animadas de Mi Gobierno».
 
 Una entrada por avance o commit relevante, la más reciente arriba. Así se puede seguir el historial de cada tarea sin leer todo `git log`.

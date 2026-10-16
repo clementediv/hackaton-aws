@@ -576,13 +576,12 @@ def _requirement_card(
     icon = "✓" if ready else "!"
     kind = " gov-requirement-summary" if summary else ""
     with st.container(key=f"gov_requirement_{context}" if context else None):
-        st.markdown(
+        st.html(
             f'<div class="gov-requirement-card {tone}{kind}" role="group" '
             f'aria-label="{escape(title)}: {escape(status)}">'
             f'<span class="gov-requirement-icon" aria-hidden="true">{icon}</span>'
             f'<div><strong>{escape(title)}</strong><span class="gov-requirement-status">'
             f"{escape(status)}</span><p>{escape(detail)}</p></div></div>",
-            unsafe_allow_html=True,
         )
         if not ready and run:
             _requirement_support(run, context, kinds if allow_upload else (), source, video)

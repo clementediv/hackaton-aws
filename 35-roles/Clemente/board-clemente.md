@@ -68,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Detalles de beneficios centrados como Resultado de la revisión: HTML nativo evita recorte inferior de Markdown; anchos contenidos y padding adicional solo con acciones. Chromium 390/900/1440 px confirma desviación horizontal/vertical de 0 px. Commit «Alinear los recuadros de detalles de beneficios». [[mi-gobierno]].
 - [x] Datos personales minimalista y fuentes del portal; identidad, documentos, contacto, trabajo y salud unificados. Cinco pruebas, Ruff y Chromium 390/900/1440 px OK. Commit: Unificar el estilo de Datos personales. [[mi-gobierno]].
 - [x] Entradas de Mi Gobierno suaves y escalonadas: beneficios, asistente, identidad y secciones; sin transform persistente y con movimiento reducido. Chromium 390/1440 px y cuatro pruebas OK. Commit «Pulir entradas animadas de Mi Gobierno». [[mi-gobierno]].
 - [x] Respuestas nuevas alineadas con el robot: placeholder reutilizado directamente y scroll fuera del mensaje en ambos chats. Nueve pruebas funcionales y Chromium a 390/1440 px con dos turnos por chat OK. Commit «Alinear respuestas nuevas con el robot». [[mi-gobierno]].
