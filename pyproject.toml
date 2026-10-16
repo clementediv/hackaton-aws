@@ -23,6 +23,7 @@ app = [
     "streamlit==1.40.1",
     "pandas==2.2.3",
     "reportlab>=4.2,<5",
+    "matplotlib>=3.9,<4",
 ]
 dev = [
     "moto[dynamodb,ses]>=5,<6",

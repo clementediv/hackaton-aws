@@ -10,6 +10,7 @@ import streamlit as st
 from ruta import engagement, trazabilidad
 from ruta.institutional_pdf import generate_pdf
 from ruta.institutional_reports import build_report, commune_of
+from ruta.report_heatmap import render_heatmap
 
 ASSETS = Path(__file__).parent / "assets"
 
@@ -49,6 +50,7 @@ def render(state, db_file, *, demo=False, profiles=None):
         institution=institution,
         communes=communes,
         demo=demo,
+        profiles=profiles,
     )
     cutoff = datetime.fromisoformat(data["cutoff"]).astimezone(ZoneInfo("America/Santiago"))
     mode = "Escenario simulado" if demo else "Registros de la aplicación"
@@ -86,6 +88,12 @@ def render(state, db_file, *, demo=False, profiles=None):
         st.markdown("#### Focos de gestión")
         for finding in data["findings"]:
             st.html(f'<div class="report-finding">{escape(finding)}</div>')
+    st.markdown("#### Dónde concentrar la atención en terreno")
+    st.image(render_heatmap(data["heatmap"]), use_container_width=True)
+    st.caption(
+        f"{data['heatmap']['mapped']} ubicaciones simuladas publicables. " + data["heatmap"]["note"]
+    )
+    st.caption(data["heatmap"]["source"])
     st.markdown("#### Distribución territorial")
     if data["territory"]:
         st.dataframe(

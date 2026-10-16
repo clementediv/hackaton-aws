@@ -41,3 +41,30 @@ La elección de destinatario personaliza el documento, no configura atribuciones
 `uv run --group app pytest tests/test_institutional_reports.py tests/test_executives.py`: conteos únicos, filtros, secuencia de eventos, ausencia de evidencia, futuro excluido, datos vacíos, extracción de texto PDF, ausencia de identificadores, caracteres especiales, paginación de 80 comunas y recorrido UI con descarga. Revisión visual del PDF y descarga real en Chromium; vista responsive a 390/1440 px.
 
 Cierre de implementación `7887a1e`, integración del equipo `f4e0e37`: **322 pruebas pasan**, dos omitidas por dependencias opcionales y ocho evals Bedrock excluidas. Verificador de 500 perfiles TODO OK. Se limpia la caché Streamlit entre pruebas para aislar las comprobaciones AWS de moto. Descarga real de PDF y revisión visual a 390/1440 px verificadas.
+
+## Heatmap y plantilla editorial · 16-10
+
+El PDF usa una portada azul oscuro con acento turquesa, fondos y cabeceras de
+continuidad. Distribución habitual: portada/resumen, inteligencia territorial y
+detalle/fuentes. Tablas extensas continúan en páginas adicionales con cabecera
+repetida. No depende de una plantilla ni de imágenes de terceros en ejecución.
+
+La página territorial incorpora un heatmap PNG de alta resolución, generado sin
+red con Matplotlib/Agg y cartografía local BCN `comunas2017` (referencia de 2017).
+Reutiliza `metropolitan_ranking` y `metropolitan_locations` del ejecutivo: solo
+pendientes activos de etapa 4 y comunas con al menos cinco casos, tras aplicar
+el filtro de comunas del reporte. No inventa ni modifica ubicaciones reales.
+La intensidad es densidad suavizada relativa, no conteo por color ni tasa de población.
+Solo se muestran coordenadas de origen sintético validadas por el motor existente;
+no se incorporan nombres, RUN ni direcciones al mapa del informe.
+
+En la campaña actual de demostración hay 13 ubicaciones publicables de La Florida
+y Puente Alto. El resto de pendientes no se fuerza al mapa si no cumple las reglas
+de publicación. Sin grupos válidos, muestra ausencia de grupos publicables; el
+documento conserva sus cifras y el significado de los ceros.
+
+El mismo mapa aparece en la vista web y en el PDF. La imagen se genera en memoria
+y se reutiliza para iguales puntos/filtros. `ruta/report_heatmap.py` implementa la
+selección y el render. Se añade Matplotlib al grupo `app`. Pruebas verifican filtros,
+umbral, exclusión de casos terminales, ausencia de identificadores y mapa incrustado
+en el PDF. Revisión visual de las tres páginas y descarga real en Chromium.

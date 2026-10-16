@@ -6,7 +6,15 @@ integrante: Jonmor
 
 Una entrada por avance o commit relevante, la más reciente arriba.
 
-Formato: `### 2026-10-16 · Reportería institucional en rama · 7887a1e
+Formato: `### 2026-10-16 · Plantilla editorial y heatmap del reporte
+
+Portada azul oscuro, fondos, cabeceras y tres páginas: resumen, heatmap/avance y
+detalle territorial/fuentes. Mapa offline con cartografía BCN local y mismas reglas
+del ejecutivo, filtrado por comunas. Sin grupos válidos no fabrica calor.
+Mapa visible también en la web. Rama `codex/reporteria-institucional`.
+[[reporteria-institucional]].
+
+### 2026-10-16 · Reportería institucional en rama · 7887a1e
 
 Vista del ejecutivo con destinatario municipal/ministerial, comunas, indicadores y
 PDF A4 automático con resumen, gráfico y detalle territorial. Agregados sin nombres,

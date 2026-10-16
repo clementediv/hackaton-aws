@@ -4,6 +4,7 @@ from collections import Counter
 from datetime import UTC, datetime
 
 from . import engagement
+from .report_heatmap import heatmap_data
 
 STATUSES = {
     "active": "Por contactar",
@@ -24,7 +25,9 @@ def commune_of(person):
     return person.get("contact", {}).get("commune") or "Sin comuna informada"
 
 
-def build_report(state, events, *, audience, institution, communes=None, demo=False, now=None):
+def build_report(
+    state, events, *, audience, institution, communes=None, demo=False, now=None, profiles=None
+):
     """No personal identifiers leave this function. Counts always use unique people."""
     generated = now or datetime.now(UTC)
     cutoff = state.get("clock", {}).get("now") if demo else generated.isoformat()
@@ -92,6 +95,7 @@ def build_report(state, events, *, audience, institution, communes=None, demo=Fa
         "progress": usage["counts"][3],
         "returning": usage["returning"],
         "territory": territory,
+        "heatmap": heatmap_data(state, people, profiles),
         "findings": findings,
         "source": SOURCE,
         "limitation": LIMITATION,

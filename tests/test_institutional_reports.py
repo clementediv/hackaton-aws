@@ -163,3 +163,42 @@ def test_officer_can_filter_and_download_same_snapshot(tmp_path, monkeypatch):
     app.selectbox(key="staff_source").set_value("Casos de la aplicación").run()
     assert not app.exception and captured[-1]["total"] == 0
     assert captured[-1]["demo"] is False and app.get("download_button")
+
+
+def test_heatmap_reuses_published_pending_groups_and_respects_commune_filter(tmp_path):
+    from src.app.ruta.datos import cargar_perfiles
+    from src.app.ruta.ejecutivos import demo_snapshot
+    from src.app.ruta.geografia import inside_commune
+
+    profiles = cargar_perfiles()
+    state = demo_snapshot(profiles, tmp_path / "geo.db")
+    data = build_report(
+        state, [], audience="Ministerio", institution="Prueba", demo=True, profiles=profiles
+    )
+    heat = data["heatmap"]
+    assert heat["mapped"] == len(heat["points"]) > 0
+    assert all(row["people"] >= 5 for row in heat["communes"])
+    commune = heat["communes"][0]["commune"]
+    scoped = build_report(
+        state,
+        [],
+        audience="Municipalidad",
+        institution=commune,
+        demo=True,
+        profiles=profiles,
+        communes=[commune],
+    )
+    assert all(
+        inside_commune(commune, p["latitude"], p["longitude"]) for p in scoped["heatmap"]["points"]
+    )
+    assert scoped["heatmap"]["communes"] == [heat["communes"][0]]
+    assert set(scoped["heatmap"]["points"][0]) == {"latitude", "longitude", "weight"}
+    serialized = json.dumps(data)
+    assert all(person["run"] not in serialized for person in state["people"])
+    terminal = {**state, "people": [dict(p, status="declined") for p in state["people"]]}
+    empty = build_report(terminal, [], audience="Ministerio", institution="Prueba", demo=True)
+    assert empty["heatmap"]["mapped"] == 0
+    reader = PdfReader(BytesIO(generate_pdf(data)))
+    assert len(reader.pages) == 3 and len(reader.pages[1].images) >= 1
+    assert "BCN" in reader.pages[1].extract_text()
+    assert "Pendientes de atención en terreno" in reader.pages[1].extract_text()
