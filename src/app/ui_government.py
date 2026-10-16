@@ -186,6 +186,11 @@ def render(diags) -> None:
 
 def _benefits_page(d, authorized: bool) -> None:
     with st.container(key="gov_benefits_layout"):
+        if authorized:
+            st.markdown(
+                '<h2 class="gov-simple-heading">Beneficios que podrías cobrar</h2>',
+                unsafe_allow_html=True,
+            )
         benefits, chat = st.columns([2.15, 1], gap="large")
         with benefits:
             if authorized:
@@ -422,10 +427,6 @@ def _health_and_pension(d, profile) -> None:
 
 
 def _benefits(d) -> None:
-    st.markdown(
-        '<h2 class="gov-simple-heading">Beneficios que podrías cobrar</h2>',
-        unsafe_allow_html=True,
-    )
     status, action, enabled = government.pgu_action(d)
     tone = "ready" if d.pgu.resultado == rules.ELEGIBLE else "pending"
     if d.pgu.resultado in (rules.NO_ELEGIBLE, rules.FUTURO):

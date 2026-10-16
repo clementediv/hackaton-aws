@@ -314,7 +314,7 @@ def _pantalla_ruta(d, run, canal, ruta, estados, caso):
 
 # --- Asistente ---------------------------------------------------------------
 def _asistente(d, run, canal, ctx, *, sidebar=False):
-    with st.container(border=True):
+    with st.container(border=not sidebar):
         if sidebar:
             st.markdown(
                 '<div class="gov-assistant-intro"><h4>Asistente de IA</h4>'

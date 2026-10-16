@@ -117,3 +117,5 @@ Referencias consultadas el 15-10-2026:
 - 15-10: Bordes de beneficios en azul suave #bfd6ec, manteniendo grosor de 1 px y separacion actual. Revision del diff OK. [[mi-gobierno]].
 
 - 15-10: Azul de bordes de beneficios mas visible (#82add3), conservando 1 px y separacion actual. Diff verificado. [[mi-gobierno]].
+
+- 15-10: Asistente IA alineado con titulo PGU: encabezado general antes de ambas columnas, retirado padding fijo de 52 px y decoracion superior del asistente. Marco azul #82add3 de 1 px igual a beneficios y padding equivalente, sin borde duplicado. Chromium confirma diferencia vertical 0 px al inicio y movil sin desborde; cuatro pruebas Mi Gobierno pasan. [[mi-gobierno]].
