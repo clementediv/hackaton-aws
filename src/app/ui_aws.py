@@ -45,6 +45,28 @@ def _clear() -> None:
     _history.clear()
 
 
+def person_contacts(run: str) -> list[dict]:
+    """A person's AWS contacts for other views; empty when AWS is unavailable."""
+    if not status()[0]:
+        return []
+    try:
+        return _person_contacts(run)
+    except Exception:  # noqa: BLE001 - other views work without AWS
+        log.warning("No se pudieron leer los contactos AWS de %s", run, exc_info=True)
+        return []
+
+
+def field_runs() -> list[str]:
+    """RUNs with a contact assigned to the field team (no answer to email or SMS)."""
+    if not status()[0]:
+        return []
+    try:
+        return sorted({c["run"] for c in _contacts() if c.get("estado") == "terreno"})
+    except Exception:  # noqa: BLE001
+        log.warning("No se pudieron leer los contactos AWS", exc_info=True)
+        return []
+
+
 def sync_answer(run: str, accepted: bool, channel: str) -> None:
     """Listener of `casos.responder_invitacion`: the answer also stops AWS.
     The app keeps working when AWS is unavailable; the error goes to the log."""
