@@ -68,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Ejemplo del banner PGU en afirmativo: requisitos cumplidos y beneficio listo para cobrar. Etiqueta ilustrativa visible sobre el titulo; revision personal y confirmacion IPS indicadas al pie. Checklist animado conservado. Cinco pruebas del portal OK. [[portal-ayuda-tramites]]. Commit ?Presentar en afirmativo el ejemplo del banner PGU?.
 - [x] Banner de beneficios reemplazado por pregunta sobre requisitos PGU, cuatro puntos ilustrativos de revision y checks secuenciales descendentes sincronizados con el ciclo de 16 segundos. CTA a revision personal en Mi Gobierno; no se afirma elegibilidad sin perfil. Chromium 1440/390 px y movimiento reducido OK; cinco pruebas del portal pasan. [[portal-ayuda-tramites]]. Commit ?Mostrar checklist animado de PGU en el banner?.
 - [x] Trazabilidad visual posalerta, sesiones, condiciones, avance declarado, continuidad 7/30 días y tiempos entre accesos. Registro de uso en Mi Gobierno; demo aislada e identificada. 260 pruebas y Chrome escritorio/móvil OK · `96abb06`, integración `fb6eea5` · [[trazabilidad-casos]].
 - [x] Retirado botón «Cobrar beneficio» de Mi Gobierno para acotar el MVP; 24 pruebas de UI/integración y verificador de 500 perfiles OK · commit «Retirar botón de cobro del MVP de Mi Gobierno» · [[mi-gobierno]].
