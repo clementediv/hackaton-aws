@@ -636,6 +636,11 @@ def _requirement_support(run: str, context: str, kinds: tuple, source: str, vide
         if document := saved.get(kind):
             st.text(document["name"])
         st.caption(f"{kind} · {government.document_status_label(saved.get(kind))}")
+    if video:
+        # Small player inside the requirement box itself, not in a popover.
+        with st.container(key=f"gov_video_{context}"):
+            st.video(video)
+            st.caption("Video de orientación · confirma fechas en la guía oficial.")
     help_column, upload_column = st.columns(2)
     with help_column, st.popover("Ver ayuda", use_container_width=True):
         st.markdown("**Te acompañamos paso a paso**")
@@ -644,12 +649,6 @@ def _requirement_support(run: str, context: str, kinds: tuple, source: str, vide
             "2. Consulta la guía oficial para obtenerlo o actualizarlo.\n"
             "3. Si ya tienes el documento y no está entre tus datos compartidos, adjúntalo aquí."
         )
-        st.video(video)
-        st.caption(
-            "Video de orientación general del beneficio. Puede corresponder a una edición "
-            "anterior; confirma requisitos y fechas en la guía oficial."
-        )
-        st.link_button("Abrir video en YouTube ↗", video)
         st.link_button("Consultar guía oficial ↗", source)
     with upload_column:
         if kinds:
