@@ -130,3 +130,5 @@ La respuesta nueva reemplaza directamente el indicador mediante `response.write_
 - 15-10: Restaurado el s?mbolo original azul y rojo sobre Asistente de IA, retirando la regla CSS que lo ocultaba. Verificaci?n est?tica de visibilidad, dimensiones y colores OK; navegador no disponible (sin uv ni playwright). [[mi-gobierno]]. Commit ?Restaurar s?mbolo del asistente de Mi Gobierno?.
 
 - 15-10: Saludo inicial de Mi Gobierno mas arriba: margen superior de 20 a 0 px y padding superior de 18 a 0 px. Chromium verifica ambos espacios en 0 a 390/1440 px. [[mi-gobierno]]. Commit: Acercar saludo al titulo del asistente.
+
+- 15-10: Datos personales unificado con el estilo minimalista de Mi Gobierno: Roboto/Roboto Slab, identidad neutra, campos legibles, secciones con separadores y documentos con un solo marco. Consentimiento, adjuntos y formularios conservados. Cinco pruebas funcionales, Ruff y Chromium a 390/900/1440 px OK. Verificación reproducible: `python scripts/verificar_datos_personales.py`. [[mi-gobierno]]. Commit: Unificar el estilo de Datos personales.
