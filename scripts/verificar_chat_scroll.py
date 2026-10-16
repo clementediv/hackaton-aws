@@ -16,7 +16,17 @@ from urllib.request import urlopen
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
-CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+CHROME = next(
+    (
+        str(path)
+        for path in (
+            Path("C:/Program Files/Google/Chrome/Application/chrome.exe"),
+            Path("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"),
+        )
+        if path.exists()
+    ),
+    None,
+)
 HARNESS = """
 import sys
 import time
@@ -40,8 +50,11 @@ if mode == "Público":
     st.session_state["portal_home_page"] = st.Page(lambda: None, title="Inicio")
     portal.render_chat_page()
 else:
-    ui_persona._asistente(None, "test", "web", {"autorizado": True, "nombre": "Demo"},
-                         sidebar=True)
+    css = (ui_persona.Path(APP_DIR) / 'assets/government.css').read_text(encoding='utf-8')
+    st.markdown('<style>' + css + '</style>', unsafe_allow_html=True)
+    with st.container(key="gov_assistant"):
+        ui_persona._asistente(None, "test", "web", {"autorizado": True, "nombre": "Demo"},
+                             sidebar=True)
 """.replace("APP_DIR", repr(str(ROOT / "src/app")))
 
 SCROLL_STATE = """e => {
@@ -68,6 +81,7 @@ def wait_for_bottom(locator):
 
 
 def verify(page, mode):
+    alignment_only = "--alignment-only" in sys.argv
     container = ".st-key-public_chat" if mode == "Público" else ".st-key-personal_chat_composer"
     page.locator(container).wait_for()
     prompt = "Describe lo que necesitas"
@@ -86,15 +100,26 @@ def verify(page, mode):
             "els => els.map(e => getComputedStyle(e).animationDelay)"
         ) == ["0s", "0.16s", "0.32s"]
         page.wait_for_timeout(350)
-        wait_for_bottom(dots)
+        if not alignment_only:
+            wait_for_bottom(dots)
         page.get_by_text(f"Fin de respuesta: {question}", exact=False).wait_for()
         dots.wait_for(state="detached")
         page.wait_for_timeout(1400)
         last = page.locator('[data-testid="stChatMessage"]').last
-        wait_for_bottom(last)
+        alignment = last.evaluate("""e => {
+          const avatar = e.querySelector('[data-testid="stChatMessageAvatarAssistant"]');
+          const text = e.querySelector('[data-testid="stMarkdownContainer"] p');
+          return Math.abs(avatar.getBoundingClientRect().top - text.getBoundingClientRect().top);
+        }""")
+        assert alignment < 4, f"Respuesta nueva desalineada: {alignment}px"
+        if not alignment_only:
+            wait_for_bottom(last)
         box = last.bounding_box()
-        assert 0 < box["y"] + box["height"] < page.viewport_size["height"]
+        if not alignment_only:
+            assert 0 < box["y"] + box["height"] < page.viewport_size["height"]
     # Once the new message settles, reading older messages must remain possible.
+    if alignment_only:
+        return
     last.evaluate("""e => { for(let n=e;n;n=n.parentElement) {
       if (/(auto|scroll)/.test(getComputedStyle(n).overflowY)) n.scrollTop=0;
     }}""")
@@ -103,9 +128,9 @@ def verify(page, mode):
 
 
 def main():
-    with tempfile.TemporaryDirectory(prefix="chat-scroll-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="chat-scroll-", ignore_cleanup_errors=True) as tmp:
         harness = Path(tmp) / "app.py"
-        harness.write_text(HARNESS)
+        harness.write_text(HARNESS, encoding="utf-8")
         with socket.socket() as sock:
             sock.bind(("127.0.0.1", 0))
             port = sock.getsockname()[1]
@@ -148,7 +173,12 @@ def main():
                             assert page.locator('[data-testid="stException"]').count() == 0
                             print(
                                 f"OK {mode}, {width}px: "
-                                "envío visible, ola, scroll y lectura manual",
+                                "alineación de respuestas, envío y espera"
+                                + (
+                                    ""
+                                    if "--alignment-only" in sys.argv
+                                    else ", scroll y lectura manual"
+                                ),
                                 flush=True,
                             )
                             page.close()

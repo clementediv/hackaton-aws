@@ -349,17 +349,16 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
 
         def preguntar(q: str):
             mensajes.chat_message("user").write(q)
+            scroll_chat(".st-key-assistant_messages", f"sent:{len(hist)}:{q}")
             with mensajes.chat_message("assistant"):
                 response = st.empty()
                 response.markdown(TYPING_HTML, unsafe_allow_html=True)
-                scroll_chat(".st-key-assistant_messages", f"sent:{len(hist)}:{q}")
                 try:
                     resp, motor = obtener_respuesta(q)
                 except Exception:
                     response.empty()
                     raise
-                with response.container():
-                    st.write_stream(asistente._template_stream(resp))
+                response.write_stream(asistente._template_stream(resp))
             hist.extend([{"rol": "user", "texto": q}, {"rol": "assistant", "texto": resp}])
             scroll_chat(".st-key-assistant_messages", f"received:{hist!r}")
             casos.registrar_evento(run, canal, "consulta_asistente", {"pregunta": q, "motor": motor})

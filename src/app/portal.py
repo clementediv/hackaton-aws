@@ -241,10 +241,10 @@ def render_chat_page() -> None:
             with st.container(key=f"public_message_user_{index}"):
                 st.chat_message("user").write(pending)
             with st.container(key=f"public_message_assistant_{index + 1}"):
+                scroll_chat(".st-key-public_chat", f"sent:{index}:{pending}")
                 with st.chat_message("assistant"):
                     response = st.empty()
                     response.markdown(TYPING_HTML, unsafe_allow_html=True)
-                    scroll_chat(".st-key-public_chat", f"sent:{index}:{pending}")
                     try:
                         personal = is_personal_pgu_question(
                             pending, pgu_context=bool(history and history[-1].get("scope") == "personal")
@@ -275,8 +275,7 @@ def render_chat_page() -> None:
                             parts.append(notice)
                             yield notice
 
-                    response.empty()
-                    st.write_stream(visible_chunks())
+                    response.write_stream(visible_chunks())
             history.extend([
                 {"rol": "user", "texto": pending, "scope": "personal" if personal else "public"},
                 {"rol": "assistant", "texto": "".join(parts),
