@@ -45,6 +45,10 @@ class ProactivoStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
         email = self.node.try_get_context("email") or "clemente.uribe.ortiz@gmail.com"
         sender = self.node.try_get_context("remitente") or email
+        # Other inboxes that also get real email (a demo guest), comma-separated and
+        # verified in SES by hand; passed with -c so addresses stay out of the repo.
+        guests = str(self.node.try_get_context("emails_extra") or "").split(",")
+        real_emails = ",".join([email, *(g.strip() for g in guests if g.strip())])
         role_arn = self.node.try_get_context("lambda_role_arn")
         wait_email = str(self.node.try_get_context("espera_email_min") or 5)
         wait_sms = str(self.node.try_get_context("espera_sms_min") or 5)
@@ -87,7 +91,7 @@ class ProactivoStack(Stack):
             "TABLA_CONTACTOS": contacts.table_name,
             "TABLA_HISTORIAL": history.table_name,
             "REMITENTE": sender,
-            "EMAILS_REALES": email,
+            "EMAILS_REALES": real_emails,
             "ESPERA_EMAIL_MIN": wait_email,
             "ESPERA_SMS_MIN": wait_sms,
         }

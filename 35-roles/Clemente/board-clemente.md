@@ -51,6 +51,8 @@ Los puntos 1–4 del cierre anterior ya están en `main` ([[app-aws-conectada]];
 - [x] **M5. Cierre de documentación:** componentes 13–14 y próximos pasos de [[arquitectura-chileatiende]], board y bitácoras.
 - **Para C5 (guion):** (f) Punto CESFAM: escribir un RUN de los ejemplos que muestra la vista (p. ej. `100000002-3`, Carmen María Castro Torres: 3 contactos AWS en terreno) → «Derivar a ChileAtiende» → Atención del caso → «Atender». (g) Medición: KPI «Sin medir» hasta que alguien cumpla 30 días; mostrar el avance provisional aceptando y marcando un paso en Atención del caso.
 
+- **Para C5 (checklist):** invitado de la demo técnica con email real: persona «Juan Demo» (`90000008-1`, 63 años; el evento «cumple 65» le envía el email). Su casilla está verificada en SES y entra con `-c emails_extra=<casilla>` en cada `cdk deploy` (ver `infra/README.md`); sin ese `-c` vuelve a email simulado. Antes de repetirlo: «Reiniciar contactos de esta persona».
+
 Fuera del MVP (después de la demo): lint de `src/app`, unificar motores y datos (SQLite/DynamoDB), contratos nuevos y estados reales de entrega de email.
 
 ### Validar con los mentores
