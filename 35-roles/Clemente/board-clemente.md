@@ -15,15 +15,42 @@ entorno: Claude Code + Codex
 Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de [[_equipo]].
 
 ## En curso
-- [ ] Detección proactiva en AWS (DynamoDB Streams + Lambda + SES): desplegada el 15-10 en la cuenta del evento (stack `ChileAtiendeProactivo`), 618 contactos simulados cargados; falta verificar la casilla en SES y probar la demo estrella · [[deteccion-proactiva-aws]]
+- [ ] Detección proactiva en AWS (DynamoDB Streams + Lambda + SES): desplegada el 15-10 en la cuenta del evento (stack `ChileAtiendeProactivo`), 618 contactos simulados cargados; falta verificar la casilla en SES y probar la demo estrella · [[deteccion-proactiva-aws]] → tarea **M1** del cierre final
 
 ## Por hacer
-### Cierre del MVP — para Codex (16-10)
-Contexto: los puntos 1–3 del cierre ya están en `main` ([[app-aws-conectada]]). Antes de cada uno, mover a «En curso»; al terminar, a «Hecho» con el commit.
-- [x] **4. Tests del chat público rojos.** Resueltos por `6bf5ffe` («Hacer el chatbot público más robusto»): tras el merge del 16-10, la suite completa da 316 passed. Nada que hacer.
-- [ ] **5. `src/app/demo_embudo.py` con cambio local sin commitear** (quita los escenarios precargados del laboratorio del embudo; parece una versión vieja). Confirmar con Clemente antes de tocarlo: descartar (`git checkout -- src/app/demo_embudo.py`) o commitear. **Acepta:** `git status` limpio en ese archivo y el laboratorio de :8502 con escenarios.
-- [ ] **6. Guion de la demo** en `00-inbox/guion-demo.md` o `20-arquitectura/`: (a) Vista ejecutivo → Contactos AWS → «Simular evento de vida»: Jorge Demo (90000002-2) cumple 65 → llega el email real; (b) clic en el botón del email; (c) ficha del beneficiario con el historial AWS; (d) mapa de calor y campañas; (e) Mi Gobierno con el aviso y «Quiero orientación»; (f) Trazabilidad. Incluir tiempos, qué decir en cada paso y el plan B si AWS falla (la app avisa y sigue). Antes de cada ensayo: «Reiniciar contactos de esta persona». **Acepta:** guion probado una vez de punta a punta.
-- [ ] **7. Checklist previo a la demo** en el mismo guion: renovar claves `hackaton` (vencen ~6 h; `aws sts get-caller-identity --profile hackaton`), casilla SES verificada, una sola instancia de la app en :8501 (cerrar copias), datos demo cargados (`scripts/proactivo.py cargar --solo-demo`) y `scripts/proactivo.py resumen`. **Acepta:** lista con comandos copiables.
+### Cierre final del MVP (16-10) — reparto Codex / Claude
+Los puntos 1–4 del cierre anterior ya están en `main` ([[app-aws-conectada]]; los tests del chat los arregló `6bf5ffe`). Quedan 10 tareas: 5 para Codex y 5 para Claude. **Cada agente toca solo sus archivos** (columna «Archivos»); si necesitas uno del otro, déjalo anotado aquí en vez de editarlo. Antes de empezar, marca la tarea con «⏳ en curso»; al terminar, `[x]` con el commit. Flujo de [[AGENTS]]: commit → merge de `origin/main` → `uv run --group app pytest` y `uv run --group app python src/app/verificar.py` → push. **No commitear** `35-roles/_equipo.md` (cambio ajeno), la foto de WhatsApp ni `dataset_A_participantes.zip` (repo público).
+
+#### Para Codex (implementación acotada, tests y guion)
+| # | Archivos |
+|---|---|
+| C1 | `src/app/demo_embudo.py` |
+| C2 | `src/tools/profiles.py`, `tests/` |
+| C3 | `src/agent/prompts.py`, `tests/` |
+| C4 | `src/app/ruta/government.py`, `src/app/ui_government.py` (solo documentos), `src/app/ui_ficha.py` (solo el bloque «Documentos y declaración»), `tests/` |
+| C5 | `00-inbox/guion-demo.md` (nuevo) |
+
+- [ ] **C1. `src/app/demo_embudo.py` con cambio local sin commitear** (quita los escenarios precargados del laboratorio del embudo; parece una versión vieja). **Preguntar a Clemente** antes de tocarlo: descartar (`git checkout -- src/app/demo_embudo.py`) o commitear. **Acepta:** `git status` limpio en ese archivo y el laboratorio de :8502 con escenarios.
+- [ ] **C2. `normalize_run` acepta RUN sin guion.** `src/tools/profiles.py` hoy exige guion; `src/app/ruta/demo_auth.py` ya acepta `123456785`, `12.345.678-5` y espacios. Igualar el comportamiento (sin duplicar la lógica si se puede importar una de la otra sin ciclos). **Acepta:** test con `123456785`, `12345678-5`, `12.345.678-5` → `12345678-5`; DV inválido y texto vacío siguen fallando; el resto de la suite verde.
+- [ ] **C3. Prompt sin evaluación.** En `SYSTEM_PROMPT` (`src/agent/prompts.py`): si no hay una evaluación disponible de las herramientas, no explicar requisitos ni montos de memoria; decir qué falta (perfil, autorización o herramienta) y ofrecer el próximo paso. **Acepta:** test que verifica la regla en el prompt y que los tests de `src/agent` siguen verdes.
+- [ ] **C4. Checklist de documentos pendiente → recibido → validado.** Hoy un adjunto queda «pendiente de revisión» y nadie lo valida. (a) `government.py`: columna/estado de revisión (`validated_by`, `validated_at`) con migración que no rompa `casos.db` existentes; `validate_document(run, kind, reviewer)` y `list_documents` devuelve `status` = `recibido` | `validado`. (b) Ficha del beneficiario, bloque «Documentos y declaración»: botón «Marcar validado» por documento (usuario ejecutivo de la sesión). (c) Mi Gobierno: cada documento requerido muestra «Pendiente», «Recibido · en revisión» o «Validado por ChileAtiende». Validar un documento **no** cambia la elegibilidad (lo dice la ficha). **Acepta:** tests de `government` (estados, migración, borrar documento vuelve a pendiente) y una prueba AppTest de la ficha.
+- [ ] **C5. Guion de la demo + checklist previo** en `00-inbox/guion-demo.md` (absorbe los ex-6 y 7 y el «Guion de la demo» de la sección Demo). **Guion (~5 min):** (a) Vista ejecutivo → Contactos AWS → «Reiniciar contactos de esta persona» y luego «Simular evento de vida»: Jorge Demo (90000002-2) cumple 65 → llega el email real; (b) clic en «Quiero orientación» del email; (c) ficha del beneficiario con historial AWS y alerta; (d) mapa de calor y campañas; (e) Mi Gobierno con el aviso y documentos; (f) **punto de atención CESFAM con alerta máxima y derivación** (M2–M3, de Claude); (g) Medición con el **KPI de próximo paso ≥75%** (M4, de Claude); (h) Trazabilidad. Por paso: qué hacer, qué decir y tiempo. **Plan B** si AWS falla (la app avisa y sigue con SQLite). **Checklist previo** con comandos copiables: `aws sts get-caller-identity --profile hackaton` (las claves vencen ~6 h), casilla SES verificada, una sola app en :8501 (cerrar copias), `uv run python scripts/proactivo.py cargar --solo-demo` y `... resumen`. Escribir (a)–(e) y (h) ya; (f) y (g) cuando M2–M4 estén en `[x]`. **Acepta:** guion probado una vez de punta a punta en :8501.
+
+#### Para Claude (AWS en vivo, diseño y features nuevas)
+| # | Archivos |
+|---|---|
+| M1 | AWS (sin cambios de código salvo fix) |
+| M2–M3 | `20-arquitectura/cesfam-derivacion.md` (nuevo), `src/app/ruta/derivaciones.py` (nuevo), `src/app/ui_cesfam.py` (nuevo), `src/app/app.py`, `src/app/portal.py` |
+| M4 | `src/app/app.py` (`vista_kpis`), `src/app/ruta/` (módulo nuevo de KPI) |
+| M5 | `20-arquitectura/arquitectura-chileatiende.md`, board y bitácoras |
+
+- [ ] **M1. Demo estrella en vivo contra AWS:** casilla SES verificada, Jorge Demo cumple 65 desde la app → email real → clic → contacto aceptado y escalamiento detenido.
+- [ ] **M2. Punto de atención CESFAM simulado:** vista mínima donde el funcionario ingresa el RUN y solo ve «Derivar a ChileAtiende» si hay alerta máxima; sin datos sensibles del beneficio.
+- [ ] **M3. Derivación al ejecutivo con resumen del caso:** la derivación (desde CESFAM o la app) llega a «Atención del caso» con un resumen calculado por código (beneficio, estado, contacto, documentos, próximo paso).
+- [ ] **M4. KPI de próximo paso válido dentro del plazo (meta ≥75%):** definir evidencia, paso y plazo; contacto e inicio no lo sustituyen; mostrarlo en Medición.
+- [ ] **M5. Cierre de documentación:** arquitectura (componentes 13–14), próximos pasos y board.
+
+Fuera del MVP (después de la demo): lint de `src/app`, unificar motores y datos (SQLite/DynamoDB), contratos nuevos y estados reales de entrega de email.
 
 ### Validar con los mentores
 - [ ] ¿Hay un dataset con email, teléfono, empleador y provincia (¿dataset B?)?
@@ -52,24 +79,24 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - [ ] Definir y probar el siguiente canal según el resultado: entregado sin respuesta espera el plazo; rebote/dato inválido requiere una política explícita de recuperación o cambio de canal. No equiparar envío/apertura con contacto confirmado ni inventar que la persona ignoró un mensaje que quizá no recibió.
 
 ### Heatmap y alerta de beneficio
-- [ ] `src/app/ruta/alertas.py`: nivel de alerta por RUN; "nivel máximo" en la ficha del ejecutivo
-- [ ] Vista simulada del punto de atención CESFAM, con mensaje mínimo ("derivar a ChileAtiende")
+- [x] Nivel de alerta por RUN y «nivel máximo» en la ficha del ejecutivo: ya existe como `ficha.alert_level` (`src/app/ruta/ficha.py`)
+- → Vista simulada del punto de atención CESFAM: tarea **M2** del cierre final
 
 ### Acompañamiento y back-office
-- [ ] Checklist de documentos (pendiente, recibido, validado) guiado por el asistente
-- [ ] Derivación al ejecutivo con un resumen del caso
+- → Checklist de documentos (pendiente, recibido, validado): tarea **C4** del cierre final
+- → Derivación al ejecutivo con un resumen del caso: tarea **M3** del cierre final
 
 ### Unificación y calidad
 - [x] Sincronizar aceptación/rechazo de la app con contactos proactivos (DynamoDB): hecho el 16-10 ([[app-aws-conectada]]); el resto del estado de casos sigue en SQLite
-- [ ] Instrumentar KPI de próximo paso válido dentro del plazo (meta usuario ≥75%): definir evidencia/paso/plazo; contacto e inicio no lo sustituyen
+- → Instrumentar KPI de próximo paso válido dentro del plazo (meta usuario ≥75%): tarea **M4** del cierre final
 - [ ] Unificar los dos motores (app de Johann y contratos/agente): estados `futuro` y `excluido`, repositorio e historial ([[revision-aporte-johann]]). Coordinar con Johann
 - [ ] Contratos: canales de contacto, `ContactAttempt`, `AlertLevel`, `DocumentItem`, `RequestStatus`
-- [ ] Prompt: sin una evaluación disponible, no explicar requisitos de memoria
-- [ ] `normalize_run`: aceptar RUN sin guion
-- [ ] Lint de `src/app` (190 observaciones pendientes)
+- → Prompt: sin una evaluación disponible, no explicar requisitos de memoria: tarea **C3** del cierre final
+- → `normalize_run`: aceptar RUN sin guion: tarea **C2** del cierre final
+- [ ] Lint de `src/app` (190 observaciones pendientes): después de la demo
 
 ### Demo
-- [ ] Guion de la demo: embudo del colador → heatmap → persona que llega con alerta → acompañamiento → ejecutivo
+- → Guion de la demo: tarea **C5** del cierre final
 
 ## Bloqueos
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
