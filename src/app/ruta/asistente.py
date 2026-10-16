@@ -5,6 +5,7 @@
 En ambos casos solo usa hechos calculados por el motor de reglas: no decide ni inventa.
 """
 
+import json
 import re
 import time
 import unicodedata
@@ -94,13 +95,12 @@ def _benefit_documents_reply(benefit: str) -> str:
     )
 
 
-_LINK_INTENT = re.compile(r"\b(link|enlace|pagina|sitio web|sitio|url)\b")
-_LINK_INTENT_WORDS = ("link", "enlace", "pagina", "sitio", "url")
+_LINK_INTENT = re.compile(r"\b(link|lnik|likn|enlace|enlase|enlaze|pagina|pajina|sitio web|sitio|url)\b")
 
 
 def _detect_link_benefit(question: str, history=()) -> str | None:
     q = _norm(question)
-    if not (_LINK_INTENT.search(q) or fuzzy_has(q, *_LINK_INTENT_WORDS)):
+    if not _LINK_INTENT.search(q):
         return None
     return _detect_benefit(question) or _recent_benefit(history)
 
@@ -280,6 +280,11 @@ def construir_contexto(
                 for r in d.pgu.requisitos
             ],
             "monto_orientativo": _peso(d.pgu.monto_estimado),
+            "parametros_del_motor": {
+                "pension_base_limite": _peso(config.PGU["pension_superior"]),
+                "pension_base_pgu_completa": _peso(config.PGU["pension_inferior"]),
+                "fecha_referencia": config.FECHA_REFERENCIA.isoformat(),
+            },
         }
         ctx["jubilacion"] = {
             "resultado": d.jubilacion.resultado,
@@ -302,10 +307,44 @@ def construir_contexto(
 
 
 # --------------------------------------------------------------------------
+class UngroundedPersonalReply(ValueError):
+    """A personal response introduced a currency amount absent from trusted context."""
+
+
+_CURRENCY = re.compile(
+    r"(?:\$|CLP\s*)\s*(\d+(?:[.,\u00a0 ]\d{3})*)"
+    r"|\b(\d+(?:[.,\u00a0 ]\d{3})*)\s*(?:pesos|CLP)\b",
+    re.IGNORECASE,
+)
+
+
+def _currency_values(text):
+    return {re.sub(r"\D", "", a or b) for a, b in _CURRENCY.findall(text)}
+
+
+def _trusted_personal_fallback(ctx):
+    pgu = ctx["pgu"]
+    parts = [f"Resultado orientativo: {pgu['resultado_orientativo']}.", pgu["motivo"]]
+    if pgu["resultado_orientativo"] in {R.ELEGIBLE, R.PROXIMO}:
+        parts.append(f"Monto orientativo calculado: {pgu['monto_orientativo']}.")
+    for requirement in pgu.get("requisitos", []):
+        if requirement["estado"] != R.CUMPLE:
+            parts.append(f"{requirement['requisito']}: {requirement['detalle']}")
+    if ctx.get("proximo_paso"):
+        parts.append(f"Próximo paso: {ctx['proximo_paso']}.")
+    parts.append("Esta es una orientación preliminar; el IPS valida los antecedentes y resuelve.")
+    parts.append(f"Si quieres saber más, puedes revisar {ctx.get('fuente_pgu', config.FUENTE_PGU)}.")
+    return "\n\n".join(parts)
+
+
 def _bedrock(pregunta: str, ctx: dict, historial: list[dict]) -> str:
     from .chatbot import answer
 
-    return answer(pregunta, ctx, historial)
+    reply = answer(pregunta, ctx, historial)
+    allowed = _currency_values(json.dumps(ctx, ensure_ascii=False))
+    if _currency_values(reply) - allowed:
+        raise UngroundedPersonalReply("Monto ajeno a la evaluación del motor")
+    return reply
 
 
 def _norm(t: str) -> str:
@@ -576,6 +615,8 @@ def responder(
     if config.BEDROCK_MODEL_ID:
         try:
             return _bedrock(pregunta, ctx, historial), "bedrock"
+        except UngroundedPersonalReply:
+            return _trusted_personal_fallback(ctx), "plantillas"
         except (
             Exception
         ) as e:  # sin credenciales / modelo no habilitado: degradar sin romper la demo

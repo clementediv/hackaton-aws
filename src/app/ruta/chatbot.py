@@ -52,7 +52,15 @@ def answer(question: str, context: dict, history: list[dict], *, client=None) ->
     )
     agent = Agent(
         client=ConversationalClient(
-            client or BedrockClient.from_env(), public_context=public_support
+            client or BedrockClient.from_env(),
+            public_context=(
+                "PRIORIDAD EN LA RESPUESTA PERSONAL: los únicos montos, topes y fechas "
+                "de la evaluación son los de leer_caso.context, incluidos sus parametros_del_motor. "
+                "No sustituyas esas cifras por otras de los fragmentos públicos. Si difieren, "
+                "explica la discrepancia y pide contrastar con el organismo. No inventes "
+                "una fórmula para el monto_orientativo: ya está calculado por el motor.\n"
+                + public_support
+            ),
         ),
         tools=registry,
         reference_date=config.FECHA_REFERENCIA,
@@ -95,7 +103,10 @@ def answer_general(
         "ofertas de montos de pensión. El RSH reúne información de los hogares. "
         f"Cita la fuente pertinente: PGU {config.FUENTE_PGU}; "
         f"pensiones {config.FUENTES['spensiones']}; RSH {config.FUENTES['rsh']}. "
-        "No inventes requisitos, montos, trámites iniciados ni decisiones institucionales."
+        "No inventes requisitos, montos, trámites iniciados ni decisiones institucionales. "
+        "Si no identificas el beneficio solicitado, pide su nombre oficial o enlace; "
+        "no atribuyas existencia al nombre supuesto ni completes la respuesta con montos "
+        "o plazos de otros beneficios que suenen parecidos."
     )
     if retrieved_context := context_for(question, public_history or []):
         public_context += "\n\n" + retrieved_context
