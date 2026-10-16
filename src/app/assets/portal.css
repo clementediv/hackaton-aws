@@ -235,3 +235,17 @@ div[data-testid="stChatMessage"] {background:#f3f7fb;border-radius:8px}
 .home-benefit-category{font-weight:500;letter-spacing:1px}
 .st-key-home_government_invitation [data-testid="stButton"]{display:flex;justify-content:center}
 .st-key-home_government_invitation [data-testid="stBaseButton-primary"]{border-radius:24px;min-height:44px;font-family:Roboto,Arial,sans-serif;font-weight:400}
+
+/* Illustrative PGU review, timed to the second half of the 16s banner cycle. */
+.home-pgu-checklist{display:grid;gap:10px;list-style:none!important;max-width:540px;min-width:0;padding:0!important;margin:22px auto 16px!important;text-align:left}
+.home-pgu-checklist li{box-sizing:border-box;display:flex;align-items:center;gap:14px;min-width:0;padding:13px 18px;margin:0!important;border:1px solid #d8e7df;border-radius:14px;background:#fff;color:#244c3d;font:400 16px/1.4 Roboto,Arial,sans-serif}
+.home-pgu-checklist li>span:last-child{min-width:0;overflow-wrap:anywhere}
+.home-pgu-check{display:grid;place-items:center;flex:0 0 26px;height:26px;border-radius:50%;background:#e3f3e9;color:#23734b;font-size:16px;font-weight:600}
+@media(prefers-reduced-motion:no-preference){
+ .home-pgu-checklist li{animation:pgu-row-reveal 16s infinite both;animation-delay:calc(var(--check-index)*.4s)}
+ .home-pgu-check{animation:pgu-check-reveal 16s infinite both;animation-delay:calc(var(--check-index)*.4s)}
+ .st-key-home_government:is(:hover,:focus-within) .home-pgu-checklist :is(li,.home-pgu-check){animation-play-state:paused}
+}
+@keyframes pgu-row-reveal{0%,49%{opacity:0;transform:translateY(-10px)}52%,94%{opacity:1;transform:translateY(0)}98%,100%{opacity:0;transform:translateY(0)}}
+@keyframes pgu-check-reveal{0%,52%{color:transparent;background:#f0f4f2;transform:scale(.85)}55%,94%{color:#23734b;background:#e3f3e9;transform:scale(1)}98%,100%{color:transparent;background:#f0f4f2;transform:scale(.85)}}
+@media(max-width:700px){.home-pgu-checklist{gap:8px;margin-top:18px!important}.home-pgu-checklist li{font-size:14px;padding:11px 13px;gap:11px}}

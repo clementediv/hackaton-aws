@@ -331,30 +331,24 @@ def _render_home_benefits() -> None:
     with st.container(key="home_government_invitation"):
         st.markdown(
             '<div class="home-government home-benefits-intro">'
-            "<h1>Cobra beneficios gratis del Estado</h1>"
-            "<p>Descubre cuáles podrían corresponderte según tu situación. "
-            "Reúne tus antecedentes y encuentra los pasos para recibirlos, "
-            "en un solo lugar.</p>"
-            '<ul class="home-benefit-showcase" aria-label="Beneficios que podrías solicitar">'
-            '<li style="--benefit-index:0"><span class="home-benefit-symbol" aria-hidden="true">'
-            '◎</span><div><span class="home-benefit-category">APOYO PARA TU JUBILACIÓN</span>'
-            '<h2>Pensión Garantizada Universal (PGU)</h2>'
-            '<p>Un aporte mensual para personas mayores que cumplen los requisitos.</p></div></li>'
-            '<li style="--benefit-index:1"><span class="home-benefit-symbol" aria-hidden="true">'
-            '◇</span><div><span class="home-benefit-category">APOYO PARA TUS ESTUDIOS</span>'
-            '<h2>Gratuidad en educación superior</h2>'
-            '<p>Financiamiento de matrícula y arancel durante la duración formal de tu carrera.</p></div></li>'
-            '<li style="--benefit-index:2"><span class="home-benefit-symbol" aria-hidden="true">'
-            '✦</span><div><span class="home-benefit-category">MÁS OPORTUNIDADES</span>'
-            '<h2>Becas de educación superior</h2>'
-            '<p>Apoyo para financiar tus estudios, según los requisitos de cada beca.</p></div></li>'
+            "<h1>¿Cumples todos los requisitos para la PGU?</h1>"
+            "<p>Revisa tus antecedentes y descubre tu próximo paso en Mi Gobierno.</p>"
+            '<ul class="home-pgu-checklist" aria-label="Ejemplo ilustrativo de revisión PGU">'
+            '<li style="--check-index:0"><span class="home-pgu-check" aria-hidden="true">✓</span>'
+            '<span>Edad para solicitar la PGU</span></li>'
+            '<li style="--check-index:1"><span class="home-pgu-check" aria-hidden="true">✓</span>'
+            '<span>Antecedentes de ingresos</span></li>'
+            '<li style="--check-index:2"><span class="home-pgu-check" aria-hidden="true">✓</span>'
+            '<span>Residencia en Chile</span></li>'
+            '<li style="--check-index:3"><span class="home-pgu-check" aria-hidden="true">✓</span>'
+            '<span>Pensión base</span></li>'
             '</ul>'
-            '<p class="home-benefit-note">Cada beneficio tiene requisitos. Revisa qué antecedentes necesitas.</p>'
+            '<p class="home-benefit-note">Ejemplo ilustrativo. Consulta tu revisión personal en Mi Gobierno.</p>'
             "</div>",
             unsafe_allow_html=True,
         )
         if st.button(
-            "Ver mis beneficios",
+            "Revisar mis requisitos",
             type="primary",
             key="home_government_access",
         ):
