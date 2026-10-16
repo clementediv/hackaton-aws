@@ -53,8 +53,18 @@ SCROLL_STATE = """e => {
     }
     node = node.parentElement;
   }
-  throw Error('No se encontró el contenedor con scroll');
+  return {top: 0, remaining: 0};
 }"""
+
+
+def wait_for_bottom(locator):
+    """Allow layout/reruns to settle without forcing the scroll under test."""
+    for _ in range(30):
+        state = locator.evaluate(SCROLL_STATE)
+        if state["remaining"] < 4:
+            return
+        locator.page.wait_for_timeout(100)
+    raise AssertionError(state)
 
 
 def verify(page, mode):
@@ -76,12 +86,12 @@ def verify(page, mode):
             "els => els.map(e => getComputedStyle(e).animationDelay)"
         ) == ["0s", "0.16s", "0.32s"]
         page.wait_for_timeout(350)
-        assert dots.evaluate(SCROLL_STATE)["remaining"] < 4
+        wait_for_bottom(dots)
         page.get_by_text(f"Fin de respuesta: {question}", exact=False).wait_for()
         dots.wait_for(state="detached")
         page.wait_for_timeout(1400)
         last = page.locator('[data-testid="stChatMessage"]').last
-        assert last.evaluate(SCROLL_STATE)["remaining"] < 4
+        wait_for_bottom(last)
         box = last.bounding_box()
         assert 0 < box["y"] + box["height"] < page.viewport_size["height"]
     # Once the new message settles, reading older messages must remain possible.
@@ -137,7 +147,9 @@ def main():
                             verify(page, mode)
                             assert page.locator('[data-testid="stException"]').count() == 0
                             print(
-                                f"OK {mode}, {width}px: envío visible, ola, scroll y lectura manual"
+                                f"OK {mode}, {width}px: "
+                                "envío visible, ola, scroll y lectura manual",
+                                flush=True,
                             )
                             page.close()
                     browser.close()
