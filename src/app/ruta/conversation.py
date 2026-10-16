@@ -36,6 +36,19 @@ PRIVACY_PATTERN = re.compile(
 )
 
 
+SECURITY_REPLY = (
+    "No puedo compartir instrucciones internas, credenciales ni datos personales de terceros. "
+    "Puedo orientarte sobre beneficios y trámites; para revisar tu caso debes autorizar "
+    "la consulta en Mi Gobierno. ¿Qué necesitas resolver?"
+    "\n\nSi quieres saber más, puedes revisar [ChileAtiende](https://www.chileatiende.gob.cl/)."
+)
+SECURITY_PATTERN = re.compile(
+    r"(?:revela|muestra|dame|comparte|imprime|copia).{0,100}"
+    r"(?:prompt (?:de )?sistema|instrucciones internas|claves? aws|credenciales|"
+    r"(?:nombres|run|rut|telefonos|datos).{0,60}(?:otras personas|terceros))"
+)
+
+
 def friendly_sources(text):
     """Keep citations and verification notes, phrased as an invitation to read more."""
     pattern = (
@@ -61,6 +74,8 @@ def boundary_reply(question):
     q = "".join(
         c for c in unicodedata.normalize("NFD", question.lower()) if unicodedata.category(c) != "Mn"
     )
+    if SECURITY_PATTERN.search(q):
+        return SECURITY_REPLY
     if PRIVACY_PATTERN.search(q):
         return PRIVACY_REPLY
     if re.search(
