@@ -232,7 +232,7 @@
 .st-key-personal_chat_composer textarea::placeholder{color:#60798e;opacity:1}
 
 /* One shared frame encloses each benefit; timelines have no inner frame. */
-.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]){border:2px solid #9db8ce!important;border-radius:20px!important;background:#fff;padding:24px;box-shadow:0 2px 8px #143e5c08}
+.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]){border:1px solid #dce5ed!important;border-radius:20px!important;background:#fff;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px #143e5c04}
 .st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) .gov-timeline{width:100%;background:transparent;border:0;border-radius:0;padding:0;margin:24px 0;box-shadow:none}
 .st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) .gov-timeline-heading{font-size:17px!important;margin-bottom:20px}
 @media(max-width:700px){.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]){padding:18px}.st-key-gov_benefits_layout :is(.st-key-gov_pgu,[class*="st-key-gov_benefit_"]) .gov-timeline{padding:0}}
