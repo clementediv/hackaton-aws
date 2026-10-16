@@ -15,7 +15,6 @@ entorno: Claude Code + Codex
 Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de [[_equipo]].
 
 ## En curso
-- [ ] Integrar últimos pushes y verificar suite, 500 perfiles, base de conocimiento y arranque local (solicitud del 15-10) · [[verificacion-integracion-2026-10-15]].
 - [ ] Detección proactiva en AWS (DynamoDB Streams + Lambda + SES): desplegada el 15-10 en la cuenta del evento (stack `ChileAtiendeProactivo`), 618 contactos simulados cargados; falta verificar la casilla en SES y probar la demo estrella · [[deteccion-proactiva-aws]]
 
 ## Por hacer
@@ -69,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Últimos pushes integrados hasta `4e4618c`; verificación local: 282 pruebas, 15 de conocimiento, 500 perfiles y ambos chats en Chrome 390/1440 px OK. Tras el último ajuste: 47 pruebas relacionadas OK. AWS real pendiente por ausencia de perfil en esta terminal; lint global heredado documentado. `f4dc140`, `2ffeca8`, integración `8c3686b` · [[verificacion-integracion-2026-10-15]].
 - [x] Respuestas nuevas alineadas con el robot: placeholder reutilizado directamente y scroll fuera del mensaje en ambos chats. Nueve pruebas funcionales y Chromium a 390/1440 px con dos turnos por chat OK. Commit «Alinear respuestas nuevas con el robot». [[mi-gobierno]].
 - [x] Subir saludo inicial del asistente; Chromium 390/1440 px OK. [[mi-gobierno]]. Commit: Acercar saludo al titulo del asistente.
 - [x] Restaurado s?mbolo original azul y rojo sobre Asistente de IA; verificaci?n CSS OK. [[mi-gobierno]]. Commit ?Restaurar s?mbolo del asistente de Mi Gobierno?.

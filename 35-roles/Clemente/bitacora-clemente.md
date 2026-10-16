@@ -8,6 +8,12 @@ Una entrada por avance o commit relevante, la más reciente arriba. Así se pued
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
+### 2026-10-15 · Verificación e integración de últimos pushes · `f4dc140`, `2ffeca8`, `8c3686b`
+- Actualizado `jp/ajustes-frontend` desde `origin/main`, incluyendo catálogo público y ajustes visuales hasta `4e4618c`. Conflicto del verificador de navegador resuelto conservando alineación, compatibilidad Windows/macOS, aislamiento de vistas y esperas de scroll.
+- Dos pruebas de chat ahora comprueban la cita recuperada mediante un contexto público controlado; mantienen privacidad y entrega progresiva. No se cambian las reglas ni el consentimiento.
+- Suite completa con infraestructura/trazas: 282 pasan, ocho evals excluidas y ninguna omisión. Conocimiento: 15 OK; verificador de 500 perfiles TODO OK. Tras los últimos cambios: 47 pruebas relacionadas OK; Chrome verifica ambos chats a 390/1440 px, dos turnos, alineación, espera, scroll y lectura manual.
+- Ruff de archivos modificados y diff OK; quedan 184 observaciones de lint heredadas. Sin perfiles AWS en esta terminal: no se valida el despliegue ni Bedrock real. Procedimiento y límites en [[verificacion-integracion-2026-10-15]].
+
 ### 2026-10-15 · Trazabilidad visual de uso · `96abb06`, integración `fb6eea5`
 - Cuatro hitos visuales, continuidad diaria, regreso en ventanas completas de 7/30 días y recorrido individual con sesiones/último acceso/vista/intervalos. Auditoría y AWS opcional conservados en desplegable.
 - Mi Gobierno registra accesos identificados, vistas tras autorizar y avance declarado disponible; no cuenta recargas, aperturas de correo ni `started` como conversiones. Escenario ficticio solo en base aislada. Sin reintroducir cobro ni afirmar KPI ≥75% cumplido.
