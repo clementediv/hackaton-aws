@@ -68,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Bordes de beneficios en azul suave #bfd6ec, conservando 1 px y separacion; revision del diff OK ? commit ?Usar azul suave en los bordes de beneficios? ? [[mi-gobierno]].
 - [x] Tarjetas de beneficios con separacion de 36 px y borde suave de 1 px gris azulado; sombra reducida. Chromium verifica las cuatro tarjetas en escritorio y movil (1440/390 px). [[mi-gobierno]]. Commit ?Separar tarjetas de beneficios y suavizar bordes?.
 - [x] FUAS, gratuidad y becas usan el mismo marco unico de PGU: borde exterior de 2 px, padding amplio y etapas sin marco propio; eliminado borde nativo adicional. Chromium verifica cuatro beneficios contenidos y sin doble marco a 1440/390 px. [[mi-gobierno]]. Commit ?Unificar el marco de todas las tarjetas de beneficios?.
 - [x] Corregida interpretacion del marco PGU: un borde visible de 2 px envuelve titulo, monto, etapas y desplegable de requisitos; la linea de tiempo queda sin borde ni fondo propio. Chromium confirma contencion completa y sin doble marco a 1440/390 px. [[mi-gobierno]]. Commit ?Enmarcar PGU completa sin recuadro interior?.

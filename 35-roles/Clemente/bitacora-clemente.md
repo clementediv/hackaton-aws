@@ -174,3 +174,5 @@ Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo
 - 15-10: FUAS, gratuidad y becas usan el mismo marco unico de PGU: borde exterior de 2 px, padding amplio y etapas sin marco propio; eliminado borde nativo adicional. Chromium verifica cuatro beneficios contenidos y sin doble marco a 1440/390 px. [[mi-gobierno]].
 
 - 15-10: Tarjetas de beneficios con separacion de 36 px y borde suave de 1 px gris azulado; sombra reducida. Chromium verifica las cuatro tarjetas en escritorio y movil (1440/390 px). [[mi-gobierno]].
+
+- 15-10: Bordes de beneficios en azul suave #bfd6ec, manteniendo grosor de 1 px y separacion actual. Revision del diff OK. [[mi-gobierno]].
