@@ -4,6 +4,8 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+- 15-10: Entradas de Mi Gobierno refinadas en motion.css: superficies con fade/desplazamiento breve, secuencia de beneficios y etapas, sin transform persistente; movimiento reducido respetado. Chromium con CSS real a 390/1440 px y cuatro pruebas funcionales OK. [[mi-gobierno]]. Commit «Pulir entradas animadas de Mi Gobierno».
+
 Una entrada por avance o commit relevante, la más reciente arriba. Así se puede seguir el historial de cada tarea sin leer todo `git log`.
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.

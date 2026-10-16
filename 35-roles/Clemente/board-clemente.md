@@ -68,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Entradas de Mi Gobierno suaves y escalonadas: beneficios, asistente, identidad y secciones; sin transform persistente y con movimiento reducido. Chromium 390/1440 px y cuatro pruebas OK. Commit «Pulir entradas animadas de Mi Gobierno». [[mi-gobierno]].
 - [x] Respuestas nuevas alineadas con el robot: placeholder reutilizado directamente y scroll fuera del mensaje en ambos chats. Nueve pruebas funcionales y Chromium a 390/1440 px con dos turnos por chat OK. Commit «Alinear respuestas nuevas con el robot». [[mi-gobierno]].
 - [x] Subir saludo inicial del asistente; Chromium 390/1440 px OK. [[mi-gobierno]]. Commit: Acercar saludo al titulo del asistente.
 - [x] Restaurado s?mbolo original azul y rojo sobre Asistente de IA; verificaci?n CSS OK. [[mi-gobierno]]. Commit ?Restaurar s?mbolo del asistente de Mi Gobierno?.
