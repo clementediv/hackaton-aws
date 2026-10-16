@@ -6,12 +6,12 @@ integrante: Jonmor
 
 Una entrada por avance o commit relevante, la más reciente arriba.
 
-Formato: `### 2026-10-16 · Mapa compartido y redacción institucional
+Formato: `### 2026-10-16 · Mapa compartido y redacción institucional · f3dc096
 
 Reportería web con el mismo PyDeck, capas, zoom y propuesta de Campañas en terreno.
 Contexto territorial y personal compartidos; filtros del informe conservados.
 PDF con lenguaje institucional y sin jerga MVP/simulación; nota «Datos de ejemplo»
-en el pie mantiene claridad sobre el origen. [[reporteria-institucional]].
+en el pie mantiene claridad sobre el origen. 347 pruebas pasan tras integrar `c344ced`; paridad completa del mapa y descarga real Chromium OK. [[reporteria-institucional]].
 
 ### 2026-10-16 · Plantilla editorial y heatmap del reporte · 1350606
 

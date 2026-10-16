@@ -15,7 +15,7 @@ entorno: Kiro IDE Pro
 Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, revisa el estado del pipeline en [[_equipo]] y los boards de los demás en [[_avance]] para no duplicar trabajo.
 
 ## En curso
-- Unificar mapa interactivo de reportería con Campañas en terreno y simplificar redacción institucional del PDF. [[reporteria-institucional]].
+- Sin tareas activas.
 
 ## Por hacer
 - Integrar Streamlit con la API cuando se amplíe el alcance; hoy conserva su adaptador local.
@@ -25,6 +25,7 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 - Sin bloqueos locales actuales: suite de cierre con 256 pruebas pasando. Los cinco fallos UI registrados anteriormente son históricos.
 
 ## Hecho
+- Mapa interactivo idéntico al de Campañas en terreno y tono institucional del PDF, con nota discreta «Datos de ejemplo». `f3dc096`; rama `codex/reporteria-institucional`. [[reporteria-institucional]].
 - Heatmap offline en pantalla/PDF y plantilla editorial de tres páginas con fondos azul/turquesa. `1350606`, rama `codex/reporteria-institucional`. Filtros y publicación territorial del ejecutivo conservados. [[reporteria-institucional]].
 - Reportería institucional territorial con PDF automático. `7887a1e`, rama `codex/reporteria-institucional`, pendiente de revisión para integrar a main. 322 pruebas y descarga Chromium OK. [[reporteria-institucional]].
 - Desplazamiento automático al enviar/recibir y espera con puntos en ola en ambos chats. `df392ec`; Chromium 390/1440 px y 256 pruebas pasan. [[portal-ayuda-tramites]].

@@ -91,3 +91,5 @@ fuentes, corte, alcance y límites del avance declarado. Una nota discreta
 presentarlos como registros de personas reales. También se simplifican los
 rótulos del mapa estático y de la vista de reportería. No cambia el origen de
 la campaña ni se elimina su aislamiento de la aplicación.
+
+Cierre de mapa compartido `f3dc096`, integración `c344ced`: 347 pruebas pasan, dos omitidas y ocho evals excluidas. Paridad del JSON completo del mapa, persistencia del personal entre pestañas, descarga real y Chromium 390/1440 OK. Redacción del PDF verificada por extracción: sin MVP/prototipo/simulado y con «Datos de ejemplo» en pie. Al integrar el nuevo KPI del equipo, la nota de alcance se ajusta a requerir evidencia y seguimiento suficiente, sin afirmar que la instrumentación no existe.
