@@ -4,11 +4,14 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+- 15-10: Entradas de Mi Gobierno refinadas en motion.css: superficies con fade/desplazamiento breve, secuencia de beneficios y etapas, sin transform persistente; movimiento reducido respetado. Chromium con CSS real a 390/1440 px y cuatro pruebas funcionales OK. [[mi-gobierno]]. Commit «Pulir entradas animadas de Mi Gobierno».
+
 Una entrada por avance o commit relevante, la más reciente arriba. Así se puede seguir el historial de cada tarea sin leer todo `git log`.
 
 Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
 ### 2026-10-15 · Verificación e integración de últimos pushes · `f4dc140`, `2ffeca8`, `8c3686b`
+- Cierre actualizado con `5fc01c9`: animaciones integradas; 25 pruebas relacionadas y cuatro escenarios Chrome (390/1440 px, normal/reducido) OK. Conflicto del board resuelto conservando ambos registros.
 - Actualizado `jp/ajustes-frontend` desde `origin/main`, incluyendo catálogo público y ajustes visuales hasta `4e4618c`. Conflicto del verificador de navegador resuelto conservando alineación, compatibilidad Windows/macOS, aislamiento de vistas y esperas de scroll.
 - Dos pruebas de chat ahora comprueban la cita recuperada mediante un contexto público controlado; mantienen privacidad y entrega progresiva. No se cambian las reglas ni el consentimiento.
 - Suite completa con infraestructura/trazas: 282 pasan, ocho evals excluidas y ninguna omisión. Conocimiento: 15 OK; verificador de 500 perfiles TODO OK. Tras los últimos cambios: 47 pruebas relacionadas OK; Chrome verifica ambos chats a 390/1440 px, dos turnos, alineación, espera, scroll y lectura manual.

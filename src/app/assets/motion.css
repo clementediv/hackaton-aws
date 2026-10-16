@@ -8,10 +8,12 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+@keyframes government-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
 @media (prefers-reduced-motion: no-preference) {
-  :is(.gov-login-intro, .st-key-government_login_card, .st-key-gov_pgu,
-      [class*="st-key-gov_benefit_"], .st-key-gov_chat_page,
-      .gov-identity, .staff-hero, .staff-callout, .staff-plan,
+  :is(.staff-hero, .staff-callout, .staff-plan,
       .st-key-home_government_invitation, .public-chat-welcome) {
     animation: portal-enter 360ms cubic-bezier(.2,.7,.3,1) both;
   }
@@ -31,6 +33,35 @@
   }
   :is(.st-key-gov_assistant, .st-key-agent_chat) [data-testid="stChatMessage"] {
     animation: portal-enter 220ms ease-out both;
+  }
+  /* Animate individual surfaces once on mount, never the sticky column or page.
+     Backwards fill covers the stagger; no retained transform after completion. */
+  :where(.gov-login-intro, .st-key-government_login_card, .st-key-gov_subnav,
+      .st-key-gov_benefits_layout > [data-testid="stElementContainer"]:has(.gov-simple-heading),
+      .st-key-gov_pgu, [class*="st-key-gov_benefit_"], .st-key-gov_assistant,
+      .st-key-gov_consent, .gov-identity,
+      .st-key-gov_personal_page [data-testid="stExpander"]) {
+    animation: government-enter 560ms cubic-bezier(.22,1,.36,1) backwards;
+  }
+  .st-key-government_login_card { animation-delay: 90ms; }
+  .st-key-gov_pgu, .gov-identity { animation-delay: 70ms; }
+  .st-key-gov_assistant { animation-delay: 140ms; }
+  [class*="st-key-gov_benefit_"] { animation-delay: 140ms; }
+  .st-key-gov_benefit_gratuidad { animation-delay: 210ms; }
+  .st-key-gov_benefit_becas { animation-delay: 280ms; }
+  .st-key-gov_personal_page [data-testid="stExpander"] { animation-delay: 100ms; }
+  .st-key-gov_personal_page [data-testid="stExpander"] ~ [data-testid="stExpander"] {
+    animation-delay: 180ms;
+  }
+  :is(.st-key-gov_benefits_layout, .st-key-gov_journey_layout) .gov-timeline-step {
+    animation: government-enter 420ms cubic-bezier(.22,1,.36,1) backwards;
+    animation-delay: 140ms;
+  }
+  :is(.st-key-gov_benefits_layout, .st-key-gov_journey_layout) .gov-timeline-step:nth-child(2) {
+    animation-delay: 210ms;
+  }
+  :is(.st-key-gov_benefits_layout, .st-key-gov_journey_layout) .gov-timeline-step:nth-child(3) {
+    animation-delay: 280ms;
   }
   /* Public messages already have entrance motion in public-chat.css. */
   .stApp :is(button, [data-testid="stLinkButton"] a),

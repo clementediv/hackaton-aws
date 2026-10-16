@@ -23,6 +23,8 @@ El script `scripts/verificar_chat_scroll.py` se adapta al placeholder vigente y 
 
 Implementación de verificaciones: `f4dc140`, estabilización `2ffeca8`; integración final con el remoto: `8c3686b`.
 
+Actualización de cierre: llegó también `5fc01c9` (animaciones de Mi Gobierno). Integrado conservando ambas entradas del board; 25 pruebas de las vistas afectadas pasan y `scripts/verificar_animaciones_gobierno.py` confirma 390/1440 px, movimiento normal/reducido y ausencia de transformaciones persistentes.
+
 ## Reproducir
 
 Desde la raíz, con `uv` (en esta terminal se encuentra mediante `python3 -m uv`):
