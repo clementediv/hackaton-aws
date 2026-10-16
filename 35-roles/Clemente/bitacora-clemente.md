@@ -186,3 +186,5 @@ Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo
 - 15-10: Respuestas nuevas de ambos chats reutilizan directamente el placeholder de espera con write_stream; componente de scroll fuera del mensaje y sin contenedor adicional. Se elimina el espacio que diferenciaba la respuesta nueva del historial. Nueve pruebas funcionales pasan; verificador Chromium actualizado para Windows y alineaci?n de dos turnos a 390/1440 px. [[mi-gobierno]].
 
 - 15-10: Restaurado el s?mbolo original azul y rojo sobre Asistente de IA, retirando la regla CSS que lo ocultaba. Verificaci?n est?tica de visibilidad, dimensiones y colores OK; navegador no disponible (sin uv ni playwright). [[mi-gobierno]]. Commit ?Restaurar s?mbolo del asistente de Mi Gobierno?.
+
+- 15-10: Saludo inicial de Mi Gobierno mas arriba: margen superior de 20 a 0 px y padding superior de 18 a 0 px. Chromium verifica ambos espacios en 0 a 390/1440 px. [[mi-gobierno]]. Commit: Acercar saludo al titulo del asistente.

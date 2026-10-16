@@ -126,3 +126,5 @@ Referencias consultadas el 15-10-2026:
 La respuesta nueva reemplaza directamente el indicador mediante `response.write_stream`, sin contenedor intermedio. El componente invisible de scroll queda fuera del mensaje del asistente para no participar en su distribuci?n vertical. Mismo ajuste aplicado al chat p?blico. Verificaci?n: `python scripts/verificar_chat_scroll.py --alignment-only` mide avatar y primer p?rrafo en dos turnos nuevos por chat y ancho (390/1440 px).
 
 - 15-10: Restaurado el s?mbolo original azul y rojo sobre Asistente de IA, retirando la regla CSS que lo ocultaba. Verificaci?n est?tica de visibilidad, dimensiones y colores OK; navegador no disponible (sin uv ni playwright). [[mi-gobierno]]. Commit ?Restaurar s?mbolo del asistente de Mi Gobierno?.
+
+- 15-10: Saludo inicial de Mi Gobierno mas arriba: margen superior de 20 a 0 px y padding superior de 18 a 0 px. Chromium verifica ambos espacios en 0 a 390/1440 px. [[mi-gobierno]]. Commit: Acercar saludo al titulo del asistente.

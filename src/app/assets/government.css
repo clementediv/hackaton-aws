@@ -223,9 +223,9 @@
 .st-key-gov_assistant .chat-composer-mic{width:36px;height:36px;min-width:36px;min-height:36px;padding:8px;border:0;border-radius:50%;box-shadow:none;text-align:center;transform:none}
 
 /* Center the initial greeting independently of the conversation messages. */
-.st-key-gov_assistant .st-key-gov_chat_assistant_welcome{max-width:320px;width:100%;margin:20px auto!important;align-self:center}
+.st-key-gov_assistant .st-key-gov_chat_assistant_welcome{max-width:320px;width:100%;margin:0 auto!important;align-self:center}
 .st-key-gov_assistant .st-key-gov_chat_assistant_welcome [data-testid="stChatMessageAvatarAssistant"]{display:none}
-.st-key-gov_assistant .st-key-gov_chat_assistant_welcome [data-testid="stChatMessage"]{justify-content:center;padding:18px 12px;box-sizing:border-box}
+.st-key-gov_assistant .st-key-gov_chat_assistant_welcome [data-testid="stChatMessage"]{justify-content:center;padding:0 12px 18px;box-sizing:border-box}
 .st-key-gov_assistant .st-key-gov_chat_assistant_welcome [data-testid="stMarkdownContainer"]{text-align:center}
 
 .st-key-personal_chat_placeholder_animation{display:none}
