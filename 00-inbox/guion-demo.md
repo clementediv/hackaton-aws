@@ -93,7 +93,7 @@ uv run --group app streamlit run src/app/app.py --server.port 8501 --server.head
 
 Ensayo verificado por tramos: AWS/correo por Claude (M1), recorrido local por Codex. No se ha ensayado con una única persona desde el correo hasta Mi Gobierno: el guion declara el cambio de persona. La meta ≥75% requiere el próximo paso válido y evidencia dentro de su plazo; no se sustituye por contactos, clics ni aperturas.
 
-Validación integrada final: 340 pruebas aprobadas, una omitida por dependencia opcional de trazas y ocho evaluaciones Bedrock excluidas. Verificador de los 500 perfiles: TODO OK. Laboratorio :8502 conserva ambos escenarios; guardar su cambio local sigue pendiente de la confirmación solicitada en C1.
+Validación integrada final: 340 pruebas aprobadas, una omitida por dependencia opcional de trazas y ocho evaluaciones Bedrock excluidas. Verificador de los 500 perfiles: TODO OK. Laboratorio :8502 conserva ambos escenarios; cambio local guardado con autorización de Clemente en `cdc0a46` (C1 cerrado).
 
 ## Entrega técnica C2–C4
 
