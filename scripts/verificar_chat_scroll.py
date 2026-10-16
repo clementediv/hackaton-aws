@@ -50,8 +50,7 @@ else:
 SCROLL_STATE = """e => {
   let node = e;
   while (node) {
-    if (/(auto|scroll)/.test(getComputedStyle(node).overflowY) &&
-        node.scrollHeight > node.clientHeight + 5) {
+    if (/(auto|scroll)/.test(getComputedStyle(node).overflowY)) {
       return {top: node.scrollTop, remaining: node.scrollHeight-node.clientHeight-node.scrollTop};
     }
     node = node.parentElement;
@@ -67,8 +66,12 @@ def verify(page, mode):
     prompt = "Describe lo que necesitas"
     for turn in range(2):
         question = f"Consulta {turn}"
-        field = page.get_by_placeholder(prompt)
+        composer = page.locator(".st-key-gov_assistant") if mode == "Mi Gobierno" else page
+        field = composer.get_by_placeholder(prompt)
         field.fill(question)
+        page_scroll = """() => [...document.querySelectorAll('section')]
+            .reduce((sum, e) => sum + e.scrollTop, 0)"""
+        outer_scroll = page.evaluate(page_scroll)
         field.press("Enter")
         dots = page.locator(".chat-typing")
         dots.wait_for()
@@ -79,6 +82,13 @@ def verify(page, mode):
             "els => els.map(e => getComputedStyle(e).animationDelay)"
         ) == ["0s", "0.16s", "0.32s"]
         page.wait_for_timeout(350)
+        if mode == "Mi Gobierno":
+            assert abs(page.evaluate(page_scroll) - outer_scroll) < 4
+            bubble = page.locator('[data-testid="stChatMessage"]').filter(has_text=question)
+            assert bubble.evaluate("""e => {
+                const wrapper = e.closest('[class*=st-key-gov_chat_user_]');
+                return wrapper && getComputedStyle(wrapper).alignSelf === 'flex-end';
+            }"""), "Pregunta sin alineacion derecha durante espera"
         if not alignment_only:
             assert dots.evaluate(SCROLL_STATE)["remaining"] < 4
         page.get_by_text(f"Fin de respuesta: {question}", exact=False).wait_for()

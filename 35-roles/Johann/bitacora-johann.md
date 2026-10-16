@@ -117,3 +117,5 @@ Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo
 - Configuración de Kiro bajo demanda, filtro local y `preparar_kiro.py`; no se instaló en el checkout de Clemente. `--check` verifica inclusión manual, tamaño acotado, idempotencia y rechazo de sobrescrituras. Ruff check/format OK.
 - Falta instalar/activar en el IDE de Johann y comprobar la reducción efectiva allí. No se afirma que `AGENTS.md` deje de cargarse ni que se haya medido el uso de tokens de Kiro.
 
+
+- 15-10: Corregido el asistente de Mi Gobierno: pregunta alineada a la derecha durante la espera y scroll limitado al historial sin arrastrar la pagina. Verificacion de navegador con respuesta demorada y nueve pruebas funcionales. [[mi-gobierno]].

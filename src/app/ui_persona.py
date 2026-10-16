@@ -348,9 +348,16 @@ def _asistente(d, run, canal, ctx, *, sidebar=False):
         from chat_feedback import TYPING_HTML, scroll_chat
 
         def preguntar(q: str):
-            mensajes.chat_message("user").write(q)
+            user_target = (
+                mensajes.container(key=f"gov_chat_user_{len(hist)}") if sidebar else mensajes
+            )
+            user_target.chat_message("user").write(q)
             scroll_chat(".st-key-assistant_messages", f"sent:{len(hist)}:{q}")
-            with mensajes.chat_message("assistant"):
+            assistant_target = (
+                mensajes.container(key=f"gov_chat_assistant_{len(hist) + 1}")
+                if sidebar else mensajes
+            )
+            with assistant_target.chat_message("assistant"):
                 response = st.empty()
                 response.markdown(TYPING_HTML, unsafe_allow_html=True)
                 try:
