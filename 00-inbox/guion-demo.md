@@ -87,11 +87,13 @@ uv run --group app streamlit run src/app/app.py --server.port 8501 --server.head
 ## Criterio de cierre del ensayo
 
 - [x] M1: Claude registra en el board (16-10, 13:16) casilla SES verificada, correo real, respuesta HTTP 200 y contacto aceptado. Codex no repitió el envío.
-- [ ] Recorrido del navegador :8501 con ficha, mapa, documentos y trazabilidad.
-- [ ] M2–M4: CESFAM, derivación y Medición incorporados al guion y ensayados.
+- [x] Recorrido Chromium :8501 con ficha, carga de PDF ficticio, validación por ejecutivo, estado compartido en Mi Gobierno, mapa y trazabilidad; sin excepciones visibles.
+- [x] M2–M4: CESFAM, derivación y Medición incorporados al guion y ensayados. RUN `100000002-3`: derivado y atendido; Medición muestra «Sin medir» por falta de cohorte con plazo cumplido.
 - [ ] Si se quiere una única persona de punta a punta: resolver el acceso local de Jorge con Claude; mientras tanto se declara el cambio de persona.
 
-El guion completo conectado no se da por probado hasta cumplir estos puntos. La meta ≥75% requiere el próximo paso válido y evidencia dentro de su plazo; no se sustituye por contactos, clics ni aperturas.
+Ensayo verificado por tramos: AWS/correo por Claude (M1), recorrido local por Codex. No se ha ensayado con una única persona desde el correo hasta Mi Gobierno: el guion declara el cambio de persona. La meta ≥75% requiere el próximo paso válido y evidencia dentro de su plazo; no se sustituye por contactos, clics ni aperturas.
+
+Validación integrada final: 340 pruebas aprobadas, una omitida por dependencia opcional de trazas y ocho evaluaciones Bedrock excluidas. Verificador de los 500 perfiles: TODO OK. Laboratorio :8502 conserva ambos escenarios; guardar su cambio local sigue pendiente de la confirmación solicitada en C1.
 
 ## Entrega técnica C2–C4
 
