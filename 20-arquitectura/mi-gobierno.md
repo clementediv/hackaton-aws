@@ -105,3 +105,5 @@ Referencias consultadas el 15-10-2026:
 - 15-10: Retirados encabezado introductorio y descripcion de acompanamiento encima del listado de beneficios, a solicitud del usuario. [[mi-gobierno]].
 
 - 15-10: PGU sin marco exterior: contenedor Streamlit sin borde y CSS sin fondo/padding exterior; se conserva un solo recuadro para etapas. Chromium confirma borde exterior 0 px, interior 1 px y sin desborde a 1440/390 px. [[mi-gobierno]].
+
+- 15-10: Recuadro de etapas PGU mas amplio: borde azul de 2 px, padding 24 px en escritorio y 18 px en movil, titulo de 17 px. Marco exterior sigue retirado. Chromium verifica borde, padding y contencion a 1440/390 px. [[mi-gobierno]].

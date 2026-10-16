@@ -166,3 +166,5 @@ Formato: `### AAAA-MM-DD HH:MM · T<nn> · <commit corto>` y debajo qué se hizo
 - 15-10: Retirados rotulo ilustrativo y nota inferior del banner PGU a pedido del usuario. Checklist con separacion de 1,1 s, entrada de 0,8 s y checks de 1,12 s. Indices definidos con nth-child en CSS porque el renderizador elimina atributos style del HTML. Chromium verifica retrasos y finalizacion; cinco pruebas del portal OK. [[portal-ayuda-tramites]].
 
 - 15-10: PGU sin marco exterior: contenedor Streamlit sin borde y CSS sin fondo/padding exterior; se conserva un solo recuadro para etapas. Chromium confirma borde exterior 0 px, interior 1 px y sin desborde a 1440/390 px. [[mi-gobierno]].
+
+- 15-10: Recuadro de etapas PGU mas amplio: borde azul de 2 px, padding 24 px en escritorio y 18 px en movil, titulo de 17 px. Marco exterior sigue retirado. Chromium verifica borde, padding y contencion a 1440/390 px. [[mi-gobierno]].

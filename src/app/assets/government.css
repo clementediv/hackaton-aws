@@ -233,5 +233,6 @@
 
 /* PGU keeps one frame around its timeline, without a surrounding card. */
 .st-key-gov_benefits_layout .st-key-gov_pgu{border:0!important;border-radius:0!important;background:transparent;padding:0;box-shadow:none}
-.st-key-gov_benefits_layout .st-key-gov_pgu .gov-timeline{background:#f7f9fb;border:1px solid #e0e7ee;border-radius:12px;padding:14px;margin:14px 0 16px}
-@media(max-width:700px){.st-key-gov_benefits_layout .st-key-gov_pgu{padding:0}.st-key-gov_benefits_layout .st-key-gov_pgu .gov-timeline{padding:12px}}
+.st-key-gov_benefits_layout .st-key-gov_pgu .gov-timeline{width:100%;background:#f7faff;border:2px solid #9db8ce;border-radius:16px;padding:24px;margin:18px 0 20px;box-shadow:0 2px 8px #143e5c08}
+.st-key-gov_benefits_layout .st-key-gov_pgu .gov-timeline-heading{font-size:17px!important;margin-bottom:20px}
+@media(max-width:700px){.st-key-gov_benefits_layout .st-key-gov_pgu{padding:0}.st-key-gov_benefits_layout .st-key-gov_pgu .gov-timeline{padding:18px}}
