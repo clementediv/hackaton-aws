@@ -85,7 +85,12 @@ def test_staff_portal_navigation_filters_and_automatic_campaign(tmp_path, monkey
     assert not app.dataframe and not app.get("deck_gl_json_chart")
     assert not (tmp_path / "staff.db").exists()
     sign_in(app)
-    assert app.radio[1].options == ["Seguimiento de casos", "Campañas en terreno", "Trazabilidad"]
+    assert app.radio[1].options == [
+        "Seguimiento de casos",
+        "Campañas en terreno",
+        "Trazabilidad",
+        "Reportería institucional",
+    ]
     app.selectbox(key="staff_status").set_value("Espera orientación").run()
     assert set(app.dataframe[0].value["Situación"]) == {"Espera orientación"}
     app.text_input(key="staff_search").set_value("DOES-NOT-EXIST").run()

@@ -6,7 +6,15 @@ integrante: Jonmor
 
 Una entrada por avance o commit relevante, la más reciente arriba.
 
-Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
+Formato: `### 2026-10-16 · Reportería institucional en rama
+
+Vista del ejecutivo con destinatario municipal/ministerial, comunas, indicadores y
+PDF A4 automático con resumen, gráfico y detalle territorial. Agregados sin nombres,
+RUN ni contactos; reutiliza campaña y trazabilidad local. Datos simulados marcados;
+no interpreta avance declarado como beneficio entregado ni envía a terceros.
+Rama `codex/reporteria-institucional`, pendiente de revisión. [[reporteria-institucional]].
+
+### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
 ### 2026-10-15 · Cierre y continuidad para mañana
 
