@@ -2,11 +2,11 @@
 tipo: implementacion
 fecha: 2026-10-16
 responsable: Jonmor
-estado: implementado-en-rama
+estado: implementado
 ---
 # Reportería institucional
 
-Solicitud de Jonmor: compartir con municipalidades y ministerios una lectura territorial de la información del ejecutivo mediante un PDF automático descargable. Decisión en [[0019-reporteria-institucional-agregada]]. Implementación aislada en `codex/reporteria-institucional`; pendiente de revisión antes de integrar a `main`.
+Solicitud de Jonmor: compartir con municipalidades y ministerios una lectura territorial de la información del ejecutivo mediante un PDF automático descargable. Decisión en [[0019-reporteria-institucional-agregada]]. Implementación desarrollada en `codex/reporteria-institucional` e integrada a `main` por autorización de Jonmor el 16-10, merge `b446f24`.
 
 ## Cómo probar
 
@@ -69,7 +69,7 @@ selección y el render. Se añade Matplotlib al grupo `app`. Pruebas verifican f
 umbral, exclusión de casos terminales, ausencia de identificadores y mapa incrustado
 en el PDF. Revisión visual de las tres páginas y descarga real en Chromium.
 
-Cierre del rediseño `1350606`, integración `51d74c0`: **330 pruebas pasan**, dos omitidas y ocho evals excluidas; verificador de 500 perfiles TODO OK. PDF descargado desde Chromium con tres páginas, mapa incrustado, revisión visual y vista móvil/escritorio sin desborde. La rama sigue sin integrarse a `main`.
+Cierre del rediseño `1350606`, integración `51d74c0`: **330 pruebas pasan**, dos omitidas y ocho evals excluidas; verificador de 500 perfiles TODO OK. PDF descargado desde Chromium con tres páginas, mapa incrustado, revisión visual y vista móvil/escritorio sin desborde. Ese cierre precede a la integración autorizada en `b446f24`.
 
 ## Mapa web compartido y lenguaje institucional · 16-10
 
@@ -93,3 +93,5 @@ rótulos del mapa estático y de la vista de reportería. No cambia el origen de
 la campaña ni se elimina su aislamiento de la aplicación.
 
 Cierre de mapa compartido `f3dc096`, integración `c344ced`: 347 pruebas pasan, dos omitidas y ocho evals excluidas. Paridad del JSON completo del mapa, persistencia del personal entre pestañas, descarga real y Chromium 390/1440 OK. Redacción del PDF verificada por extracción: sin MVP/prototipo/simulado y con «Datos de ejemplo» en pie. Al integrar el nuevo KPI del equipo, la nota de alcance se ajusta a requerir evidencia y seguimiento suficiente, sin afirmar que la instrumentación no existe.
+
+Integración final autorizada `b446f24`: 347 pruebas pasan, dos omitidas por dependencias opcionales, ocho evals excluidas y verificador de 500 perfiles TODO OK. Main actualizado con reportería y avances recientes del equipo.

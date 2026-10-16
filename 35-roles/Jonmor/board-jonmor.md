@@ -27,7 +27,7 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 ## Hecho
 - Mapa interactivo idéntico al de Campañas en terreno y tono institucional del PDF, con nota discreta «Datos de ejemplo». `f3dc096`; rama `codex/reporteria-institucional`. [[reporteria-institucional]].
 - Heatmap offline en pantalla/PDF y plantilla editorial de tres páginas con fondos azul/turquesa. `1350606`, rama `codex/reporteria-institucional`. Filtros y publicación territorial del ejecutivo conservados. [[reporteria-institucional]].
-- Reportería institucional territorial con PDF automático. `7887a1e`, rama `codex/reporteria-institucional`, pendiente de revisión para integrar a main. 322 pruebas y descarga Chromium OK. [[reporteria-institucional]].
+- Reportería institucional territorial con PDF automático. `7887a1e`, integrado a main en `b446f24` desde `codex/reporteria-institucional`. 322 pruebas y descarga Chromium OK. [[reporteria-institucional]].
 - Desplazamiento automático al enviar/recibir y espera con puntos en ola en ambos chats. `df392ec`; Chromium 390/1440 px y 256 pruebas pasan. [[portal-ayuda-tramites]].
 - Cortafuegos estándar y educado en ambos chats, con referencias naturales «Si quieres saber más, puedes revisar…». `7d90e9e`; 57 pruebas enfocadas pasan. [[portal-ayuda-tramites]].
 - Conversación natural y memoria general aislada, dictado editable y voz sintética opcional en ambos chats. `7ba7c2f`, integración `5f78e6f`. 43 pruebas enfocadas y 235 de suite completa pasan. [[0017-conversacion-y-voz-del-navegador]].

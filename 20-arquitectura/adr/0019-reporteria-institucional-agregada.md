@@ -1,6 +1,6 @@
 ---
 tipo: adr
-estado: aceptado-para-rama
+estado: aceptado
 fecha: 2026-10-16
 ---
 # 0019 — Reportería institucional agregada y PDF local
@@ -11,7 +11,7 @@ Se incorpora al portal de ejecutivos una sección que reutiliza campaña y traza
 
 Se conservan las definiciones de [[0018-trazabilidad-de-uso]]: contacto, inicio, avance declarado y decisión administrativa son distintos. No se inventa cumplimiento del KPI en plazo. La simulación está marcada y aislada; no se mezclan sus eventos con casos de la aplicación. Fuentes y fecha de corte viajan en el PDF.
 
-La primera entrega no implementa permisos municipales/ministeriales ni despacho automatizado. Se mantiene el acceso del ejecutivo y se comparte un documento agregado. Rama `codex/reporteria-institucional`; integración a `main` pendiente de revisión del usuario. Detalles y pruebas en [[reporteria-institucional]].
+La primera entrega no implementa permisos municipales/ministeriales ni despacho automatizado. Se mantiene el acceso del ejecutivo y se comparte un documento agregado. Rama `codex/reporteria-institucional`; integración autorizada por el usuario y realizada en `b446f24` el 16-10. Detalles y pruebas en [[reporteria-institucional]].
 
 Ampliación solicitada el 16-10: plantilla editorial con fondos y heatmap offline en pantalla/PDF. Reutiliza las reglas y posiciones del mapa del ejecutivo (solo datos sintéticos, etapa 4 activa, mínimo cinco por comuna). Matplotlib/Agg renderiza contra la cartografía BCN local sin depender de tiles remotos. Leyenda relativa, fuente y ausencia de grupos explícitas; filtros comunes a los indicadores y al mapa.
 

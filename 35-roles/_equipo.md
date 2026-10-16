@@ -77,4 +77,4 @@ flowchart LR
 | 9. Seguir | Recorrido visual posalerta, ingresos, condiciones, avance declarado, reconexiones y vistas del proceso ([[trazabilidad-casos]]); auditoría y vista de medición | Validar próximo paso/plazo y KPI ≥75%; estado de la solicitud confirmado por el organismo |
 | Heatmap y alerta | Mapa RM con ubicaciones ficticias, ranking, umbral 5 y propuesta automática según personal en [[portal-ejecutivos]]; laboratorio con radio/capacidad y exportación GeoJSON ([[heatmap-campanas-simulado]]) | Territorios reales, autorización de domicilios, sede/rutas, agenda/despacho y alerta/CESFAM |
 
-- 16-10 · Jonmor: reportería agregada para municipalidades/ministerios y descarga PDF en rama `codex/reporteria-institucional`, pendiente de revisión e integración. [[reporteria-institucional]].
+- 16-10 · Jonmor: reportería agregada para municipalidades/ministerios y descarga PDF integrada a main en `b446f24` desde `codex/reporteria-institucional`, por autorización de Jonmor. [[reporteria-institucional]].

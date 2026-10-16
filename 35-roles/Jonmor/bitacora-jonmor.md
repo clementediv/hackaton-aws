@@ -6,7 +6,13 @@ integrante: Jonmor
 
 Una entrada por avance o commit relevante, la más reciente arriba.
 
-Formato: `### 2026-10-16 · Mapa compartido y redacción institucional · f3dc096
+Formato: `### 2026-10-16 · Merge de reportería a main · b446f24
+
+Jonmor autoriza integrar. Main incluye reportería institucional, PDF editorial y
+mapa web compartido con Campañas en terreno. Se incorporan los avances recientes
+del equipo antes del merge. 347 pruebas pasan y verificador TODO OK. [[reporteria-institucional]].
+
+### 2026-10-16 · Mapa compartido y redacción institucional · f3dc096
 
 Reportería web con el mismo PyDeck, capas, zoom y propuesta de Campañas en terreno.
 Contexto territorial y personal compartidos; filtros del informe conservados.
