@@ -223,9 +223,9 @@
 .st-key-gov_assistant .chat-composer-mic{width:36px;height:36px;min-width:36px;min-height:36px;padding:8px;border:0;border-radius:50%;box-shadow:none;text-align:center;transform:none}
 
 /* Center the initial greeting independently of the conversation messages. */
-.st-key-gov_assistant .st-key-gov_chat_assistant_welcome{max-width:320px;width:100%;margin:20px auto!important;align-self:center}
+.st-key-gov_assistant .st-key-gov_chat_assistant_welcome{max-width:320px;width:100%;margin:0 auto!important;align-self:center}
 .st-key-gov_assistant .st-key-gov_chat_assistant_welcome [data-testid="stChatMessageAvatarAssistant"]{display:none}
-.st-key-gov_assistant .st-key-gov_chat_assistant_welcome [data-testid="stChatMessage"]{justify-content:center;padding:18px 12px;box-sizing:border-box}
+.st-key-gov_assistant .st-key-gov_chat_assistant_welcome [data-testid="stChatMessage"]{justify-content:center;padding:0 12px 18px;box-sizing:border-box}
 .st-key-gov_assistant .st-key-gov_chat_assistant_welcome [data-testid="stMarkdownContainer"]{text-align:center}
 
 .st-key-personal_chat_placeholder_animation{display:none}
@@ -239,7 +239,6 @@
 
 .st-key-gov_benefits_layout .st-key-gov_assistant{box-sizing:border-box;width:100%;max-width:100%;border:1px solid #82add3;border-radius:20px;padding:24px;box-shadow:0 2px 8px #143e5c04}
 .st-key-gov_benefits_layout .gov-assistant-intro{padding:0 0 12px}
-.st-key-gov_benefits_layout .gov-assistant-intro:before{display:none}
 .st-key-gov_benefits_layout .st-key-gov_assistant .gov-assistant-intro h4{margin-top:0;line-height:1.4;font-size:18px}
 @media(max-width:700px){.st-key-gov_benefits_layout .st-key-gov_assistant{padding:18px}}
 
