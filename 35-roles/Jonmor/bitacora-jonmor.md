@@ -6,13 +6,13 @@ integrante: Jonmor
 
 Una entrada por avance o commit relevante, la más reciente arriba.
 
-Formato: `### 2026-10-16 · Reportería institucional en rama
+Formato: `### 2026-10-16 · Reportería institucional en rama · 7887a1e
 
 Vista del ejecutivo con destinatario municipal/ministerial, comunas, indicadores y
 PDF A4 automático con resumen, gráfico y detalle territorial. Agregados sin nombres,
 RUN ni contactos; reutiliza campaña y trazabilidad local. Datos simulados marcados;
 no interpreta avance declarado como beneficio entregado ni envía a terceros.
-Rama `codex/reporteria-institucional`, pendiente de revisión. [[reporteria-institucional]].
+Rama `codex/reporteria-institucional`, pendiente de revisión. Tras integrar AWS del equipo: 322 pruebas pasan, dos omitidas y ocho evals excluidas; verificador TODO OK. Descarga PDF real y Chromium 390/1440 OK. Aislada la caché de Streamlit entre pruebas para evitar que un estado AWS de moto se propague a pruebas offline. [[reporteria-institucional]].
 
 ### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 

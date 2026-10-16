@@ -39,3 +39,5 @@ La elección de destinatario personaliza el documento, no configura atribuciones
 `ruta/institutional_reports.py`: agregado sin identificadores, filtros y hallazgos. `ruta/institutional_pdf.py`: PDF vectorial A4 con paginación y encabezados de tabla repetidos. `ui_institutional_reports.py` y su CSS: nueva sección del ejecutivo; conserva el acceso con sesión ficticia existente.
 
 `uv run --group app pytest tests/test_institutional_reports.py tests/test_executives.py`: conteos únicos, filtros, secuencia de eventos, ausencia de evidencia, futuro excluido, datos vacíos, extracción de texto PDF, ausencia de identificadores, caracteres especiales, paginación de 80 comunas y recorrido UI con descarga. Revisión visual del PDF y descarga real en Chromium; vista responsive a 390/1440 px.
+
+Cierre de implementación `7887a1e`, integración del equipo `f4e0e37`: **322 pruebas pasan**, dos omitidas por dependencias opcionales y ocho evals Bedrock excluidas. Verificador de 500 perfiles TODO OK. Se limpia la caché Streamlit entre pruebas para aislar las comprobaciones AWS de moto. Descarga real de PDF y revisión visual a 390/1440 px verificadas.

@@ -15,7 +15,7 @@ entorno: Kiro IDE Pro
 Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, revisa el estado del pipeline en [[_equipo]] y los boards de los demás en [[_avance]] para no duplicar trabajo.
 
 ## En curso
-- Reportería para municipalidades y ministerios: vista territorial y PDF automático descargable. Rama `codex/reporteria-institucional`. [[reporteria-institucional]].
+- Sin tareas activas.
 
 ## Por hacer
 - Integrar Streamlit con la API cuando se amplíe el alcance; hoy conserva su adaptador local.
@@ -25,6 +25,7 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 - Sin bloqueos locales actuales: suite de cierre con 256 pruebas pasando. Los cinco fallos UI registrados anteriormente son históricos.
 
 ## Hecho
+- Reportería institucional territorial con PDF automático. `7887a1e`, rama `codex/reporteria-institucional`, pendiente de revisión para integrar a main. 322 pruebas y descarga Chromium OK. [[reporteria-institucional]].
 - Desplazamiento automático al enviar/recibir y espera con puntos en ola en ambos chats. `df392ec`; Chromium 390/1440 px y 256 pruebas pasan. [[portal-ayuda-tramites]].
 - Cortafuegos estándar y educado en ambos chats, con referencias naturales «Si quieres saber más, puedes revisar…». `7d90e9e`; 57 pruebas enfocadas pasan. [[portal-ayuda-tramites]].
 - Conversación natural y memoria general aislada, dictado editable y voz sintética opcional en ambos chats. `7ba7c2f`, integración `5f78e6f`. 43 pruebas enfocadas y 235 de suite completa pasan. [[0017-conversacion-y-voz-del-navegador]].
