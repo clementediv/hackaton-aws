@@ -196,7 +196,7 @@ def render_chat_page() -> None:
     from chat_feedback import TYPING_HTML, render_text_stream, scroll_chat
     from ruta.asistente import WORD_DELAY_SECONDS, responder_publico, _template_stream
     from ruta import casos
-    from ruta.datos import cargar_perfiles
+    from ruta.demo_profiles import load_citizen_profiles as cargar_perfiles
     from ruta.pgu_review import is_personal_pgu_question, review_pgu
 
     if st.session_state.get("portal_next_section"):

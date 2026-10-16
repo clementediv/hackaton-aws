@@ -3,6 +3,8 @@
 import hmac
 import re
 
+from .demo_profiles import CONSENT_DEMO_LOGIN, CONSENT_DEMO_RUN
+
 DEMO_PASSWORD = "demo2026"
 
 
@@ -19,7 +21,10 @@ def normalize_run(value: str) -> str:
 
 
 def authenticate(run: str, password: str, allowed_runs) -> str:
-    normalized = normalize_run(run)
+    # This explicit demo identifier has no valid DV. Keep the ordinary RUN
+    # validator strict and allow it only when this account is in the login list.
+    compact = re.sub(r"[.\s-]", "", run)
+    normalized = CONSENT_DEMO_RUN if compact == CONSENT_DEMO_LOGIN else normalize_run(run)
     if normalized not in allowed_runs or not hmac.compare_digest(
         password.encode("utf-8"), DEMO_PASSWORD.encode("utf-8")
     ):

@@ -8,7 +8,7 @@ import streamlit as st
 import ui_persona
 from ruta import asistente, casos, config, demo_auth, engagement, government
 from ruta import reglas as rules
-from ruta.datos import cargar_perfiles
+from ruta.demo_profiles import CONSENT_DEMO_RUN, load_citizen_profiles
 from ruta.fechas import fmt
 from ruta.ficha import contact_for
 from ruta.rutas import estado_pasos, generar_ruta, proximo_paso
@@ -74,6 +74,9 @@ def _submit_login(diags) -> None:
     except ValueError as error:
         st.session_state["gov_login_error"] = str(error)
         return
+    if run == CONSENT_DEMO_RUN and casos.obtener_caso(run)["autorizacion"]:
+        # This account demonstrates consent at every successful sign-in.
+        casos.autorizar(run, False, CANAL)
     st.session_state["government_login_run"] = run
     session = uuid4().hex
     st.session_state["government_session_id"] = session
@@ -89,7 +92,7 @@ def _login(diags) -> None:
         key=lambda d: (d.pgu.resultado != rules.ELEGIBLE, d.nombre),
     )
     sample = demo_people[0]
-    sample_run = cargar_perfiles()[sample.run]["registro_civil"]["run_formateado"]
+    sample_run = load_citizen_profiles()[sample.run]["registro_civil"]["run_formateado"]
     with st.container(key="government_login"):
         intro, form = st.columns([1.15, 1], gap="large", vertical_alignment="top")
         with intro:
@@ -136,6 +139,8 @@ def _login(diags) -> None:
 
 
 def render(diags) -> None:
+    profiles = load_citizen_profiles()
+    diags = {**diags, CONSENT_DEMO_RUN: rules.diagnosticar(profiles[CONSENT_DEMO_RUN])}
     st.markdown(
         f"<style>{(ASSETS / 'government.css').read_text(encoding='utf-8')}</style>",
         unsafe_allow_html=True,
@@ -145,7 +150,7 @@ def render(diags) -> None:
         _login(diags)
         return
     case = casos.obtener_caso(d.run)
-    profile = cargar_perfiles()[d.run]
+    profile = profiles[d.run]
     with st.container(key="gov_subnav"):
         page = st.radio(
             "Secciones de Mi Gobierno",
@@ -239,7 +244,12 @@ def _revoke(run: str) -> None:
 
 def _consent(d) -> None:
     with st.container(border=True, key="gov_consent"):
-        st.markdown("### Descubre qué beneficios podrían corresponderte")
+        title = (
+            "Autoriza el uso de tus datos"
+            if d.run == CONSENT_DEMO_RUN
+            else "Descubre qué beneficios podrían corresponderte"
+        )
+        st.markdown(f"### {title}")
         st.write("Reúne tu información en un solo lugar y recibe una ruta según tu situación.")
         st.markdown(
             "**Con tu autorización revisaremos:** Registro Social de Hogares, residencia, "

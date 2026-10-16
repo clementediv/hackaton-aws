@@ -4,6 +4,11 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+### 2026-10-16 · Perfil nuevo con autorización de datos
+- Cuenta de demostración `123456789` / `demo2026`, identidad «Persona De Prueba», disponible en Mi Gobierno y revisión personal del chat. Al ingresar se solicita autorización explícita; casilla desmarcada y activación deshabilitada. Cada nuevo login de esa cuenta desactiva un permiso previo para repetir la demo.
+- Excepción del identificador inválido limitada a esa cuenta permitida en `authenticate`; normalizadores ordinarios y API permanecen estrictos. Perfil adicional separado del dataset A: conserva 500 personas y campañas. RSH/residencia/previsión no confirmados; sin adjudicación ni permisos automáticos.
+- 310 pruebas pasan, ocho evals excluidas; verificador de 500 perfiles TODO OK y Ruff de módulos nuevos/autenticación/tests OK. Chrome sobre localhost:8501 confirma ingreso y pantalla de permiso sin activarlo; servidor reiniciado. [[perfil-demo-autorizacion]]. Commit «Agregar perfil de prueba con autorización al ingresar».
+
 ### 2026-10-16 · Actualización completa del proyecto
 - Comprobadas todas las ramas remotas: ningún commit publicado nuevo. `main` local puesta al día por fast-forward (136 commits, `1b39d3d` → `912b025`), manteniendo activa `jp/ajustes-frontend`.
 - Sincronización `uv --frozen` de app/infra/api: 88 paquetes comprobados. Suite completa: 305 pasan, ocho evals excluidas y ninguna omisión; 500 perfiles y 15 checks de conocimiento OK. Localhost:8501 responde HTTP 200; copias de presentación idénticas.

@@ -21,6 +21,8 @@ Lee `perfiles.json` desde `data/raw/dataset_A_participantes/` en la raíz del re
 
 Mi Gobierno y Vista ejecutivo tienen accesos ficticios para demo local; no implementan identidad de producción. El consentimiento de antecedentes se solicita por separado. `--server.address localhost` limita el acceso a este equipo.
 
+Para demostrar la autorización desde cero: ingresa a Mi Gobierno con `123456789` y `demo2026`. La cuenta ficticia «Persona De Prueba» solicita permiso en cada ingreso; no muestra resultados personales hasta activarlo. Ver [[perfil-demo-autorizacion]].
+
 IA generativa (opcional): define `BEDROCK_MODEL_ID` (por ejemplo `us.anthropic.claude-sonnet-5`) junto con `AWS_PROFILE=hackaton` y `AWS_REGION=us-east-1`. Sin ella, el asistente responde con plantillas a partir del mismo contexto.
 
 El chatbot consulta una base local de fuentes oficiales de Ventanilla Única Social, ChileAtiende y organismos relacionados. Recupera secciones pertinentes con URLs y fechas, conserva el tema para preguntas de seguimiento y mantiene la evaluación personal en código. Cobertura, actualización y verificaciones en [[contexto-chatbot-oficial]] (`knowledge/contexto-chatbot-oficial.md`).

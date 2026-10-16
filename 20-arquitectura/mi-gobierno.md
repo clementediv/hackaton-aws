@@ -1,5 +1,7 @@
 # Mi Gobierno
 
+Cuenta adicional solicitada el 16-10: **Persona De Prueba**, acceso `123456789` / `demo2026`. En cada ingreso pide autorización explícita, sin concederla por autenticarse. Permanece separada de los 500 perfiles originales y no altera la validación ordinaria de RUN. Implementación y pruebas en [[perfil-demo-autorizacion]].
+
 Texto progresivo sin cursor: ambos chats usan `chat_feedback.render_text_stream` sobre el placeholder existente. Evita el símbolo automático de `write_stream` sin tocar caracteres del contenido ni las fuentes. Pausa artificial compartida de 25 ms por palabra (antes 80 ms); no modifica la latencia de Bedrock. Prueba de preservación exacta del texto y observador de cursor durante la prueba Chromium. Nueve pruebas enfocadas pasan; otra prueba existente de streaming discrepa en la URL de fuente PGU (ChileAtiende frente a Ventanilla Única).
 
 Verificación posterior del servidor real: el proceso local 8501 seguía usando el módulo anterior con Markdown; se reinició con el código vigente. `python scripts/verificar_detalles_pantalla.py` recorre acceso, consentimiento y detalles de todos los beneficios en la aplicación completa: exige `stHtml`, comprueba centrado del texto y captura pantalla a 390/900/1440 px. Así detecta también procesos que no recargaron el módulo actualizado.
