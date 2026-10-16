@@ -79,7 +79,23 @@ def invitar(runs: list[str], canal: str) -> int:
     return n
 
 
+# Quien quiera enterarse de la respuesta (la app registra la sincronización con AWS).
+# Por nombre, para que registrar en cada rerun de Streamlit no duplique.
+_oyentes_respuesta: dict = {}
+
+
+def al_responder_invitacion(nombre: str, oyente) -> None:
+    """`oyente(run, acepta, canal)` se llama después de guardar la respuesta."""
+    _oyentes_respuesta[nombre] = oyente
+
+
 def responder_invitacion(run: str, acepta: bool, canal: str) -> None:
+    _guardar_respuesta(run, acepta, canal)
+    for oyente in list(_oyentes_respuesta.values()):
+        oyente(run, acepta, canal)
+
+
+def _guardar_respuesta(run: str, acepta: bool, canal: str) -> None:
     with _conn() as con:
         _asegurar(con, run)
         con.execute(

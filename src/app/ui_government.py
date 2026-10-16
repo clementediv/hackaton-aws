@@ -5,6 +5,7 @@ from pathlib import Path
 from uuid import uuid4
 
 import streamlit as st
+import ui_aws
 import ui_persona
 from ruta import asistente, casos, config, demo_auth, engagement, government
 from ruta import reglas as rules
@@ -194,6 +195,7 @@ def _benefits_page(d, authorized: bool) -> None:
             )
         benefits, chat = st.columns([2.15, 1], gap="large")
         with benefits:
+            ui_aws.citizen_notices(d.run)
             if authorized:
                 _benefits(d)
             else:
