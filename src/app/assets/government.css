@@ -136,6 +136,9 @@
 [class*="st-key-gov_requirement_"]>[data-testid="stVerticalBlock"]{gap:8px}
 [class*="st-key-gov_requirement_"] [data-testid="stCaptionContainer"], [class*="st-key-gov_requirement_"] [data-testid="stText"]{padding:0 16px}
 [class*="st-key-gov_requirement_"] [data-testid="stHorizontalBlock"]{padding:0 16px}
+[class*="st-key-gov_requirement_"] .stVerticalBlock[class*="st-key-gov_video_"]{box-sizing:border-box;width:100%!important;max-width:320px!important;margin:0 auto!important;padding:0 16px;gap:4px}
+[class*="st-key-gov_video_"] iframe{display:block;width:100%!important;height:auto!important;aspect-ratio:16/9;border:0;border-radius:8px}
+[class*="st-key-gov_requirement_"] [class*="st-key-gov_video_"] [data-testid="stCaptionContainer"]{padding:0;text-align:center}
 [class*="st-key-gov_requirement_"] [data-testid="stPopover"] button{background:#fffdf7;border:1px solid #d9c38e;color:#725216;border-radius:8px;min-height:42px}
 .gov-requirement-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:25px;height:25px;flex-shrink:0;border:1px solid currentColor;border-radius:50%;font-weight:700}
 .gov-requirement-card strong{display:block;font-size:15px;line-height:1.5}

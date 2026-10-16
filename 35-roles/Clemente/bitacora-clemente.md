@@ -4,6 +4,8 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+- 16-10: Videos de requisitos dentro de la misma casilla, en pequeño (máx. 320 px), en vez de la ventana «Ver ayuda». Chromium 1440/390 px y test de UI OK. [[mi-gobierno]]. Commit «Mostrar los videos de requisitos dentro de su casilla».
+
 - 16-10: Cierre final del MVP repartido en el board: C1–C5 para Codex y M1–M5 para Claude. M1: demo estrella en vivo contra AWS (Jorge cumple 65 → email real → clic → aceptado). M2–M3: Punto CESFAM simulado y derivación al ejecutivo con resumen por código ([[cesfam-derivacion]]). M4: KPI de próximo paso dentro de un plazo de demo de 30 días sobre la cohorte con plazo cumplido ([[kpi-proximo-paso]]). Tests `test_derivaciones.py` (7) y `test_kpi.py` (8). Commits «Punto CESFAM simulado y derivación…» y «Medir el KPI de próximo paso dentro del plazo».
 
 - 15-10: Texto de ambos chats con pausa de 25 ms por palabra y actualización directa del placeholder sin cursor automático. Nueve pruebas enfocadas OK; prueba ajena al cambio discrepa en URL fuente PGU. [[mi-gobierno]]. Commit «Acelerar el texto y quitar el cursor del chat».
