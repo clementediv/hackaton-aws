@@ -11,6 +11,7 @@ npx cdk deploy --profile hackaton
 ```
 - Al desplegar, SES envía un correo de verificación a `clemente.uribe.ortiz@gmail.com`: **hay que hacer clic en el enlace** antes de que lleguen los emails.
 - Otro correo: `npx cdk deploy -c email=otra@casilla.cl`. Esperas de demo: `-c espera_email_min=2 -c espera_sms_min=2`.
+- Invitados que también reciben email real (p. ej. para la demo técnica): verificar su casilla con `aws ses verify-email-identity --email-address <casilla> --profile hackaton` (la persona hace clic en el enlace) y desplegar con `-c emails_extra=<casilla1>,<casilla2>`. **Hay que repetir el `-c` en cada despliegue**: si se omite, esas casillas vuelven a recibir email simulado. No se guardan en el repo porque es público.
 - Si la cuenta no permite crear roles IAM: `-c lambda_role_arn=arn:aws:iam::<cuenta>:role/<rol>` (el rol necesita DynamoDB y `ses:SendEmail`).
 
 ## Cargar datos
