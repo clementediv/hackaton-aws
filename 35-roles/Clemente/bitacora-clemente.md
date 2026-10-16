@@ -4,6 +4,11 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+### 2026-10-16 · Actualizar la presentación con la página vigente · integración `ee1829e`
+- Incorporados ocho commits hasta `912b025`: home, datos personales, detalles de beneficios y mejoras de conversación/streaming/scroll. Conflictos del board y prueba de streaming resueltos conservando las citas controladas y la nueva regresión sin cursor.
+- Dos diagramas 16:9 (arquitectura y recorrido de página) versionados en `20-arquitectura/presentacion-aws/`, con SVG, PNG y HTML; generador reproducible y explicación/guion en [[presentacion-servicios-aws]]. Renovados los archivos temporales abiertos por el usuario.
+- 305 pruebas pasan, ocho evals excluidas y ninguna omisión; verificador de 500 perfiles TODO OK. Ruff de archivos nuevos/modificados propios, validación XML y exportación sin texto fuera del lienzo OK; imágenes inspeccionadas. Sin cambios en servicios AWS, sin despliegue ni validación remota.
+
 - 15-10: Texto de ambos chats con pausa de 25 ms por palabra y actualización directa del placeholder sin cursor automático. Nueve pruebas enfocadas OK; prueba ajena al cambio discrepa en URL fuente PGU. [[mi-gobierno]]. Commit «Acelerar el texto y quitar el cursor del chat».
 
 - 15-10: Revisión del problema persistente en pantalla completa: el servidor 8501 conservaba el render Markdown anterior. Reiniciado con código vigente; captura y medición confirman centrado de requisitos PGU. Verificador de los 16 detalles exige HTML actualizado y comprueba tres anchos. [[mi-gobierno]]. Commit «Verificar detalles en la aplicación completa».

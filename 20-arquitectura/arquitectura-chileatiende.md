@@ -7,6 +7,8 @@ revision: 2026-10-15 (estado real del código y detección proactiva en AWS)
 ---
 # Arquitectura — ChileAtiende a tiempo
 
+**Material de presentación actualizado el 16-10:** [[presentacion-servicios-aws]] incluye arquitectura SVG/PNG/HTML y recorrido de la página vigente (Inicio, Mi Gobierno, Asistente de IA y Vista ejecutivo). Los cambios de interfaz hasta `912b025` no agregan servicios AWS ni completan la migración del frontend a la API.
+
 **Revisión 15-10 (tarde):** esta nota describe lo que **existe hoy**, no solo lo planificado. Hay cuatro bloques:
 1. **App de demostración** (Streamlit, `src/app/`): portal ciudadano, Mi Gobierno y herramientas del ejecutivo, con reglas, casos y colador en SQLite local.
 2. **Agente** (`src/agent/`, `src/contracts/`, `src/tools/`): Bedrock Converse con herramientas; el chatbot de la app lo usa.
