@@ -6,7 +6,30 @@ integrante: Jonmor
 
 Una entrada por avance o commit relevante, la más reciente arriba.
 
-Formato: `### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
+Formato: `### 2026-10-16 · Mapa compartido y redacción institucional · f3dc096
+
+Reportería web con el mismo PyDeck, capas, zoom y propuesta de Campañas en terreno.
+Contexto territorial y personal compartidos; filtros del informe conservados.
+PDF con lenguaje institucional y sin jerga MVP/simulación; nota «Datos de ejemplo»
+en el pie mantiene claridad sobre el origen. 347 pruebas pasan tras integrar `c344ced`; paridad completa del mapa y descarga real Chromium OK. [[reporteria-institucional]].
+
+### 2026-10-16 · Plantilla editorial y heatmap del reporte · 1350606
+
+Portada azul oscuro, fondos, cabeceras y tres páginas: resumen, heatmap/avance y
+detalle territorial/fuentes. Mapa offline con cartografía BCN local y mismas reglas
+del ejecutivo, filtrado por comunas. Sin grupos válidos no fabrica calor.
+Mapa visible también en la web. 330 pruebas pasan tras integrar avances del equipo; verificador TODO OK, descarga real y revisión visual del PDF de tres páginas, Chromium 390/1440 sin desborde. Rama `codex/reporteria-institucional`.
+[[reporteria-institucional]].
+
+### 2026-10-16 · Reportería institucional en rama · 7887a1e
+
+Vista del ejecutivo con destinatario municipal/ministerial, comunas, indicadores y
+PDF A4 automático con resumen, gráfico y detalle territorial. Agregados sin nombres,
+RUN ni contactos; reutiliza campaña y trazabilidad local. Datos simulados marcados;
+no interpreta avance declarado como beneficio entregado ni envía a terceros.
+Rama `codex/reporteria-institucional`, pendiente de revisión. Tras integrar AWS del equipo: 322 pruebas pasan, dos omitidas y ocho evals excluidas; verificador TODO OK. Descarga PDF real y Chromium 390/1440 OK. Aislada la caché de Streamlit entre pruebas para evitar que un estado AWS de moto se propague a pruebas offline. [[reporteria-institucional]].
+
+### AAAA-MM-DD HH:MM · <tema> · <commit corto>` y debajo qué se hizo, qué falta y si algo bloquea a otro integrante.
 
 ### 2026-10-15 · Cierre y continuidad para mañana
 

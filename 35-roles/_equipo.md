@@ -76,3 +76,5 @@ flowchart LR
 | 8. Derivar | Portal de seguimiento para asistentes sociales con inicio/cierre de sesión ficticios ([[portal-ejecutivos]]) y **ficha del beneficiario** con identidad, contacto, consentimiento, evaluación, ruta, documentos, colador y alerta ([[ficha-beneficiario]]) | Resumen de derivación redactado por el asistente; identidad profesional de producción |
 | 9. Seguir | Recorrido visual posalerta, ingresos, condiciones, avance declarado, reconexiones y vistas del proceso ([[trazabilidad-casos]]); auditoría y vista de medición | Validar próximo paso/plazo y KPI ≥75%; estado de la solicitud confirmado por el organismo |
 | Heatmap y alerta | Mapa RM con ubicaciones ficticias, ranking, umbral 5 y propuesta automática según personal en [[portal-ejecutivos]]; laboratorio con radio/capacidad y exportación GeoJSON ([[heatmap-campanas-simulado]]) | Territorios reales, autorización de domicilios, sede/rutas, agenda/despacho y alerta/CESFAM |
+
+- 16-10 · Jonmor: reportería agregada para municipalidades/ministerios y descarga PDF en rama `codex/reporteria-institucional`, pendiente de revisión e integración. [[reporteria-institucional]].

@@ -1,0 +1,11 @@
+.report-hero{background:linear-gradient(120deg,#0d365a,#0d4d82 60%,#087e8b);border-radius:20px;padding:32px 36px;margin:18px 0 24px;color:#fff}
+.report-eyebrow{font-size:11px;letter-spacing:2px;font-weight:700;color:#b8e3ef;margin-bottom:12px}
+.report-hero h2{color:#fff;font-size:30px;line-height:1.2;margin:0 0 14px;padding:0;max-width:650px}
+.report-hero p{color:#e0edf5;font-size:16px;line-height:1.6;max-width:720px;margin:0}
+.report-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:20px 0 30px}
+.report-metric{border:1px solid #dce7ef;border-radius:16px;padding:20px;background:#fff;box-shadow:0 4px 16px #173d5905;min-width:0}
+.report-metric>span{font-size:13px;color:#526879;display:block}.report-metric strong{display:block;color:#0d4d82;font-size:38px;line-height:1.4}.report-metric small{color:#62798b;font-size:12px;line-height:1.5;display:block}
+.report-bars{border:1px solid #e2eaf0;border-radius:16px;padding:22px}.report-stage{margin-bottom:22px}.report-stage:last-child{margin-bottom:0}.report-stage>div:first-child{display:flex;justify-content:space-between;color:#173d59;font-size:14px;margin-bottom:8px}.report-track{height:10px;background:#eff5fa;border-radius:8px;overflow:hidden}.report-track>span{height:100%;display:block;background:#0f69b4;border-radius:8px}.report-stage:last-child .report-track>span{background:#087e8b}
+.report-finding{border-left:3px solid #1d8593;background:#f4f9fa;padding:14px 16px;margin-bottom:12px;border-radius:0 10px 10px 0;color:#24485e;font-size:14px;line-height:1.6}
+.st-key-institutional_report_download{background:#f5f9fc;border-color:#dce7ef!important;border-radius:16px}.st-key-institutional_report_controls{border-radius:16px}
+@media(max-width:700px){.report-hero{padding:24px 20px}.report-hero h2{font-size:25px}.report-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.report-metric{padding:14px}.report-metric strong{font-size:32px}}

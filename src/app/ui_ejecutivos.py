@@ -8,14 +8,13 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 from ruta import config, staff_auth
-from ruta.campanas import metropolitan_locations, metropolitan_ranking
 from ruta.colador import Funnel
-from ruta.despliegue import automatic_campaign_area
 from ruta.ejecutivos import DEMO_DB, STATUS, case_rows, demo_snapshot, next_action
+from ruta.report_heatmap import campaign_context
 from ui_campanas import campaign_map
 
 ASSETS = Path(__file__).parent / "assets"
-VIEWS = ["Seguimiento de casos", "Campañas en terreno", "Trazabilidad"]
+VIEWS = ["Seguimiento de casos", "Campañas en terreno", "Trazabilidad", "Reportería institucional"]
 EVENTS = {
     "attempt": "Se intentó contactar",
     "contacted": "Contacto confirmado",
@@ -225,15 +224,13 @@ def _campaigns(state, profiles):
         "El mapa identifica sectores con personas sin contacto confirmado. "
         "La propuesta se prepara automáticamente para organizar un operativo cercano."
     )
-    rows = metropolitan_ranking(state, profiles)
-    locations = metropolitan_locations(state, rows)
     left, right = st.columns([2.8, 1], gap="large")
     with right:
         st.markdown("#### Tu próximo operativo")
         staff = st.number_input(
             "Personal disponible", min_value=1, max_value=20, value=2, key="staff_team"
         )
-        area = automatic_campaign_area(locations, staff=int(staff))
+        rows, locations, area = campaign_context(state, profiles, staff=int(staff))
         if area:
             info = area["properties"]
             communes = ", ".join(info["communes"])
@@ -310,8 +307,7 @@ def render(profiles, db_path=None):
                 "Esta campaña aún no tiene casos alertados. "
                 "Puedes explorar la campaña de demostración."
             )
-            return
-        if st.session_state.get("staff_view") != "Trazabilidad":
+        if st.session_state.get("staff_view") not in ("Trazabilidad", "Reportería institucional"):
             _cards(state)
         with st.container(key="staff_navigation"):
             view = st.radio(
@@ -321,12 +317,23 @@ def render(profiles, db_path=None):
                 label_visibility="collapsed",
                 key="staff_view",
             )
+        if not state["people"] and view != VIEWS[3]:
+            return
         if view == VIEWS[0]:
             _tracking(state)
         elif view == VIEWS[1]:
             _campaigns(state, profiles)
-        else:
+        elif view == VIEWS[2]:
             _traceability(
+                state, _campaign_db(db_path),
+                demo=db_path is None and st.session_state.get("staff_source", "").startswith("Demostraci"),
+                profiles=profiles,
+            )
+
+        else:
+            import ui_institutional_reports
+
+            ui_institutional_reports.render(
                 state, _campaign_db(db_path),
                 demo=db_path is None and st.session_state.get("staff_source", "").startswith("Demostraci"),
                 profiles=profiles,
