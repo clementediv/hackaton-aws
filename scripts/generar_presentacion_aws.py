@@ -23,7 +23,7 @@ text{font-family:Arial,Helvetica,sans-serif}
 <rect x="48" y="45" width="10" height="64" rx="5" fill="#ff9900"/>
 <text x="80" y="83" class="title">AWS en ChileAtiende a tiempo</text>
 <text x="80" y="124" class="subtitle">
-Página actualizada al 16-10-2026 · dos stacks AWS en us-east-1 · referencia: 912b025
+Equipo consolidado al 16-10-2026 · dos stacks AWS en us-east-1 · código: 912b025
 </text>
 """
 ]
@@ -170,7 +170,7 @@ txt(
 txt(
     1844,
     1067,
-    "16-10-2026 · Cambios de interfaz integrados; despliegue AWS sin revalidar en vivo.",
+    "16-10-2026 · Todas las ramas revisadas; despliegue AWS sin revalidar en vivo.",
     "small",
     "end",
 )
@@ -317,6 +317,82 @@ journey = "".join(parts)
 )
 print(OUT / "recorrido-pagina.svg")
 
+# Tercera diapositiva: aportes trazables en commits y documentación del equipo.
+parts = [svg[: svg.index('<rect width="1920"')], '<rect width="1920" height="1080" fill="#fff"/>']
+txt(72, 82, "Aportes consolidados del equipo", "title")
+txt(72, 127, "Cinco integrantes · revisión de todas las ramas remotas · 16-10-2026", "subtitle")
+contributions = [
+    (
+        "Johann",
+        "Base de la aplicación y motor de rutas",
+        "Portal, Mi Gobierno, reglas PGU y catálogo público para el asistente.",
+        "0d06dab · ad7efb0",
+        "Código integrado",
+    ),
+    (
+        "Clemente",
+        "Detección, contacto y seguimiento",
+        "Flujo proactivo AWS, colador local, campañas, ficha y trazabilidad.",
+        "edb8191 · 96abb06",
+        "Código integrado",
+    ),
+    (
+        "Jonmor",
+        "API del chat y continuidad conversacional",
+        "Casos DynamoDB, consentimiento, Bedrock, pruebas, memoria y voz.",
+        "df99c3b · 7ba7c2f",
+        "Código integrado",
+    ),
+    (
+        "Bruno",
+        "Investigación y diseño de la experiencia",
+        "Contexto de personas mayores, accesibilidad y propuestas de flujo.",
+        "f4ca21c · d9eb707",
+        "Documentación integrada",
+    ),
+    (
+        "Jp",
+        "Experiencia de usuario y presentación",
+        "Estilo visual, micrófono, respuestas progresivas y material del pitch.",
+        "8909d96 · 3d2f6d2",
+        "Código y material integrados",
+    ),
+]
+for index, (person, title, description, commits, status) in enumerate(contributions):
+    y = 177 + index * 144
+    rect(48, y, 1824, 126, "#f1f5fa" if index % 2 == 0 else "#f8f9fc")
+    txt(80, y + 46, person, "label")
+    txt(360, y + 39, title, "label")
+    txt(360, y + 75, description, "body")
+    txt(360, y + 107, commits, "small")
+    txt(1825, y + 105, status, "small", "end")
+rect(48, 923, 1824, 102, "#102945", r=14)
+txt(78, 963, "UNA SOLUCIÓN COMPARTIDA", "label", fill="#fff")
+txt(
+    78,
+    1000,
+    "Detectar → contactar → autorizar → orientar → acompañar → seguimiento del ejecutivo",
+    "body",
+    fill="#fff",
+)
+txt(
+    72,
+    1066,
+    "Los aportes se superponen. Las propuestas de investigación "
+    "no equivalen a funciones implementadas.",
+    "small",
+)
+parts.append("</svg>")
+team = "".join(parts)
+(OUT / "aportes-equipo.svg").write_text(team, encoding="utf-8")
+(OUT / "aportes-equipo.html").write_text(
+    '<!doctype html><meta charset="utf-8">'
+    "<style>html,body{margin:0;width:1920px;height:1080px;overflow:hidden}"
+    "svg{display:block}</style>" + team,
+    encoding="utf-8",
+)
+print(OUT / "aportes-equipo.svg")
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--png", action="store_true", help="Exportar con Playwright y Chrome")
@@ -338,7 +414,7 @@ if __name__ == "__main__":
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(executable_path=chrome, headless=True)
             page = browser.new_page(viewport={"width": 1920, "height": 1080})
-            for name in ("arquitectura-aws", "recorrido-pagina"):
+            for name in ("arquitectura-aws", "recorrido-pagina", "aportes-equipo"):
                 page.goto((OUT / f"{name}.html").as_uri())
                 overflow = page.locator("svg text").evaluate_all("""els => els.filter(e => {
                     const b = e.getBBox();

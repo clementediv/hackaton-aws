@@ -2,6 +2,7 @@
 tipo: presentacion
 fecha: 2026-10-16
 referencia_codigo: 912b025
+integracion_equipo: d06e521
 ---
 # Servicios AWS y recorrido actual de la página
 
@@ -9,10 +10,25 @@ Material para presentar [[arquitectura-chileatiende]], [[mi-gobierno]] y [[porta
 
 ## Diagramas para las diapositivas
 
-Ambas láminas usan formato 16:9, 1920 × 1080. SVG permite editar o escalar y PNG permite insertar directamente en PowerPoint/Google Slides. HTML abre la misma lámina en el navegador.
+Las tres láminas usan formato 16:9, 1920 × 1080. SVG permite editar o escalar y PNG permite insertar directamente en PowerPoint/Google Slides. HTML abre la misma lámina en el navegador.
 
 - Arquitectura: [PNG](presentacion-aws/arquitectura-aws.png) · [SVG](presentacion-aws/arquitectura-aws.svg) · [HTML](presentacion-aws/arquitectura-aws.html).
 - Recorrido de la página: [PNG](presentacion-aws/recorrido-pagina.png) · [SVG](presentacion-aws/recorrido-pagina.svg) · [HTML](presentacion-aws/recorrido-pagina.html).
+- Aportes del equipo: [PNG](presentacion-aws/aportes-equipo.png) · [SVG](presentacion-aws/aportes-equipo.svg) · [HTML](presentacion-aws/aportes-equipo.html).
+
+## Aportes consolidados de todos
+
+Se revisaron todas las ramas publicadas de `origin`. `origin/main` permanece en `912b025`; sus cambios ya estaban integrados. La rama `origin/johann/app-mvp-ruta-pgu` también es antecesora del checkout. El único commit remoto fuera del historial era `d9eb707` de `origin/brunoupdates`: la investigación ya existía en `f4ca21c` con el mismo contenido, salvo saltos de línea. Se integra su historial en `d06e521`, preservando la copia existente sin duplicarla. No había funciones nuevas de AWS o de la página pendientes en esas ramas.
+
+| Integrante | Aportes presentes en la solución | Evidencia representativa |
+|---|---|---|
+| Johann | App Streamlit, reglas/rutas, Mi Gobierno y base de conocimiento oficial | `0d06dab`, `ad7efb0` |
+| Clemente | Colador, detección proactiva AWS, campañas, ejecutivo y trazabilidad | `7d1d8e0`, `edb8191`, `81755d7`, `96abb06` |
+| Jonmor | API del chat, persistencia DynamoDB, autorización, evaluación, conversación y voz | `df99c3b`, `7ba7c2f` |
+| Bruno | Investigación sobre personas mayores, accesibilidad, diseño y especificaciones | `f4ca21c`, `d9eb707`, `b21b0f1` |
+| Jp | Diseño del frontend, streaming, micrófono, consulta personal y presentación | `8909d96`, `85244ef`, `a9a28af`, `3d2f6d2` |
+
+La tabla resume evidencia del trabajo compartido; los aportes se superponen. La investigación de Bruno se conserva como contexto y propuestas: sus cifras y recomendaciones no se convierten automáticamente en resultados del producto ni en implementaciones adicionales. Las decisiones de elegibilidad siguen en código.
 
 ## Qué cambió en la página
 

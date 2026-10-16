@@ -15,7 +15,6 @@ entorno: Claude Code + Codex
 Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de [[_equipo]].
 
 ## En curso
-- [ ] Consolidar aportes de todas las ramas remotas y actualizar trazabilidad del equipo en la presentación · [[presentacion-servicios-aws]].
 - [ ] Detección proactiva en AWS (DynamoDB Streams + Lambda + SES): desplegada el 15-10 en la cuenta del evento (stack `ChileAtiendeProactivo`), 618 contactos simulados cargados; falta verificar la casilla en SES y probar la demo estrella · [[deteccion-proactiva-aws]]
 
 ## Por hacer
@@ -69,6 +68,7 @@ Los plazos son propuestas de demo, no plazos institucionales. El acompañamiento
 - Datos reales de contacto/provincia siguen pendientes de los mentores. La capa sintética desbloquea el colador de demo y puede alimentar el futuro heatmap; no representa domicilios reales.
 
 ## Hecho
+- [x] Revisadas e integradas todas las ramas remotas del equipo; historial de investigación de Bruno conciliado sin duplicar documento (`d06e521`). Presentación consolidada con tercera lámina de aportes, SVG/PNG/HTML y copia temporal actualizados. Sin cambios funcionales respecto de la última suite de 305 pruebas · [[presentacion-servicios-aws]].
 - [x] Presentación AWS actualizada al 16-10: arquitectura y recorrido vigente en SVG/PNG/HTML, explicación y guion; copia temporal del SVG abierto renovada. Cambios de página hasta `912b025` integrados (`ee1829e`), 305 pruebas y verificador de 500 perfiles OK · [[presentacion-servicios-aws]].
 - [x] Últimos pushes integrados hasta `5fc01c9`; verificación local: 282 pruebas, 15 de conocimiento, 500 perfiles y ambos chats en Chrome 390/1440 px OK. Tras alineación: 47 pruebas relacionadas OK. AWS real pendiente por ausencia de perfil en esta terminal; lint global heredado documentado. `f4dc140`, `2ffeca8`, integración `8c3686b` · [[verificacion-integracion-2026-10-15]].
 - [x] Animaciones del home: entrada escalonada, revelado al hacer scroll y tarjetas con hover suave. Cinco pruebas, Ruff y Chromium 390/1440 px normal/reducido OK. [[portal-ayuda-tramites]]. Commit: Pulir animaciones del home.

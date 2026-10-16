@@ -4,6 +4,11 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+### 2026-10-16 · Consolidación de aportes de todos · `d06e521`
+- `origin/main` no tenía nuevos cambios; inspeccionadas todas las ramas remotas. Único commit no incluido: `d9eb707` de Bruno, investigación idéntica a la ya incorporada salvo CRLF/LF. Merge add/add resuelto conservando el documento existente; todas las puntas remotas son antecesoras del checkout.
+- Presentación con aportes trazables de Johann, Clemente, Jonmor, Bruno y Jp; tercera lámina editable y exportaciones PNG/HTML. Renovada la copia temporal del archivo abierto. No se presentan propuestas de investigación como funciones existentes.
+- Diff de `src/`, `infra/`, tests y dependencias vacío respecto de `3d2f6d2`: se conserva la última validación de 305 pruebas; no se repite la suite por cambios documentales. Ruff del generador, XML, límites del texto y revisión visual de las láminas OK. [[presentacion-servicios-aws]].
+
 ### 2026-10-16 · Actualizar la presentación con la página vigente · integración `ee1829e`
 - Incorporados ocho commits hasta `912b025`: home, datos personales, detalles de beneficios y mejoras de conversación/streaming/scroll. Conflictos del board y prueba de streaming resueltos conservando las citas controladas y la nueva regresión sin cursor.
 - Dos diagramas 16:9 (arquitectura y recorrido de página) versionados en `20-arquitectura/presentacion-aws/`, con SVG, PNG y HTML; generador reproducible y explicación/guion en [[presentacion-servicios-aws]]. Renovados los archivos temporales abiertos por el usuario.

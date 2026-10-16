@@ -7,7 +7,7 @@ revision: 2026-10-15 (estado real del código y detección proactiva en AWS)
 ---
 # Arquitectura — ChileAtiende a tiempo
 
-**Material de presentación actualizado el 16-10:** [[presentacion-servicios-aws]] incluye arquitectura SVG/PNG/HTML y recorrido de la página vigente (Inicio, Mi Gobierno, Asistente de IA y Vista ejecutivo). Los cambios de interfaz hasta `912b025` no agregan servicios AWS ni completan la migración del frontend a la API.
+**Material de presentación actualizado el 16-10:** [[presentacion-servicios-aws]] incluye arquitectura SVG/PNG/HTML, recorrido de la página vigente (Inicio, Mi Gobierno, Asistente de IA y Vista ejecutivo) y aportes de los cinco integrantes, tras revisar todas las ramas remotas. Los cambios de interfaz hasta `912b025` y la conciliación documental de Bruno (`d06e521`) no agregan servicios AWS ni completan la migración del frontend a la API.
 
 **Revisión 15-10 (tarde):** esta nota describe lo que **existe hoy**, no solo lo planificado. Hay cuatro bloques:
 1. **App de demostración** (Streamlit, `src/app/`): portal ciudadano, Mi Gobierno y herramientas del ejecutivo, con reglas, casos y colador en SQLite local.
