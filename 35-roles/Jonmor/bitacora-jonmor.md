@@ -6,12 +6,12 @@ integrante: Jonmor
 
 Una entrada por avance o commit relevante, la más reciente arriba.
 
-Formato: `### 2026-10-16 · Plantilla editorial y heatmap del reporte
+Formato: `### 2026-10-16 · Plantilla editorial y heatmap del reporte · 1350606
 
 Portada azul oscuro, fondos, cabeceras y tres páginas: resumen, heatmap/avance y
 detalle territorial/fuentes. Mapa offline con cartografía BCN local y mismas reglas
 del ejecutivo, filtrado por comunas. Sin grupos válidos no fabrica calor.
-Mapa visible también en la web. Rama `codex/reporteria-institucional`.
+Mapa visible también en la web. 330 pruebas pasan tras integrar avances del equipo; verificador TODO OK, descarga real y revisión visual del PDF de tres páginas, Chromium 390/1440 sin desborde. Rama `codex/reporteria-institucional`.
 [[reporteria-institucional]].
 
 ### 2026-10-16 · Reportería institucional en rama · 7887a1e

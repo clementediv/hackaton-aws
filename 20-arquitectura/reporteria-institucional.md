@@ -68,3 +68,5 @@ y se reutiliza para iguales puntos/filtros. `ruta/report_heatmap.py` implementa 
 selección y el render. Se añade Matplotlib al grupo `app`. Pruebas verifican filtros,
 umbral, exclusión de casos terminales, ausencia de identificadores y mapa incrustado
 en el PDF. Revisión visual de las tres páginas y descarga real en Chromium.
+
+Cierre del rediseño `1350606`, integración `51d74c0`: **330 pruebas pasan**, dos omitidas y ocho evals excluidas; verificador de 500 perfiles TODO OK. PDF descargado desde Chromium con tres páginas, mapa incrustado, revisión visual y vista móvil/escritorio sin desborde. La rama sigue sin integrarse a `main`.

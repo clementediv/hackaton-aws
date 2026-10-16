@@ -15,7 +15,7 @@ entorno: Kiro IDE Pro
 Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, revisa el estado del pipeline en [[_equipo]] y los boards de los demás en [[_avance]] para no duplicar trabajo.
 
 ## En curso
-- Incluir heatmap territorial en el PDF y renovar plantilla con fondos y diseño editorial. [[reporteria-institucional]].
+- Sin tareas activas.
 
 ## Por hacer
 - Integrar Streamlit con la API cuando se amplíe el alcance; hoy conserva su adaptador local.
@@ -25,6 +25,7 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 - Sin bloqueos locales actuales: suite de cierre con 256 pruebas pasando. Los cinco fallos UI registrados anteriormente son históricos.
 
 ## Hecho
+- Heatmap offline en pantalla/PDF y plantilla editorial de tres páginas con fondos azul/turquesa. `1350606`, rama `codex/reporteria-institucional`. Filtros y publicación territorial del ejecutivo conservados. [[reporteria-institucional]].
 - Reportería institucional territorial con PDF automático. `7887a1e`, rama `codex/reporteria-institucional`, pendiente de revisión para integrar a main. 322 pruebas y descarga Chromium OK. [[reporteria-institucional]].
 - Desplazamiento automático al enviar/recibir y espera con puntos en ola en ambos chats. `df392ec`; Chromium 390/1440 px y 256 pruebas pasan. [[portal-ayuda-tramites]].
 - Cortafuegos estándar y educado en ambos chats, con referencias naturales «Si quieres saber más, puedes revisar…». `7d90e9e`; 57 pruebas enfocadas pasan. [[portal-ayuda-tramites]].
