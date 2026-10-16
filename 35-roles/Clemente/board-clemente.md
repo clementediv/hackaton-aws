@@ -15,6 +15,7 @@ entorno: Claude Code + Codex
 Lista de pendientes propia, sin tareas asignadas. Ordenada según el pipeline de [[_equipo]].
 
 ## En curso
+- [ ] Consolidar aportes de todas las ramas remotas y actualizar trazabilidad del equipo en la presentación · [[presentacion-servicios-aws]].
 - [ ] Detección proactiva en AWS (DynamoDB Streams + Lambda + SES): desplegada el 15-10 en la cuenta del evento (stack `ChileAtiendeProactivo`), 618 contactos simulados cargados; falta verificar la casilla en SES y probar la demo estrella · [[deteccion-proactiva-aws]]
 
 ## Por hacer
