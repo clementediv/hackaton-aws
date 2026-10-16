@@ -15,7 +15,11 @@ def normalize_run(run: str) -> str:
     """Accept a RUN with/without thousands separators and validate its DV."""
     if not isinstance(run, str):
         raise ValueError("El RUN debe ser texto.")
-    value = run.strip().upper()
+    value = re.sub(r"\s", "", run).upper()
+    if re.fullmatch(r"[0-9]{8,10}|[0-9]{1,3}(?:\.[0-9]{3}){2}[0-9K]", value):
+        value = value[:-1] + "-" + value[-1]
+    elif re.fullmatch(r"[0-9]{7,9}K", value):
+        value = value[:-1] + "-K"
     if not re.fullmatch(r"(?:[0-9]{7,9}|[0-9]{1,3}(?:\.[0-9]{3}){2})-[0-9K]", value):
         raise ValueError("Formato de RUN inválido; use dígitos y guion con dígito verificador.")
     number, check_digit = value.replace(".", "").split("-")

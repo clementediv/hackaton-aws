@@ -1,12 +1,13 @@
 """Ficha del beneficiario: everything known about one person, in one page.
 
 For officers and social workers. Reads the same sources as every other view
-(rules, cases, Mi Gobierno, funnel); it never writes.
+(rules, cases, Mi Gobierno, funnel); officers can validate uploaded documents.
 """
 
 import pandas as pd
 import streamlit as st
 import ui_aws
+from ruta import government, staff_auth
 from ruta import reglas as rules
 from ruta.datos import cargar_perfiles
 from ruta.fechas import fmt
@@ -132,11 +133,28 @@ def render(diags) -> None:
             if f.documents:
                 for doc in f.documents:
                     st.write(f"📎 {doc['kind']}: {doc['name']} ({doc['size'] // 1024} KB)")
+                    st.caption(government.document_status_label(doc))
+                    reviewer = st.session_state.get("staff_authenticated_user")
+                    if doc["status"] == "validado":
+                        st.caption(f"Revisó {doc['validated_by']} · {doc['validated_at']}")
+                    elif st.button(
+                        "Marcar validado",
+                        key=f"ficha_validate_{run}_{doc['kind']}",
+                        disabled=reviewer not in staff_auth.DEMO_ACCOUNTS,
+                    ):
+                        try:
+                            government.validate_document(run, doc["kind"], reviewer)
+                            st.rerun()
+                        except (ValueError, PermissionError) as error:
+                            st.error(str(error))
             else:
                 st.write("Sin documentos adjuntos.")
             if f.declaration:
                 st.write("Declaración: " + ", ".join(f"{k}: {v}" for k, v in f.declaration.items()))
-            st.caption("Un archivo adjunto no está validado ni cambia la elegibilidad.")
+            st.caption(
+                "Validación documental de demostración. Validar un documento no cambia "
+                "la elegibilidad ni aprueba el beneficio."
+            )
 
     with st.container(border=True):
         st.markdown("**Colador de contacto**")

@@ -90,7 +90,7 @@ def test_mutating_returned_lists_does_not_modify_cached_profile(repository):
     assert len(second.pension_fund.contributions) == 12
 
 
-@pytest.mark.parametrize("run", ["", "100000001-6", "1000000015", "100..000.001-5", "abc", None])
+@pytest.mark.parametrize("run", ["", "100000001-6", "1000000016", "100..000.001-5", "abc", None])
 def test_invalid_run_is_rejected(run):
     with pytest.raises(ValueError):
         normalize_run(run)
@@ -98,6 +98,13 @@ def test_invalid_run_is_rejected(run):
 
 def test_lowercase_k_is_normalized():
     assert normalize_run("12.345.670-k") == "12345670-K"
+
+
+@pytest.mark.parametrize("run", ["123456785", "12345678-5", "12.345.678-5", " 12 345 678 5 "])
+def test_run_without_hyphen_matches_demo_login(run):
+    from src.app.ruta.demo_auth import normalize_run as demo_normalize
+
+    assert normalize_run(run) == demo_normalize(run) == "12345678-5"
 
 
 def test_dataset_with_duplicates_fails_explicitly(tmp_path):

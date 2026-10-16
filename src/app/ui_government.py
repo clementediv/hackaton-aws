@@ -635,7 +635,7 @@ def _requirement_support(run: str, context: str, kinds: tuple, source: str, vide
     for kind in kinds:
         if document := saved.get(kind):
             st.text(document["name"])
-            st.caption(f"{kind} · ya disponible para todos tus beneficios · pendiente de revisión")
+        st.caption(f"{kind} · {government.document_status_label(saved.get(kind))}")
     help_column, upload_column = st.columns(2)
     with help_column, st.popover("Ver ayuda", use_container_width=True):
         st.markdown("**Te acompañamos paso a paso**")
@@ -797,13 +797,14 @@ def _document_slot(run: str, kind: str, document: dict | None, namespace: str) -
         if document:
             st.text(document["name"])
             st.markdown(
-                '<div class="gov-document-state ready">✓ Documento adjunto</div>',
+                '<div class="gov-document-state ready">✓ '
+                f'{government.document_status_label(document)}</div>',
                 unsafe_allow_html=True,
             )
-            st.caption("Disponible para reutilizar · pendiente de revisión")
+            st.caption("Disponible para reutilizar en tus beneficios")
         else:
             st.markdown(
-                '<div class="gov-document-state pending">! Falta adjuntar</div>',
+                '<div class="gov-document-state pending">! Pendiente</div>',
                 unsafe_allow_html=True,
             )
         with st.popover("Reemplazar" if document else "Adjuntar", use_container_width=True):
