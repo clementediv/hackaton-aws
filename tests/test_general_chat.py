@@ -5,7 +5,12 @@ import pytest
 from src.app.ruta import asistente, chatbot, config
 
 
-def test_public_bedrock_has_no_profile_or_previous_history():
+def test_public_bedrock_has_no_profile_or_previous_history(monkeypatch):
+    source = "https://www.ventanillaunicasocial.gob.cl/ficha/95/pension-garantizada-universal"
+    monkeypatch.setattr(
+        chatbot, "context_for", lambda *args: f"URL: {source}\nPGU: aporte estatal."
+    )
+
     class Client:
         def converse(self, messages, **options):
             request = json.dumps({"messages": messages, **options})
@@ -18,7 +23,7 @@ def test_public_bedrock_has_no_profile_or_previous_history():
             }
 
     text = chatbot.answer_general("¿Qué es la PGU?", client=Client())
-    assert config.FUENTE_PGU in text
+    assert source in text
 
 
 def test_public_question_uses_bedrock_without_passing_context(monkeypatch):

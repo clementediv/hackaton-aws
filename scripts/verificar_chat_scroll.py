@@ -6,9 +6,11 @@ Usa Chromium/Chrome local y un servidor de prueba aislado con respuesta demorada
 
 import socket
 import subprocess
+import sys
 import tempfile
 import time
 from pathlib import Path
+from urllib.parse import quote
 from urllib.request import urlopen
 
 from playwright.sync_api import sync_playwright
@@ -26,12 +28,14 @@ from ruta import asistente, casos
 st.set_page_config(layout="wide")
 def answer(q, *args, **kwargs):
     time.sleep(2.5)
-    return ("Respuesta de prueba. " * 80 + "\\n\\nFin de respuesta: " + q), "bedrock"
+    text = "Respuesta de prueba. " * 80 + "\\n\\nFin de respuesta: " + q
+    return (iter([text]) if kwargs.get("stream") else text), "plantillas"
 asistente.responder_publico = answer
 asistente.responder = answer
+asistente._template_stream = lambda text: iter([text])
 asistente.explicar_resumen = lambda ctx: "Hola. ¿En qué te ayudo?"
 casos.registrar_evento = lambda *args, **kwargs: None
-mode = st.radio("Vista", ["Público", "Mi Gobierno"])
+mode = st.query_params.get("mode", "Público")
 if mode == "Público":
     st.session_state["portal_home_page"] = st.Page(lambda: None, title="Inicio")
     portal.render_chat_page()
@@ -54,14 +58,11 @@ SCROLL_STATE = """e => {
 
 
 def verify(page, mode):
-    if mode == "Mi Gobierno":
-        page.get_by_text(mode, exact=True).click()
-    prompt = (
-        "Escribe tu pregunta sobre trámites o beneficios"
-        if mode == "Público"
-        else "Pregúntale al asistente de trámites"
-    )
+    container = ".st-key-public_chat" if mode == "Público" else ".st-key-personal_chat_composer"
+    page.locator(container).wait_for()
+    prompt = "Describe lo que necesitas"
     for turn in range(2):
+        page.get_by_test_id("stStatusWidget").wait_for(state="hidden")
         question = f"Consulta {turn}"
         field = page.get_by_placeholder(prompt)
         field.fill(question)
@@ -101,10 +102,8 @@ def main():
         with (Path(tmp) / "server.log").open("w") as log:
             server = subprocess.Popen(
                 [
-                    "uv",
-                    "run",
-                    "--group",
-                    "app",
+                    sys.executable,
+                    "-m",
                     "streamlit",
                     "run",
                     str(harness),
@@ -112,6 +111,8 @@ def main():
                     str(port),
                     "--server.headless",
                     "true",
+                    "--server.address",
+                    "127.0.0.1",
                 ],
                 cwd=ROOT,
                 stdout=log,
@@ -132,7 +133,7 @@ def main():
                     for width in (390, 1440):
                         for mode in ("Público", "Mi Gobierno"):
                             page = browser.new_page(viewport={"width": width, "height": 760})
-                            page.goto(url)
+                            page.goto(url + "/?mode=" + quote(mode))
                             verify(page, mode)
                             assert page.locator('[data-testid="stException"]').count() == 0
                             print(

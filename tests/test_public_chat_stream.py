@@ -4,7 +4,11 @@ from src.agent.bedrock import BedrockClient, BedrockSettings
 from src.app.ruta import asistente, chatbot
 
 
-def test_stream_yields_first_fragment_before_consuming_the_answer():
+def test_stream_yields_first_fragment_before_consuming_the_answer(monkeypatch):
+    source = "https://www.ventanillaunicasocial.gob.cl/ficha/95/pension-garantizada-universal"
+    monkeypatch.setattr(
+        chatbot, "context_for", lambda *args: f"URL: {source}\nPGU: aporte estatal."
+    )
     consumed = []
 
     class Runtime:
@@ -27,7 +31,7 @@ def test_stream_yields_first_fragment_before_consuming_the_answer():
     assert consumed == ["La PGU "]
     rest = "".join(stream)
     assert "es un beneficio." in rest
-    assert chatbot.config.FUENTE_PGU in rest
+    assert source in rest
 
 
 def test_stream_failure_before_first_fragment_uses_template(monkeypatch):
