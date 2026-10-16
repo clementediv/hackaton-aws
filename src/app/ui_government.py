@@ -491,7 +491,7 @@ def _benefits(d) -> None:
 
 
 def _pending_benefit(run: str, option: dict) -> None:
-    with st.container(border=True, key=f"gov_benefit_{option['id']}"):
+    with st.container(border=False, key=f"gov_benefit_{option['id']}"):
         info, control = st.columns([4, 1.3], vertical_alignment="center")
         with info:
             st.markdown(
