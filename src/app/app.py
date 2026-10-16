@@ -12,7 +12,7 @@ import ui_cesfam
 import ui_ejecutivos
 import ui_ficha
 import ui_government
-from ruta import asistente, casos, config
+from ruta import asistente, casos, config, kpi, trazabilidad
 from ruta import reglas as R
 from ruta.datos import cargar_perfiles
 from ruta.fechas import fmt
@@ -256,23 +256,37 @@ def vista_kpis(diags):
     todos = casos.todos_los_casos()
     invitados = [c for c in todos if c["invitacion"] != "no_invitado"]
     aceptados = [c for c in invitados if c["invitacion"] == "aceptado"]
-
-    def avanzo(c):
-        d = diags.get(c["run"])
-        if not d:
-            return False
-        ruta = generar_ruta(d)
-        # Completó al menos un paso válido distinto de la lectura informativa G0
-        return any(p.id in c["completados"] and p.id != "G0" for p in ruta)
-
-    completaron = [c for c in invitados if avanzo(c)]
     multicanal = [c for c in aceptados if c["n_canales"] > 1]
+    # KPI estrella (meta ≥75%): definición en 20-arquitectura/kpi-proximo-paso.md.
+    filas = kpi.outcomes(trazabilidad.load_events(config.DB_PATH), kpi.reference_time(config.DB_PATH))
+    res = kpi.summary(filas)
     pct = lambda a, b: f"{(100 * len(a) / len(b)):.0f}%" if b else "—"
     c = st.columns(4)
     c[0].metric("Invitados", len(invitados))
     c[1].metric("Aceptan acompañamiento", pct(aceptados, invitados), help="Contacto efectivo · referencia IPS 85%")
-    c[2].metric("⭐ Completan el próximo paso", pct(completaron, invitados), help="KPI estrella · meta ≥ 70%")
+    c[2].metric("⭐ Próximo paso dentro del plazo", f"{res['kpi']:.0%}" if res["kpi"] is not None else "Sin medir",
+                help=f"KPI estrella · meta ≥ 75% · plazo de demo: {kpi.DEADLINE_DAYS} días desde el contacto confirmado")
     c[3].metric("Casos atendidos en >1 canal con contexto", len(multicanal), help="Continuidad · meta ≥ 90%")
+    with st.container(border=True):
+        st.markdown(f"**⭐ Próximo paso válido dentro del plazo** · meta ≥ {kpi.GOAL:.0%}")
+        if res["kpi"] is None:
+            st.write(f"Sin cohorte con plazo cumplido: ninguna de las {res['cohorte']} personas con contacto "
+                     f"confirmado lleva {kpi.DEADLINE_DAYS} días desde ese contacto.")
+        else:
+            nivel = "cumple" if res["kpi"] >= kpi.GOAL else "está bajo"
+            st.write(f"**{res['kpi']:.0%}** de las {res['plazo_cumplido']} personas cuyo plazo ya se cumplió "
+                     f"dieron un paso válido a tiempo: {nivel} la meta.")
+        if res["provisional"] is not None:
+            st.caption(f"Avance provisional: {res['en_plazo_total']} de {res['cohorte']} ya dieron el paso en plazo "
+                       f"({res['provisional']:.0%}). Es un mínimo mientras corren los plazos, no el KPI.")
+        st.caption("Cuenta un paso de la ruta distinto de la lectura informativa, declarado por la persona o el "
+                   "ejecutivo después del contacto. Aceptar, abrir un mensaje o «iniciar» no cuentan. El organismo "
+                   "aún no confirma los pasos y el plazo es una propuesta de demo.")
+        if filas:
+            st.dataframe(pd.DataFrame([{
+                "RUN": r["run"], "Contacto confirmado": r["contacto"].strftime("%d-%m-%Y"),
+                "Vence": r["plazo"].strftime("%d-%m-%Y"), "Paso": r["paso_titulo"] or "—",
+                "Estado": kpi.LABELS[r["estado"]]} for r in filas]), hide_index=True, use_container_width=True)
     st.caption("Comprensión (meta ≥ 80%) requiere una encuesta breve al cerrar cada paso: queda para el piloto.")
     if st.button("Reiniciar datos de la demo"):
         casos.reiniciar()

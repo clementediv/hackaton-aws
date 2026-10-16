@@ -144,8 +144,8 @@ flowchart TB
 | 11 | **Correos** | `src/proactivo/mensajes.py` | Hecho: marca ChileAtiende · Instituto de Previsión Social, registro formal, 1 botón, aviso de resultado aparente y montos referenciales |
 | 12 | **Infraestructura** | `infra/` (CDK, stack `ChileAtiendeProactivo`) | Desplegado; guía en `infra/README.md` |
 | 12b | **App conectada con AWS** | `src/app/ruta/aws_contactos.py`, `ui_aws.py` | Hecho: métricas, filtros, contactos e historial (también en la ficha); **simular evento de vida** desde la Vista ejecutivo; **Mi Gobierno muestra el aviso recibido** y responde por beneficio; aceptar o declinar el acompañamiento en la app **detiene el escalamiento en AWS** ([[app-aws-conectada]]). Si las credenciales vencen, avisa en vez de fallar |
-| 13 | **Alerta CESFAM** | — | Por hacer (base legal pendiente) |
-| 14 | **Simulador y medición del KPI ≥75%** | — | Por hacer |
+| 13 | **Alerta CESFAM y derivación** | `src/app/ruta/derivaciones.py`, `ui_cesfam.py` | Hecho en simulación: **Punto CESFAM** solo indica «Derivar a ChileAtiende» ante alerta máxima (colador en etapa 4 o contacto AWS en terreno); la derivación llega a Atención del caso con un resumen por código ([[cesfam-derivacion]]). Base legal pendiente |
+| 14 | **Medición del KPI ≥75%** | `src/app/ruta/kpi.py`, Medición | Hecho: próximo paso válido dentro de un plazo de demo de 30 días, sobre la cohorte con plazo cumplido; avance provisional aparte ([[kpi-proximo-paso]]). Falta la confirmación del organismo y el plazo por trámite |
 
 ## Datos en AWS
 | Tabla | Clave | Contenido |
@@ -168,7 +168,7 @@ La detección proactiva y los correos **no usan LLM**: son reglas y plantillas d
 1. **Unificar datos:** la app ya lee `ca-contactos` y `ca-historial`, dispara eventos y registra respuestas en AWS ([[app-aws-conectada]]); falta que el colador y los casos de la app escriban en DynamoDB en vez de SQLite.
 2. **Unificar motores:** un solo motor PGU (app y AWS hoy tienen reglas equivalentes por separado) y exponerlo al agente como `evaluar_pgu` / `calcular_hitos`.
 3. **Verificar el catálogo** con las fichas oficiales: hoy solo la PGU está verificada; el umbral de «6 meses fuera de Chile» no está confirmado con el IPS.
-4. Alerta CESFAM, medición del KPI de próximo paso y simulador.
+4. **Validar con el organismo:** plazo por trámite y confirmación del paso para el KPI ([[kpi-proximo-paso]]); base legal de la alerta CESFAM ([[cesfam-derivacion]]).
 
 ## Decisiones
 - [x] Orquestación: Converse + tool use propio → [[0003-orquestacion-agente]]

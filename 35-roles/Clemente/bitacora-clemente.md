@@ -4,6 +4,8 @@ integrante: Clemente
 ---
 # Bitácora de Clemente
 
+- 16-10: Cierre final del MVP repartido en el board: C1–C5 para Codex y M1–M5 para Claude. M1: demo estrella en vivo contra AWS (Jorge cumple 65 → email real → clic → aceptado). M2–M3: Punto CESFAM simulado y derivación al ejecutivo con resumen por código ([[cesfam-derivacion]]). M4: KPI de próximo paso dentro de un plazo de demo de 30 días sobre la cohorte con plazo cumplido ([[kpi-proximo-paso]]). Tests `test_derivaciones.py` (7) y `test_kpi.py` (8). Commits «Punto CESFAM simulado y derivación…» y «Medir el KPI de próximo paso dentro del plazo».
+
 - 15-10: Texto de ambos chats con pausa de 25 ms por palabra y actualización directa del placeholder sin cursor automático. Nueve pruebas enfocadas OK; prueba ajena al cambio discrepa en URL fuente PGU. [[mi-gobierno]]. Commit «Acelerar el texto y quitar el cursor del chat».
 
 - 15-10: Revisión del problema persistente en pantalla completa: el servidor 8501 conservaba el render Markdown anterior. Reiniciado con código vigente; captura y medición confirman centrado de requisitos PGU. Verificador de los 16 detalles exige HTML actualizado y comprueba tres anchos. [[mi-gobierno]]. Commit «Verificar detalles en la aplicación completa».
