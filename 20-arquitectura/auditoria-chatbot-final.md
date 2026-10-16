@@ -42,3 +42,7 @@ Activación pendiente: conectar el adaptador de Streamlit si se desea observar l
 ## Alcance de la conclusión
 
 La batería observa rechazos y consentimiento correctos en los casos probados. Los resultados personales se contrastan con el motor; las fuentes públicas son snapshots. No puede afirmarse «cero alucinaciones»: texto libre, fuente desactualizada y uso incorrecto de una cifra que sí esté en el contexto siguen requiriendo controles y evaluación continua. La guardia de moneda no valida todos los hechos ni las condiciones de una ley.
+
+Verificación en Chromium de la app reiniciada: PGU general con fuente clicable, rechazo de secretos y solicitud de autorización sin sesión personal; sin excepciones visibles. Los selectores usan el textarea estable, porque el placeholder cambia con la animación. Captura local: `/tmp/chat-final-browser.png`. Las dos repeticiones finales personales pasaron con Bedrock y montos presentes en el contexto, sin activar respaldo.
+
+Cierre integrado `f049e33` + `01da393`: **360 pruebas offline pasan**, dos omitidas por dependencias opcionales y ocho evals excluidas de esa suite. Las ocho evals se ejecutaron aparte con Bedrock real y pasaron. Verificador de 500 perfiles TODO OK.

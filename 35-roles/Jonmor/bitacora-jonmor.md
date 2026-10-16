@@ -6,13 +6,13 @@ integrante: Jonmor
 
 Una entrada por avance o commit relevante, la más reciente arriba.
 
-Formato: `### 2026-10-16 · Auditoría final del chatbot y Phoenix
+Formato: `### 2026-10-16 · Auditoría final del chatbot y Phoenix · f049e33
 
 Bedrock real: 20 escenarios del adaptador, ocho evals DeepEval y repetición de casos
 personales. Corregidos enlaces falsos por «pagada/página», fuentes irrelevantes en
 rechazos y mezcla de cifras públicas con el motor. Guardia monetaria con respaldo
 personal determinista. Phoenix no exporta actualmente: endpoint Lambda vacío y
-Streamlit sin instrumentación/colector. [[auditoria-chatbot-final]].
+Streamlit sin instrumentación/colector. Cierre integrado: 360 pruebas offline y ocho evals reales pasan, verificador TODO OK; navegador con fuente, rechazo y consentimiento OK. [[auditoria-chatbot-final]].
 
 ### 2026-10-16 · Merge de reportería a main · b446f24
 
