@@ -25,6 +25,7 @@ Lista de pendientes propia, sin tareas asignadas. Antes de elegir qué hacer, re
 - Sin bloqueos locales actuales: suite de cierre con 256 pruebas pasando. Los cinco fallos UI registrados anteriormente son históricos.
 
 ## Hecho
+- Auditoría del chatbot, correcciones de enlaces/rechazos y guardia de montos personales. `f049e33`; 20 escenarios reales, 8/8 evals y 360 pruebas offline. Phoenix inactivo confirmado en local/Lambda. [[auditoria-chatbot-final]].
 - Mapa interactivo idéntico al de Campañas en terreno y tono institucional del PDF, con nota discreta «Datos de ejemplo». `f3dc096`; rama `codex/reporteria-institucional`. [[reporteria-institucional]].
 - Heatmap offline en pantalla/PDF y plantilla editorial de tres páginas con fondos azul/turquesa. `1350606`, rama `codex/reporteria-institucional`. Filtros y publicación territorial del ejecutivo conservados. [[reporteria-institucional]].
 - Reportería institucional territorial con PDF automático. `7887a1e`, integrado a main en `b446f24` desde `codex/reporteria-institucional`. 322 pruebas y descarga Chromium OK. [[reporteria-institucional]].
