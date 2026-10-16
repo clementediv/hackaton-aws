@@ -7,12 +7,27 @@ from . import config, reglas
 from .rutas import estado_pasos, generar_ruta, proximo_paso
 
 
-def is_personal_pgu_question(question: str, *, pgu_context=False) -> bool:
-    text = "".join(
-        c for c in unicodedata.normalize("NFD", question.lower())
-        if unicodedata.category(c) != "Mn"
+def _normalize(text: str) -> str:
+    return "".join(
+        c for c in unicodedata.normalize("NFD", text.lower()) if unicodedata.category(c) != "Mn"
     )
-    return (bool(re.search(r"\bpgu\b", text)) or pgu_context) and any(term in text for term in (
+
+
+def _mentions_pgu(text: str) -> bool:
+    return bool(re.search(r"\bpgu\b|pension garantizada", _normalize(text)))
+
+
+def recent_pgu_context(history, *, window=6) -> bool:
+    """True once PGU came up recently, so a follow-up need not repeat the acronym."""
+    return any(
+        message.get("scope") == "personal" or _mentions_pgu(message.get("texto", ""))
+        for message in (history or [])[-window:]
+    )
+
+
+def is_personal_pgu_question(question: str, *, pgu_context=False) -> bool:
+    text = _normalize(question)
+    return (_mentions_pgu(text) or pgu_context) and any(term in text for term in (
         "soy apt", "soy elegible", "puedo", "podria", "cumplo", "me corresponde",
         "tengo derecho", "mi caso", "mi pgu", "me falta", "me faltan", "mis pasos",
         "en que paso", "en que etapa", "revisar si", "revisar mi",
@@ -62,8 +77,9 @@ def review_pgu(run, case, load_profiles):
             f"- {r.nombre}: {r.detalle}" for r in missing
         ))
         text.append(
-            "Completa o adjunta esos antecedentes en Mi Gobierno, en los requisitos de PGU. "
-            "Adjuntar un documento no confirma por sí solo el requisito: debe verificarse."
+            "Adjúntalo aquí mismo con «Adjuntar documento», debajo de este chat, o en Mi "
+            "Gobierno, en los requisitos de PGU. Adjuntar un documento no confirma por sí "
+            "solo el requisito: debe verificarse."
         )
     route = [p for p in generar_ruta(diagnosis) if p.tramite in {"PGU", "Antecedentes"}]
     states = estado_pasos(route, case.get("completados", set()))

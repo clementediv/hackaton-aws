@@ -3,7 +3,7 @@
 Todo es determinista y trazable. El resultado es una ORIENTACIÓN preliminar:
 la decisión oficial la toman la AFP / IPS / organismo correspondiente.
 """
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from datetime import date
 
 from . import config

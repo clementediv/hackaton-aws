@@ -7,7 +7,7 @@ from uuid import uuid4
 import streamlit as st
 import ui_aws
 import ui_persona
-from ruta import asistente, casos, config, demo_auth, engagement, government
+from ruta import asistente, casos, config, correo, demo_auth, engagement, government
 from ruta import reglas as rules
 from ruta.datos import cargar_perfiles
 from ruta.fechas import fmt
@@ -413,6 +413,43 @@ def _contact_details(d, profile) -> None:
     st.markdown(
         f'<div class="gov-personal-grid gov-contact-grid">{html}</div>', unsafe_allow_html=True
     )
+    _email_form(d, contact.email)
+
+
+def _email_form(d, current: str) -> None:
+    with st.form(key=f"gov_email_form_{d.run}", border=False):
+        address = st.text_input("Cambiar correo electrónico", value=current,
+                                placeholder="nombre@dominio.cl")
+        saved = st.form_submit_button("Guardar correo")
+    if saved:
+        try:
+            correo.save_email(d.run, address)
+            st.session_state[f"gov_email_saved_{d.run}"] = True
+            st.rerun()  # refresh the contact grid above
+        except ValueError as error:
+            st.error(str(error))
+    if st.session_state.pop(f"gov_email_saved_{d.run}", False):
+        st.success("Correo actualizado.")
+    if not correo.saved_email(d.run):
+        st.caption("Guarda tu correo para recibir el resumen de tus beneficios.")
+        return
+    if st.button("Enviarme el resumen de mis beneficios", key=f"gov_email_send_{d.run}"):
+        try:
+            result = correo.send_summary(d.run, d)
+        except ValueError as error:
+            st.error(str(error))
+            return
+        except Exception as error:  # noqa: BLE001 - AWS errors are explained, never raised
+            st.error(f"No se pudo enviar con Amazon SES ({type(error).__name__}). "
+                     "Revisa las credenciales del perfil `hackaton`.")
+            return
+        st.info({
+            correo.SENT: "Te enviamos el resumen. Revisa tu bandeja de entrada (y spam).",
+            correo.VERIFICATION_SENT: "Amazon Web Services te envió un correo para verificar "
+            "la casilla. Abre el enlace y vuelve a presionar el botón para recibir el resumen.",
+            correo.PENDING_VERIFICATION: "Tu casilla aún no está verificada. Abre el enlace del "
+            "correo de Amazon Web Services y vuelve a intentarlo.",
+        }[result])
 
 
 def _health_and_pension(d, profile) -> None:
