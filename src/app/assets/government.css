@@ -239,7 +239,6 @@
 
 .st-key-gov_benefits_layout .st-key-gov_assistant{box-sizing:border-box;width:100%;max-width:100%;border:1px solid #82add3;border-radius:20px;padding:24px;box-shadow:0 2px 8px #143e5c04}
 .st-key-gov_benefits_layout .gov-assistant-intro{padding:0 0 12px}
-.st-key-gov_benefits_layout .gov-assistant-intro:before{display:none}
 .st-key-gov_benefits_layout .st-key-gov_assistant .gov-assistant-intro h4{margin-top:0;line-height:1.4;font-size:18px}
 @media(max-width:700px){.st-key-gov_benefits_layout .st-key-gov_assistant{padding:18px}}
 
