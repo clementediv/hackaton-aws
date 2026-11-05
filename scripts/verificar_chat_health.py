@@ -1,6 +1,7 @@
 """Verifica el stack T15 sin imprimir la API key."""
 
 import json
+import os
 import urllib.error
 import urllib.request
 
@@ -8,7 +9,8 @@ import boto3
 
 
 def main():
-    session = boto3.Session(profile_name="hackaton", region_name="us-east-1")
+    session = boto3.Session(profile_name=os.getenv("AWS_PROFILE") or None,
+        region_name=os.getenv("AWS_REGION", "us-east-1"))
     stack = session.client("cloudformation").describe_stacks(StackName="ChileAtiendeChat")
     outputs = {x["OutputKey"]: x["OutputValue"] for x in stack["Stacks"][0]["Outputs"]}
     endpoint = outputs["Url"] + "/health"

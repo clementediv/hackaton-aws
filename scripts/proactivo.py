@@ -35,7 +35,7 @@ FUNCTIONS = {"escalar": "ca-escalador", "revisar": "ca-revision-diaria"}
 def session() -> boto3.Session:
     values = {**dotenv_values(ROOT / ".env"), **os.environ}
     return boto3.Session(
-        profile_name=values.get("AWS_PROFILE") or "hackaton",
+        profile_name=values.get("AWS_PROFILE") or None,
         region_name=values.get("AWS_REGION") or "us-east-1",
     )
 
@@ -193,8 +193,8 @@ def main(argv=None):
     p = sub.add_parser("cargar")
     p.add_argument(
         "--email",
-        default="clemente.uribe.ortiz@gmail.com",
-        help="Casilla verificada de las personas demo",
+        default="demo@example.com",
+        help="Casilla SES verificada; por defecto usa demo@example.com (sin envío real)",
     )
     p.add_argument(
         "--solo-demo", action="store_true", help="No cargar los 500 perfiles del dataset"

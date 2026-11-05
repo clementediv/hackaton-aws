@@ -257,7 +257,7 @@ def vista_kpis(diags):
     invitados = [c for c in todos if c["invitacion"] != "no_invitado"]
     aceptados = [c for c in invitados if c["invitacion"] == "aceptado"]
     multicanal = [c for c in aceptados if c["n_canales"] > 1]
-    # KPI estrella (meta ≥75%): definición en 20-arquitectura/kpi-proximo-paso.md.
+    # KPI estrella (meta ≥75%): definición en docs/arquitectura/kpi-proximo-paso.md.
     filas = kpi.outcomes(trazabilidad.load_events(config.DB_PATH), kpi.reference_time(config.DB_PATH))
     res = kpi.summary(filas)
     pct = lambda a, b: f"{(100 * len(a) / len(b)):.0f}%" if b else "—"

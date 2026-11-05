@@ -1,6 +1,6 @@
 """Persistent deterministic contact funnel. All deliveries are simulated.
 
-Business source: 20-arquitectura/contacto-y-campanas.md. Durations and
+Business source: docs/arquitectura/contacto-y-campanas.md. Durations and
 probabilities below are demo policy, not institutional deadlines/statistics.
 """
 

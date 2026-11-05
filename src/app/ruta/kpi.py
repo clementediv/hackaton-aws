@@ -2,7 +2,7 @@
 
 The deadline is a demo proposal, not an institutional one, and steps are declared
 by the person or the officer: the agency has not confirmed them. Contact, opening
-and «inicio» do not count. Design: 20-arquitectura/kpi-proximo-paso.md.
+and «inicio» do not count. Design: docs/arquitectura/kpi-proximo-paso.md.
 """
 
 import sqlite3

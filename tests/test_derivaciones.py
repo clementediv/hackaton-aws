@@ -1,4 +1,4 @@
-"""CESFAM front desk and referrals to the officer (20-arquitectura/cesfam-derivacion.md)."""
+"""CESFAM front desk and referrals to the officer (docs/arquitectura/cesfam-derivacion.md)."""
 
 import importlib
 from pathlib import Path

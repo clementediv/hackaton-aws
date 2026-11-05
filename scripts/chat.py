@@ -11,7 +11,7 @@ import boto3
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", default="100000001-5")
-    parser.add_argument("--profile", default="hackaton")
+    parser.add_argument("--profile", default=None)
     parser.add_argument("--verify", action="store_true", help="Tres turnos y recarga por AWS CLI")
     args = parser.parse_args()
     session = boto3.Session(profile_name=args.profile, region_name="us-east-1")
@@ -72,8 +72,7 @@ def main():
                 "--expression-attribute-values",
                 json.dumps({":id": {"S": case_id}}),
                 "--consistent-read",
-                "--profile",
-                args.profile,
+                *(["--profile", args.profile] if args.profile else []),
                 "--region",
                 "us-east-1",
                 "--output",

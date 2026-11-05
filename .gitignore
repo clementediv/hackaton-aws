@@ -13,3 +13,11 @@ node_modules/
 build/
 dist/
 .worktrees/
+
+# Configuración, estado local y artefactos de despliegue
+.env.*
+!.env.example
+*.db
+*.db-*
+*.sqlite*
+cdk.context.json
