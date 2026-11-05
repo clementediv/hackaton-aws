@@ -43,7 +43,9 @@ def lambda_asset() -> lambda_.Code:
 class ProactivoStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
-        email = self.node.try_get_context("email") or "clemente.uribe.ortiz@gmail.com"
+        email = self.node.try_get_context("email")
+        if not email:
+            raise ValueError("Indica la casilla SES del entorno con -c email=casilla@dominio.cl")
         sender = self.node.try_get_context("remitente") or email
         # Other inboxes that also get real email (a demo guest), comma-separated and
         # verified in SES by hand; passed with -c so addresses stay out of the repo.

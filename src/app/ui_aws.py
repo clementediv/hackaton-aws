@@ -3,7 +3,7 @@
 The Lambdas detect, send and escalate. The app shows it to the officer, lets
 them simulate a life event (it only changes the person's data), shows the
 citizen in Mi Gobierno what was sent to them, and records answers given in the
-app so AWS stops escalating. Design: 20-arquitectura/app-aws-conectada.md.
+app so AWS stops escalating. Design: docs/arquitectura/app-aws-conectada.md.
 """
 
 import logging

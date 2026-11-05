@@ -1,7 +1,7 @@
 """Simulated CESFAM front desk and the officer's referral inbox.
 
 The CESFAM only sees whether to refer the person to ChileAtiende; the case
-summary goes to the officer. Design: 20-arquitectura/cesfam-derivacion.md.
+summary goes to the officer. Design: docs/arquitectura/cesfam-derivacion.md.
 """
 
 import streamlit as st

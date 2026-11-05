@@ -1,6 +1,6 @@
 # Contexto oficial del chatbot
 
-La base pública complementa el acompañamiento de [[mi-gobierno]] y [[portal-ayuda-tramites]]. Se mantiene dentro de `src/app`, según el alcance solicitado.
+La base pública complementa el acompañamiento de [mi-gobierno](../../../docs/arquitectura/mi-gobierno.md) y [portal-ayuda-tramites](../../../docs/arquitectura/portal-ayuda-tramites.md). Se mantiene dentro de `src/app`, según el alcance solicitado.
 
 ## Fuentes y alcance
 

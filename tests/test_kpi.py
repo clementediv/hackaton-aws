@@ -1,4 +1,4 @@
-"""Next valid step within the deadline (20-arquitectura/kpi-proximo-paso.md)."""
+"""Next valid step within the deadline (docs/arquitectura/kpi-proximo-paso.md)."""
 
 import importlib
 from datetime import datetime

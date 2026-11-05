@@ -15,7 +15,7 @@ def _data_dir() -> Path:
     en_repo = Path(__file__).resolve().parents[3] / "data" / "raw" / "dataset_A_participantes"
     if (en_repo / "perfiles.json").exists():
         return en_repo
-    return Path(r"c:\Users\Johann\Documents\hackathon\hackaton-aws\data\raw\dataset_A_participantes")
+    return en_repo
 
 
 DATA_DIR = _data_dir()

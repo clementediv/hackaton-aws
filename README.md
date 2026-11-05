@@ -1,20 +1,48 @@
-# Hackatón AWS 2026
+# ChileAtiende a Tiempo — Equipo Bombazo
 
-Repo + vault de Obsidian + espacio de trabajo para Claude Code y Codex.
+Prototipo presentado en AWS Breaking Barriers Chile 2026 (3er lugar). Orienta sobre beneficios y próximos pasos, detecta hitos y acompaña a las personas entre canales. La elegibilidad, los montos y los plazos se calculan en código; el asistente explica y cita fuentes.
 
-## Puesta en marcha (una vez)
-1. Desde el repo clonado, ejecuta `uv sync` (Python 3.12).
-2. Si no tienes `.env`, copia `.env.example`: `Copy-Item .env.example .env` en PowerShell, o `cp .env.example .env` en Bash. Completa perfil, región y modelo; conserva cualquier `.env` existente.
-3. Ejecuta `uv run pytest`, `uv run ruff check .` y `uv run ruff format --check .`.
-4. Obsidian → *Open folder as vault* → esta carpeta.
-5. Abre dos terminales en la raíz: una con `claude`, otra con `codex`.
+Esta entrega contiene el código, infraestructura y datos sintéticos del prototipo. La preparación para producción y la integración institucional requieren trabajo adicional: [transferencia y brechas](docs/TRANSFERENCIA.md).
 
-La base Python y el cliente Bedrock están documentados en [[T01-scaffold-python]]. Las pruebas corren sin credenciales ni llamadas a AWS. El agente conversacional y las vistas se implementan en las tareas siguientes.
+## Ejecutar localmente
 
-## Flujo diario
-- Tú decides en Obsidian (retos, arquitectura, tablero).
-- Claude Code diseña y revisa; Codex implementa tareas acotadas.
-- Cada agente en su rama o worktree: `git worktree add ../hk-codex -b codex/tarea`.
-- Todo lo importante queda en `40-bitacora/`.
+Requisitos: Git, Python 3.12 y uv. Desde la raíz:
 
-Reglas para agentes: ver [[AGENTS]].
+```powershell
+uv sync --frozen --group app
+Copy-Item .env.example .env  # solo si .env no existe
+uv run --group app python src/app/verificar.py
+uv run --group app streamlit run src/app/app.py --server.address localhost
+```
+
+La configuración de ejemplo desactiva la conexión proactiva a AWS (`CA_AWS=0`) y deja Bedrock sin configurar para la interfaz. El acceso ciudadano y profesional es simulado; usar únicamente los perfiles sintéticos y las claves de demo que muestra la aplicación. No ingresar credenciales institucionales.
+
+## Entrega técnica
+
+| Ruta | Contenido |
+|---|---|
+| `src/app/` | Interfaz Streamlit, reglas, acompañamiento y SQLite |
+| `src/agent/`, `src/api/`, `src/contracts/`, `src/cases/`, `src/tools/` | Agente Bedrock, API y casos DynamoDB |
+| `src/proactivo/` | Detección de hitos, contacto y escalamiento |
+| `infra/` | Dos stacks AWS CDK; [instrucciones de despliegue](infra/README.md) |
+| `data/` | Dataset A y contactos sintéticos necesarios para ejecutar y probar |
+| `tests/`, `scripts/` | Pruebas y utilidades de operación/verificación |
+| `docs/` | Arquitectura, decisiones y transferencia |
+
+La base de conocimiento pública se conserva en `src/app/knowledge/`; sus fuentes, fechas y actualización se describen en [contexto del chatbot](src/app/knowledge/contexto-chatbot-oficial.md). No se actualiza automáticamente durante las consultas.
+
+## Verificar
+
+```powershell
+uv sync --frozen --group app --group infra
+uv run --group app --group infra pytest
+uv run --group app python src/app/verificar.py
+```
+
+Las evaluaciones marcadas `eval` están excluidas por defecto; requieren Bedrock y consumen tokens. Los scripts de navegador requieren Playwright y una aplicación local en ejecución. Las pruebas de CDK necesitan Node.js.
+
+Para la sesión con AWS: [arquitectura resumida, configuración y pendientes](docs/TRANSFERENCIA.md). Documentación funcional adicional: [app](src/app/README.md).
+
+## Publicación y licencia
+
+El repositorio es público. No se encontró un archivo LICENSE en la versión recibida: el equipo debe acordar e incorporar la licencia para formalizar las condiciones de reutilización del código. Los contenidos y marcas de terceros conservan sus condiciones de origen. Esta limpieza no cambia la licencia ni reescribe el historial de Git.

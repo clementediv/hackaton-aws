@@ -1,57 +1,56 @@
-# Infra · Detección proactiva de beneficios
+# Desplegar el prototipo AWS
 
-Stack CDK `ChileAtiendeProactivo` (us-east-1). Diseño en [[deteccion-proactiva-aws]].
+Ejecutar desde una copia completa del repositorio. Requisitos: Python 3.12, uv, Node.js/npm y AWS CLI con credenciales de la cuenta de destino. Los comandos siguientes crean recursos facturables; corresponden al entorno de pruebas de transferencia.
 
-## Desplegar
+## Preparar y sintetizar
+
+Desde la raíz:
+
 ```powershell
+uv sync --frozen --group infra
+$env:AWS_PROFILE = "perfil-del-equipo"  # omitir cuando se use un rol IAM
+$env:AWS_REGION = "us-east-1"
+aws sts get-caller-identity
 cd infra
-uv sync --group infra
-npx cdk bootstrap --profile hackaton      # una vez por cuenta/región
-npx cdk deploy --profile hackaton
+npx --yes --package aws-cdk@2.1147.0 cdk synth -c email=casilla-verificada@dominio.cl
 ```
-- Al desplegar, SES envía un correo de verificación a `clemente.uribe.ortiz@gmail.com`: **hay que hacer clic en el enlace** antes de que lleguen los emails.
-- Otro correo: `npx cdk deploy -c email=otra@casilla.cl`. Esperas de demo: `-c espera_email_min=2 -c espera_sms_min=2`.
-- Invitados que también reciben email real (p. ej. para la demo técnica): verificar su casilla con `aws ses verify-email-identity --email-address <casilla> --profile hackaton` (la persona hace clic en el enlace) y desplegar con `-c emails_extra=<casilla1>,<casilla2>`. **Hay que repetir el `-c` en cada despliegue**: si se omite, esas casillas vuelven a recibir email simulado. No se guardan en el repo porque es público.
-- Si la cuenta no permite crear roles IAM: `-c lambda_role_arn=arn:aws:iam::<cuenta>:role/<rol>` (el rol necesita DynamoDB y `ses:SendEmail`).
 
-## Cargar datos
+La casilla se proporciona explícitamente: no hay un destinatario personal predeterminado. La síntesis prepara bundles Linux x86_64 con uv y necesita internet, pero no crea recursos. Las dependencias Python provienen de `uv.lock`.
+
+## Desplegar en la cuenta de destino
+
 ```powershell
-uv run python scripts/proactivo.py cargar             # 8 beneficios + 7 personas demo + 500 del dataset A
-uv run python scripts/proactivo.py cargar --solo-demo # solo las personas demo
-uv run python scripts/proactivo.py resumen
+npx --yes --package aws-cdk@2.1147.0 cdk bootstrap
+npx --yes --package aws-cdk@2.1147.0 cdk diff --all -c email=casilla-verificada@dominio.cl
+npx --yes --package aws-cdk@2.1147.0 cdk deploy --all -c email=casilla-verificada@dominio.cl
 ```
-La carga del dataset abre unos 620 contactos simulados (`@example.com`, nunca se envían). En ~10 minutos el escalador los pasa a SMS simulado y luego a terreno.
 
-## Guion de la demo
-| Evento | Comando | Beneficio detectado |
+Repetir el contexto `email` en cada comando CDK. La región está fijada a `us-east-1` en `app.py`. Los nombres de recursos son fijos (`ca-*`): usar una cuenta/región sin una instalación previa o planificar la actualización del stack existente. CDK incluye ambos stacks incluso al sintetizar uno, por lo que necesita la casilla y las dependencias de ambos.
+
+| Stack | Recursos principales | Salidas |
 |---|---|---|
-| Cumple 64 | `evento 90000002-2 --edad 64` | PGU: aviso para preparar documentos (se abre a los 64 y 9 meses) |
-| 64 y 8 meses | `evento 90000002-2 --edad 64 --meses 8` | PGU: falta un mes para la apertura |
-| Cumple 65 | `evento 90000002-2 --edad 65` | PGU: «Felicitaciones: aparentemente usted es elegible» |
-| Recibe PGU y sale de Chile | `evento 90000007-3 --dias-fuera 160` | PGU: aviso de posible pérdida (umbral por verificar) |
-| Cumple 18 | `evento 90000001-4 --edad 18` | Subsidio al Empleo Joven |
-| Tiene un hijo | `evento 90000003-0 --hijos 1` | Subsidio Único Familiar |
-| Se casa | `evento 90000004-9 --estado-civil casado` | Asignación familiar por cónyuge |
-| Accidente laboral | `evento 90000005-7 --accidente` | Seguro laboral Ley 16.744 |
-| Baja su tramo RSH | `evento 90000006-5 --tramo 70` | Subsidio Eléctrico |
+| `ChileAtiendeProactivo` | Cuatro tablas DynamoDB, Streams, Lambda, SES, reglas EventBridge y Function URL | `UrlRespuesta`, nombres de tablas |
+| `ChileAtiendeChat` | API Gateway HTTP, autorizador Lambda, Lambda de chat, DynamoDB y Secrets Manager | `Url`, `ApiKeySecret` |
 
-Todos con `uv run python scripts/proactivo.py ...`. También se puede editar el ítem directamente en la consola de DynamoDB (tabla `ca-personas`, campo `fecha_nacimiento`, `num_hijos`, etc.): el stream dispara la misma detección.
+SES enviará un correo de verificación: abrir el enlace. En sandbox, verificar también los destinatarios de prueba. Opciones: `-c remitente=...`, `-c emails_extra=casilla1,casilla2`, `-c espera_email_min=5`, `-c espera_sms_min=5`; repetirlas en cada despliegue que deba conservarlas. El SMS y la asignación a terreno son simulados. `-c lambda_role_arn=...` permite un rol existente, cuyos permisos se deben preparar en destino.
 
-Luego:
-1. Llega el email con la marca ChileAtiende · Instituto de Previsión Social, en registro formal: motivo de la comunicación, en qué consiste el beneficio, por qué le conviene, monto referencial, requisitos o documentos y un solo botón de acción. Siempre advierte que el resultado es aparente y los montos referenciales.
-2. `estado <run>` muestra el contacto (`email_enviado`, `email_abierto`, `email_click`, `sms_enviado`, `respuesta`) y el historial.
-3. Sin respuesta: a los 5 min pasa a SMS simulado y a los 10 min a `terreno`. `terreno` lista al equipo de visita por comuna.
-4. Respuesta del equipo o del call center: `responder <run> <beneficio> acepto --canal terreno`.
-5. `escalar` y `revisar` ejecutan ahora el escalador y la revisión diaria (anticipación por edad).
-6. Repetir una demo: `reiniciar <run>`, devolver el dato (`--edad 64`) y volver a cambiarlo. Tras editar `catalogo.py`: `cargar --solo-catalogo`.
+El modelo de Bedrock y los recursos IAM correspondientes están definidos en `chat_stack.py` y en la lista permitida de `src/agent/bedrock.py`. Confirmar su disponibilidad y autorización en la cuenta receptora; no se garantiza acceso a los modelos de la cuenta del evento. Phoenix es opcional (`-c phoenix_endpoint=...`); no activar trazas con datos personales sin definir su tratamiento.
 
-## Tablas
-| Tabla | Clave | Contenido |
-|---|---|---|
-| `ca-personas` | `run` | Atributos que leen las reglas; stream NEW_AND_OLD_IMAGES |
-| `ca-beneficios` | `beneficio_id` | Catálogo con requisitos como datos |
-| `ca-contactos` | `run` + `beneficio_id` | Estado del contacto, canales y respuesta; índices `cola-siguiente` y `estado-detectado` |
-| `ca-historial` | `run` + `sk` | Bitácora de cada evento |
+## Cargar y verificar
 
-## Borrar
-`npx cdk destroy --profile hackaton` (las tablas se eliminan con sus datos).
+Volver a la raíz del repositorio:
+
+```powershell
+cd ..
+uv run python scripts/proactivo.py cargar --solo-demo --email casilla-verificada@dominio.cl
+uv run python scripts/proactivo.py resumen
+uv run python scripts/verificar_chat_health.py
+```
+
+La carga crea siete personas ficticias y el catálogo; puede disparar detección y correo real a la casilla indicada. Omitir `--solo-demo` agrega los 500 perfiles sintéticos. Sin `--email`, la carga usa `demo@example.com`, sin envío real. `verificar_chat_health.py` llama a la API y Bedrock (puede consumir tokens) sin imprimir la API key. La key está en Secrets Manager; no incorporarla al repositorio ni al navegador.
+
+Para conectar la app local al stack proactivo, configurar credenciales y `CA_AWS=1`. No hay hosting de Streamlit en estos stacks: esa parte debe ejecutarse localmente o desplegarse en una plataforma acordada con el equipo receptor, con autenticación y almacenamiento persistente. La UI usa SQLite; la API de chat usa DynamoDB.
+
+## Estado de los datos
+
+Estos stacks conservan las políticas `RemovalPolicy.DESTROY` del prototipo, incluidas tablas y secretos. No usar datos de producción ni ejecutar `cdk destroy` sin respaldos y una decisión explícita de eliminación. Antes de producción se deben definir retención, recuperación, aislamiento por ambiente y protección de las rutas públicas; ver [transferencia](../docs/TRANSFERENCIA.md).

@@ -4,7 +4,7 @@ Detection, sending and escalation run in the Lambdas (src/proactivo). The app
 reads contacts and history, and writes only two things: a person's data (to
 simulate a life event; the table stream then runs the detector) and the
 person's answer, through the same `Service.record_answer` the response Lambda
-uses. Design: 20-arquitectura/app-aws-conectada.md. Credentials come from the
+uses. Design: docs/arquitectura/app-aws-conectada.md. Credentials come from the
 `hackaton` profile in .env; when they are missing or expired, `check()`
 explains it instead of failing.
 """

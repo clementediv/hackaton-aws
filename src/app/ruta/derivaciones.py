@@ -2,7 +2,7 @@
 
 A simulated CESFAM front desk only learns whether to refer the person; the
 summary travels to the officer, never to the CESFAM. Referrals live in the same
-SQLite database as the cases. Design: 20-arquitectura/cesfam-derivacion.md.
+SQLite database as the cases. Design: docs/arquitectura/cesfam-derivacion.md.
 """
 
 import json
